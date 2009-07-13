@@ -1,0 +1,66 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 22
+    // Frames:  0
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\w_leg_0.png" TRANSP 0x00FF00FF // 0  size: 256 x 192  palettes: 5
+    PALETTE 0 ".\w_leg_0_0.act"
+    PALETTE 1 ".\w_leg_0_1.act"
+    PALETTE 2 ".\w_leg_0_2.act"
+    PALETTE 3 ".\w_leg_0_3.act"
+    PALETTE 4 ".\w_leg_0_4.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1020	MD_IMAGE	0	6	6	26	31	"m_leg_00"
+        MD	0x1021	MD_IMAGE	0	37	6	24	31	"m_leg_01"
+        MD	0x1022	MD_IMAGE	0	67	6	26	30	"m_leg_02"
+        MD	0x1023	MD_IMAGE	0	99	7	34	29	"m_leg_03"
+        MD	0x1024	MD_IMAGE	0	142	7	34	29	"m_leg_04"
+        MD	0x1027	MD_IMAGE	0	3	43	32	29	"m_leg_07"
+        MD	0x1028	MD_IMAGE	0	37	43	30	29	"m_leg_08"
+        MD	0x102C	MD_IMAGE	0	71	45	36	27	"m_leg_09"
+        MD	0x102D	MD_IMAGE	0	108	41	24	33	"m_leg_10"
+        MD	0x102E	MD_IMAGE	0	137	45	26	28	"m_leg_11"
+        MD	0x102F	MD_IMAGE	0	170	47	29	22	"m_leg_12"
+        MD	0x1032	MD_IMAGE	0	2	78	37	26	"m_leg_14"
+        MD	0x1033	MD_IMAGE	0	39	77	32	28	"m_leg_15"
+        MD	0x1034	MD_IMAGE	0	80	78	32	29	"m_leg_16"
+        MD	0x103A	MD_IMAGE	0	120	78	32	29	"m_leg_17"
+        MD	0x1049	MD_IMAGE	0	159	84	43	19	"m_leg_18"
+        MD	0x1039	MD_IMAGE	0	79	140	24	30	"m_leg_a"
+        MD	0x1042	MD_IMAGE	0	104	141	30	29	"m_leg_a_01"
+        MD	0x1046	MD_IMAGE	0	135	141	30	28	"m_leg_a_02"
+        MD	0x1047	MD_IMAGE	0	168	140	26	29	"m_leg_a_03"
+        MD	0x1048	MD_IMAGE	0	195	141	28	28	"m_leg_a_04"
+        MD	0x104A	MD_IMAGE	0	223	141	31	29	"m_leg_a_05"
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

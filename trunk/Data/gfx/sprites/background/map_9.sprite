@@ -1,0 +1,223 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 36
+    // Frames:  14
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_9.png" TRANSP 0x00FF00FF // 0  size: 419 x 420  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	0	127	80
+        MD	0x1020	MD_IMAGE	0	115	80	12	38
+        MD	0x1021	MD_IMAGE	0	0	82	35	70
+        MD	0x1022	MD_IMAGE	0	38	92	73	57
+        MD	0x1001	MD_IMAGE	0	6	160	118	102
+        MD	0x100E	MD_IMAGE	0	4	262	120	50
+        MD	0x1002	MD_IMAGE	0	124	262	129	59
+        MD	0x100F	MD_IMAGE	0	253	278	31	54
+        MD	0x1003	MD_IMAGE	0	127	0	127	118
+        MD	0x1004	MD_IMAGE	0	133	129	120	75
+        MD	0x1005	MD_IMAGE	0	124	204	129	58
+        MD	0x1006	MD_IMAGE	0	254	0	127	110
+        MD	0x1007	MD_IMAGE	0	253	123	127	81
+        MD	0x1008	MD_IMAGE	0	253	204	127	74
+        MD	0x1009	MD_IMAGE	0	381	0	38	115
+        MD	0x100A	MD_IMAGE	0	380	123	38	81
+        MD	0x100B	MD_IMAGE	0	380	204	38	74
+        MD	0x100C	MD_IMAGE	0	284	278	96	78
+        MD	0x1010	MD_IMAGE	0	350	356	30	14
+        MD	0x1011	MD_IMAGE	0	376	376	42	43
+        MD	0x1012	MD_IMAGE	0	328	405	31	14
+        MD	0x1013	MD_IMAGE	0	291	358	50	20
+        MD	0x1014	MD_IMAGE	0	204	357	87	12
+        MD	0x1015	MD_IMAGE	0	152	332	110	12
+        MD	0x1016	MD_IMAGE	0	115	332	37	12
+        MD	0x1017	MD_IMAGE	0	82	321	33	25
+        MD	0x1018	MD_IMAGE	0	36	332	46	23
+        MD	0x1019	MD_IMAGE	0	1	322	35	22
+        MD	0x101A	MD_IMAGE	0	4	359	67	19
+        MD	0x101B	MD_IMAGE	0	7	379	17	11
+        MD	0x101C	MD_IMAGE	0	25	382	25	9
+        MD	0x101D	MD_IMAGE	0	71	360	68	30
+        MD	0x101E	MD_IMAGE	0	140	351	63	28
+        MD	0x101F	MD_IMAGE	0	219	376	22	3
+        MD	0x100D	MD_IMAGE	0	380	278	38	98
+        MD	0x1023	MD_FILL_RECT	0x00000000	127	16
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "a" // Index = 0, FModules = 2
+    {
+        0x2000
+        FM	0x1011	0	27
+        FM	0x1012	-49	56
+    }
+
+    FRAME "harbor1" // Index = 1, FModules = 8
+    {
+        0x2001
+        FM	0x1000	-127	-120
+        FM	0x1001	-120	-83
+        FM	0x1003	0	-120
+        FM	0x1004	7	-114
+        FM	0x1002	-2	19
+        FM	0x1005	-2	-39
+        FM	0x100E	-122	19
+        FM	0x1020	-12	-40
+    }
+
+    FRAME "b" // Index = 2, FModules = 3
+    {
+        0x2002
+        FM	0x101D	-104	-14
+        FM	0x101E	21	32
+        FM	0x101E	-39	10
+    }
+
+    FRAME "harbor2" // Index = 3, FModules = 13
+    {
+        0x2003
+        FM	0x2002	3	81	+HYPER_FM
+        FM	0x1006	-69	-120
+        FM	0x100A	58	-120
+        FM	0x1009	58	-120
+        FM	0x1007	-69	-120
+        FM	0x1008	-69	-39
+        FM	0x100B	58	-39
+        FM	0x100C	-38	35
+        FM	0x100F	-69	35
+        FM	0x100D	58	35
+        FM	0x1010	28	113
+        FM	0x2000	54	106	+HYPER_FM
+        FM	0x200A	-10	77	+HYPER_FM
+    }
+
+    FRAME "harbor3" // Index = 4, FModules = 1
+    {
+        0x2004
+        FM	0x2001	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "harbor4" // Index = 5, FModules = 1
+    {
+        0x2005
+        FM	0x2003	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "harboryellow1" // Index = 6, FModules = 11
+    {
+        0x2006
+        FM	0x1001	-120	-85
+        FM	0x1004	7	-116
+        FM	0x1002	-2	17
+        FM	0x1005	-2	-41
+        FM	0x100E	-122	17
+        FM	0x1021	-102	-112
+        FM	0x1022	-12	-61
+        FM	0x1019	-23	42
+        FM	0x1016	90	52
+        FM	0x1018	12	52
+        FM	0x1017	57	41
+    }
+
+    FRAME "harboryellow2" // Index = 7, FModules = 13
+    {
+        0x2007
+        FM	0x2002	3	81	+HYPER_FM
+        FM	0x100A	58	-120
+        FM	0x1007	-69	-120
+        FM	0x1008	-69	-39
+        FM	0x100B	58	-39
+        FM	0x100C	-38	35
+        FM	0x100F	-69	35
+        FM	0x100D	58	35
+        FM	0x1010	28	113
+        FM	0x2000	54	106	+HYPER_FM
+        FM	0x101F	74	-8
+        FM	0x200A	-10	77	+HYPER_FM
+        FM	0x1015	-69	54
+    }
+
+    FRAME "harboryellow3" // Index = 8, FModules = 1
+    {
+        0x2008
+        FM	0x2006	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "harboryellow4" // Index = 9, FModules = 1
+    {
+        0x2009
+        FM	0x2007	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "c" // Index = 10, FModules = 2
+    {
+        0x200A
+        FM	0x1014	-87	21
+        FM	0x1013	0	21
+    }
+
+    FRAME "harbor_piece1" // Index = 11, FModules = 1
+    {
+        0x200B
+        FM	0x101A	-25	-6
+    }
+
+    FRAME "harbor_piece2" // Index = 12, FModules = 10
+    {
+        0x200C
+        FM	0x101B	-127	-2
+        FM	0x101B	90	-2	+FLIP_X
+        FM	0x101C	-110	1
+        FM	0x101C	-85	1
+        FM	0x101C	-60	1
+        FM	0x101C	-35	1
+        FM	0x101C	-10	1
+        FM	0x101C	15	1
+        FM	0x101C	40	1
+        FM	0x101C	65	1
+    }
+
+    FRAME "blend" // Index = 13, FModules = 6
+    {
+        0x200D
+        FM	0x101B	6	0
+        FM	0x101C	6	0
+        FM	0x101D	6	0
+        FM	0x101E	6	0
+        FM	0x1014	6	0
+        FM	0x1013	6	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

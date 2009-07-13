@@ -1,0 +1,29 @@
+
+int[] intArray= 
+{
+	12, 13, 5, 8, 123
+};
+
+byte byteArray[][] = 
+{
+	{1}, 
+	{2, 7, 8, 9}
+};
+
+short[][]shortArray[] = { 	// <-- this is clearly a java syntax error, but it is accepted by the java compiler, 
+	{						// should be "short[][][] shortArray" or "short shortArray[][][]"
+		{-1},
+		{0,5,8}
+	},
+	{
+		{12, -4},
+		{4}
+	},
+	{
+		{32767, -24}, 
+		{-1}, 
+		{-7, 8, 32}
+	}
+};
+
+

@@ -1,0 +1,225 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 27
+    // Frames:  18
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_6.png" TRANSP 0x00FF00FF // 0  size: 135 x 260  palettes: 4
+    PALETTE 1 ".\map_6_color_green.act"
+    PALETTE 2 ".\map_6_color_purple.act"
+    PALETTE 3 ".\map_6_color_yellow.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	0	80	48
+        MD	0x1001	MD_IMAGE	0	0	48	80	47
+        MD	0x1002	MD_IMAGE	0	81	0	47	77
+        MD	0x1003	MD_IMAGE	0	0	136	25	57
+        MD	0x1005	MD_IMAGE	0	5	109	17	27
+        MD	0x1006	MD_IMAGE	0	25	96	20	27
+        MD	0x1007	MD_IMAGE	0	28	123	13	40
+        MD	0x1008	MD_IMAGE	0	47	96	13	79
+        MD	0x1009	MD_IMAGE	0	45	154	2	19
+        MD	0x100A	MD_IMAGE	0	66	127	12	33
+        MD	0x100B	MD_IMAGE	0	61	96	24	31
+        MD	0x100C	MD_IMAGE	0	84	78	14	29
+        MD	0x100F	MD_IMAGE	0	98	81	8	13
+        MD	0x100D	MD_IMAGE	0	78	129	13	46
+        MD	0x100E	MD_IMAGE	0	91	132	7	42
+        MD	0x1004	MD_IMAGE	0	25	163	6	27
+        MD	0x101A	MD_IMAGE	0	130	113	4	44
+        MD	0x1010	MD_IMAGE	0	102	96	28	80
+        MD	0x1019	MD_IMAGE	0	110	83	20	12
+        MD	0x1011	MD_IMAGE	0	22	217	22	13
+        MD	0x1014	MD_IMAGE	0	34	197	10	20
+        MD	0x1015	MD_IMAGE	0	0	193	31	18
+        MD	0x1016	MD_IMAGE	0	0	230	31	24
+        MD	0x1017	MD_IMAGE	0	31	230	36	23
+        MD	0x1018	MD_IMAGE	0	5	223	11	7
+        MD	0x1012	MD_IMAGE	0	44	176	76	54
+        MD	0x1013	MD_IMAGE	0	120	192	10	38
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "back1" // Index = 0, FModules = 12
+    {
+        0x2000
+        FM	0x1000	0	0
+        FM	0x1001	0	48
+        FM	0x1000	80	0
+        FM	0x1001	80	48
+        FM	0x1019	0	-12
+        FM	0x1019	20	-12
+        FM	0x1019	40	-12
+        FM	0x1019	60	-12
+        FM	0x1019	120	-12
+        FM	0x1019	140	-12
+        FM	0x1019	80	-12
+        FM	0x1019	100	-12
+    }
+
+    FRAME "back2" // Index = 1, FModules = 13
+    {
+        0x2001
+        FM	0x1000	0	0
+        FM	0x1001	0	48
+        FM	0x1000	80	0
+        FM	0x1001	80	48
+        FM	0x1002	70	13
+        FM	0x1019	0	-12
+        FM	0x1019	20	-12
+        FM	0x1019	40	-12
+        FM	0x1019	60	-12
+        FM	0x1019	120	-12
+        FM	0x1019	140	-12
+        FM	0x1019	80	-12
+        FM	0x1019	100	-12
+    }
+
+    FRAME "stone1_l" // Index = 2, FModules = 3
+    {
+        0x2002
+        FM	0x1003	0	0
+        FM	0x1005	5	-27
+        FM	0x1004	25	27
+    }
+
+    FRAME "stone1_r" // Index = 3, FModules = 1
+    {
+        0x2003
+        FM	0x2002	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "stone2_l" // Index = 4, FModules = 2
+    {
+        0x2004
+        FM	0x1006	0	0
+        FM	0x1007	3	27
+    }
+
+    FRAME "stone2_r" // Index = 5, FModules = 1
+    {
+        0x2005
+        FM	0x2004	0	0	+FLIP_X	+FLIP_Y	+HYPER_FM
+    }
+
+    FRAME "stone3_l" // Index = 6, FModules = 2
+    {
+        0x2006
+        FM	0x1008	0	0
+        FM	0x1009	-2	58
+    }
+
+    FRAME "stone3_r" // Index = 7, FModules = 2
+    {
+        0x2007
+        FM	0x1008	0	0	+FLIP_X
+        FM	0x1009	13	57	+FLIP_X
+    }
+
+    FRAME "stone4_l" // Index = 8, FModules = 2
+    {
+        0x2008
+        FM	0x100A	0	0
+        FM	0x100B	-5	-31
+    }
+
+    FRAME "stone4_r" // Index = 9, FModules = 1
+    {
+        0x2009
+        FM	0x2008	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "stone5_l" // Index = 10, FModules = 1
+    {
+        0x200A
+        FM	0x1015	0	0
+    }
+
+    FRAME "stone5_r" // Index = 11, FModules = 2
+    {
+        0x200B
+        FM	0x100C	0	0	+FLIP_X
+        FM	0x100F	-8	8	+FLIP_X
+    }
+
+    FRAME "stone6_l" // Index = 12, FModules = 1
+    {
+        0x200C
+        FM	0x100D	0	0
+    }
+
+    FRAME "stone6_r" // Index = 13, FModules = 1
+    {
+        0x200D
+        FM	0x100D	0	0	+FLIP_X
+    }
+
+    FRAME "fi" // Index = 14, FModules = 1
+    {
+        0x200E
+        FM	0x100E	-3	-3
+    }
+
+    FRAME "exit0" // Index = 15, FModules = 11
+    {
+        0x200F
+        FM	0x1000	4	-48
+        FM	0x1012	0	0
+        FM	0x1013	76	16
+        FM	0x1011	-22	41
+        FM	0x1010	-23	-36	+FLIP_X
+        FM	0x1010	73	-42
+        FM	0x1014	-10	21
+        FM	0x1019	-27	-48
+        FM	0x1019	101	-47	+ROT_90
+        FM	0x101A	101	-27
+        FM	0x101A	-27	-30	+FLIP_X
+    }
+
+    FRAME "stone7_l" // Index = 16, FModules = 2
+    {
+        0x2010
+        FM	0x100A	0	0	+FLIP_Y
+        FM	0x100B	-5	33	+FLIP_Y
+    }
+
+    FRAME "stone8_r" // Index = 17, FModules = 3
+    {
+        0x2011
+        FM	0x1017	31	0
+        FM	0x1016	0	0
+        FM	0x1018	5	-7
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

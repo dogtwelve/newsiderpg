@@ -1,0 +1,496 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 11
+    // Frames:  34
+    // Anims:   1
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0005 ".\w_o_seff6.png" TRANSP 0x00FF00FF // 0  size: 255 x 409  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x10C1	MD_IMAGE	0	13	52	68	61	"m_o_skill6"
+        MD	0x10C2	MD_IMAGE	0	154	104	77	77	"m_o_skill6_01"
+        MD	0x10C5	MD_IMAGE	0	128	181	126	71	"m_o_skill6_02"
+        MD	0x10C3	MD_IMAGE	0	6	158	97	80	"m_o_skill6_03"
+        MD	0x10C4	MD_IMAGE	0	77	241	39	24	"m_o_skill6_04"
+        MD	0x10C6	MD_IMAGE	0	16	252	43	123	"m_o_skill6_05"
+        MD	0x10C7	MD_IMAGE	0	4	4	40	52	"m_o_skill6_06"
+        MD	0x10C8	MD_IMAGE	0	46	6	40	52	"m_o_skill6_07"
+        MD	0x1002	MD_IMAGE	0	151	345	76	53	"m_o_skill6_08_B"
+        MD	0x1000	MD_IMAGE	0	0	0	1	1
+        MD	0x1001	MD_IMAGE	0	158	72	65	15
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "o_skill6_14f" // Index = 0, FModules = 3
+    {
+        0x2001
+        FM	0x10C4	13	-13	+ROT_90
+        FM	0x10C4	24	-55	+FLIP_X	+FLIP_Y
+        FM	0x10C4	-44	-54	+FLIP_X
+    }
+
+    FRAME "o_skill6_14e" // Index = 1, FModules = 3
+    {
+        0x2308
+        FM	0x10C4	-27	-47	+FLIP_Y
+        FM	0x10C4	7	-29	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	14	-50
+    }
+
+    FRAME "o_skill6_14a" // Index = 2, FModules = 4
+    {
+        0x205C
+        FM	0x10C7	-8	-55
+        FM	0x10C4	-27	-47	+FLIP_Y
+        FM	0x10C4	7	-29	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	14	-50
+    }
+
+    FRAME "o_skill6_14b" // Index = 3, FModules = 1
+    {
+        0x205E
+        FM	0x10C8	-7	-56
+    }
+
+    FRAME "o_skill6_14c" // Index = 4, FModules = 2
+    {
+        0x22FA
+        FM	0x10C4	-3	-61	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C7	-11	-87
+    }
+
+    FRAME "o_skill6_14d" // Index = 5, FModules = 2
+    {
+        0x22FB
+        FM	0x10C4	-7	-90	+FLIP_Y	+ROT_90
+        FM	0x10C8	-11	-87
+    }
+
+    FRAME "o_skill6_06" // Index = 6, FModules = 1
+    {
+        0x22C4
+        FM	0x10C1	-37	-40
+    }
+
+    FRAME "o_skill6_07" // Index = 7, FModules = 2
+    {
+        0x22C5
+        FM	0x10C2	-37	-75
+        FM	0x10C3	-51	-57
+    }
+
+    FRAME "o_skill6_08" // Index = 8, FModules = 2
+    {
+        0x22C6
+        FM	0x10C2	-39	-123	+FLIP_X
+        FM	0x10C5	-64	-46
+    }
+
+    FRAME "o_skill6_09" // Index = 9, FModules = 1
+    {
+        0x22C7
+        FM	0x10C6	-23	-127
+    }
+
+    FRAME "o_skill6_10" // Index = 10, FModules = 6
+    {
+        0x22CF
+        FM	0x10C1	-17	-59
+        FM	0x10C1	23	-59
+        FM	0x10C1	-37	-40
+        FM	0x10C1	33	-40
+        FM	0x10C1	-27	-21
+        FM	0x10C1	13	-21
+    }
+
+    FRAME "o_skill6_11" // Index = 11, FModules = 12
+    {
+        0x22D0
+        FM	0x10C2	-17	-94
+        FM	0x10C3	-31	-76
+        FM	0x10C2	23	-94
+        FM	0x10C3	9	-76
+        FM	0x10C2	-37	-75
+        FM	0x10C3	-51	-57
+        FM	0x10C2	33	-75
+        FM	0x10C3	19	-57
+        FM	0x10C2	-27	-56
+        FM	0x10C3	-41	-38
+        FM	0x10C2	13	-56
+        FM	0x10C3	-1	-38
+    }
+
+    FRAME "o_skill6_12" // Index = 12, FModules = 12
+    {
+        0x22D1
+        FM	0x10C2	-24	-142	+FLIP_X
+        FM	0x10C5	-49	-65
+        FM	0x10C2	17	-142	+FLIP_X
+        FM	0x10C5	-8	-65
+        FM	0x10C2	-39	-123	+FLIP_X
+        FM	0x10C5	-64	-46
+        FM	0x10C2	31	-123	+FLIP_X
+        FM	0x10C5	6	-46
+        FM	0x10C2	-29	-104	+FLIP_X
+        FM	0x10C5	-54	-27
+        FM	0x10C2	12	-104	+FLIP_X
+        FM	0x10C5	-13	-27
+    }
+
+    FRAME "o_skill6_13" // Index = 13, FModules = 6
+    {
+        0x22D2
+        FM	0x10C6	-4	-176
+        FM	0x10C6	37	-176
+        FM	0x10C6	-23	-157
+        FM	0x10C6	47	-157
+        FM	0x10C6	-13	-138
+        FM	0x10C6	28	-138
+    }
+
+    FRAME "o_skill6_14" // Index = 14, FModules = 2
+    {
+        0x22D3
+        RC	0	0	0	0
+        RC	5	0	5	88
+        RC	-27	75	21	93
+        FM	0x10C7	-81	3
+        FM	0x10C1	-40	50
+    }
+
+    FRAME "o_skill6_15" // Index = 15, FModules = 4
+    {
+        0x22D4
+        RC	0	0	0	0
+        RC	5	0	6	88
+        RC	-27	28	21	93
+        FM	0x10C3	-54	33
+        FM	0x10C8	-81	3
+        FM	0x10C2	-40	15	+FLIP_X
+        FM	0x1001	-33	92	+FLIP_X
+    }
+
+    FRAME "o_skill6_16" // Index = 16, FModules = 4
+    {
+        0x22D7
+        RC	0	0	0	0
+        RC	5	-25	6	63
+        RC	-27	-22	21	93
+        RC	23	75	71	93
+        FM	0x10C7	-81	3
+        FM	0x10C2	-41	-33
+        FM	0x10C5	-67	44
+        FM	0x10C1	10	69
+    }
+
+    FRAME "o_skill6_17" // Index = 17, FModules = 9
+    {
+        0x22E5
+        RC	0	0	0	0
+        RC	5	-25	6	63
+        RC	-27	-63	21	52
+        RC	23	28	71	93
+        FM	0x10C2	-41	-73
+        FM	0x1002	-40	4
+        FM	0x10C8	-81	3
+        FM	0x10C4	-74	88
+        FM	0x10C4	-16	89	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	-74	64	+FLIP_X
+        FM	0x10C3	-4	52
+        FM	0x10C2	10	34	+FLIP_X
+        FM	0x1001	17	111	+FLIP_X
+    }
+
+    FRAME "o_skill6_18" // Index = 18, FModules = 5
+    {
+        0x22D8
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	-9	75	39	93
+        RC	25	-22	73	93
+        FM	0x10C6	-26	-102
+        FM	0x10C7	-81	3
+        FM	0x10C1	-20	31
+        FM	0x10C2	10	-14
+        FM	0x10C5	-16	63
+    }
+
+    FRAME "o_skill6_19" // Index = 19, FModules = 10
+    {
+        0x22E6
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	26	-63	74	52
+        RC	-7	28	41	93
+        FM	0x10C3	-34	14
+        FM	0x1001	-13	73	+FLIP_X
+        FM	0x10C8	-81	3
+        FM	0x10C2	-20	-4	+FLIP_X
+        FM	0x10C4	-20	104
+        FM	0x10C4	49	107	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	84	84	+FLIP_Y
+        FM	0x10C4	-20	80	+FLIP_X
+        FM	0x10C2	10	-54
+        FM	0x1002	11	23
+    }
+
+    FRAME "o_skill6_20" // Index = 20, FModules = 5
+    {
+        0x22D9
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	43	75	91	93
+        RC	-11	-22	37	93
+        FM	0x10C7	-81	3
+        FM	0x10C2	-26	-52
+        FM	0x10C5	-52	25
+        FM	0x10C1	30	50
+        FM	0x10C6	25	-83
+    }
+
+    FRAME "o_skill6_21" // Index = 21, FModules = 9
+    {
+        0x22EC
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	-11	-63	37	52
+        RC	43	28	91	93
+        FM	0x10C4	-56	62
+        FM	0x10C4	13	65	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	-56	38	+FLIP_X
+        FM	0x10C8	-81	3
+        FM	0x10C2	-26	-92
+        FM	0x1002	-25	-15
+        FM	0x10C3	16	33
+        FM	0x10C2	30	15	+FLIP_X
+        FM	0x1001	37	92	+FLIP_X
+    }
+
+    FRAME "o_skill6_22" // Index = 22, FModules = 5
+    {
+        0x22E2
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	-17	75	31	93
+        RC	45	-22	93	93
+        FM	0x10C6	-7	-126
+        FM	0x10C7	-81	3
+        FM	0x10C2	29	-33
+        FM	0x10C5	3	44
+        FM	0x10C1	-30	69
+    }
+
+    FRAME "o_skill6_23" // Index = 23, FModules = 8
+    {
+        0x22ED
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	-17	28	31	93
+        RC	45	-63	93	52
+        FM	0x10C8	-81	3
+        FM	0x10C2	29	-73
+        FM	0x1002	30	4
+        FM	0x10C4	69	82	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	104	59	+FLIP_Y
+        FM	0x10C3	-44	52
+        FM	0x10C2	-30	34	+FLIP_X
+        FM	0x1001	-24	111	+FLIP_X
+    }
+
+    FRAME "o_skill6_24" // Index = 24, FModules = 5
+    {
+        0x22E3
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	33	75	81	93
+        RC	-15	-22	33	93
+        FM	0x10C7	-81	3
+        FM	0x10C1	20	31
+        FM	0x10C2	-31	-14
+        FM	0x10C5	-57	63
+        FM	0x10C6	44	-112
+    }
+
+    FRAME "o_skill6_25" // Index = 25, FModules = 10
+    {
+        0x22EE
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	-16	-63	32	52
+        RC	32	28	80	93
+        FM	0x10C8	-81	3
+        FM	0x10C3	6	14
+        FM	0x1001	27	73	+FLIP_X
+        FM	0x10C2	20	-4	+FLIP_X
+        FM	0x10C4	-63	98
+        FM	0x10C4	6	101	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	41	78	+FLIP_Y
+        FM	0x10C4	-63	74	+FLIP_X
+        FM	0x10C2	-31	-54
+        FM	0x1002	-30	23
+    }
+
+    FRAME "o_skill6_26" // Index = 26, FModules = 4
+    {
+        0x22EF
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	35	-22	83	93
+        FM	0x10C7	-81	3
+        FM	0x10C2	20	-52
+        FM	0x10C5	-6	25
+        FM	0x10C6	-16	-93
+    }
+
+    FRAME "o_skill6_27" // Index = 27, FModules = 7
+    {
+        0x22F0
+        RC	0	0	0	0
+        RC	5	-25	8	63
+        RC	34	-63	82	52
+        FM	0x10C2	20	-92
+        FM	0x1002	21	-15
+        FM	0x10C4	-69	17	+ROT_90
+        FM	0x10C4	-11	65
+        FM	0x10C4	58	68	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x10C4	93	45	+FLIP_Y
+        FM	0x10C4	-11	41	+FLIP_X
+    }
+
+    FRAME "o_skill6_27a" // Index = 28, FModules = 1
+    {
+        0x2307
+        FM	0x10C6	34	-126
+    }
+
+    FRAME "o_skill6_28" // Index = 29, FModules = 12
+    {
+        0x22E4
+        FM	0x10C2	-17	-94
+        FM	0x10C3	-31	-76
+        FM	0x10C2	23	-94
+        FM	0x10C3	9	-76
+        FM	0x10C2	-37	-75
+        FM	0x10C3	-51	-57
+        FM	0x10C2	33	-75
+        FM	0x10C3	19	-57
+        FM	0x10C2	-27	-56
+        FM	0x10C3	-41	-38
+        FM	0x10C2	13	-56
+        FM	0x10C3	-1	-38
+    }
+
+    FRAME "o_skill6_29" // Index = 30, FModules = 12
+    {
+        0x22D5
+        FM	0x10C2	-24	-142	+FLIP_X
+        FM	0x10C5	-49	-65
+        FM	0x10C2	17	-142	+FLIP_X
+        FM	0x10C5	-8	-65
+        FM	0x10C2	-39	-123	+FLIP_X
+        FM	0x10C5	-64	-46
+        FM	0x10C2	31	-123	+FLIP_X
+        FM	0x10C5	6	-46
+        FM	0x10C2	-29	-104	+FLIP_X
+        FM	0x10C5	-54	-27
+        FM	0x10C2	12	-104	+FLIP_X
+        FM	0x10C5	-13	-27
+    }
+
+    FRAME "o_skill6_30" // Index = 31, FModules = 6
+    {
+        0x22D6
+        FM	0x10C6	-4	-176
+        FM	0x10C6	37	-176
+        FM	0x10C6	-23	-157
+        FM	0x10C6	47	-157
+        FM	0x10C6	-13	-138
+        FM	0x10C6	28	-138
+    }
+
+    FRAME "empty" // Index = 32, FModules = 1
+    {
+        0x22B2
+        FM	0x1000	0	0
+    }
+
+    FRAME "BLEND" // Index = 33, FModules = 10
+    {
+        0x2000
+        FM	0x10C1	3	0
+        FM	0x10C2	3	0
+        FM	0x10C5	3	0
+        FM	0x10C3	3	0
+        FM	0x10C4	3	0
+        FM	0x10C6	3	0
+        FM	0x10C7	3	0
+        FM	0x10C8	3	0
+        FM	0x1002	3	0
+        FM	0x1001	3	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "a_o_skill6_e" // Index = 0, AFrames = 20
+    {
+        0x3076
+        AF	0x2001	1	0	0
+        AF	0x205C	1	0	0
+        AF	0x205E	1	0	0
+        AF	0x22FA	1	0	0
+        AF	0x22FB	1	0	0
+        AF	0x22D3	1	70	-90
+        AF	0x22D4	1	70	-90
+        AF	0x22D7	1	70	-90
+        AF	0x22E5	1	70	-90
+        AF	0x22D8	1	70	-90
+        AF	0x22E6	1	70	-90
+        AF	0x22D9	1	70	-90
+        AF	0x22EC	1	70	-90
+        AF	0x22E2	1	70	-90
+        AF	0x22ED	1	70	-90
+        AF	0x22E3	1	70	-90
+        AF	0x22EE	1	70	-90
+        AF	0x22EF	1	70	-90
+        AF	0x22F0	1	70	-90
+        AF	0x2307	1	70	-90
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

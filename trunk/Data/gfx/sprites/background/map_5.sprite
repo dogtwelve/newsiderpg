@@ -1,0 +1,436 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 55
+    // Frames:  47
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_5.png" TRANSP 0x00FF00FF // 0  size: 245 x 409  palettes: 5
+    PALETTE 1 ".\map_5.act"
+    PALETTE 2 ".\map_5_color_green.act"
+    PALETTE 3 ".\map_5_color_purple.act"
+    PALETTE 4 ".\map_5_color_yellow.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	1	2	46	38
+        MD	0x1001	MD_IMAGE	0	47	2	42	42
+        MD	0x1002	MD_IMAGE	0	93	1	27	39
+        MD	0x1003	MD_IMAGE	0	20	45	19	16
+        MD	0x1004	MD_IMAGE	0	3	64	23	11
+        MD	0x1005	MD_IMAGE	0	1	77	34	52
+        MD	0x100D	MD_IMAGE	0	16	146	43	30
+        MD	0x100C	MD_IMAGE	0	6	129	37	17
+        MD	0x1007	MD_IMAGE	0	9	176	55	37
+        MD	0x1006	MD_IMAGE	0	64	182	12	27
+        MD	0x1008	MD_IMAGE	0	42	46	40	25
+        MD	0x1009	MD_IMAGE	0	83	40	38	50
+        MD	0x100A	MD_IMAGE	0	77	90	48	34
+        MD	0x100B	MD_IMAGE	0	69	124	61	26
+        MD	0x1038	MD_IMAGE	0	69	150	33	7
+        MD	0x100F	MD_IMAGE	0	1	242	59	28
+        MD	0x1010	MD_IMAGE	0	7	216	49	26
+        MD	0x1011	MD_IMAGE	0	63	217	27	19
+        MD	0x1012	MD_IMAGE	0	91	223	34	26
+        MD	0x1013	MD_IMAGE	0	127	233	32	19
+        MD	0x1014	MD_IMAGE	0	100	158	17	32
+        MD	0x1015	MD_IMAGE	0	119	155	13	13
+        MD	0x1016	MD_IMAGE	0	117	171	6	12
+        MD	0x1017	MD_IMAGE	0	87	192	25	20
+        MD	0x1018	MD_IMAGE	0	116	200	14	11
+        MD	0x1019	MD_IMAGE	0	146	265	18	12
+        MD	0x101A	MD_IMAGE	0	137	157	25	32
+        MD	0x101B	MD_IMAGE	0	126	311	72	32
+        MD	0x1023	MD_IMAGE	0	199	311	45	32
+        MD	0x101E	MD_IMAGE	0	141	344	102	32
+        MD	0x1020	MD_IMAGE	0	167	377	76	32
+        MD	0x101D	MD_IMAGE	0	119	278	17	32
+        MD	0x101C	MD_IMAGE	0	18	326	108	22
+        MD	0x1022	MD_IMAGE	0	37	304	64	22
+        MD	0x1025	MD_IMAGE	0	73	251	68	26
+        MD	0x1026	MD_IMAGE	0	3	272	62	31
+        MD	0x1024	MD_IMAGE	0	0	348	18	48
+        MD	0x101F	MD_IMAGE	0	18	348	108	57
+        MD	0x1021	MD_IMAGE	0	137	278	106	32
+        MD	0x1029	MD_IMAGE	0	164	109	40	77
+        MD	0x102A	MD_IMAGE	0	204	109	40	77
+        MD	0x102B	MD_IMAGE	0	164	186	40	80
+        MD	0x102C	MD_IMAGE	0	204	186	40	80
+        MD	0x102D	MD_IMAGE	0	126	46	29	62
+        MD	0x1039	MD_IMAGE	0	156	1	14	107
+        MD	0x103A	MD_IMAGE	0	193	1	52	37
+        MD	0x102E	MD_IMAGE	0	170	78	23	30
+        MD	0x100E	MD_IMAGE	0	170	48	23	30
+        MD	0x102F	MD_IMAGE	0	126	1	29	45
+        MD	0x1030	MD_IMAGE	0	170	1	23	47
+        MD	0x1031	MD_IMAGE	0	193	70	52	38
+        MD	0x1032	MD_IMAGE	0	193	38	52	32
+        MD	0x1033	MD_IMAGE	0	137	195	20	37
+        MD	0x1034	MD_IMAGE	0	64	247	8	29
+        MD	0x1035	MD_IMAGE	0	80	163	7	25
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "stone1_l" // Index = 0, FModules = 2
+    {
+        0x2000
+        FM	0x1010	-22	-45
+        FM	0x100F	-28	-19
+    }
+
+    FRAME "stone1_r" // Index = 1, FModules = 2
+    {
+        0x201D
+        FM	0x1010	-22	-45	+FLIP_X
+        FM	0x100F	-26	-19	+FLIP_X
+    }
+
+    FRAME "stone2_l" // Index = 2, FModules = 5
+    {
+        0x2001
+        FM	0x1002	-12	-75
+        FM	0x1009	-22	-36
+        FM	0x100A	-28	14
+        FM	0x100B	-36	48
+        FM	0x1038	-36	74
+    }
+
+    FRAME "stone2_r" // Index = 3, FModules = 5
+    {
+        0x201E
+        FM	0x1002	-13	-75	+FLIP_X
+        FM	0x1009	-14	-36	+FLIP_X
+        FM	0x100A	-18	14	+FLIP_X
+        FM	0x100B	-23	48	+FLIP_X
+        FM	0x1038	5	74	+FLIP_X
+    }
+
+    FRAME "stone3_l" // Index = 4, FModules = 5
+    {
+        0x2002
+        FM	0x1005	-30	-75
+        FM	0x100D	-15	-6
+        FM	0x100C	-25	-23
+        FM	0x1007	-22	24
+        FM	0x1006	33	30
+    }
+
+    FRAME "stone3_r" // Index = 5, FModules = 5
+    {
+        0x201F
+        FM	0x1005	-2	-75	+FLIP_X
+        FM	0x100D	-26	-6	+FLIP_X
+        FM	0x100C	-10	-23	+FLIP_X
+        FM	0x1007	-31	24	+FLIP_X
+        FM	0x1006	-43	30	+FLIP_X
+    }
+
+    FRAME "stone_top1_l" // Index = 6, FModules = 2
+    {
+        0x2007
+        FM	0x1000	-45	0
+        FM	0x1001	1	0
+    }
+
+    FRAME "stone_top1_r" // Index = 7, FModules = 2
+    {
+        0x2024
+        FM	0x1000	-45	0	+FLIP_X
+        FM	0x1001	1	0	+FLIP_X
+    }
+
+    FRAME "stone_top2_l" // Index = 8, FModules = 1
+    {
+        0x2008
+        FM	0x1008	-18	0
+    }
+
+    FRAME "stone_top2_r" // Index = 9, FModules = 1
+    {
+        0x2025
+        FM	0x1008	-18	0	+FLIP_X
+    }
+
+    FRAME "stone_lighttop1" // Index = 10, FModules = 1
+    {
+        0x2009
+        FM	0x1004	-11	-4
+    }
+
+    FRAME "stone_lighttop2" // Index = 11, FModules = 1
+    {
+        0x200A
+        FM	0x1003	-5	-8
+    }
+
+    FRAME "ob_stone" // Index = 12, FModules = 1
+    {
+        0x200B
+        FM	0x101A	-14	-25
+    }
+
+    FRAME "ob_flower1" // Index = 13, FModules = 1
+    {
+        0x200C
+        FM	0x1014	-6	-31
+    }
+
+    FRAME "ob_flower2" // Index = 14, FModules = 1
+    {
+        0x200D
+        FM	0x1015	-7	-12
+    }
+
+    FRAME "ob_flower3" // Index = 15, FModules = 1
+    {
+        0x200E
+        FM	0x1016	-1	-11
+    }
+
+    FRAME "crater1" // Index = 16, FModules = 1
+    {
+        0x200F
+        FM	0x1017	-10	-14
+    }
+
+    FRAME "crater2" // Index = 17, FModules = 1
+    {
+        0x2010
+        FM	0x1018	-6	-6
+    }
+
+    FRAME "gravel" // Index = 18, FModules = 1
+    {
+        0x2011
+        FM	0x1019	-8	-5
+    }
+
+    FRAME "bine1" // Index = 19, FModules = 1
+    {
+        0x2012
+        FM	0x1011	-12	-9
+    }
+
+    FRAME "bine2" // Index = 20, FModules = 1
+    {
+        0x2013
+        FM	0x1012	-15	-13
+    }
+
+    FRAME "bine3" // Index = 21, FModules = 1
+    {
+        0x2014
+        FM	0x1013	-16	-9
+    }
+
+    FRAME "pattern_back" // Index = 22, FModules = 9
+    {
+        0x2015
+        FM	0x102D	-59	-9
+        FM	0x1039	-30	-54
+        FM	0x103A	7	-54
+        FM	0x102E	-16	23
+        FM	0x102F	-59	-54
+        FM	0x1030	-16	-54
+        FM	0x1032	7	-17
+        FM	0x1031	7	15
+        FM	0x100E	-16	-7
+    }
+
+    FRAME "pattern_road1" // Index = 23, FModules = 4
+    {
+        0x2016
+        FM	0x1029	0	0
+        FM	0x102A	40	0
+        FM	0x102B	0	77
+        FM	0x102C	40	77
+    }
+
+    FRAME "pattern_road2red" // Index = 24, FModules = 4
+    {
+        0x2017
+        FM	0x1029	0	0	PALETTE 1
+        FM	0x102A	40	0	PALETTE 1
+        FM	0x102B	0	77	PALETTE 1
+        FM	0x102C	40	77	PALETTE 1
+    }
+
+    FRAME "pattern_cliff1_l" // Index = 25, FModules = 4
+    {
+        0x201A
+        FM	0x101B	-4	0
+        FM	0x101D	-127	0
+        FM	0x1021	-110	0
+        FM	0x1023	68	0
+    }
+
+    FRAME "pattern_cliff1_r" // Index = 26, FModules = 1
+    {
+        0x202D
+        FM	0x201A	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "pattern_cliff2_lred" // Index = 27, FModules = 4
+    {
+        0x201B
+        FM	0x101B	-4	0	PALETTE 1
+        FM	0x101D	-127	0	PALETTE 1
+        FM	0x1021	-110	0	PALETTE 1
+        FM	0x1023	68	0	PALETTE 1
+    }
+
+    FRAME "pattern_cliff2_rred" // Index = 28, FModules = 1
+    {
+        0x202E
+        FM	0x201B	0	0	+FLIP_X	+HYPER_FM	PALETTE 1
+    }
+
+    FRAME "out_stone_l" // Index = 29, FModules = 1
+    {
+        0x201C
+        FM	0x1033	0	0	+FLIP_Y	PALETTE 1
+    }
+
+    FRAME "out_stone_r" // Index = 30, FModules = 1
+    {
+        0x202C
+        FM	0x1033	0	0	+FLIP_X	+FLIP_Y	PALETTE 1
+    }
+
+    FRAME "stalactite1_l" // Index = 31, FModules = 1
+    {
+        0x2026
+        FM	0x1033	-9	-5
+    }
+
+    FRAME "stalactite1_r" // Index = 32, FModules = 1
+    {
+        0x2027
+        FM	0x1033	-9	-5	+FLIP_X
+    }
+
+    FRAME "stalactite2_up" // Index = 33, FModules = 1
+    {
+        0x2028
+        FM	0x1034	-4	-4
+    }
+
+    FRAME "stalactite2_down" // Index = 34, FModules = 1
+    {
+        0x2029
+        FM	0x1034	-4	-25	+FLIP_Y
+    }
+
+    FRAME "stalactite3_up" // Index = 35, FModules = 1
+    {
+        0x202A
+        FM	0x1035	-3	-4
+    }
+
+    FRAME "stalactite3_down" // Index = 36, FModules = 1
+    {
+        0x202B
+        FM	0x1035	-3	-20	+FLIP_Y
+    }
+
+    FRAME "exit" // Index = 37, FModules = 6
+    {
+        0x2003
+        FM	0x101C	-61	-58
+        FM	0x101F	-61	-36
+        FM	0x1022	-41	-80
+        FM	0x1024	-79	-36
+        FM	0x1025	47	-57	+ROT_90
+        FM	0x1026	0	-71
+    }
+
+    FRAME "out_s_l" // Index = 38, FModules = 1
+    {
+        0x2004
+        FM	0x1034	0	0	+FLIP_Y	PALETTE 1
+    }
+
+    FRAME "out_s_r" // Index = 39, FModules = 1
+    {
+        0x2005
+        FM	0x1035	0	0	+FLIP_Y	PALETTE 1
+    }
+
+    FRAME "out_flower1" // Index = 40, FModules = 1
+    {
+        0x2006
+        FM	0x1014	0	0	PALETTE 1
+    }
+
+    FRAME "out_flower2" // Index = 41, FModules = 1
+    {
+        0x2018
+        FM	0x1015	0	0	PALETTE 1
+    }
+
+    FRAME "out_crater1" // Index = 42, FModules = 1
+    {
+        0x2019
+        FM	0x1017	0	0	+FLIP_X	PALETTE 1
+    }
+
+    FRAME "out_s" // Index = 43, FModules = 1
+    {
+        0x2020
+        FM	0x1018	0	0	PALETTE 1
+    }
+
+    FRAME "downexit" // Index = 44, FModules = 4
+    {
+        0x2021
+        FM	0x101D	-127	0
+        FM	0x1023	68	0
+        FM	0x101E	-110	0
+        FM	0x1020	-8	0
+    }
+
+    FRAME "downexit_red" // Index = 45, FModules = 4
+    {
+        0x2022
+        FM	0x101D	-127	0	PALETTE 1
+        FM	0x1023	68	0	PALETTE 1
+        FM	0x101E	-110	0	PALETTE 1
+        FM	0x1020	-8	0	PALETTE 1
+    }
+
+    FRAME "blend" // Index = 46, FModules = 1
+    {
+        0x2023
+        FM	0x1026	3	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,57 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 13
+    // Frames:  0
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\m_head_3.png" TRANSP 0x00FF00FF // 0  size: 256 x 51  palettes: 5
+    PALETTE 0 ".\m_head_3_4.act"
+    PALETTE 1 ".\m_head_3_2.act"
+    PALETTE 2 ".\m_head_3_1.act"
+    PALETTE 3 ".\m_head_3_3.act"
+    PALETTE 4 ".\m_head_3_0.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	6	5	28	31	"m_head_00"
+        MD	0x1001	MD_IMAGE	0	41	4	32	29	"m_head_01"
+        MD	0x1002	MD_IMAGE	0	74	4	25	32	"m_head_02"
+        MD	0x1003	MD_IMAGE	0	106	6	25	26	"m_head_03"
+        MD	0x1004	MD_IMAGE	0	135	7	28	27	"m_head_04"
+        MD	0x1005	MD_IMAGE	0	168	4	25	32	"m_head_05"
+        MD	0x103B	MD_IMAGE	0	4	38	6	7	"m_eye_00"
+        MD	0x103C	MD_IMAGE	0	35	38	7	7	"m_eye_01"
+        MD	0x103F	MD_IMAGE	0	56	38	11	7	"m_eye_02"
+        MD	0x1040	MD_IMAGE	0	140	37	6	7	"m_eye_03"
+        MD	0x1041	MD_IMAGE	0	153	37	11	7	"m_eye_04"
+        MD	0x103D	MD_IMAGE	0	104	40	3	3	"m_mouth1"
+        MD	0x103E	MD_IMAGE	0	131	40	4	3	"m_mouth2"
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
