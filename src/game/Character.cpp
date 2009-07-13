@@ -41,11 +41,17 @@
 		_ins_Debuff = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 240, NULL);//디버프 인스턴스
 
 
-		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, SPRITE_WOMAN_BODY);
 		_spr_Hero_W->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
 
-		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, SPRITE_MAN_BODY);
 		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+
+// 		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+// 		_spr_Hero_W->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+// 
+// 		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, Check_se5x(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+// 		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
 
 		_ins_Hero = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
 		//_ins_Hero_clone = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
@@ -725,6 +731,12 @@
 						return HERO_STOP;
 					}
 					break;
+				case HERO_TAG_IN:
+					if(_b_ActionEnd){
+						return HERO_STOP;
+						_b_Key_Protect=false;
+					}
+					break;
 
 		}
 
@@ -1249,6 +1261,11 @@
 					_ins_Hero->b_MoveLock = true;
 					break;
 
+				case HERO_TAG_IN:
+					_ins_Hero->m_bLoop = false;
+					_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TAG_IN);
+					break;
+
 
 			}
 			_m_actNum = m_actNum;
@@ -1259,6 +1276,8 @@
 
 
 		_b_ActionEnd = !_ins_Hero->UpdateSpriteAnim();//케릭터 에니메이션 업데이트 실행
+
+
 		if(s_HeroTag.act){ 
 			s_HeroTag._b_ActionEnd = !_ins_Hero_clone->UpdateSpriteAnim();//케릭터 에니메이션 업데이트 실행
 			if(s_HeroTag.OVER_SkillEffect) _ins_Skill_clone[0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
@@ -2515,7 +2534,7 @@
 		s_HeroTag._b_ActionEnd = false;
 		s_HeroTag.TAG_OUT = false;
 
-		s_HeroTag.FocusHero = (s_HeroTag.FocusHero+1)%2; // 스위칭
+
 
 		//인스턴스 카피
 			SUTIL_FreeSpriteInstance(_ins_Hero_clone);
@@ -2524,7 +2543,7 @@
 		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_Skill_Set.Num][1]);
 
 		_ins_Hero_clone->m_bLoop = false;
-		_ins_Hero->m_posZ = 0;
+
 
 
 
@@ -2539,17 +2558,29 @@
 		//_ins_Hero_clone->m_posZ = _ins_Hero->m_posZ;
 
 
-		_ins_Hero->m_bLoop = false;
-		_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TAG_IN);
 
 
+// 		_ins_Hero->m_bLoop = false;
+// 		_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TAG_IN);
 
+		s_HeroTag.FocusHero = (s_HeroTag.FocusHero+1)%2; // 스위칭
+
+		//SUTIL_FreeSpriteInstance(_ins_Hero);
 		switch(s_HeroTag.FocusHero){
 			case 0:
+				_ins_Hero->m_sprite = _spr_Hero_W;
 				break;
 			case 1:
+				_ins_Hero->m_sprite = _spr_Hero_M;
 				break;
 		}
+
+		_move_Order = HERO_TAG_IN;
+		_b_Key_Protect=true;
+		_ins_Hero->m_posX = _ins_Hero_clone->m_posX;
+		_ins_Hero->m_posY = _ins_Hero_clone->m_posY;
+		_ins_Hero->m_posZ = 0;
+
 		return 0;
 	}
 	void Character::InitCharPos(int x, int y, int Look)

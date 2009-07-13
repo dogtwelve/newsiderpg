@@ -65,6 +65,8 @@
 #define	HERO_JumpUp		109
 #define	HERO_JumpDown	110
 
+#define	HERO_TAG_IN		500
+
 
 
 //Skill
