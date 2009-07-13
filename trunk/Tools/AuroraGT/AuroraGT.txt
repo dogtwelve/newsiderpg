@@ -1,5 +1,5 @@
 
-  Aurora Game Tools (GameEditor, SpriteEditor, MapEditor), by Ionut Matasaru
+  Aurora Game Tools (GameEditor, SpriteEditor), by Ionut Matasaru
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // TODO:
@@ -9,102 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // History log...
 
-2007.04.06 (v0.7.6)
-    |
-    + GameEditor v0.6.5
-    + SpriteEditor v0.8.7
-    + MapEditor v0.0.7
-
-2007.03.07 (v0.7.5)
-    |
-    + GameEditor v0.6.5
-    + SpriteEditor v0.8.6
-    + MapEditor v0.0.7
-
-2007.01.17 (v0.7.4)
-    |
-    + GameEditor v0.6.4
-    + SpriteEditor v0.8.5
-    + MapEditor v0.0.7
-
-
-2006.11.09 (v0.7.3)
-    |
-    + GameEditor v0.6.3
-    + SpriteEditor v0.8.3
-    + MapEditor v0.0.5
-
-2006.11.13 (v0.7.2)
-    |
-    + GameEditor v0.6.3
-    + SpriteEditor v0.8.2
-    + MapEditor v0.0.4
-
-2006.10.17 (v0.7.1)
-    |
-    + GameEditor v0.6.2
-    + SpriteEditor v0.8.1
-    + MapEditor v0.0.4
-
-2006.08.16 (v0.7.0)
-    |
-    + GameEditor v0.6.0
-    + SpriteEditor v0.8.0
-    + MapEditor v0.0.4
-
-2006.08.14 (v0.6.9)
-    |
-    + GameEditor v0.5.9
-    + SpriteEditor v0.7.9
-    + MapEditor v0.0.3
-
-
-2006.08.10 (v0.6.8)
-    |
-    + GameEditor v0.5.8
-    + SpriteEditor v0.7.7
-    + MapEditor v0.0.3
-
-2006.07.14 (v0.6.7)
-    |
-    + GameEditor v0.5.7
-    + SpriteEditor v0.7.6
-    + MapEditor v0.0.3
-
-2006.07.06 (v0.6.6)
-    |
-    + GameEditor v0.5.6
-    + SpriteEditor v0.7.5
-    + MapEditor v0.0.3
-
-2006.06.16 (v0.6.5)
-    |
-    + GameEditor v0.5.5
-    + SpriteEditor v0.7.5
-    + MapEditor v0.0.1 (NEW!!!)
-
-2006.06.13 (v0.6.4)
-    |
-    + GameEditor v0.5.4
-    + SpriteEditor v0.7.4
-
-2006.06.07 (v0.6.3)
-    |
-    + GameEditor v0.5.3
-    + SpriteEditor v0.7.3
-
-2006.04.26 (v0.6.2)
-    |
-    + GameEditor v0.5.2
-    + SpriteEditor v0.7.2
-
-2006.03.17 (v0.6.1 + v0.6.0 + v0.5.9)
-    |
-    + GameEditor v0.5.1
-    + SpriteEditor v0.7.1 + v0.7.0 + v0.6.9
-    + dynamic toolbar base on current view
-
-2006.01.26 (v0.5.8)
+2006.01.xx (v0.5.8)
     |
     + GameEditor v0.5.0
     + SpriteEditor v0.6.8

@@ -7,7 +7,7 @@
     // Images:  1
     // Modules: 127
     // Frames:  737
-    // Anims:   206
+    // Anims:   208
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
@@ -10020,13 +10020,13 @@
     {
         0x20D4
         RC	-8	-56	7	2
-        FM	0x1014	-14	-37
-        FM	0x1016	-10	-29
-        FM	0x1022	-16	-26
+        FM	0x1014	-3	-36	+FLIP_X
+        FM	0x1019	3	-29	+FLIP_Y	+ROT_90
+        FM	0x1021	-14	-26
         FM	0x1006	-7	-36
-        FM	0x1011	-3	-37
+        FM	0x1011	-15	-37	+FLIP_X
         FM	0x1001	-5	-60
-        FM	0x1016	2	-29	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1016	-10	-29
     }
 
     FRAME "" // Index = 705, FModules = 7
@@ -12940,6 +12940,24 @@
         AF	0x204A	1	87	0
         AF	0x22CC	2	88	0
         AF	0x2015	1	92	0
+    }
+
+    ANIM "a_tag_in" // Index = 206, AFrames = 4
+    {
+        0x30CE
+        AF	0x2299	1	-40	-127
+        AF	0x2238	1	-15	-70
+        AF	0x20C9	1	0	1
+        AF	0x2089	1	0	0
+    }
+
+    ANIM "a_tag_out" // Index = 207, AFrames = 4
+    {
+        0x30CF
+        AF	0x2089	1	0	0
+        AF	0x20C9	1	0	0
+        AF	0x2238	1	-15	-70
+        AF	0x2299	1	-40	-127
     }
 
     SPRITE_END
