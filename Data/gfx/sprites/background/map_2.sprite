@@ -1,0 +1,259 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 5
+    // Frames:  6
+    // Anims:   6
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_2.png" TRANSP 0x00FF00FF // 0  size: 13 x 50  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	0	8	8
+        MD	0x1001	MD_IMAGE	0	0	9	6	6
+        MD	0x1002	MD_IMAGE	0	0	20	7	7
+        MD	0x1003	MD_IMAGE	0	0	30	10	9
+        MD	0x1004	MD_IMAGE	0	0	40	9	8
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "ban1" // Index = 0, FModules = 4
+    {
+        0x2000
+        FM	0x1000	-7	-7
+        FM	0x1000	1	-7	+FLIP_X
+        FM	0x1000	-7	1	+FLIP_Y
+        FM	0x1000	1	1	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ban2" // Index = 1, FModules = 4
+    {
+        0x2001
+        FM	0x1001	-5	-5
+        FM	0x1001	1	-5	+FLIP_X
+        FM	0x1001	-5	1	+FLIP_Y
+        FM	0x1001	1	1	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "bellflower" // Index = 2, FModules = 1
+    {
+        0x2002
+        FM	0x1002	0	0
+    }
+
+    FRAME "flower_greensky1" // Index = 3, FModules = 4
+    {
+        0x2003
+        FM	0x1003	-10	0
+        FM	0x1003	0	-9	+FLIP_X	+FLIP_Y
+        FM	0x1003	-10	-9	+FLIP_Y
+        FM	0x1003	0	0	+FLIP_X
+    }
+
+    FRAME "flower_greensky2" // Index = 4, FModules = 4
+    {
+        0x2004
+        FM	0x1004	-9	0
+        FM	0x1004	0	0	+FLIP_X
+        FM	0x1004	-9	-8	+FLIP_Y
+        FM	0x1004	0	-8	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "BLEND" // Index = 5, FModules = 5
+    {
+        0x2005
+        FM	0x1000	2	0
+        FM	0x1001	2	0
+        FM	0x1002	2	0
+        FM	0x1003	2	0
+        FM	0x1004	2	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "ban1stand" // Index = 0, AFrames = 2
+    {
+        0x3000
+        AF	0x2001	2	0	0
+        AF	0x2000	2	0	0
+    }
+
+    ANIM "ban2one" // Index = 1, AFrames = 12
+    {
+        0x3001
+        AF	0x2000	3	-1	7
+        AF	0x2001	3	-6	10
+        AF	0x2000	3	-8	17
+        AF	0x2001	3	-5	23
+        AF	0x2000	3	5	27
+        AF	0x2001	3	16	23
+        AF	0x2000	3	27	20
+        AF	0x2001	3	26	13
+        AF	0x2000	3	22	2
+        AF	0x2001	3	17	2
+        AF	0x2000	3	8	3
+        AF	0x2001	3	0	0
+    }
+
+    ANIM "ban3one" // Index = 2, AFrames = 40
+    {
+        0x3002
+        AF	0x2001	3	-6	-6
+        AF	0x2000	3	-11	-9
+        AF	0x2001	3	-29	-15
+        AF	0x2000	3	-43	-13
+        AF	0x2001	3	-62	-7
+        AF	0x2000	3	-73	-3
+        AF	0x2001	3	-87	2
+        AF	0x2000	3	-93	8
+        AF	0x2001	3	-98	22
+        AF	0x2000	3	-90	37
+        AF	0x2001	3	-85	45
+        AF	0x2000	3	-78	56
+        AF	0x2001	3	-70	62
+        AF	0x2000	3	-55	62
+        AF	0x2001	3	-54	64
+        AF	0x2000	3	-41	57
+        AF	0x2001	3	-33	53
+        AF	0x2000	3	-24	44
+        AF	0x2001	3	-13	32
+        AF	0x2000	3	0	25
+        AF	0x2001	3	5	11
+        AF	0x2000	3	16	-9
+        AF	0x2001	3	30	-21
+        AF	0x2000	3	45	-27
+        AF	0x2001	3	57	-27
+        AF	0x2000	3	73	-28
+        AF	0x2001	3	84	-23
+        AF	0x2000	3	97	-14
+        AF	0x2001	3	103	-9
+        AF	0x2000	3	113	6
+        AF	0x2001	3	113	11
+        AF	0x2000	3	114	29
+        AF	0x2001	3	104	33
+        AF	0x2000	3	86	45
+        AF	0x2001	3	64	46
+        AF	0x2000	3	49	41
+        AF	0x2001	3	33	33
+        AF	0x2000	3	24	25
+        AF	0x2001	3	15	16
+        AF	0x2000	3	0	0
+    }
+
+    ANIM "ban4line" // Index = 3, AFrames = 40
+    {
+        0x3003
+        AF	0x2001	3	-15	-3
+        AF	0x2000	3	-20	1
+        AF	0x2001	3	-34	6
+        AF	0x2000	3	-46	4
+        AF	0x2001	3	-73	5
+        AF	0x2000	3	-85	2
+        AF	0x2001	3	-103	7
+        AF	0x2000	3	-103	2
+        AF	0x2001	3	-103	3
+        AF	0x2000	3	-103	5
+        AF	0x2001	3	-107	6
+        AF	0x2000	3	-106	6
+        AF	0x2001	3	-107	6
+        AF	0x2000	3	-109	4
+        AF	0x2001	3	-107	6
+        AF	0x2000	3	-106	4
+        AF	0x2001	3	-107	2
+        AF	0x2000	3	-99	-6
+        AF	0x2001	3	-93	2
+        AF	0x2000	3	-94	-2
+        AF	0x2001	3	-85	-2
+        AF	0x2000	3	-94	1
+        AF	0x2001	3	-82	1
+        AF	0x2000	3	-79	6
+        AF	0x2001	3	-70	3
+        AF	0x2000	3	-66	2
+        AF	0x2001	3	-60	3
+        AF	0x2000	3	-43	12
+        AF	0x2001	3	-31	9
+        AF	0x2000	3	-21	2
+        AF	0x2001	3	-9	1
+        AF	0x2000	3	1	2
+        AF	0x2001	3	3	7
+        AF	0x2000	3	8	6
+        AF	0x2001	3	19	1
+        AF	0x2000	3	24	3
+        AF	0x2001	3	32	6
+        AF	0x2000	3	17	-1
+        AF	0x2001	3	11	-6
+        AF	0x2000	3	0	0
+    }
+
+    ANIM "ban4down" // Index = 4, AFrames = 26
+    {
+        0x3004
+        AF	0x2000	2	-6	-3
+        AF	0x2001	2	-13	5
+        AF	0x2000	2	-27	15
+        AF	0x2001	2	-44	26
+        AF	0x2000	2	-58	35
+        AF	0x2001	2	-51	49
+        AF	0x2000	2	-37	58
+        AF	0x2001	2	-38	53
+        AF	0x2000	2	-39	51
+        AF	0x2001	2	-38	53
+        AF	0x2000	2	-37	53
+        AF	0x2001	2	-38	54
+        AF	0x2000	2	-39	53
+        AF	0x2001	2	-38	54
+        AF	0x2000	2	-38	53
+        AF	0x2001	2	-25	54
+        AF	0x2000	2	-14	47
+        AF	0x2001	2	-2	42
+        AF	0x2000	2	14	42
+        AF	0x2001	2	25	38
+        AF	0x2000	2	36	34
+        AF	0x2001	2	49	27
+        AF	0x2000	2	43	13
+        AF	0x2001	2	29	11
+        AF	0x2000	2	15	4
+        AF	0x2001	2	0	0
+    }
+
+    ANIM "flower" // Index = 5, AFrames = 2
+    {
+        0x3005
+        AF	0x2003	3	0	0
+        AF	0x2004	3	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

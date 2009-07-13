@@ -1,0 +1,22 @@
+Load("cinema.game")
+
+EXPORTGAME
+{
+	DESC		"SideScrollCinema export"
+	PATH		""
+	LOG_FILE	"SideScrollCinema.log"
+	MAPS
+	{
+		
+	}
+	
+	OBJ_LAYERS
+	{
+			OPTIONS EXPORT_OBJ_ID
+	//	OPTIONS ...		
+	}
+}
+
+InitGameFFT("game_export.fft")
+ExportGameFFT(WRITE_LOG)
+
