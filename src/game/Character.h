@@ -29,7 +29,7 @@
 #define	HERO_ATTACK3END	25
 #define	HERO_ATTACK4	26
 
-#define	HERO_SWITCH			30
+#define	HERO_SWITCH			30// 히어로 변경
 
 #define	HERO_LINE_MOVE_UP	31
 #define	HERO_LINE_MOVE_DOWN	32
@@ -294,6 +294,14 @@ struct HeroStatus{
 
 	int	MONEY;		//보유금액
 };
+struct HeroTag{
+	bool act;			//SangHo - 태그중이라면
+	int FocusHero;		//현재 컨트롤 대상 히어로를 지정한다
+	bool OVER_SkillEffect;
+	bool DOWN_SkillEffect;
+	bool _b_ActionEnd;
+	bool TAG_OUT;
+};
 struct Skill{ 
 	int Equip_A[5];	//장착 액티브 스킬//-1은 미습득
 	int Equip_P[9];	//장착 패시브 스킬//-1은 미습득
@@ -361,6 +369,9 @@ public:
 	//팝업 UI를 위한 참조변수
 	static HeroAbility s_Ability;
 	static HeroStatus s_Status;
+	static HeroTag s_HeroTag;//히어로의 태그시 사용되는 각종 변수
+
+	
 	static Skill s_Skill;
 	static Skill_Set s_Skill_Set;
 
@@ -373,10 +384,15 @@ public:
 ////////////////////////////////////////////////////////////////////////////////////////
 
 	static MustAction s_MustAction;
-	static class ASprite*	_spr_Hero;				//스프라이트 - 히어로
+	static class ASprite*	_spr_Hero_W;				//스프라이트 - 히어로 여
+	static class ASprite*	_spr_Hero_M;				//스프라이트 - 히어로 남
+
 	class ASprite*	_spr_Skill[5];		//스프라이트 - 히어로 스킬 5개
 
-	class ASpriteInstance*	_ins_Hero;	//인스턴스 - 히어로
+	class ASpriteInstance*	_ins_Hero;			//인스턴스 - 히어로
+	class ASpriteInstance*	_ins_Hero_clone;	//인스턴스 - 태그직후 히어로의 행동 보존개체
+	class ASpriteInstance*	_ins_Skill_clone[2];		//인스턴스 - 히어로 스킬 5개
+
 	class ASpriteInstance*	_ins_Debuff;	//인스턴스 - 디버프
 	class ASpriteInstance*	_ins_Skill[5][2];		//인스턴스 - 히어로 스킬 5개
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -548,6 +564,7 @@ private:
 	
 
 public://G Field
+	
 	static int	Check_sex(int  m_Man,int m_Woman);
 	static void	Set_state_calculate();//각종 수치 변환으로 인한 데이터의 재계산이 필요할시 적용
 	static void InitCostume();
@@ -566,10 +583,13 @@ public://G Field
 	int SND_Debuff(int Attack_Type);//디버프를 가할때
 
 	int Set_Exp(int _Exp);//경험치 가감수치
+	int CloneCopy();//현재 취하고 있는 행동을 모두 클론에게 카피한다
 
 	void InitCharPos(int x, int y, int Look = 0);
 
+
 	static int Get_Skill(int passive_Num);//액티브 스킬 값받아오기
+
 
 	int	m_nFieldId;//지역ID
 

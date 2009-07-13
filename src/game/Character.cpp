@@ -14,6 +14,7 @@
 
 	HeroAbility Character::s_Ability;
 	HeroStatus Character::s_Status;
+	HeroTag Character::s_HeroTag;
 	Skill Character::s_Skill;
 	Skill_Set Character::s_Skill_Set;
 
@@ -24,7 +25,8 @@
 	ItemBag Character::s_ItemBag[4][32];
 	ItemBag Character::s_ItemPick;
 	MustAction Character::s_MustAction;
-	class ASprite*	Character::_spr_Hero;
+	class ASprite*	Character::_spr_Hero_W;
+	class ASprite*	Character::_spr_Hero_M;
 
 
 
@@ -39,10 +41,17 @@
 		_ins_Debuff = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 240, NULL);//디버프 인스턴스
 
 
-		_spr_Hero = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+		_spr_Hero_W->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+
+		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
+		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+
+		_ins_Hero = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
+		//_ins_Hero_clone = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
+
 		
-		_ins_Hero = GL_NEW ASpriteInstance(_spr_Hero, 100, 250, NULL);
-		_spr_Hero->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+
 		InitCostume();
 
 
@@ -69,9 +78,10 @@
 			s_Skill.Equip_A[4] = -1;
 
 
-			//for(int xx = 0;xx<21;xx++){
-			//	s_Skill.Level_A[xx]=1;	//액티브 스킬레벨
-			//}
+			for(int xx = 0;xx<21;xx++){
+				s_Skill.Level_A[xx]=1;	//액티브 스킬레벨
+			}
+
 			s_Skill.Level_A[4]=1;
 			s_Skill.Level_A[7]=1;
 			s_Skill.Level_A[14]=1;
@@ -87,7 +97,7 @@
 			s_Ability.JAB_GUN	=false;	//총사 - 직업 선택 가능하다면 true
 			s_Ability.JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
 
-			s_Status.LEVEL = 1;
+			s_Status.LEVEL = 31;
 			switch(SAVELOAD_MainStyle){
 				case 0:
 					s_Skill.Equip_A[0] = 4;
@@ -100,6 +110,7 @@
 					break;
 				case 1:
 					s_Skill.Equip_A[0] = 7;
+					s_Skill.Equip_A[1] = 12;
 					s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
 					s_Ability.STR = 3 + (s_Status.LEVEL-1)*2;
 					s_Ability.DEX = 7 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
@@ -146,7 +157,9 @@
 	{
 		SUTIL_FreeSpriteInstance(_ins_Debuff);
 		SUTIL_FreeSpriteInstance(_ins_Hero);
-		SUTIL_FreeSprite(_spr_Hero);
+		SUTIL_FreeSpriteInstance(_ins_Hero_clone);
+		SUTIL_FreeSprite(_spr_Hero_W);
+		SUTIL_FreeSprite(_spr_Hero_M);
 
 
 		for (int xx = 0; xx<5; xx++)
@@ -181,7 +194,12 @@
 					break;
 			}
 		}
-		
+		switch(m_keyCode){
+			case MH_KEY_ASTERISK:// 히어로 변경 - 태그시작
+				if(m_keyRepeat)break;//키릴리즈에 반응하지않는다.
+				CloneCopy();
+				return;
+		}
 
 		if(_b_Key_Nullity){return;}//키입력을 무효화 한다. //키제어 구조체를 만들것
 		
@@ -239,6 +257,13 @@
 		//	paint shadow
 		SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,FRAME_SHADOW_SHADOW_2 , tmpx + _ins_Hero->CameraX , _ins_Hero->m_posY,0);
 
+		if(s_HeroTag.act){
+			if(s_HeroTag.DOWN_SkillEffect)SUTIL_PaintAsprite(_ins_Skill_clone[1],S_INCLUDE_SORT);
+			SUTIL_PaintAsprite(_ins_Hero_clone,S_INCLUDE_SORT);
+			if(s_HeroTag.OVER_SkillEffect)SUTIL_PaintAsprite(_ins_Skill_clone[0],S_INCLUDE_SORT);
+		}
+
+
 		//	paint 발사형 스킬 이펙트
 		Paint_Knife();
 
@@ -253,7 +278,7 @@
 
 		//	paint character
 		SUTIL_PaintAsprite(_ins_Hero,S_INCLUDE_SORT);
-
+		
 		//	paint Debuff
 		Paint_Debuff(tmpx , tmpz);
 
@@ -389,12 +414,13 @@
 				return Check_weapon( s_Skill_Set.Skill_ID[4]/7 , HERO_SKILL_4);
 
 
-			case MH_KEY_ASTERISK:
-				if(m_keyRepeat)return 0;//키릴리즈에 반응하지않는다.
+			//case MH_KEY_ASTERISK:// 히어로 변경 - 태그시작
+			//	if(m_keyRepeat)return 0;//키릴리즈에 반응하지않는다.
 
-				//_b_ActionEnd = false;
-				_b_Key_Protect=true;
-				return HERO_SWITCH;
+			//	//_b_ActionEnd = false;
+			//	_b_Key_Protect=true;
+			//	
+			//	return HERO_SWITCH;
 
 			case MH_KEY_POUND:
 				if(m_keyRepeat || Check_skill_impossible(5))return 0;//스킬을 쓸 수 없는 상황이다
@@ -582,19 +608,20 @@
 					break;
 
 
-				case HERO_SWITCH:
-					if(_b_ActionEnd){//스위칭 액션이 끝났을때 정자세로 돌아갈것인가? 아니면 이어지는 스킬이 연계 될것인가?
+				//case HERO_SWITCH:
+				//	if(_b_ActionEnd){//스위칭 액션이 끝났을때 정자세로 돌아갈것인가? 아니면 이어지는 스킬이 연계 될것인가?
 
-						if(s_WeaponSwitch.act){
-							s_WeaponSwitch.act = false;
-							return s_WeaponSwitch.next_Event;
-						}else{
-							return HERO_STOP;
-						}
+				//		if(s_WeaponSwitch.act){
+				//			s_WeaponSwitch.act = false;
+				//			s_HeroTag.act = false;
+				//			return s_WeaponSwitch.next_Event;
+				//		}else{
+				//			return HERO_STOP;
+				//		}
 
-					}
-					return HERO_SWITCH;
-					break;
+				//	}
+				//	return HERO_SWITCH;
+				//	break;
 
 				case HERO_LINE_MOVE_UP:
 				case HERO_LINE_MOVE_DOWN:
@@ -1071,65 +1098,68 @@
 					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
 					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					break;
-				case HERO_SWITCH:
-					_ins_Hero->m_bLoop = false;
+				//case HERO_SWITCH:
+				//	//현재 케릭터를 백업하고 태그 출현 케릭터를 바뀐 케릭터로 제어시작
+				//	_ins_Hero->m_bLoop = false;
 
-					if(s_Ability.JAB_KNIFE+s_Ability.JAB_GUN+s_Ability.JAB_MAGIC>1){
-						int _b_JabNext;
+				//	CloneCopy();
 
-						if(s_WeaponSwitch.act){
-							_b_JabNext = s_WeaponSwitch.nextWeapon;
-						}else{
-							switch(_b_JabNum){
-								case 0://검
-									if(s_Ability.JAB_GUN){
-										_b_JabNext = 1;
-									}else{
-										_b_JabNext = 2;
-									}
-									break;
-								case 1://총
-									if(s_Ability.JAB_MAGIC){
-										_b_JabNext = 2;
-									}else{
-										_b_JabNext = 0;
-									}
-									break;
-								case 2://마법
-									if(s_Ability.JAB_KNIFE){
-										_b_JabNext = 0;
-									}else{
-										_b_JabNext = 1;
-									}
-									break;
-							}
-						}
+				//	//if(s_Ability.JAB_KNIFE+s_Ability.JAB_GUN+s_Ability.JAB_MAGIC>1){
+				//	//	int _b_JabNext;
 
-						switch ((_b_JabNum*10) + _b_JabNext){
-							case 01://검>총
-								_ins_Hero->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_S_SWAPSKILL : ANIM_WOMAN_BODY_A_S_SWAP_TO_G);
-								break;
-							case 02://검>마법
-								_ins_Hero->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_S_SWAPSKILL : ANIM_WOMAN_BODY_A_S_SWAP_TO_O);
-								break;
-							case 10://총>검
-								_ins_Hero->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_G_SWAPSKILL : ANIM_WOMAN_BODY_A_G_SWAP_TO_S);
-								break;
-							case 12://총>마법
-								_ins_Hero->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_G_SWAPSKILL : ANIM_WOMAN_BODY_A_G_SWAP_TO_O);
-								break;
-							case 20://마법>검
-								_ins_Hero->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_O_SWAPSKILL : ANIM_WOMAN_BODY_A_O_SWAP_TO_S);
-								break;
-							case 21://마법>총
-								_ins_Hero->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_O_SWAPSKILL : ANIM_WOMAN_BODY_A_O_SWAP_TO_G);
-								break;
-						}
-						
-						_b_JabNum = _b_JabNext;
-						s_Status.ELEMENTAL = _b_JabNum;//속성부여
-					}
-					break;
+				//	//	if(s_WeaponSwitch.act){
+				//	//		_b_JabNext = s_WeaponSwitch.nextWeapon;
+				//	//	}else{
+				//	//		switch(_b_JabNum){
+				//	//			case 0://검
+				//	//				if(s_Ability.JAB_GUN){
+				//	//					_b_JabNext = 1;
+				//	//				}else{
+				//	//					_b_JabNext = 2;
+				//	//				}
+				//	//				break;
+				//	//			case 1://총
+				//	//				if(s_Ability.JAB_MAGIC){
+				//	//					_b_JabNext = 2;
+				//	//				}else{
+				//	//					_b_JabNext = 0;
+				//	//				}
+				//	//				break;
+				//	//			case 2://마법
+				//	//				if(s_Ability.JAB_KNIFE){
+				//	//					_b_JabNext = 0;
+				//	//				}else{
+				//	//					_b_JabNext = 1;
+				//	//				}
+				//	//				break;
+				//	//		}
+				//	//	}
+
+				//	//	switch ((_b_JabNum*10) + _b_JabNext){
+				//	//		case 01://검>총
+				//	//			_ins_Hero_W->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_S_SWAPSKILL : ANIM_WOMAN_BODY_A_S_SWAP_TO_G);
+				//	//			break;
+				//	//		case 02://검>마법
+				//	//			_ins_Hero_W->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_S_SWAPSKILL : ANIM_WOMAN_BODY_A_S_SWAP_TO_O);
+				//	//			break;
+				//	//		case 10://총>검
+				//	//			_ins_Hero_W->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_G_SWAPSKILL : ANIM_WOMAN_BODY_A_G_SWAP_TO_S);
+				//	//			break;
+				//	//		case 12://총>마법
+				//	//			_ins_Hero_W->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_G_SWAPSKILL : ANIM_WOMAN_BODY_A_G_SWAP_TO_O);
+				//	//			break;
+				//	//		case 20://마법>검
+				//	//			_ins_Hero_W->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_O_SWAPSKILL : ANIM_WOMAN_BODY_A_O_SWAP_TO_S);
+				//	//			break;
+				//	//		case 21://마법>총
+				//	//			_ins_Hero_W->SetAnim(s_WeaponSwitch.act ? ANIM_WOMAN_BODY_A_O_SWAPSKILL : ANIM_WOMAN_BODY_A_O_SWAP_TO_G);
+				//	//			break;
+				//	//	}
+				//	//	
+				//	//	_b_JabNum = _b_JabNext;
+				//	//	s_Status.ELEMENTAL = _b_JabNum;//속성부여
+				//	//}
+				//	break;
 
 				case HERO_LINE_MOVE_UP:
 				case HERO_LINE_MOVE_DOWN:
@@ -1229,6 +1259,21 @@
 
 
 		_b_ActionEnd = !_ins_Hero->UpdateSpriteAnim();//케릭터 에니메이션 업데이트 실행
+		if(s_HeroTag.act){ 
+			s_HeroTag._b_ActionEnd = !_ins_Hero_clone->UpdateSpriteAnim();//케릭터 에니메이션 업데이트 실행
+			if(s_HeroTag.OVER_SkillEffect) _ins_Skill_clone[0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+			if(s_HeroTag.DOWN_SkillEffect) _ins_Skill_clone[1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+
+			if(s_HeroTag._b_ActionEnd){//현재 진행중이던 동작이 종료되었다
+				if(s_HeroTag.TAG_OUT){
+					s_HeroTag.act = false;
+				}else{
+					s_HeroTag.TAG_OUT = true;
+					_ins_Hero_clone->SetAnim(ANIM_WOMAN_BODY_A_TAG_OUT);
+				}
+				
+			}
+		}
 
 		if(s_Skill_Set.OVER_SkillEffect) _ins_Skill[s_Skill_Set.Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
 		if(s_Skill_Set.DOWN_SkillEffect) _ins_Skill[s_Skill_Set.Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
@@ -1552,7 +1597,7 @@
 				SUTIL_FreeSpriteInstance(s_LV_Eff.LVup_Eff_Ins);
 			}else{
 				if(s_LV_Eff.LVupEff_Num==0){
-					s_LV_Eff.LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Hero, 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+					s_LV_Eff.LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 
 					s_LV_Eff.LVup_Eff_Ins->m_bLoop = false;
 					s_LV_Eff.LVup_Eff_Ins->SetAniMoveLock(true);
@@ -2465,6 +2510,48 @@
 		return 0;
 	}
 
+	int Character::CloneCopy(){//현재 취하고 있는 행동을 모두 클론에게 카피한다
+		s_HeroTag.act = true;
+		s_HeroTag._b_ActionEnd = false;
+		s_HeroTag.TAG_OUT = false;
+
+		s_HeroTag.FocusHero = (s_HeroTag.FocusHero+1)%2; // 스위칭
+
+		//인스턴스 카피
+			SUTIL_FreeSpriteInstance(_ins_Hero_clone);
+		_ins_Hero_clone = GL_NEW ASpriteInstance(_ins_Hero);
+		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_Skill_Set.Num][0]);
+		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_Skill_Set.Num][1]);
+
+		_ins_Hero_clone->m_bLoop = false;
+		_ins_Hero->m_posZ = 0;
+
+
+
+		s_HeroTag.DOWN_SkillEffect = s_Skill_Set.DOWN_SkillEffect;
+		s_HeroTag.OVER_SkillEffect = s_Skill_Set.OVER_SkillEffect;
+		s_Skill_Set.DOWN_SkillEffect = false;
+		s_Skill_Set.OVER_SkillEffect = false;
+
+
+		//_ins_Hero_clone->m_posX = _ins_Hero->m_posX;
+		//_ins_Hero_clone->m_posY = _ins_Hero->m_posY;
+		//_ins_Hero_clone->m_posZ = _ins_Hero->m_posZ;
+
+
+		_ins_Hero->m_bLoop = false;
+		_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TAG_IN);
+
+
+
+		switch(s_HeroTag.FocusHero){
+			case 0:
+				break;
+			case 1:
+				break;
+		}
+		return 0;
+	}
 	void Character::InitCharPos(int x, int y, int Look)
 	{
 		_ins_Hero->m_posX = _ins_Hero->m_lastX = x;
@@ -2477,33 +2564,33 @@
 	}
 
 	void Character::InitCostume(){
-		for(int xx = 0;xx<_spr_Hero->_nModules;xx++)
-			_spr_Hero->_modules_data_pal[xx] = 0;
+		for(int xx = 0;xx<_spr_Hero_W->_nModules;xx++)
+			_spr_Hero_W->_modules_data_pal[xx] = 0;
 
 		for(int xx = 0;xx<LENGTH_HEAD;xx++)
-			_spr_Hero->_modules_data_pal[START_HEAD+xx] = PAL_HEAD;
+			_spr_Hero_W->_modules_data_pal[START_HEAD+xx] = PAL_HEAD;
 
 		for(int xx = 0;xx<LENGTH_BODY;xx++)
-			_spr_Hero->_modules_data_pal[START_BODY+xx] = PAL_BODY;
+			_spr_Hero_W->_modules_data_pal[START_BODY+xx] = PAL_BODY;
 
 		for(int xx = 0;xx<LENGTH_ARM;xx++)
-			_spr_Hero->_modules_data_pal[START_ARM+xx] = PAL_ARM;
+			_spr_Hero_W->_modules_data_pal[START_ARM+xx] = PAL_ARM;
 
 		for(int xx = 0;xx<LENGTH_LEG;xx++)
-			_spr_Hero->_modules_data_pal[START_LEG+xx] = PAL_LEG;
+			_spr_Hero_W->_modules_data_pal[START_LEG+xx] = PAL_LEG;
 
 
 		for(int xx = 0;xx<LENGTH_KNIFE1;xx++)
-			_spr_Hero->_modules_data_pal[START_KNIFE1+xx] = PAL_KNIFE1;
+			_spr_Hero_W->_modules_data_pal[START_KNIFE1+xx] = PAL_KNIFE1;
 
 		for(int xx = 0;xx<LENGTH_KNIFE2;xx++)
-			_spr_Hero->_modules_data_pal[START_KNIFE2+xx] = PAL_KNIFE2;
+			_spr_Hero_W->_modules_data_pal[START_KNIFE2+xx] = PAL_KNIFE2;
 
 		for(int xx = 0;xx<LENGTH_GUN;xx++)
-			_spr_Hero->_modules_data_pal[START_GUN+xx] = PAL_GUN;
+			_spr_Hero_W->_modules_data_pal[START_GUN+xx] = PAL_GUN;
 
 		for(int xx = 0;xx<LENGTH_ORB;xx++)
-			_spr_Hero->_modules_data_pal[START_ORB+xx] = PAL_ORB;
+			_spr_Hero_W->_modules_data_pal[START_ORB+xx] = PAL_ORB;
 
 		SUTIL_LoadAspritePack(PACK_SPRITE_COSTUME);//팩열기
 		ChangeCostume(PAL_HEAD,0,0);
@@ -2537,42 +2624,42 @@
 
 
 
-		int gap = - (_spr_Hero->_modules_data_off[Start+Length] - _spr_Hero->_modules_data_off[Start])//삭제할 파츠
+		int gap = - (_spr_Hero_W->_modules_data_off[Start+Length] - _spr_Hero_W->_modules_data_off[Start])//삭제할 파츠
 			+ (Part_Sprite->_modules_data_off[Part_Sprite->_nModules]);//대체할 파츠
-		int len = _spr_Hero->_modules_data_off[_spr_Hero->_nModules] + gap;
+		int len = _spr_Hero_W->_modules_data_off[_spr_Hero_W->_nModules] + gap;
 
 		byte* temp_data = GL_NEW byte[len];//새로운 데이터풀을 만든다
 
-		arraycopy(_spr_Hero->_modules_data, 0, 
+		arraycopy(_spr_Hero_W->_modules_data, 0, 
 			temp_data, 0, 
-			_spr_Hero->_modules_data_off[Start]);//교체 part 이전 부분을 복제한다
+			_spr_Hero_W->_modules_data_off[Start]);//교체 part 이전 부분을 복제한다
 
 		arraycopy(Part_Sprite->_modules_data, 0, 
-			temp_data, _spr_Hero->_modules_data_off[Start], 
+			temp_data, _spr_Hero_W->_modules_data_off[Start], 
 			Part_Sprite->_modules_data_off[Part_Sprite->_nModules]);//교체 part 대상을 복제한다
 
-		arraycopy(_spr_Hero->_modules_data, _spr_Hero->_modules_data_off[Start+Length], 
-			temp_data, _spr_Hero->_modules_data_off[Start] + Part_Sprite->_modules_data_off[Part_Sprite->_nModules], 
-			_spr_Hero->_modules_data_off[_spr_Hero->_nModules] - _spr_Hero->_modules_data_off[Start+Length]);//교체 part 이후 부분을 복제한다
+		arraycopy(_spr_Hero_W->_modules_data, _spr_Hero_W->_modules_data_off[Start+Length], 
+			temp_data, _spr_Hero_W->_modules_data_off[Start] + Part_Sprite->_modules_data_off[Part_Sprite->_nModules], 
+			_spr_Hero_W->_modules_data_off[_spr_Hero_W->_nModules] - _spr_Hero_W->_modules_data_off[Start+Length]);//교체 part 이후 부분을 복제한다
 
 
-		SAFE_DEL_ARRAY(_spr_Hero->_modules_data);
-		_spr_Hero->_modules_data = temp_data;
-		_spr_Hero->_modules_image->m_modulesPixel = (unsigned char*)temp_data;
-		int * aa = _spr_Hero->_modules_image->m_modulesPixelOffset;
+		SAFE_DEL_ARRAY(_spr_Hero_W->_modules_data);
+		_spr_Hero_W->_modules_data = temp_data;
+		_spr_Hero_W->_modules_image->m_modulesPixel = (unsigned char*)temp_data;
+		int * aa = _spr_Hero_W->_modules_image->m_modulesPixelOffset;
 
 		//교체 part off 변경
 		for(int xx = 0;xx<Length;xx++){
-			_spr_Hero->_modules_data_off[Start+xx]=_spr_Hero->_modules_data_off[Start]+Part_Sprite->_modules_data_off[xx];
+			_spr_Hero_W->_modules_data_off[Start+xx]=_spr_Hero_W->_modules_data_off[Start]+Part_Sprite->_modules_data_off[xx];
 		}
 		//교체 part 이후의 off값에 Gap 반영
-		for(int xx = Start+Length;xx<=_spr_Hero->_nModules;xx++){
-			_spr_Hero->_modules_data_off[xx] += gap;
+		for(int xx = Start+Length;xx<=_spr_Hero_W->_nModules;xx++){
+			_spr_Hero_W->_modules_data_off[xx] += gap;
 		}
 
 		////팔렛트 값 바꿔치기
 		for(int xx = 0;xx<Part_Sprite->_colors;xx++){
-			*(_spr_Hero->_pal[part]+xx) = *(Part_Sprite->_pal[pal]+xx);
+			*(_spr_Hero_W->_pal[part]+xx) = *(Part_Sprite->_pal[pal]+xx);
 		}
 
 		SUTIL_FreeSprite(Part_Sprite);//스프라이트 지우기

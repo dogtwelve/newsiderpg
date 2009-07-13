@@ -86,7 +86,7 @@ void GFieldBattle::LoadFirstData(int timer, int nDummy1, int nDummy2)
 			pFieldUi = GL_NEW FieldUi((void*) &s_ASpriteSet);
 
 			//	팝업 UI
-			pPopupUi = GL_NEW PopupUi((void*) &s_ASpriteSet,hero->_spr_Hero);
+			pPopupUi = GL_NEW PopupUi((void*) &s_ASpriteSet,hero->_spr_Hero_W);
 
 			//	충돌체크 데이타
 			m_CharInfo = (S_CHARINFO*)MALLOC(sizeof(S_CHARINFO));
@@ -1306,6 +1306,12 @@ void GFieldBattle::Process()
 					hero->_ins_Skill[xx][0]->setCamera(camera_x,0);
 					hero->_ins_Skill[xx][1]->setCamera(camera_x,0);
 				}
+			}
+			if(hero->s_HeroTag.act){
+				hero->_ins_Hero_clone->setCamera(camera_x,0);
+				if(hero->s_HeroTag.OVER_SkillEffect)hero->_ins_Skill_clone[0]->setCamera(camera_x,0);
+				if(hero->s_HeroTag.DOWN_SkillEffect)hero->_ins_Skill_clone[1]->setCamera(camera_x,0);
+					
 			}
 
 			//	몬스터
