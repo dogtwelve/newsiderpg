@@ -47,9 +47,22 @@
 #define CINEMATIC_PLAYED					0x04
 
 
+#define C_FLAG_FLIP_X							0x01
+#define C_FLAG_FLIP_Y							0x02
+#define C_FLAG_INVISIBLE						0x04
+#define C_FLAG_PAUSE_ANIM						0x08
+
 //#define ReadCinematicDataShort(dest) dest = (data[pos] & 0xFF) + ((data[pos + 1] & 0xFF) << 8); pos += 2;
 //#define	GetSendEventNumParams(cmd)	(((cmd - CCMD_BASIC_OBJEVENT1) % 3) + 1)
 
+
+typedef struct _CFlag
+{
+	bool m_IsShadow;
+	bool m_IsInvisible;
+	bool m_IsPauseAnim;
+	bool m_IsDummy;
+}CFlag;
 
 class cCinematic
 {
@@ -75,7 +88,7 @@ public:
 	bool 		s_cinematicsPause;
 
 	ASpriteInstance***	m_ASpriteIns;
-	bool**		m_IsShadow;
+	CFlag**		m_bIsFlag;
 
 	int** 		s_infoasprite;		// 1.spritenum 2.aninum 3.posX 4.posY
 	int			s_infoasprite_len;

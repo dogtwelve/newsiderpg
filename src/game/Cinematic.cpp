@@ -55,7 +55,7 @@ void cCinematic::Load_Cinematics(char* _packtype, int _DataNum, int nextEvtcode,
 //	s_runningCinematicTrackActors = GL_NEW int*[cin_nums];
 
 	m_ASpriteIns = GL_NEW ASpriteInstance**[cin_nums];
-	m_IsShadow = GL_NEW bool*[cin_nums];
+	m_bIsFlag = GL_NEW CFlag*[cin_nums];
 
 
 //	Init_Asprite ( cin_nums );
@@ -77,7 +77,7 @@ void cCinematic::Load_Cinematics(char* _packtype, int _DataNum, int nextEvtcode,
 		s_cinematics_sz_len[c] = tracks_nums;
 		s_currentFramePos[c] = GL_NEW int[tracks_nums];
 		m_ASpriteIns[c] = GL_NEW ASpriteInstance*[tracks_nums];
-		m_IsShadow[c] = GL_NEW bool[tracks_nums];
+		m_bIsFlag[c] = GL_NEW CFlag[tracks_nums];
 //		s_runningCinematicTrackActors[c] = GL_NEW int[tracks_nums];
 
 		s_infoasprite = GL_NEW int*[tracks_nums];
@@ -85,7 +85,10 @@ void cCinematic::Load_Cinematics(char* _packtype, int _DataNum, int nextEvtcode,
 		for (int t = 0; t < tracks_nums; t++)
 		{
 			m_ASpriteIns[c][t] = NULL;
-			m_IsShadow[c][t] = NULL;
+
+			m_bIsFlag[c][t].m_IsShadow = NULL;
+			m_bIsFlag[c][t].m_IsPauseAnim = NULL;
+			m_bIsFlag[c][t].m_IsInvisible = NULL;
 
 			s_infoasprite[t] = NULL;
 			s_infoasprite[t] = GL_NEW int[4]; //sprite,ani,x,y
@@ -94,7 +97,9 @@ void cCinematic::Load_Cinematics(char* _packtype, int _DataNum, int nextEvtcode,
 
 			int track_start = pos;
 			byte track_type = data[pos++];
-			pos++; //skip track_flags
+			byte a = pos++; //skip track_flags
+
+			
 
 			switch (track_type)
 			{
@@ -249,7 +254,11 @@ void cCinematic::Update_Cinematics()
 			{
 				if(NULL != m_ASpriteIns[c][t])
 				{
-					SUTIL_UpdateTimeAsprite(m_ASpriteIns[c][t]);
+
+					if(false == m_bIsFlag[c][t].m_IsPauseAnim)
+					{
+						SUTIL_UpdateTimeAsprite(m_ASpriteIns[c][t]);
+					}
 				}
 			}
 		}
@@ -415,12 +424,27 @@ void cCinematic::Update_Cinematics()
 						{
 							if (key_frame_time <= current_frame_time)
 							{
-								if(0 != data[pos])
+								if(data[pos++])		//	flipx
 								{
 									SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_LEFT);
 								}
+
+								if(data[pos++])		//	flipy
+								{
+									//SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_LEFT);
+								}
+
+								if(data[pos++])		//	invisi
+								{
+									m_bIsFlag[c][t].m_IsInvisible = true;
+								}
+
+								if(data[pos++])		//	pauseAnim
+								{
+									m_bIsFlag[c][t].m_IsPauseAnim = true;
+								}
 							}
-							pos += 4;
+							//pos += 4;
 							break;
 						}
 						case CCMD_SI_ADD_FLAGS:
@@ -431,12 +455,48 @@ void cCinematic::Update_Cinematics()
 						}
 
 						case CCMD_OBJ_LAYER_REMOVE_FLAGS:
+						//-------------------------------------------------------------------
+						{
+							if (key_frame_time <= current_frame_time)
+							{
+//								if( (C_FLAG_FLIP_X & data[pos]) )
+//								{
+//									SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_RIGHT);
+//								}
+
+								if(data[pos++])		//	flipx
+								{
+									SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_RIGHT);
+								}
+
+								if(data[pos++])		//	flipy
+								{
+									//SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_RIGHT);
+								}
+
+								if(data[pos++])		//	invisi
+								{
+									m_bIsFlag[c][t].m_IsInvisible = false;
+								}
+
+								if(data[pos++])		//	pauseAnim
+								{
+									m_bIsFlag[c][t].m_IsPauseAnim = false;
+								}
+							}
+							
+							pos += 4;
+							break;
+						}
 						case CCMD_SI_REMOVE_FLAGS:
 						//-------------------------------------------------------------------
 						{
 							if (key_frame_time <= current_frame_time)
 							{
-								SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_RIGHT);
+								if( (C_FLAG_FLIP_X & data[pos]) )
+								{
+									SUTIL_SetDirAsprite(m_ASpriteIns[c][t], SDIR_RIGHT);
+								}
 							}
 							
 							pos += 4;
@@ -575,7 +635,10 @@ void cCinematic::Update_Cinematics()
 								s_infoasprite[t][2] += (nextPosX - s_infoasprite[t][2]) / (nextPosFrameTime - current_frame_time + 1);
 								s_infoasprite[t][3] += (nextPosY - s_infoasprite[t][3]) / (nextPosFrameTime - current_frame_time + 1);
 
-								SUTIL_UpdateTimeAsprite(m_ASpriteIns[c][t]);
+								if(false == m_bIsFlag[c][t].m_IsPauseAnim)
+								{
+									SUTIL_UpdateTimeAsprite(m_ASpriteIns[c][t]);
+								}
 								//SUTIL_SetTypeAniAsprite(m_ASpriteIns[c][t], s_infoasprite[t][1]);	
 //								s_ASprite[s_infoasprite[t][0]]->UpdateAnimation( s_infoasprite[t][1] );
 							}
@@ -614,6 +677,8 @@ void cCinematic::Paint_Cinematics()
 	{
 		for (int t = 0; t < s_cinematics_sz_len[c]; t++)
 		{
+			if(true == m_bIsFlag[c][t].m_IsInvisible )	{continue;}
+
 			//	이미지
 			if(NULL != m_ASpriteIns[c][t])
 			{
@@ -624,7 +689,7 @@ void cCinematic::Paint_Cinematics()
 			}
 
 			//	그림자
-			if(true == m_IsShadow[c][t])
+			if(true == m_bIsFlag[c][t].m_IsShadow)
 			{
 				SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs, 1, m_ASpriteIns[c][t]->m_posX, m_ASpriteIns[c][t]->m_posY, m_ASpriteIns[c][t]->m_posZ);
 			}
@@ -680,7 +745,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 	ASprite* pTmpAs = NULL;
 	ASpriteInstance* pTmpAsIns = NULL;
 
-	m_IsShadow[c][t] = true;
+	m_bIsFlag[c][t].m_IsShadow = true;
 
 	switch(uniquenum)
 	{
@@ -743,7 +808,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 			//pTmpAs->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);
-			m_IsShadow[c][t] = false;
+			m_bIsFlag[c][t].m_IsShadow = false;
 			break;
 		}
 		case 21://	NPC18
@@ -771,7 +836,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 			//pTmpAs->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);
-			m_IsShadow[c][t] = false;
+			m_bIsFlag[c][t].m_IsShadow = false;
 			break;
 		}
 		case 24://	EMOTION_QUEST
@@ -781,7 +846,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 			//pTmpAs->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);
-			m_IsShadow[c][t] = false;
+			m_bIsFlag[c][t].m_IsShadow = false;
 			break;
 		}
 		case 25://	EMOTION_ETC
@@ -791,7 +856,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 			//pTmpAs->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);
-			m_IsShadow[c][t] = false;
+			m_bIsFlag[c][t].m_IsShadow = false;
 			break;
 		}
 		case 26://	UI
@@ -801,7 +866,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 			//pTmpAs->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);
-			m_IsShadow[c][t] = false;
+			m_bIsFlag[c][t].m_IsShadow = false;
 			break;
 		}
 
@@ -832,13 +897,13 @@ void cCinematic::Release_Cinematics()
 					SUTIL_FreeSpriteInstance(m_ASpriteIns[c][t]);
 				}
 
-//				SAFE_DELETE(m_IsShadow[c][t]);
+//				SAFE_DELETE(m_bIsFlag[c][t]);
 			}
-			SAFE_DELETE(m_IsShadow[c]);
+			SAFE_DELETE(m_bIsFlag[c]);
 		}
 
 		SAFE_DELETE(m_ASpriteIns);
-		SAFE_DELETE(m_IsShadow);
+		SAFE_DELETE(m_bIsFlag);
 	}
 
 	//m_pGame->m_waveInitY = 0;
