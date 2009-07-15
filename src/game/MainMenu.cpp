@@ -76,7 +76,7 @@ void MainMenu::KeyEvent(int m_keyNum, int m_keyRepeat)
 					case MH_KEY_SELECT:
 						{//바로가기
 							SAVELOAD_sex		= GO_QUEST_SEX;
-							SAVELOAD_MainStyle	= 1;
+							//SAVELOAD_MainStyle	= 1;
 							GET_MAINQUEST_IDX() = GO_QUEST_NUM;
 							int MapNum = 801;
 							switch(GO_QUEST_NUM){
@@ -161,8 +161,8 @@ void MainMenu::KeyEvent(int m_keyNum, int m_keyRepeat)
 
 				case MH_KEY_SOFT1:
 					{//바로가기
-						SAVELOAD_sex	= 1;
-						SAVELOAD_MainStyle	= 0;
+						SAVELOAD_sex	= 1;//여자
+						//SAVELOAD_MainStyle	= 0;
 						//GET_MAINQUEST_IDX() = MAIN_QUEST_openDoor;
 						AppMain::ResvNextState(MS_GAME_FIELD, 400, 0);
 					
@@ -212,7 +212,7 @@ void MainMenu::KeyEvent(int m_keyNum, int m_keyRepeat)
 
 						SAVELOAD_Slot	= s_NC.Slot;
 						SAVELOAD_sex	= s_NC.Sex;
-						SAVELOAD_MainStyle	= s_NC.Style;
+						//SAVELOAD_MainStyle	= s_NC.Style;
 
 					Init_int();
 					SET_EVENT(1);
