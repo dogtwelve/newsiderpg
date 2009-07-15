@@ -45,13 +45,7 @@
 		_spr_Hero_W->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
 
 		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, SPRITE_MAN_BODY);
-		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
-
-// 		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
-// 		_spr_Hero_W->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
-// 
-// 		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, Check_se5x(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
-// 		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_MAN_BODY_BLEND));
 
 		_ins_Hero = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
 		//_ins_Hero_clone = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
@@ -106,7 +100,7 @@
 			s_Ability.JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
 
 			s_Status.LEVEL = 31;
-			switch(SAVELOAD_MainStyle){
+			switch(SAVELOAD_sex){ // 0 : 남자 1 : 여자
 				case 0:
 					s_Skill.Equip_A[0] = 4;
 					s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
@@ -126,15 +120,15 @@
 					s_Ability.INT = 5 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
 					s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 					break;
-				case 2:
-					s_Skill.Equip_A[0] = 14;
-					s_Ability.JAB_MAGIC	=true;	//술사 - 직업 선택 가능하다면 true
-					s_Ability.STR = 0 + (s_Status.LEVEL-1)*2;
-					s_Ability.DEX = 5 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-					s_Ability.CON = 3 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-					s_Ability.INT = 10 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-					s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
-					break;
+				//case 2:
+				//	s_Skill.Equip_A[0] = 14;
+				//	s_Ability.JAB_MAGIC	=true;	//술사 - 직업 선택 가능하다면 true
+				//	s_Ability.STR = 0 + (s_Status.LEVEL-1)*2;
+				//	s_Ability.DEX = 5 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+				//	s_Ability.CON = 3 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+				//	s_Ability.INT = 10 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+				//	s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+				//	break;
 			}
 			
 			s_Status.ELEMENTAL = _b_JabNum = (s_Ability.JAB_KNIFE?0:(s_Ability.JAB_GUN?1:2));
@@ -245,7 +239,11 @@
 
 		if(_move_Order == HERO_STOP)Recovery();//매 프레임마다 자동적으로 회복
 
-		_move_Order = SetDamageDecide();//SangHo - 물리값에 의한 이벤트 처리 
+		_move_Order = SetDamageDecide(_ins_Hero, s_Damage);//SangHo - 물리값에 의한 이벤트 처리 
+
+		if(s_HeroTag.act){ 
+			/*_move_Order = */SetDamageDecide(_ins_Hero_clone, s_HeroTag.s_Damage);//SangHo - 물리값에 의한 이벤트 처리
+		}
 
 
 
@@ -340,7 +338,7 @@
 						case HERO_LINE_MOVE_UP	:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
 						case HERO_LINE_MOVE_DOWN:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
 						case HERO_CHARGE		:
-							if(!Get_Skill(Check_jab(SKILL_P_P_guard,SKILL_P_P_chargeShot,SKILL_P_P_manaCharge))){return false;}//패시브
+							if(!Get_Skill(Check_sex(SKILL_P_P_guard,SKILL_P_P_chargeShot))){return false;}//패시브
 							if(_b_JabNum==JAB_KNIGHT && (s_Status.MANA < PER(s_Status.MANA_MAX,30))){return false;}//가드 - 마나가 부족하면 발동하지않는다
 
 							break;
@@ -765,7 +763,7 @@
 			if(s_Status.MANA > s_Status.MANA_MAX)s_Status.MANA = s_Status.MANA_MAX;
 		}
 	}
-	int Character::SetDamageDecide(){
+	int Character::SetDamageDecide(ASpriteInstance*	_ins_Hero,Damage& s_Damage){
 
 		
 		if(s_Throw.act){//던지기 무적
@@ -810,13 +808,13 @@
 				if(s_Damage.Bound > 4 && !m_Hero_Physics->SaveAccel.x && !m_Hero_Physics->SaveAccel.z){//바운드 끝
 					s_Damage.Type = DAMAGE_NOT;
 
-					_b_Must_Decide = true;
+					s_Damage._b_Must_Decide = true;
 					return HERO_DOWNED;
 				}
 				
 				
 			}
-			Set_fly_motion(s_Damage,Move);//현재 인덱스와 물리량을 기준으로 취해야할 행동을 지정해준다
+			Set_fly_motion(_ins_Hero,s_Damage,Move);//현재 인덱스와 물리량을 기준으로 취해야할 행동을 지정해준다
 
 			s_Damage.Bound_Num++;//바운드 인덱스 증가
 
@@ -831,7 +829,7 @@
 				}else{
 					if(s_Damage.Bound){
 						s_Damage.Type = DAMAGE_NOT;
-						_b_Must_Decide = false;
+						s_Damage._b_Must_Decide = false;
 						return HERO_STOP;
 					}
 					s_Damage.Bound++;//움직임이 멈추면 바운드 증가
@@ -842,7 +840,7 @@
 				}else{
 					if(s_Damage.Bound){
 						s_Damage.Type = DAMAGE_NOT;
-						_b_Must_Decide = false;
+						s_Damage._b_Must_Decide = false;
 						return HERO_STOP;
 					}
 					s_Damage.Bound++;//움직임이 멈추면 바운드 증가
@@ -850,7 +848,7 @@
 			}
 
 
-			Set_fly_motion(s_Damage,Move);//현재 인덱스와 물리량을 기준으로 취해야할 행동을 지정해준다
+			Set_fly_motion(_ins_Hero,s_Damage,Move);//현재 인덱스와 물리량을 기준으로 취해야할 행동을 지정해준다
 
 			s_Damage.Bound_Num++;//바운드 인덱스 증가
 
@@ -886,7 +884,7 @@
 
 		
 		
-		if(_m_actNum != m_actNum || _b_Must_Decide){//만약 다르다면 해당 행동으로 교체
+		if(_m_actNum != m_actNum || s_Damage._b_Must_Decide){//만약 다르다면 해당 행동으로 교체
 			//_ins_Hero->UpdateTempXZ(APPLY_X|APPLY_Z);//SangHo - 이전 Ani 의 최종 X좌표를 원점에 반영, 높이(APPLY_Z) 존재시 높이수치반영
 			_ins_Hero->m_bLoop = true;
 
@@ -898,7 +896,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_STAND);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_STAND,ANIM_WOMAN_BODY_A_S_STAND,ANIM_WOMAN_BODY_A_S_STAND));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_STAND,ANIM_WOMAN_BODY_A_S_STAND));
 					}
 					
 					break;
@@ -908,7 +906,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_WALK);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK));
 					}
 					break;
 
@@ -917,7 +915,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_WALK);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK));
 					}
 					break;
 
@@ -926,38 +924,38 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_WALK_VERTICAL);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_WALK_VERTICAL,ANIM_WOMAN_BODY_A_S_WALK_VERTICAL,ANIM_WOMAN_BODY_A_S_WALK_VERTICAL));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_WALK_VERTICAL,ANIM_WOMAN_BODY_A_S_WALK_VERTICAL));
 					}
 					break;
 
 				case HERO_ATTACK1:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_1,ANIM_WOMAN_BODY_A_S_ATT_1,ANIM_WOMAN_BODY_A_S_ATT_1));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_1,ANIM_WOMAN_BODY_A_S_ATT_1));
 					break;
 				case HERO_ATTACK2:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_2,ANIM_WOMAN_BODY_A_S_ATT_2,ANIM_WOMAN_BODY_A_S_ATT_2));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_2,ANIM_WOMAN_BODY_A_S_ATT_2));
 					break;
 				case HERO_ATTACK3:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_3,ANIM_WOMAN_BODY_A_S_ATT_3,ANIM_WOMAN_BODY_A_S_ATT_3));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_3,ANIM_WOMAN_BODY_A_S_ATT_3));
 					break;
 				case HERO_ATTACK4:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_3,0,0));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_3,0));
 					break;
 
 				case HERO_ATTACK1END:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_1AFTER,ANIM_WOMAN_BODY_A_S_ATT_1AFTER,ANIM_WOMAN_BODY_A_S_ATT_1AFTER));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_1AFTER,ANIM_WOMAN_BODY_A_S_ATT_1AFTER));
 					break;
 				case HERO_ATTACK2END:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_2AFTER,ANIM_WOMAN_BODY_A_S_ATT_2AFTER,ANIM_WOMAN_BODY_A_S_ATT_2AFTER));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_2AFTER,ANIM_WOMAN_BODY_A_S_ATT_2AFTER));
 					break;
 				case HERO_ATTACK3END:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_ATT_2AFTER,0,0));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_2AFTER,0));
 					break;
 
 
@@ -1182,7 +1180,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_LINE_MOVE);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_LINE_MOVE,ANIM_WOMAN_BODY_A_S_LINE_MOVE,ANIM_WOMAN_BODY_A_S_LINE_MOVE));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_LINE_MOVE,ANIM_WOMAN_BODY_A_S_LINE_MOVE));
 					}
 					break;
 
@@ -1193,7 +1191,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_DASH);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DASH,ANIM_WOMAN_BODY_A_S_DASH,ANIM_WOMAN_BODY_A_S_DASH));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DASH,ANIM_WOMAN_BODY_A_S_DASH));
 					}
 					break;
 
@@ -1202,20 +1200,20 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_DASH_STOP);
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DASHSTOP,ANIM_WOMAN_BODY_A_S_DASHSTOP,ANIM_WOMAN_BODY_A_S_DASHSTOP));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DASHSTOP,ANIM_WOMAN_BODY_A_S_DASHSTOP));
 					}
 					break;
 
 				case HERO_DASH_ATT:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DASHATT,ANIM_WOMAN_BODY_A_S_DASHATT,ANIM_WOMAN_BODY_A_S_DASHATT));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DASHATT,ANIM_WOMAN_BODY_A_S_DASHATT));
 					break;
 
 				case HERO_CHARGE:
 					if(_b_JabNum==JAB_KNIGHT) s_Status.MANA -= PER(s_Status.MANA_MAX,30);//가드 - 마나소비
 
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_CHARGE,ANIM_WOMAN_BODY_A_S_CHARGE,ANIM_WOMAN_BODY_A_S_CHARGE));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_CHARGE,ANIM_WOMAN_BODY_A_S_CHARGE));
 					break;
 
 				case HERO_CHARGE_SHOOT:
@@ -1230,26 +1228,26 @@
 
 	
 				case HERO_DOWNED:
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
 					_move_Order = HERO_DOWNED_2;
 					break;
 
 				case HERO_DOWNED_2:
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DOWNED,ANIM_WOMAN_BODY_A_S_DOWNED,ANIM_WOMAN_BODY_A_S_DOWNED));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DOWNED,ANIM_WOMAN_BODY_A_S_DOWNED));
 					s_Damage.Down_Time--;
 					if(s_Damage.Down_Time<=0)
 						_move_Order = HERO_AWAKE;
 					break;
 
 				case HERO_AWAKE:
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_AWAKE,ANIM_WOMAN_BODY_A_S_AWAKE,ANIM_WOMAN_BODY_A_S_AWAKE));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_AWAKE,ANIM_WOMAN_BODY_A_S_AWAKE));
 					_ins_Hero->m_bLoop = false;
-					_b_Must_Decide = false;
+					s_Damage._b_Must_Decide = false;
 					_move_Order = HERO_STOP;
 					break;
 
 				case HERO_THROW:
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_THROW,ANIM_WOMAN_BODY_A_S_THROW,ANIM_WOMAN_BODY_A_S_THROW));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_THROW,ANIM_WOMAN_BODY_A_S_THROW));
 					_ins_Hero->m_bLoop = false;
 					break;
 				case HERO_JumpUp:
@@ -1288,7 +1286,7 @@
 			if(s_HeroTag._b_ActionEnd){//현재 진행중이던 동작이 종료되었다
 				if(s_HeroTag.TAG_OUT){
 					s_HeroTag.act = false;
-				}else{
+				}else if(s_HeroTag.s_Damage.Type == DAMAGE_NOT){
 					s_HeroTag.TAG_OUT = true;
 					_ins_Hero_clone->SetAnim(ANIM_WOMAN_BODY_A_TAG_OUT);
 				}
@@ -1937,21 +1935,21 @@
 		s_Skill_Set.Num = m_skillnum;
 		return false;
 	}
-	int Character::Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi)
-	{//SangHo - 직업별 행동을 자연분화시킨다
-		switch(_b_JabNum){
-			case JAB_KNIGHT:
-				return m_Jab_Knight;
-			case JAB_GUNNER:
-				return m_Jab_Gunner;
-			case JAB_MAGE:
-				return m_Jab_Magi;
+	//int Character::Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi)
+	//{//SangHo - 직업별 행동을 자연분화시킨다
+	//	switch(_b_JabNum){
+	//		case JAB_KNIGHT:
+	//			return m_Jab_Knight;
+	//		case JAB_GUNNER:
+	//			return m_Jab_Gunner;
+	//		case JAB_MAGE:
+	//			return m_Jab_Magi;
 
-			default:
-				return m_Jab_Knight;
-		}
+	//		default:
+	//			return m_Jab_Knight;
+	//	}
 
-	}
+	//}
 	int Character::Check_sex(int  m_Man,int m_Woman)
 	{//SangHo - 직업별 행동을 자연분화시킨다
 		switch(s_Status.SEX){
@@ -2004,32 +2002,32 @@
 		SUTIL_SetDirAsprite(_ins_Hero, _b_LookRight);
 		//		_ins_Hero->m_flags = _b_LookRight=Look;
 	}
-	void Character::Set_fly_motion(Damage& p_Damage,Position3D& p_Position3D){
+	void Character::Set_fly_motion(ASpriteInstance*	_ins_Hero,Damage& p_Damage,Position3D& p_Position3D){
       
 		switch(p_Damage.Type){//데미지 타입
 			case DAMAGE_FLY:
 				if(p_Damage.Bound_Num!=0){						//체공 프레임	
 					if(LOW_BOUND < m_Hero_Physics->SaveAccel.z){	//낮은 바운딩
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5));
 					}else{											//높은 바운딩
 
 						if(-HIGH_PITCH >= p_Position3D.z){										//상승중	
-							_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2));
+							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2));
 						}else if(HIGH_PITCH > p_Position3D.z && -HIGH_PITCH < p_Position3D.z){	//체공중
-							_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
+							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
 						}else{																	//낙하중								
-							_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4));
+							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4));
 						}
 
 					}
 				}else{							//"첫번째 프레임" - 맞거나 바운딩되는 직후의
 					if(p_Damage.Bound==0){			//맞은 직후 모션인가?
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1));
 					}else{							//바운딩 직후 모션인가?
 						//if(LAST_BOUND < m_Hero_Physics->SaveAccel.z){	//Z 충격량이 LAST_BOUND 보다 작아서 더이상 튀지않을때
-						//	_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
+						//	_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
 						//}else{											//Z 충격량이 LAST_BOUND 보다 커서 튀어오를때
-							_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
+							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
 						//}
 					}
 				}
@@ -2038,35 +2036,35 @@
 			case DAMAGE_GROUND:
 				if(p_Damage.Bound_Num!=0){//맞아서 밀리고 있는 상황
 					if(s_Damage.Bound){
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DAMAGE_3,ANIM_WOMAN_BODY_A_S_DAMAGE_3,ANIM_WOMAN_BODY_A_S_DAMAGE_3));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DAMAGE_3,ANIM_WOMAN_BODY_A_S_DAMAGE_3));
 					}else{
-						_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DAMAGE_2,ANIM_WOMAN_BODY_A_S_DAMAGE_2,ANIM_WOMAN_BODY_A_S_DAMAGE_2));
+						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DAMAGE_2,ANIM_WOMAN_BODY_A_S_DAMAGE_2));
 					}
 				}else{//"첫번째 프레임" - 맞은 직후
-					_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_DAMAGE_1,ANIM_WOMAN_BODY_A_S_DAMAGE_1,ANIM_WOMAN_BODY_A_S_DAMAGE_1));
+					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DAMAGE_1,ANIM_WOMAN_BODY_A_S_DAMAGE_1));
 				}
 				//if(p_Damage.Bound_Num!=0){						//체공 프레임	
 				//	if(LOW_BOUND < m_Hero_Physics->SaveAccel.z){	//낮은 바운딩
-				//		_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5));
+				//		_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5));
 				//	}else{											//높은 바운딩
 
 				//		if(-HIGH_PITCH >= p_Position3D.z){										//상승중	
-				//			_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2));
+				//			_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2));
 				//		}else if(HIGH_PITCH > p_Position3D.z && -HIGH_PITCH < p_Position3D.z){	//체공중
-				//			_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
+				//			_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
 				//		}else{																	//낙하중								
-				//			_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4));
+				//			_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4));
 				//		}
 
 				//	}
 				//}else{							//"첫번째 프레임" - 맞거나 바운딩되는 직후의
 				//	if(p_Damage.Bound==0){			//맞은 직후 모션인가?
-				//		_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1));
+				//		_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1));
 				//	}else{							//바운딩 직후 모션인가?
 				//		if(LAST_BOUND < m_Hero_Physics->SaveAccel.z){	//Z 충격량이 LAST_BOUND 보다 작아서 더이상 튀지않을때
-				//			_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
+				//			_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
 				//		}else{											//Z 충격량이 LAST_BOUND 보다 커서 튀어오를때
-				//			_ins_Hero->SetAnim(Check_jab(ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
+				//			_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
 				//		}
 				//	}
 				//}
@@ -2548,7 +2546,7 @@
 
 
 
-
+		s_HeroTag.s_Damage = s_Damage;
 		s_HeroTag.DOWN_SkillEffect = s_Skill_Set.DOWN_SkillEffect;
 		s_HeroTag.OVER_SkillEffect = s_Skill_Set.OVER_SkillEffect;
 		s_Skill_Set.DOWN_SkillEffect = false;
@@ -2571,17 +2569,23 @@
 		switch(s_HeroTag.FocusHero){
 			case 0:
 				_ins_Hero->m_sprite = _spr_Hero_W;
+				s_Status.SEX = SEX_WOMAN;
 				break;
 			case 1:
 				_ins_Hero->m_sprite = _spr_Hero_M;
+				s_Status.SEX = SEX_MAN;
 				break;
 		}
 
 		_move_Order = HERO_TAG_IN;
 		_b_Key_Protect=true;
-		_ins_Hero->m_posX = _ins_Hero_clone->m_posX;
-		_ins_Hero->m_posY = _ins_Hero_clone->m_posY;
+		_ins_Hero->m_posX += (_ins_Hero_clone->m_flags == 0?+TAG_GAP:-TAG_GAP);
+		//_ins_Hero->m_posY = _ins_Hero_clone->m_posY;
 		_ins_Hero->m_posZ = 0;
+
+		s_Damage.Type = DAMAGE_NOT;
+		_b_Key_Nullity = false;
+		s_Damage._b_Must_Decide = false;
 
 		return 0;
 	}

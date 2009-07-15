@@ -11,7 +11,7 @@
 
 #define SAVELOAD_Slot						INIT_SAVELOAD()->Slot
 #define SAVELOAD_sex						INIT_SAVELOAD()->sex
-#define SAVELOAD_MainStyle					INIT_SAVELOAD()->Style1
+//#define SAVELOAD_MainStyle					INIT_SAVELOAD()->Style1
 #define SAVELOAD_SubStyle					INIT_SAVELOAD()->Style2
 
 #define SAVELOAD_HaveBeenVillage			INIT_SAVELOAD()->HaveBeenVillage

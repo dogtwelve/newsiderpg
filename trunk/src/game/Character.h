@@ -13,8 +13,9 @@
 
 #define	HERO_STOP 0
 
-#define	HERO_TURN_LEFT	1
-#define	HERO_TURN_RIGHT	2
+// #define	HERO_TURN_LEFT	1
+// #define	HERO_TURN_RIGHT	2
+
 
 #define	HERO_WALK_LEFT	10
 #define	HERO_WALK_RIGHT	11
@@ -160,7 +161,7 @@
 
 
 
-
+#define	TAG_GAP				40
 
 
 //COSTUME
@@ -303,6 +304,18 @@ struct HeroStatus{
 
 	int	MONEY;		//보유금액
 };
+struct Damage{
+	short Type;				//주인공이 입은 데미지의 타입을 결정한다
+	short Sum;			//주인공이 입은 데미지를 합산한다
+	short Direction;	//주인공이 X축에서 어느쪽으로 밀리는지를 기록한다.
+	short Bound;			//주인공이 땅에 튄 횟수
+	short Bound_Num;		//주인공이 땅에 튄 후 프레임 수 (튈때마다 초기화)
+
+	short Down_Time;		//주인공이 땅에 튄 후 프레임 수 (튈때마다 초기화)
+
+	bool _b_Must_Decide;//행동 Decide를 무조건적으로 들어가는지의 여부를 체크
+
+};
 struct HeroTag{
 	bool act;			//SangHo - 태그중이라면
 	int FocusHero;		//현재 컨트롤 대상 히어로를 지정한다
@@ -310,6 +323,7 @@ struct HeroTag{
 	bool DOWN_SkillEffect;
 	bool _b_ActionEnd;
 	bool TAG_OUT;
+	Damage s_Damage;
 };
 struct Skill{ 
 	int Equip_A[5];	//장착 액티브 스킬//-1은 미습득
@@ -439,16 +453,7 @@ public:
 	};
 	weapon_Switch s_WeaponSwitch;
 
-	struct Damage{
-		short Type;				//주인공이 입은 데미지의 타입을 결정한다
-		short Sum;			//주인공이 입은 데미지를 합산한다
-		short Direction;	//주인공이 X축에서 어느쪽으로 밀리는지를 기록한다.
-		short Bound;			//주인공이 땅에 튄 횟수
-		short Bound_Num;		//주인공이 땅에 튄 후 프레임 수 (튈때마다 초기화)
 
-		short Down_Time;		//주인공이 땅에 튄 후 프레임 수 (튈때마다 초기화)
-
-	};
 	Damage s_Damage;
 
 	struct Level_Eff{
@@ -500,7 +505,7 @@ public:
 	
 	int _m_Hero_AttackNum;
 	int _move_Order;
-	bool _b_Must_Decide;//행동 Decide를 무조건적으로 들어가는지의 여부를 체크
+	
 
 	bool _b_Key_Nullity;	//사용자의 키 입력을 강제적으로 무시한다.
 	bool _b_Key_Protect;	//지정된 액션이 끝나기 전까지 보호할 _move_Order값이 있을때
@@ -549,7 +554,7 @@ private:
 
 	//Process
 	void	Recovery();														//매 프레임마다 자동적으로 취해지는 연산
-	int		SetDamageDecide();													//SangHo - 물리값에 의한 이벤트 처리 
+	int		SetDamageDecide(ASpriteInstance*	_ins_Hero,Damage& s_Damage);													//SangHo - 물리값에 의한 이벤트 처리 
 	void	SetActionDecide(int m_actNum);
 
 	//Paint
@@ -561,12 +566,12 @@ private:
 	//ETC
 	bool	Check_command(int m_keyCode, int m_keyRepeat);					//액션 커맨드를 저장하는 큐공간
 	bool	Check_skill_impossible(int m_skillnum);									//스킬 사용 가능여부를 판단
-	int		Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi);
+	//int		Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi);
 	
 	int		Check_weapon(int m_Must_Weapon , int m_if_true_set_action );
 	int		Set_skill_chain(int chain_Num, int m_keyCode, int chain_Key, int skill_Now, int skill_Next, int skill_Stop);
 	void	Set_left_right(int b_direction_R);
-	void	Set_fly_motion(Damage& p_Damage,Position3D& p_Position3D);
+	void	Set_fly_motion(ASpriteInstance*	_ins_Hero,Damage& p_Damage,Position3D& p_Position3D);
 	void	Check_Sound();
 	
 
