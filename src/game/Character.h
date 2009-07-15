@@ -169,28 +169,35 @@
 #define	PAL_BODY			2 
 #define	PAL_ARM				3 
 #define	PAL_LEG				4 
-#define	PAL_KNIFE1			5 
-#define	PAL_KNIFE2			6 
-#define	PAL_GUN				7 
-#define	PAL_ORB				8 
+#define	PAL_BOW				5 
+#define	PAL_KNIFE1			6 
+#define	PAL_KNIFE2			7 
+//#define	PAL_ORB				8 
 //시작점
-#define	START_HEAD		0 
-#define	START_BODY		13
-#define	START_ARM		24
-#define	START_LEG		39
-#define	START_KNIFE1			61
-#define	START_KNIFE2			65
-#define	START_GUN				69
-#define	START_ORB				72
+#define	START_HEAD				0//0 
+#define	START_BODY				13//13
+#define	START_ARM				23//24
+#define	START_LEG				37//39
+
+#define	START_BOW				56//69
+
+#define	START_KNIFE1			60//61
+#define	START_KNIFE2			64//65
+
+//#define	START_ORB				68//72
 //갯수
-#define	LENGTH_HEAD		13 
-#define	LENGTH_BODY		11
-#define	LENGTH_ARM		15
-#define	LENGTH_LEG		22
-#define	LENGTH_KNIFE1			4
-#define	LENGTH_KNIFE2			4
-#define	LENGTH_GUN				3
-#define	LENGTH_ORB				1
+#define	LENGTH_HEAD				13//13 
+#define	LENGTH_BODY				10//11
+#define	LENGTH_ARM				14//15
+#define	LENGTH_LEG				19//22
+#define	LENGTH_BOW				4//3
+#define	LENGTH_KNIFE1			4//4
+#define	LENGTH_KNIFE2			4//4
+//#define	LENGTH_ORB				0//1
+// 머리13
+// 바디10
+// 팔 14
+// 다리19
 
 
 

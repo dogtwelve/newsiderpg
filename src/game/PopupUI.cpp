@@ -1315,13 +1315,13 @@ void PopupUi::Paint_STATES()
 	_SUTIL->g->SetClip(XPOS-70,YPOS-64,49,64);	
 	switch(Character::s_Status.ELEMENTAL){
 		case 0:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND_OLD1, XPOS-46, YPOS-5, 0);//케릭터
+			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-46, YPOS-5, 0);//케릭터
 			break;
 		case 1:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_G_STAND, XPOS-46, YPOS-5, 0);//케릭터
+			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-46, YPOS-5, 0);//케릭터
 			break;
 		case 2:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_O_STAND, XPOS-46, YPOS-5, 0);//케릭터
+			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-46, YPOS-5, 0);//케릭터
 			break;
 	}
 	_SUTIL->g->ResetClip();
@@ -1434,13 +1434,13 @@ void PopupUi::Paint_EQUIP()
 	_SUTIL->g->SetClip(XPOS-36,YPOS-61,49,64);	
 	switch(Character::s_Status.ELEMENTAL){
 		case 0:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND_OLD1, XPOS-12, YPOS-2, 0);//케릭터
+			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-12, YPOS-2, 0);//케릭터
 			break;
 		case 1:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_G_STAND, XPOS-12, YPOS-2, 0);//케릭터
+			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-12, YPOS-2, 0);//케릭터
 			break;
 		case 2:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_O_STAND, XPOS-12, YPOS-2, 0);//케릭터
+			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-12, YPOS-2, 0);//케릭터
 			break;
 	}
 	_SUTIL->g->ResetClip();
@@ -3210,8 +3210,8 @@ void PopupUi::EQUIP_item(int slot,struct ItemBag *_item){
 
 		case 5:Character::ChangeCostume(PAL_KNIFE2	,costume_Table[index][SW_AX]/10+Axe,costume_Table[index][SW_AX]%10);break;
 		case 6:Character::ChangeCostume(PAL_KNIFE1	,costume_Table[index][SW_AX]/10+Axe,costume_Table[index][SW_AX]%10);break;
-		case 8:Character::ChangeCostume(PAL_GUN		,costume_Table[index][C_T_GU]/10,costume_Table[index][C_T_GU]%10);break;
-		case 9:Character::ChangeCostume(PAL_ORB		,costume_Table[index][C_T_OR]/10,costume_Table[index][C_T_OR]%10);break;
+		case 8:Character::ChangeCostume(PAL_BOW		,costume_Table[index][C_T_GU]/10,costume_Table[index][C_T_GU]%10);break;
+		//case 9:Character::ChangeCostume(PAL_ORB		,costume_Table[index][C_T_OR]/10,costume_Table[index][C_T_OR]%10);break;
 	}
 	SUTIL_ReleaseAspritePack();//팩닫기
 
