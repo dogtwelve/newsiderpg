@@ -145,39 +145,44 @@ void FieldUi::Paint()
 							GetData(pMonEftList)->elemental);
 	}
 
-	int off = 0;
-	int addx = 0;
-	int addy = 0;
+	int off = 0;// off가 현재 애니메이션 프레임 인덱스
+	int addx = 0;// addx 가 에니메이션 x 좌표
+	int addy = 0;// addy 가 에니메이션 y 좌표
+	int frame_Start = 0;//가 현재 프레임 모듈 인덱스
+	int m_Num = 0;//모듈번호
+
 	MoveHead(pDamageNumList);
 	MoveNext(pDamageNumList);
 	while(NotEndList(pDamageNumList))
 	{
+		
+		
+		
 		off = (m_pFieldUiDamageNumAsIns->m_sprite->_anims_af_start[GetData(pDamageNumList)->start_ImgIndex] + (7-GetData(pDamageNumList)->lifeTime)) * 5;
 		addx =  m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 2];
 		addy =  m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 3];
-
+		frame_Start = (m_pFieldUiDamageNumAsIns->m_sprite->_frames_fm_start[m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 0]] << 2);
+		m_Num = m_pFieldUiDamageNumAsIns->m_sprite->_fmodules[frame_Start];
 
 		m_pFieldUiDamageNumAsIns->m_sprite->SetBlendFrame(-1);
 		m_pFieldUiDamageNumAsIns->m_sprite->m_Blend_Kind = 1;
 		m_pFieldUiDamageNumAsIns->m_sprite->m_Blend_Percent = (GetData(pDamageNumList)->lifeTime>3 ? 32: (GetData(pDamageNumList)->lifeTime)*8);
+
+
 		if(GetData(pDamageNumList)->damageValue){
-			PaintNumber(m_pFieldUiDamageNumAsIns,
-				m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 0],
-				GetData(pDamageNumList)->x+addx,
-				GetData(pDamageNumList)->y+addy-10,
-				GetData(pDamageNumList)->z,
+			PaintNumber(m_pFieldUiDamageNumAs,m_Num,
+				//m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 0],
 				GetData(pDamageNumList)->damageValue,
-				//					15, 1);
-				m_pFieldUiDamageNumAsIns->m_sprite->GetFrameWidth(m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 0])-4, 1);
+				GetData(pDamageNumList)->x+addx + m_pFieldUiDamageNumAsIns->CameraX,
+				GetData(pDamageNumList)->y+addy-10+
+				GetData(pDamageNumList)->z,-5, CGraphics::HCENTER);
 		}else{
-			PaintNumber(m_pFieldUiDamageNumAsIns,
-				FRAME_DAMAGE_NUM_MC_MISS,
-				GetData(pDamageNumList)->x+addx,
-				GetData(pDamageNumList)->y+addy-10,
-				GetData(pDamageNumList)->z,
+			PaintNumber(m_pFieldUiDamageNumAs,
+				MODULE_DAMAGE_NUM_MISS,
 				0,
-				//					15, 1);
-				m_pFieldUiDamageNumAsIns->m_sprite->GetFrameWidth(m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 0])-4, 1);
+				GetData(pDamageNumList)->x+addx + m_pFieldUiDamageNumAsIns->CameraX,
+				GetData(pDamageNumList)->y+addy-10+
+				GetData(pDamageNumList)->z,-5, CGraphics::HCENTER);
 		}
 		
 		
@@ -283,7 +288,7 @@ void FieldUi::InsertdamageNum(int x, int y, int z, int damage, int type)
 
 	DAMAGE_NUM_EFT * tmpDamageNumEft = (DAMAGE_NUM_EFT*)MALLOC(sizeof(DAMAGE_NUM_EFT));
 
-	x += (SUTIL_GetRandom()%30);
+	x += (SUTIL_GetRandom()%20) - 10; 
 	y += (SUTIL_GetRandom()%20);
 	//z += (SUTIL_GetRandom()%20);
 
@@ -457,74 +462,105 @@ void FieldUi::PaintGage(int gageType, int gagewidth, int x, int y, int nowvalue,
 }
 
 
-//--------------------------------------------------------------------------
-void FieldUi::PaintNumber(ASpriteInstance* pAsIns, int numImgIdx, int x, int y, int z, int value, int wordsize, int bwave, int flag)
-//--------------------------------------------------------------------------
+void FieldUi::PaintNumber(ASprite* pAsIns, int numImgIdx, int value, int x, int y, int gap , int position)
 {
-	if(value == 0){//Miss
-		SUTIL_SetTypeFrameAsprite(pAsIns,numImgIdx);
-		SUTIL_SetXPosAsprite(pAsIns, x);
-		if(1 == bwave)
-		{
-			SUTIL_SetYPosAsprite(pAsIns, y+(SUTIL_GetRandom()%5));
-		}
-		else
-		{
-			SUTIL_SetYPosAsprite(pAsIns, y);
-		}
-
-		SUTIL_SetZPosAsprite(pAsIns, z);
-		SUTIL_PaintAsprite(pAsIns,S_NOT_INCLUDE_SORT);
-		return;
-	}
-
-
-	int count = 0;
+	int FullSpace = 0;//숫자의 자릿수
+	int wordsize = pAsIns->GetModuleWidth(numImgIdx);//1글자 폭
+	int decimal =0;//자릿수
 	int tmpcount = value;
 
-	while(0 < tmpcount)
-	{
-		count++;
+	for(int xx = 0;xx<20 ;xx++)
+	{//자릿수 구하기
+		decimal ++;
 		tmpcount /= 10;
+		if(0 >= tmpcount) break;
 	}
 
-	int width = wordsize*count;
+	FullSpace = wordsize*decimal + gap*(decimal-1); // width 
 
-	if(1 == flag)
-	{
-//		x += (width/2);
-	}
-	else
-	{
-		x += (width/2);
-	}
 
-	
+	//tmpcount = value;
 
-	count = 0;
-	tmpcount = value;
-	while(0 < tmpcount)
-	{
-		count = tmpcount % 10;
-
-		SUTIL_SetTypeFrameAsprite(pAsIns,numImgIdx+count);
-		SUTIL_SetXPosAsprite(pAsIns, x);
-		if(1 == bwave)
-		{
-			SUTIL_SetYPosAsprite(pAsIns, y+(SUTIL_GetRandom()%5));
-		}
-		else
-		{
-			SUTIL_SetYPosAsprite(pAsIns, y);
-		}
-		
-		SUTIL_SetZPosAsprite(pAsIns, z);
-		SUTIL_PaintAsprite(pAsIns,S_NOT_INCLUDE_SORT);
-
-		tmpcount /= 10;
+	if(position & CGraphics::RIGHT)
 		x -= wordsize;
+	else if(position & CGraphics::HCENTER)
+		x += (FullSpace/2-wordsize);
+	else
+		x += (FullSpace-wordsize);
+
+	for(int xx = 0;xx<decimal ;xx++,value/=10)
+	{//숫자그리기
+		SUTIL_Paint_Module(pAsIns,numImgIdx + (value%10),x - xx*(wordsize+gap) ,y,0,position & (CGraphics::TOP|CGraphics::VCENTER|CGraphics::BOTTOM))	;//끝자리부터 하나씩 그려준다
 	}
 }
+//--------------------------------------------------------------------------
+// void FieldUi::PaintNumber(ASpriteInstance* pAsIns, int numImgIdx, int x, int y, int z, int value, int wordsize, int bwave, int flag)
+// //--------------------------------------------------------------------------
+// {
+// 	if(value == 0){//Miss
+// 		SUTIL_SetTypeFrameAsprite(pAsIns,numImgIdx);
+// 		SUTIL_SetXPosAsprite(pAsIns, x);
+// 		if(1 == bwave)
+// 		{
+// 			SUTIL_SetYPosAsprite(pAsIns, y+(SUTIL_GetRandom()%5));
+// 		}
+// 		else
+// 		{
+// 			SUTIL_SetYPosAsprite(pAsIns, y);
+// 		}
+// 
+// 		SUTIL_SetZPosAsprite(pAsIns, z);
+// 		SUTIL_PaintAsprite(pAsIns,S_NOT_INCLUDE_SORT);
+// 		return;
+// 	}
+// 
+// 
+// 	int count = 0;
+// 	int tmpcount = value;
+// 
+// 	while(0 < tmpcount)
+// 	{
+// 		count++;
+// 		tmpcount /= 10;
+// 	}
+// 
+// 	int width = wordsize*count;
+// 
+// 	if(1 == flag)
+// 	{
+// //		x += (width/2);
+// 	}
+// 	else
+// 	{
+// 		x += (width/2);
+// 	}
+// 
+// 	
+// 
+// 	count = 0;
+// 	tmpcount = value;
+// 	while(0 < tmpcount)
+// 	{
+// 		count = tmpcount % 10;
+// 
+// 		SUTIL_SetTypeFrameAsprite(pAsIns,numImgIdx+count);
+// 		SUTIL_SetXPosAsprite(pAsIns, x);
+// 		if(1 == bwave)
+// 		{
+// 			SUTIL_SetYPosAsprite(pAsIns, y+(SUTIL_GetRandom()%5));
+// 		}
+// 		else
+// 		{
+// 			SUTIL_SetYPosAsprite(pAsIns, y);
+// 		}
+// 		
+// 		SUTIL_SetZPosAsprite(pAsIns, z);
+// 		SUTIL_PaintAsprite(pAsIns,S_NOT_INCLUDE_SORT);
+// 
+// 		tmpcount /= 10;
+// 		x -= wordsize;
+// 	}
+// }
 
 
 
@@ -1097,9 +1133,9 @@ void FieldUi::PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxM
 	//	levelnum
 	//PaintLevel(CHARINFO_POS_X+22, CHARINFO_POS_Y+28, level);
 	if(level<100){
-		PaintNumber(m_pFieldUiAsIns, FRAME_UI_LEVEL_NUM, CHARINFO_POS_X+19, CHARINFO_POS_Y+28, 0, level, LEVEL_NUM_IMG_WIDTH);
-	}else{
-		PaintNumber(m_pFieldUiAsIns, FRAME_UI_LEVEL_NUM, CHARINFO_POS_X+17, CHARINFO_POS_Y+28, 0, level, LEVEL_NUM_IMG_WIDTH);
+		PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM,level, CHARINFO_POS_X+19, CHARINFO_POS_Y+28, 0, 0);
+	}else{												
+		PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM,level, CHARINFO_POS_X+17, CHARINFO_POS_Y+28, 0, 0);
 	}
 
 
@@ -1143,7 +1179,7 @@ void FieldUi::PaintMonsterInfo(int MonName, int level, int NowHp, int MaxHp, int
 
 	//	levelnum
 	//PaintLevel(MONINFO_POS_X+22, MONINFO_POS_Y+21, level);
-	PaintNumber(m_pFieldUiAsIns, FRAME_UI_LEVEL_NUM, MONINFO_POS_X+17, MONINFO_POS_Y+21, 0, level, LEVEL_NUM_IMG_WIDTH);
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM,level, MONINFO_POS_X+17, MONINFO_POS_Y+21, 0,  0);
 
 }
 
@@ -1349,7 +1385,7 @@ void FieldUi::PaintCombo()
 		SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,76+temp, COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
 
 		//	콤보 숫자
-		PaintNumber(m_pFieldUiDamageNumAsIns, 65, COMBO_TEXT_LOCATE_X-m_pFieldUiDamageNumAsIns->CameraX , COMBO_TEXT_LOCATE_Y, 0, m_nSaveCombo, 20, 0, 1);
+		PaintNumber(m_pFieldUiDamageNumAs, 65, m_nSaveCombo,COMBO_TEXT_LOCATE_X-m_pFieldUiDamageNumAsIns->CameraX , COMBO_TEXT_LOCATE_Y, 0,0);
 	}
 }
 
