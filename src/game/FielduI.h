@@ -185,7 +185,7 @@ private:
 	int m_nSaveComboTimer;
 	
 	//void PaintLevel(int x, int y, int level);
-	void PaintNumber(ASpriteInstance* pAsIns, int numImgIdx, int x, int y, int z, int count, int wordsize, int bwave = 0, int flag = 0);
+	void PaintNumber(ASprite* pAsIns, int numImgIdx, int value, int x, int y, int gap , int position);
 };
 
 #endif

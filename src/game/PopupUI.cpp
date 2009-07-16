@@ -125,7 +125,7 @@ void PopupUi::Paint()
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CANCLE_BASE, XPOS,YPOS,0);//프레임
 
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_TOP_TAP, XPOS,YPOS,0);//탭
-	SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_TOP_ICON_00 + (s_Page.PageNum - 1), XPOS-61 + 18*(s_Page.PageNum - 1),YPOS-82,0,0);//탭 아이콘
+//	SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_TOP_ICON_00 + (s_Page.PageNum - 1), XPOS-61 + 18*(s_Page.PageNum - 1),YPOS-82,0,0);//탭 아이콘
 	SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_TITLE_00 + (s_Page.PageNum - 1), XPOS,YPOS-98,0,CGraphics::HCENTER);//탭 아이콘
 
 
@@ -2162,7 +2162,7 @@ void PopupUi::Paint_SYSTEM()
 	}
 
 	if(s_Page.Focus == 10){// 팝업 - 스테이터스 적용 여부 확인
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_TRAFFIC, XPOS,YPOS-50,0);//팝업 프레임 지정
+//		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_TRAFFIC, XPOS,YPOS-50,0);//팝업 프레임 지정
 		
 		_SUTIL->pFont->setColor(0xFF0000);
 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"CHEAT PAGE", XPOS, YPOS+80-50, CGraphics::HCENTER);
