@@ -5,7 +5,7 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 10
+    // Modules: 8
     // Frames:  0
     // Anims:   0
 
@@ -13,12 +13,8 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\w_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
-    PALETTE 0 ".\w_part.act"
-    PALETTE 1 ".\w_part.act"
-    PALETTE 2 ".\w_part.act"
-    PALETTE 3 ".\w_part.act"
-    PALETTE 4 ".\w_part.act"
+    IMAGE 0x0000 ".\m_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
+    PALETTE 4 ".\m_part.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -36,16 +32,14 @@
 
     MODULES
     {
-        MD	0x1038	MD_IMAGE	0	13	55	15	17	"m_body_00"
-        MD	0x1030	MD_IMAGE	0	56	55	13	17	"m_body_02"
-        MD	0x100B	MD_IMAGE	0	74	56	15	16	"m_body_03"
+        MD	0x1038	MD_IMAGE	0	11	51	19	26	"m_body_00"
+        MD	0x1008	MD_IMAGE	0	31	51	22	25	"m_body_01"
+        MD	0x1030	MD_IMAGE	0	56	51	17	26	"m_body_02"
+        MD	0x100B	MD_IMAGE	0	73	55	17	17	"m_body_03"
         MD	0x100C	MD_IMAGE	0	95	54	13	17	"m_body_04"
-        MD	0x102B	MD_IMAGE	0	114	54	13	17	"m_body_05"
-        MD	0x100E	MD_IMAGE	0	137	55	15	16	"m_body_06"
-        MD	0x100A	MD_IMAGE	0	180	54	13	17	"m_body_08"
-        MD	0x1009	MD_IMAGE	0	204	54	15	17	"m_body_09"
-        MD	0x1006	MD_IMAGE	0	159	56	16	17	"m_body_10"
-        MD	0x1031	MD_IMAGE	0	229	56	16	17	"m_body_11"
+        MD	0x102B	MD_IMAGE	0	113	53	14	18	"m_body_05"
+        MD	0x100E	MD_IMAGE	0	131	52	22	22	"m_body_06"
+        MD	0x1006	MD_IMAGE	0	156	51	19	25	"m_body_10"
     }
 
     SPRITE_END
