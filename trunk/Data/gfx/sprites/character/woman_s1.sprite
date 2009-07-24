@@ -1,0 +1,275 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 6
+    // Frames:  19
+    // Anims:   7
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0001 ".\woman_s1.png" TRANSP 0x00FF00FF // 0  size: 255 x 255  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1003	MD_IMAGE	0	6	22	109	47
+        MD	0x1008	MD_IMAGE	0	27	78	26	47
+        MD	0x101E	MD_IMAGE	0	63	79	26	84
+        MD	0x1023	MD_IMAGE	0	92	77	32	98
+        MD	0x1024	MD_IMAGE	0	131	7	50	73
+        MD	0x1000	MD_IMAGE	0	0	0	1	1
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "" // Index = 0, FModules = 1
+    {
+        0x2211
+        FM	0x1008	16	-54
+    }
+
+    FRAME "" // Index = 1, FModules = 1
+    {
+        0x22FD
+        FM	0x101E	15	-72
+    }
+
+    FRAME "" // Index = 2, FModules = 1
+    {
+        0x22FE
+        FM	0x1023	11	-81
+    }
+
+    FRAME "" // Index = 3, FModules = 1
+    {
+        0x22EE
+        FM	0x1003	-17	-52
+    }
+
+    FRAME "" // Index = 4, FModules = 1
+    {
+        0x2341
+        RC	0	0	0	0
+        RC	0	0	0	0
+        RC	-52	-40	28	-21
+        FM	0x1003	-43	-52
+    }
+
+    FRAME "" // Index = 5, FModules = 1
+    {
+        0x2342
+        RC	0	0	0	0
+        RC	0	0	0	0
+        RC	-52	-40	28	-21
+        FM	0x1024	-20	-68
+    }
+
+    FRAME "" // Index = 6, FModules = 1
+    {
+        0x22EF
+        FM	0x1024	76	-68
+    }
+
+    FRAME "" // Index = 7, FModules = 1
+    {
+        0x22F0
+        FM	0x1003	123	-55	+FLIP_Y
+    }
+
+    FRAME "" // Index = 8, FModules = 1
+    {
+        0x22F2
+        FM	0x1003	-17	-51
+    }
+
+    FRAME "" // Index = 9, FModules = 1
+    {
+        0x22F3
+        FM	0x1024	75	-66
+    }
+
+    FRAME "" // Index = 10, FModules = 1
+    {
+        0x2343
+        RC	0	0	0	0
+        RC	0	0	0	0
+        RC	-52	-40	28	-21
+        FM	0x1003	-43	-51
+    }
+
+    FRAME "" // Index = 11, FModules = 1
+    {
+        0x2344
+        RC	0	0	0	0
+        RC	0	0	0	0
+        RC	-52	-40	28	-21
+        FM	0x1024	-20	-67
+    }
+
+    FRAME "" // Index = 12, FModules = 1
+    {
+        0x22F6
+        FM	0x1003	123	-49
+    }
+
+    FRAME "" // Index = 13, FModules = 1
+    {
+        0x22FA
+        FM	0x1024	75	-70
+    }
+
+    FRAME "" // Index = 14, FModules = 1
+    {
+        0x2346
+        RC	0	0	0	0
+        RC	0	0	0	0
+        RC	-52	-40	28	-21
+        FM	0x1003	-43	-53
+    }
+
+    FRAME "" // Index = 15, FModules = 1
+    {
+        0x2345
+        RC	0	0	0	0
+        RC	0	0	0	0
+        RC	-52	-40	28	-21
+        FM	0x1024	-20	-70
+    }
+
+    FRAME "" // Index = 16, FModules = 1
+    {
+        0x22FB
+        FM	0x1003	123	-55
+    }
+
+    FRAME "empty" // Index = 17, FModules = 1
+    {
+        0x2000
+        FM	0x1000	0	0
+    }
+
+    FRAME "BLEND" // Index = 18, FModules = 5
+    {
+        0x2001
+        FM	0x1003	2	0
+        FM	0x1008	2	0
+        FM	0x101E	2	0
+        FM	0x1023	2	0
+        FM	0x1024	2	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "a_b_skill1_e" // Index = 0, AFrames = 18
+    {
+        0x305B
+        AF	0x2000	8	0	0
+        AF	0x2211	1	0	0
+        AF	0x22FD	1	0	0
+        AF	0x22FE	1	0	0
+        AF	0x2000	1	0	0
+        AF	0x2211	1	0	0
+        AF	0x22FD	1	0	0
+        AF	0x22FE	1	0	0
+        AF	0x2211	1	0	0
+        AF	0x22FD	1	0	0
+        AF	0x22FE	1	0	0
+        AF	0x2211	1	0	0
+        AF	0x22FD	1	0	0
+        AF	0x22FE	1	0	0
+        AF	0x2211	1	0	0
+        AF	0x22FD	1	0	0
+        AF	0x22FE	1	0	0
+        AF	0x2000	1	0	0
+    }
+
+    ANIM "a_b_skill1_e_bullet1" // Index = 1, AFrames = 2
+    {
+        0x3073
+        AF	0x2341	1	63	0
+        AF	0x2342	1	126	0
+    }
+
+    ANIM "a_b_skill1_e_bullet2" // Index = 2, AFrames = 2
+    {
+        0x3075
+        AF	0x2343	1	63	2
+        AF	0x2344	1	126	4
+    }
+
+    ANIM "a_b_skill1_e_bullet3" // Index = 3, AFrames = 2
+    {
+        0x3076
+        AF	0x2346	1	63	-2
+        AF	0x2345	1	126	-4
+    }
+
+    ANIM "a_b_skill1_e_bullet4" // Index = 4, AFrames = 2
+    {
+        0x306B
+        AF	0x2341	1	63	0
+        AF	0x2342	1	126	0
+    }
+
+    ANIM "a_b_skill1_e_bullet5" // Index = 5, AFrames = 2
+    {
+        0x3077
+        AF	0x2343	1	63	2
+        AF	0x2344	1	126	4
+    }
+
+    ANIM "a_b_skill1_bulletsample" // Index = 6, AFrames = 18
+    {
+        0x3055
+        AF	0x2000	8	0	0
+        AF	0x22EE	1	0	0
+        AF	0x22EF	1	0	0
+        AF	0x22F0	1	0	0
+        AF	0x2000	1	0	0
+        AF	0x22F2	1	0	0
+        AF	0x22F3	1	0	0
+        AF	0x22F6	1	0	0
+        AF	0x22EE	1	0	0
+        AF	0x22FA	1	0	0
+        AF	0x22FB	1	0	0
+        AF	0x22EE	1	0	0
+        AF	0x22EF	1	0	0
+        AF	0x22F0	1	0	0
+        AF	0x22F2	1	0	0
+        AF	0x22F3	1	0	0
+        AF	0x22F6	1	0	0
+        AF	0x2000	1	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
