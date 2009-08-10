@@ -66,8 +66,8 @@
 
 		{
 			for (int xx = 0;xx<3;xx++){
-				s_Skill.Equip_A[0][xx] = -1;
-				s_Skill.Equip_A[1][xx] = -1;
+				s_Skill.Equip_A[0+xx] = -1;
+				s_Skill.Equip_A[3+xx] = -1;
 			}
 			for (int xx = 0;xx<9;xx++)
 				s_Skill.Equip_P[xx] = -1;
@@ -111,13 +111,13 @@
 			s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
 			s_Status.LEVEL =  31;
 
-			s_Skill.Equip_A[0][0] = 4;
-			s_Skill.Equip_A[0][1] = 5;
-			s_Skill.Equip_A[0][2] = 6;
+			s_Skill.Equip_A[0+0] = 4;
+			s_Skill.Equip_A[0+1] = 5;
+			s_Skill.Equip_A[0+2] = 6;
 
-			s_Skill.Equip_A[1][0] = 10;
-			s_Skill.Equip_A[1][1] = 11;
-			s_Skill.Equip_A[1][2] = 12;
+			s_Skill.Equip_A[3+0] = 9;
+			s_Skill.Equip_A[3+1] = 10;
+			s_Skill.Equip_A[3+2] = 13;
 
 			//s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
 			s_Ability.STR = 7 + (s_Status.LEVEL-1)*2;
@@ -2185,7 +2185,7 @@
 				s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][m_skillnum];
 			}
 		}else{
-			if(s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum]  ||  s_Status.MANA < s_Skill_Set.Need_Mana[s_Status.SEX][m_skillnum] || (s_Skill.Equip_A[s_Status.SEX][m_skillnum] == -1)){
+			if(s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum]  ||  s_Status.MANA < s_Skill_Set.Need_Mana[s_Status.SEX][m_skillnum] || (s_Skill.Equip_A[s_Status.SEX*3 + m_skillnum] == -1)){
 				return true;//쿨타임이 남아있거나 마나가 부족하거나 슬롯이 비었으면 스킬은 나가지 않는다
 			}else{
 				s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][m_skillnum];
@@ -2412,8 +2412,8 @@
 		//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
 		if(Get_Skill(SKILL_P_O_coolTimeDown)){//패시브
 			for(int xx = 0;xx<3;xx++){
-				if(s_Skill.Equip_A[s_Status.SEX][xx]>=0){
-					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_Status.SEX][xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
+				if(s_Skill.Equip_A[s_Status.SEX*3 + xx]>=0){
+					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_Status.SEX*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
 					if(need_frm >= 100){
 						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}else{
@@ -2445,27 +2445,27 @@
 
 		for(int xx = 0;xx<3;xx++){
 			for(int sex = 0;sex<2;sex++){
-				if(s_Skill.Equip_A[sex][xx]>=0){
-					_spr_Skill[sex][xx] = SUTIL_LoadAspriteFromPack(PACK_SPRITE, s__ins_Skill[s_Skill.Equip_A[sex][xx]][1]);
+				if(s_Skill.Equip_A[sex*3 + xx]>=0){
+					_spr_Skill[sex][xx] = SUTIL_LoadAspriteFromPack(PACK_SPRITE, s__ins_Skill[s_Skill.Equip_A[sex*3 + xx]][1]);
 					_ins_Skill[sex][xx][0] = GL_NEW ASpriteInstance(_spr_Skill[sex][xx], 0, 0, NULL);//백
 					_ins_Skill[sex][xx][1] = GL_NEW ASpriteInstance(_spr_Skill[sex][xx], 0, 0, NULL);//프런트
-					_ins_Skill[sex][xx][0]->m_sprite->SetBlendFrame(s__ins_Skill[s_Skill.Equip_A[sex][xx]][2]);//블랜딩
+					_ins_Skill[sex][xx][0]->m_sprite->SetBlendFrame(s__ins_Skill[s_Skill.Equip_A[sex*3 + xx]][2]);//블랜딩
 
 	//여기까지
-					s_Skill_Set.Skill_LEVEL[sex][xx] = s_Skill.Level_A[s_Skill.Equip_A[sex][xx]];//스킬 레벨
+					s_Skill_Set.Skill_LEVEL[sex][xx] = s_Skill.Level_A[s_Skill.Equip_A[sex*3 + xx]];//스킬 레벨
 					
-					s_Skill_Set.Skill_ID[sex][xx] = s__ins_Skill[s_Skill.Equip_A[sex][xx]][0];//스킬 고유ID
+					s_Skill_Set.Skill_ID[sex][xx] = s__ins_Skill[s_Skill.Equip_A[sex*3 + xx]][0];//스킬 고유ID
 
 					//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
 
 					
 
-					s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex][xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
+					s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
 					if(s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] >= 100){
 						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}
 
-					s_Skill_Set.Need_Mana[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex][xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][4];//필요마나
+					s_Skill_Set.Need_Mana[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][4];//필요마나
 				}else{//빈소캣
 					s_Skill_Set.Skill_ID[s_Status.SEX][xx] = -1;
 				}

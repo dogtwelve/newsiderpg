@@ -694,17 +694,16 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 }
 void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)		
 {
+
 	if(s_Page.Focus == 0){
 		switch(SELECT_SKILL_Y){
 			case 0://탑메뉴
-				
 				switch(m_keyCode){
 					case MH_KEY_LEFT:s_Page.PageNum--;Page_init();break;
 					case MH_KEY_RIGHT:s_Page.PageNum++;Page_init();break;
 					case MH_KEY_SELECT:
 					case MH_KEY_DOWN:
 						SELECT_SKILL_Y++;	
-						SELECT_SKILL_TYPE_NOW = Character::Check_sex(0,1);//현재 선택된 성별
 						break;
 				}
 				break;
@@ -716,7 +715,11 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 					case MH_KEY_CLEAR:
 					case MH_KEY_UP:SELECT_SKILL_Y--;	break;
 					case MH_KEY_SELECT:
-					case MH_KEY_DOWN:SELECT_SKILL_Y++;SELECT_SKILL_SLOT=0;SELECT_SKILL_KIND=0;SELECT_SKILL_KIND=0;	break;
+					case MH_KEY_DOWN:
+						SELECT_SKILL_Y++;SELECT_SKILL_SLOT=0;SELECT_SKILL_KIND=0;SELECT_SKILL_KIND=0;	
+						SELECT_SKILL_C_X = -64;
+						SELECT_SKILL_C_Y = -18;
+						break;
 				}
 				break;
 			case 2://스킬 선택
@@ -730,86 +733,88 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 
 					switch(m_keyCode)
 					{
-					case MH_KEY_RIGHT:	{SELECT_SKILL_ACC_X=+10;SELECT_SKILL_ACC_Y*=2;SELECT_SKILL_ACC_Y/=3; break;}
-					case MH_KEY_LEFT:	{SELECT_SKILL_ACC_X=-10;SELECT_SKILL_ACC_Y*=2;SELECT_SKILL_ACC_Y/=3; break;}
-					case MH_KEY_DOWN:	{SELECT_SKILL_ACC_Y=+10;SELECT_SKILL_ACC_X*=2;SELECT_SKILL_ACC_X/=3; break;}
-					case MH_KEY_UP:		{SELECT_SKILL_ACC_Y=-10;SELECT_SKILL_ACC_X*=2;SELECT_SKILL_ACC_X/=3; break;}
+						case MH_KEY_ASTERISK:{if(m_keyRepeat)return; SELECT_SKILL_TYPE_NOW = (SELECT_SKILL_TYPE_NOW+1)%2;  break;}
+						case MH_KEY_RIGHT:	{SELECT_SKILL_ACC_X=+10;SELECT_SKILL_ACC_Y*=2;SELECT_SKILL_ACC_Y/=3; break;}
+						case MH_KEY_LEFT:	{SELECT_SKILL_ACC_X=-10;SELECT_SKILL_ACC_Y*=2;SELECT_SKILL_ACC_Y/=3; break;}
+						case MH_KEY_DOWN:	{SELECT_SKILL_ACC_Y=+10;SELECT_SKILL_ACC_X*=2;SELECT_SKILL_ACC_X/=3; break;}
+						case MH_KEY_UP:		{SELECT_SKILL_ACC_Y=-10;SELECT_SKILL_ACC_X*=2;SELECT_SKILL_ACC_X/=3; break;}
 
-					case MH_KEY_CLEAR:	
-						{
-							if(m_keyRepeat)return;
-							SELECT_SKILL_Y=1;
-							break;
-						}
-					case MH_KEY_SELECT: 
-						{
-							if(m_keyRepeat)return;
-							SELECT_SKILL_Y=3;
-							break;
-						}
-					case 0://키를떼면 가장 가까운 포인트를 찾는다
-						{
-							SELECT_SKILL_ACC_X*=2; 
-							SELECT_SKILL_ACC_Y*=2;
-							SELECT_SKILL_ACC_X/=3; 
-							SELECT_SKILL_ACC_Y/=3;
-							if(SELECT_SKILL_ACC_X||SELECT_SKILL_ACC_Y)break;
-
-
-
-
-
-
-
-
-							for(int xx = 0,length_MAX =1000000;xx<7;xx++){
-								//길이비교
-								int length_NOW;
-
-									length_NOW= 
-										((s_X[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_X)*(s_X[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_X)) + 
-										((s_Y[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_Y)*(s_Y[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_Y));
-
-								if(length_NOW < length_MAX){
-									SELECT_SKILL_KIND = xx;
- 									length_MAX = length_NOW;
-// 									Target_Name = Town_Buffer[xx][Sp_NAME];
-// 									Target_Num = Town_Buffer[xx][Sp_ID];
-									Target_X = s_X[SELECT_SKILL_TYPE_NOW][xx];
-									Target_Y = s_Y[SELECT_SKILL_TYPE_NOW][xx];
-// 									MC_posX = Town_Buffer[xx][Set_PosX];
-// 									MC_derection = Town_Buffer[xx][Set_Dir];
-								}
-
+						case MH_KEY_CLEAR:	
+							{
+								if(m_keyRepeat)return;
+								SELECT_SKILL_Y=1;
+								break;
 							}
-							if((SELECT_SKILL_C_X-Target_X)>(10*2)){ 
-								SELECT_SKILL_C_X -= 10; 
-							}else if((SELECT_SKILL_C_X-Target_X)<-(10*2)){
-								SELECT_SKILL_C_X -= -10; 
-							}else{
-								int xx = SELECT_SKILL_C_X-Target_X;
-								if(ABS(xx) == 1){
-									SELECT_SKILL_C_X = Target_X; 
+						case MH_KEY_SELECT: 
+							{
+								if(m_keyRepeat)return;
+								SELECT_SKILL_Y=3;
+								SELECT_SKILL_KIND = Character::s_Status.SEX*7 + SELECT_SKILL_KIND;
+								break;
+							}
+						case 0://키를떼면 가장 가까운 포인트를 찾는다
+							{
+								SELECT_SKILL_ACC_X*=2; 
+								SELECT_SKILL_ACC_Y*=2;
+								SELECT_SKILL_ACC_X/=3; 
+								SELECT_SKILL_ACC_Y/=3;
+								if(SELECT_SKILL_ACC_X||SELECT_SKILL_ACC_Y)break;
+
+
+
+
+
+
+
+
+								for(int xx = 0,length_MAX =1000000;xx<7;xx++){
+									//길이비교
+									int length_NOW;
+
+										length_NOW= 
+											((s_X[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_X)*(s_X[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_X)) + 
+											((s_Y[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_Y)*(s_Y[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_Y));
+
+									if(length_NOW < length_MAX){
+										SELECT_SKILL_KIND = xx;
+ 										length_MAX = length_NOW;
+	// 									Target_Name = Town_Buffer[xx][Sp_NAME];
+	// 									Target_Num = Town_Buffer[xx][Sp_ID];
+										Target_X = s_X[SELECT_SKILL_TYPE_NOW][xx];
+										Target_Y = s_Y[SELECT_SKILL_TYPE_NOW][xx];
+	// 									MC_posX = Town_Buffer[xx][Set_PosX];
+	// 									MC_derection = Town_Buffer[xx][Set_Dir];
+									}
+
+								}
+								if((SELECT_SKILL_C_X-Target_X)>(10*2)){ 
+									SELECT_SKILL_C_X -= 10; 
+								}else if((SELECT_SKILL_C_X-Target_X)<-(10*2)){
+									SELECT_SKILL_C_X -= -10; 
 								}else{
-									SELECT_SKILL_C_X -= (xx)/2; 
+									int xx = SELECT_SKILL_C_X-Target_X;
+									if(ABS(xx) == 1){
+										SELECT_SKILL_C_X = Target_X; 
+									}else{
+										SELECT_SKILL_C_X -= (xx)/2; 
+									}
 								}
-							}
-							if((SELECT_SKILL_C_Y-Target_Y)>(10*2)){
-								SELECT_SKILL_C_Y -= 10; 
-							}else if((SELECT_SKILL_C_Y-Target_Y)<-(10*2)){
-								SELECT_SKILL_C_Y -= -10; 
-							}else{
-								int yy = SELECT_SKILL_C_Y-Target_Y;
-								if(ABS(yy) == 1){
-									SELECT_SKILL_C_Y = Target_Y; 
+								if((SELECT_SKILL_C_Y-Target_Y)>(10*2)){
+									SELECT_SKILL_C_Y -= 10; 
+								}else if((SELECT_SKILL_C_Y-Target_Y)<-(10*2)){
+									SELECT_SKILL_C_Y -= -10; 
 								}else{
-									SELECT_SKILL_C_Y -= (yy)/2; 
+									int yy = SELECT_SKILL_C_Y-Target_Y;
+									if(ABS(yy) == 1){
+										SELECT_SKILL_C_Y = Target_Y; 
+									}else{
+										SELECT_SKILL_C_Y -= (yy)/2; 
+									}
 								}
+
+
+								break;
 							}
-
-
-							break;
-						}
 
 
 
@@ -892,6 +897,7 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 						case MH_KEY_DOWN:SELECT_SKILL_SLOT+=3;	break;
 						case MH_KEY_SELECT:
 							if(SELECT_SKILL_KIND>=0){
+								SkillChange_A = true;
 								int xx = Character::s_Skill.Equip_P[SELECT_SKILL_SLOT];
 								Character::s_Skill.Equip_P[SELECT_SKILL_SLOT]=SELECT_SKILL_KIND;
 								SELECT_SKILL_KIND = xx;
@@ -920,8 +926,9 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 						case MH_KEY_SELECT:
 							{
 							//if(SELECT_SKILL_KIND_NOW>=0){
-								int xx = Character::s_Skill.Equip_A[Character::s_Status.SEX][SELECT_SKILL_SLOT];
-								Character::s_Skill.Equip_A[Character::s_Status.SEX][SELECT_SKILL_SLOT]=SELECT_SKILL_KIND;
+								SkillChange_A = true; 
+								int xx = Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT];
+								Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT]=SELECT_SKILL_KIND;
 								SELECT_SKILL_KIND = xx;
 							//}else{
 								// SELECT_SKILL_Y--;	
@@ -1926,6 +1933,9 @@ void PopupUi::Paint_SKILL()
 // 		Type[xx] = 3;xx++;
 // 	}
 
+	if(SELECT_SKILL_Y == 0)SELECT_SKILL_TYPE_NOW = Character::s_Status.SEX;//현재 선택된 성별
+
+
 	if(SELECT_SKILL_ACT_PAS){//패시브
 		Type[xx] = 4;//공용
 		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_4_1, XPOS,YPOS,0);
@@ -1974,8 +1984,8 @@ void PopupUi::Paint_SKILL()
 		}
 	}else{//액티브
 		for(int xx = 0;xx<3;xx++){
-			if(Character::s_Skill.Equip_A[Character::s_Status.SEX][xx] > -1)
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1+Character::s_Skill.Equip_A[Character::s_Status.SEX][xx],
+			if(Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + xx] > -1)
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1+Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + xx],
 				XPOS-37 + (xx*30), 
 				YPOS+65, 0);
 		}
@@ -2023,7 +2033,7 @@ void PopupUi::Paint_SKILL()
 
 						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_4_2WOMAN,XPOS,YPOS,0);
 						//if(skill_Max==SELECT_SKILL_KIND)
-							SELECT_SKILL_KIND=SELECT_SKILL_KIND;
+							//SELECT_SKILL_KIND=SELECT_SKILL_KIND;
 					}break;//여캐 패시브 스킬갯수
 				case 1:
 					{ 
@@ -2038,7 +2048,7 @@ void PopupUi::Paint_SKILL()
 
 						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_4_2MAN,XPOS,YPOS,0);
 						//if(skill_Max==SELECT_SKILL_KIND)
-							SELECT_SKILL_KIND=SELECT_SKILL_KIND+7;
+							//SELECT_SKILL_KIND=SELECT_SKILL_KIND+7;
 					}break;//남캐 패시브 스킬갯수
 // 				case 2:if(Character::s_Skill.Level_A[14+xx]){
 // 							SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_O_1 + xx, 
@@ -2098,8 +2108,8 @@ void PopupUi::Paint_SKILL()
 					SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, 
 						/*XPOS-14 + ((SELECT_SKILL_KIND%4)*18)*/ XPOS+SELECT_SKILL_C_X, 
 						/*YPOS+36 + ((SELECT_SKILL_KIND/4)*17)*/ YPOS+SELECT_SKILL_C_Y,	0);
-					s_Popup_Sharp.posX = XPOS-14 + ((SELECT_SKILL_KIND%4)*18);
-					s_Popup_Sharp.posY = YPOS+36 + ((SELECT_SKILL_KIND/4)*17);
+// 					s_Popup_Sharp.posX = XPOS-14 + ((SELECT_SKILL_KIND%4)*18);
+// 					s_Popup_Sharp.posY = YPOS+36 + ((SELECT_SKILL_KIND/4)*17);
 					break;
 			case 4:
 				if(SELECT_SKILL_ACT_PAS){//패시브
@@ -2127,28 +2137,28 @@ void PopupUi::Paint_SKILL()
 // 			if(SELECT_SKILL_Y == 2){
 // 				SkillNum = Character::s_Skill.Equip_P[SELECT_SKILL_SLOT];
 // 			}else if(SELECT_SKILL_Y == 4){
-				SkillNum = SELECT_SKILL_KIND;
+			SkillNum = SELECT_SKILL_KIND+(SELECT_SKILL_TYPE_NOW?7:0);
 //			}
 
 			if(SELECT_SKILL_Y == 4 || Character::s_Skill.Equip_P[SELECT_SKILL_SLOT]>=0){
 				SPRINTF(str, "%s LV%d",
 					(char*)pCLRPOPUP_Text->nText[CLRMENU_PASSIVE_S_1 + (SkillNum*2)],
 					Character::s_Skill.Level_P[SkillNum]);
-				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-65, YPOS+81, 0);
+				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS, YPOS+45, Graphics::HCENTER);
 			}
 		}else{
 			
 // 			if(SELECT_SKILL_Y == 2){
 // 				SkillNum = Character::s_Skill.Equip_A[Character::s_Status.SEX][SELECT_SKILL_SLOT];
 // 			}else if(SELECT_SKILL_Y == 4){
-				SkillNum = SELECT_SKILL_KIND;
+			SkillNum = SELECT_SKILL_KIND+(SELECT_SKILL_TYPE_NOW?7:0);
 //			}
 
-			if(SELECT_SKILL_Y == 4 || Character::s_Skill.Equip_A[Character::s_Status.SEX][SELECT_SKILL_SLOT]>=0){	
+			if(SELECT_SKILL_Y == 4 || Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT]>=0){	
 				SPRINTF(str, "%s LV%d",
 					(char*)pCLRPOPUP_Text->nText[CLRMENU_SKILL_S_1 + (SkillNum*2)],
 					Character::s_Skill.Level_A[SkillNum]);
-				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-65, YPOS+81, 0);
+				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS, YPOS+45, Graphics::HCENTER);
 			}
 		}
 	}
