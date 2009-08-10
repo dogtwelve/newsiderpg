@@ -115,9 +115,9 @@
 			s_Skill.Equip_A[0][1] = 5;
 			s_Skill.Equip_A[0][2] = 6;
 
-			s_Skill.Equip_A[1][0] = 7;
-			s_Skill.Equip_A[1][1] = 8;
-			s_Skill.Equip_A[1][2] = 9;
+			s_Skill.Equip_A[1][0] = 10;
+			s_Skill.Equip_A[1][1] = 11;
+			s_Skill.Equip_A[1][2] = 12;
 
 			//s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
 			s_Ability.STR = 7 + (s_Status.LEVEL-1)*2;
