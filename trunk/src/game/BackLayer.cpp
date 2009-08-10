@@ -153,6 +153,8 @@ void BackLayer::LoadMapLayer(ASprite** pASprite, char* packName, int packIndex)
 		}
 		else
 		{
+			//DONT_GO_RECT* pTmpRect;
+
 			if(100 <= tmpId)		//현재 오브젝트의 스프라이트 넘버값을 알려준다.
 			{
 				tmpsprid = (tmpId-100)/100;

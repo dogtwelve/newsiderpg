@@ -95,6 +95,14 @@ void GFieldBattle::LoadFirstData(int timer, int nDummy1, int nDummy2)
 	case 4:
 		//--------------------------------------------------------------------------
 		{
+			//	미니맵
+			pMinimap = GL_NEW cMinimap();
+			pMinimap->ResvNextSector(1, 1);
+
+			//	캐릭터 초기 위치를 설정한다.
+			pMinimap->m_nNextCharPosX = MAP_START_X;
+			pMinimap->m_nNextCharPosY = (MAP_MOVE_UP_Y+MAP_MOVE_DOWN_Y)/2;
+
 			//	배경
 			pField = GL_NEW Field((void*) &s_ASpriteSet);
 			break;
@@ -170,13 +178,17 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 		//----------------------------------------------------------
 		{
 			//	필드 정보
-			pField->LoadMap(m_nNextStage);
+			//pField->LoadMap(m_nNextStage);
+
+			pField->LoadMap( (void*)pMinimap->SetResvSector() );
 
 			//	캐릭터에게 필드 아이디를 넘겨준다.(마을/필드 구분위해서)
 			hero->m_nFieldId = m_nNextStage;
 
 			//	이벤트에서 넘겨줄수 있다. (캐릭터 위치 셋팅)
+			hero->InitCharPos(pMinimap->m_nNextCharPosX, pMinimap->m_nNextCharPosY);
 
+/*
 			if(0 != pField->m_nWayMoveCharx)
 			{
 				//int temp = s_Camera.cX - hero->_ins_Hero->m_posX - hero->_ins_Hero->m_stopAniX;
@@ -195,6 +207,8 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				}
 
 				//hero->InitCharPos(pField->m_nWayMoveCharx, pField->m_nWayMoveChary);
+*/
+
 				hero->_move_Order = HERO_STOP;
 
 				pField->m_nWayMoveCharx = 0;
@@ -204,12 +218,18 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				s_Camera.cX = 0;
 				SetCameraMove();
 				//pField->SetCamera(pField->m_nSrcCamAngle_X);
-			}
+//			}
 			break;
 		}
 	case 2:
 		//----------------------------------------------------------
 		{
+			//test
+			MakeMonsterSeed();
+			AddFirstMonSetting();
+
+			break;
+
 			switch(m_nNextStage)
 			{
 				//				case 1000:
@@ -487,6 +507,132 @@ void GFieldBattle::ReleaseStage()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+//--------------------------------------------------------------------------
+void GFieldBattle::MakeMonsterSeed()
+//--------------------------------------------------------------------------
+{
+	int loop = 0;
+	int nRealFieldNum = 0;
+
+//	while(NU != FIELD_MONSTER_INFO[nRealFieldNum][0])
+//	{
+//		if(nStageNum == FIELD_MONSTER_INFO[nRealFieldNum][GEN_FIELD_NUM])	{break;}
+//		nRealFieldNum++;
+//	}
+//
+//	if(NU == FIELD_MONSTER_INFO[nRealFieldNum][0])	{return;}
+
+	if(0 == pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_COUNT])	{return;}
+
+
+	m_nMonLevel = pMinimap->m_CurMapSector->m_MonsterInfo[MI_LEVEL];
+	m_nMonLevelRnd = pMinimap->m_CurMapSector->m_MonsterInfo[MI_ADD_RND_LEVEL]+1;
+
+	pField->m_nRegenDistance = pMinimap->m_CurMapSector->m_MonsterInfo[MI_DISTANCE];
+
+	//	몬스터 등급 설정
+	nMonGradeCnt[GRADE_RARE]	= pMinimap->m_CurMapSector->m_MonsterInfo[MI_RARE_GRADE];
+	nMonGradeCnt[GRADE_UNIQUE]	= pMinimap->m_CurMapSector->m_MonsterInfo[MI_UNIQUE_GRADE];
+	nMonGradeCnt[GRADE_SPECIAL]	= pMinimap->m_CurMapSector->m_MonsterInfo[MI_SPECIAL_GRADE];
+
+	//	몬스터 설정
+	nMonTypeCnt = 0;
+	for(loop = 0; loop < MI_MON_COUNT; loop++)
+	{
+		if(NU != pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_IDX+loop*4])	{nMonTypeCnt++;}
+	}
+
+	//	nMonTypeCnt = 3;
+	pMonData = GL_NEW STAGE_MON_DATA [nMonTypeCnt];
+
+	for(loop = 0; loop < nMonTypeCnt; loop++)
+	{
+		pMonData[loop].nMonIdx = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_IDX+loop*4];
+		pMonData[loop].nNameIdx = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_NAME+loop*4];
+		pMonData[loop].nPtn = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_PTN+loop*4];
+		pMonData[loop].nCount = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_COUNT+loop*4];
+	}
+
+	//	몬스터 총 갯수
+	m_nMonSeedCnt = 0;
+	for(int loop = 0; loop < nMonTypeCnt; loop++)
+	{
+		m_nMonSeedCnt += pMonData[loop].nCount;
+	}
+
+	//	몬스터가 없다.
+	if(!m_nMonSeedCnt)	{return;}
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	//	몬스터 데이타 구성
+	m_nSeedData	= GL_NEW int[m_nMonSeedCnt];
+
+	loop = 0;
+	int loop2 = 0;
+	int addcnt = 0;
+
+	for(loop = 0; loop < nMonTypeCnt; loop++)
+	{
+		for(loop2 = 0; loop2 < pMonData[loop].nCount; loop2++)
+		{
+			m_nSeedData[loop2+addcnt] = loop;
+		}
+		addcnt += loop2;
+	}
+
+	//	시드 스왑(10번)
+	int src, dst, tmp;
+	for(loop = 0; loop < 10; loop++)
+	{
+		src = SUTIL_GetRandom()%(m_nMonSeedCnt);
+		dst = SUTIL_GetRandom()%(m_nMonSeedCnt);
+
+		tmp = m_nSeedData[src];
+		m_nSeedData[src] = m_nSeedData[dst];
+		m_nSeedData[dst] = tmp;
+	}
+
+	//	등급 결정 테이블
+	int GradeDiceTable[5][4] = {{0, 38, 15, 5},	{0, 36, 16, 6},	{0, 34, 17, 7},	{0, 34, 17, 8},	{0, 33, 17, 9}};
+
+	//	등급결정을 해야됨
+	m_nSeedDataGrade = GL_NEW int [m_nMonSeedCnt];
+
+	int TableIdx = 4;
+	if(70 < hero->s_Status.LEVEL)		{TableIdx = 0;}
+	else if(60 < hero->s_Status.LEVEL)	{TableIdx = 1;}
+	else if(40 < hero->s_Status.LEVEL)	{TableIdx = 2;}
+	else if(20 < hero->s_Status.LEVEL)	{TableIdx = 3;}
+
+	//	등급 확인
+	int Dice = 0;
+	for(loop = GRADE_RARE; loop <= GRADE_SPECIAL; loop++)
+	{
+		while(0 < nMonGradeCnt[loop])
+		{
+			Dice = SUTIL_GetRandom()%100;
+			if(GradeDiceTable[TableIdx][loop] > Dice)
+			{
+				m_nSeedDataGrade[Dice%m_nMonSeedCnt] = loop;
+			}
+			nMonGradeCnt[loop]--;
+		}
+	}
+
+	//	몬스터의 이미지를 로드시킨다.
+	SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+	for(loop = 0; loop < nMonTypeCnt; loop++)
+	{
+		LoadMonsterSprite(pMonData[loop].nMonIdx);
+	}
+	SUTIL_ReleaseAspritePack();
+}
 
 
 //--------------------------------------------------------------------------
@@ -1072,6 +1218,9 @@ void GFieldBattle::Release()
 				pCinema->Release_Cinematics();
 			}
 			SAFE_DELETE(pCinema);
+
+	SAFE_DELETE(pMinimap);
+	
 }
 
 //--------------------------------------------------------------------------
@@ -1108,11 +1257,6 @@ void GFieldBattle::Process()
 		pField->workPal(false,0,0);
 	}
 
-	//	if(b_ChangeStage)
-	//	{
-	//		LoadStage();
-	//		return;
-	//	}
 
 	ProcessTimerEvent();
 
@@ -1522,7 +1666,6 @@ void GFieldBattle::Paint_ChangeScrollEvent(int type)
 void GFieldBattle::Paint()
 //--------------------------------------------------------------------------
 {
-	
 	if(b_WorldMap){//월드맵 그리기
 		
 		pWorldMapUi->Paint();
@@ -1563,6 +1706,12 @@ void GFieldBattle::Paint()
 
 	//	주인공
 
+
+	if(1)
+	{
+		pMinimap->PaintMiniMap();
+		//return;
+	}
 
 
 	if(true == pCinema->m_IsPlayCinema)
@@ -2007,6 +2156,9 @@ void GFieldBattle::KeyEvent(int m_keyCode, int m_keyRepeat)
 	}
 
 	if(isHoldingKey)	{return;}
+
+//	if(true == pMinimap->KeyEvent(m_keyCode, m_keyRepeat))	{return;}
+	
 
 	if(true == pField->KeyEvent(m_keyCode, m_keyRepeat))	{return;}
 
@@ -3674,6 +3826,49 @@ void GFieldBattle::DamageSand_Mon(Monster* mon , Character* hero)
 void GFieldBattle::EventProcess()
 //--------------------------------------------------------------------------
 {
+	pField->Process_EVT_WAY(0,0,0,0);
+
+	//	이동상태일 때만 이동 이벤트를 가능하게 한다.
+	if(HERO_WALK_LEFT > hero->_move_Order || HERO_WALK_DOWN < hero->_move_Order)	{return;}
+	
+	//	페이드 인 상태이거나 페이드 아웃상태라면 하지 않는다.
+	if(m_nFadeInTime || m_nFadeOutTime)	{return;}
+
+	if(true == pMinimap->ResvNextSector(m_CharInfo->m_nPos.x, m_CharInfo->m_nPos.y, 0) )
+	{
+		ADD_EVENT_MSG(EVT_SCREEN_FADE_OUT, 0, 10);
+		ADD_EVENT_MSG(EVT_CHANGE_STAGE, 10, 0);
+
+//		pField->LoadMap( (void*)pMinimap->SetResvSector() );
+	}
+	
+/*
+	if(MAP_MOVE_UP_Y > m_CharInfo->m_nPos.y)
+	{
+		pMinimap->ResvNextSector();
+
+//		pField->LoadMap( (void*)pMinimap->SetResvSector() );
+	}
+
+	if(MAP_MOVE_DOWN_Y < m_CharInfo->m_nPos.y)
+	{
+
+	}
+
+	if(MAP_MOVE_X > m_CharInfo->m_nPos.x)
+	{
+
+	}
+
+	if(pField->m_nFieldSize_X - MAP_MOVE_X > m_CharInfo->m_nPos.x)
+	{
+
+	}
+
+
+	// 길 이벤트 확인
+*/
+/*
 	//	imsi
 	if(1000 <= pField->m_nSaveStageNum)												{return;}
 
@@ -3714,6 +3909,7 @@ void GFieldBattle::EventProcess()
 	{
 		ADD_EVENT_MSG(EVT_GAME_KEYEVENT, 0, result);
 	}
+*/
 }
 
 

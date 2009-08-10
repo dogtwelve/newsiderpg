@@ -7518,64 +7518,19 @@
 	#define ANIM_MON03_CATCH_1	 16
 	#define ANIM_MON03_CATCH_2	 17
 	#define ANIM_MON03_CATCH_3	 18
-	#define ANIM_MON03_DAMAGE_2	 19
-	#define ANIM_MON03_MELEE_1	 20
-	#define ANIM_MON03_RANGE_1	 21
-	#define ANIM_MON03_BULLET_1	 22
-	#define ANIM_MON03_FLY_SAMPLE	 23
-	#define ANIM_MON03_CATCH_2DEL	 24
+	#define ANIM_MON03_MELEE_1	 19
+	#define ANIM_MON03_RANGE_1	 20
+	#define ANIM_MON03_BULLET_1	 21
+	#define ANIM_MON03_FLY_SAMPLE	 22
+	#define ANIM_MON03_CATCH_3_DEL	 23
+	#define ANIM_MON03_CATCH_1DEL	 24
 
 // FRAME //
-	#define FRAME_MON03_F	 0
-	#define FRAME_MON03_F_A	 1
-	#define FRAME_MON03_F_01	 2
-	#define FRAME_MON03_F_02	 3
-	#define FRAME_MON03_F_02A	 4
-	#define FRAME_MON03_F_03	 5
-	#define FRAME_MON03_F_04	 6
-	#define FRAME_MON03_F_05	 7
-	#define FRAME_MON03_F_06	 8
-	#define FRAME_MON03_F_07	 9
-	#define FRAME_MON03_F_08	 10
-	#define FRAME_MON03_F_09	 11
-	#define FRAME_MON03_F_10	 12
-	#define FRAME_MON03_F_11	 13
-	#define FRAME_MON03_F_12	 14
-	#define FRAME_MON03_F_13	 15
-	#define FRAME_MON03_F_14	 16
-	#define FRAME_MON03_F_15	 17
-	#define FRAME_MON03_F_16	 18
-	#define FRAME_MON03_F_17	 19
-	#define FRAME_MON03_F_18	 20
-	#define FRAME_MON03_F_19	 21
-	#define FRAME_MON03_F_20	 22
-	#define FRAME_MON03_F_21	 23
-	#define FRAME_MON03_F_22	 24
-	#define FRAME_MON03_F_23	 25
-	#define FRAME_MON03_F_24	 26
-	#define FRAME_MON03_F_25	 27
-	#define FRAME_MON03_F_26	 28
-	#define FRAME_MON03_F_27	 29
-	#define FRAME_MON03_F_28	 30
-	#define FRAME_MON03_BLEND	 31
+	#define FRAME_MON03_F_12	 3
+	#define FRAME_MON03_F_13	 4
+	#define FRAME_MON03_BLEND	 36
 
 // MODULE //
-	#define MODULE_MON03_M	 0
-	#define MODULE_MON03_M_01	 1
-	#define MODULE_MON03_M_02	 2
-	#define MODULE_MON03_M_03	 3
-	#define MODULE_MON03_M_04	 4
-	#define MODULE_MON03_M_05	 5
-	#define MODULE_MON03_M_06	 6
-	#define MODULE_MON03_M_07	 7
-	#define MODULE_MON03_M_08	 8
-	#define MODULE_MON03_M_09	 9
-	#define MODULE_MON03_M_10	 10
-	#define MODULE_MON03_M_11	 11
-	#define MODULE_MON03_M_12A	 12
-	#define MODULE_MON03_M_13A	 13
-	#define MODULE_MON03_M_14A	 14
-	#define MODULE_MON03_M_15A	 15
 
 ///////////////////////////////// MON04
 // ANIM //

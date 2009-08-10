@@ -1873,7 +1873,7 @@ bool Mon_SLIME::ExtSetAction()
 			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON03_BULLET_1);
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(30*m_nDirection));
 			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
 			SUTIL_UpdateTimeAsprite(tmpAsIns);
 

@@ -13,6 +13,7 @@
 #include "EventManager.h"
 #include "Loading.h"
 #include "Quest.h"
+#include "Minimap.h"
 
 
 #ifndef __GFIELDBATTLE_
@@ -20,13 +21,13 @@
 
 
 //시스템 출력 스트링 Ask For SangHo
-//#define	LOOK_Debug //SangHo
+#define	LOOK_Debug //SangHo
 
 #ifdef LOOK_Debug
 	#define	LOOK_FRM_PER_SEC //SangHo
 	#define	LOOK_USE_MEMORY	//SangHo
 	//#define LOOK_EVENT_RECT
-	//#define LOOK_DONT_GO_RECT
+	#define LOOK_DONT_GO_RECT
 #endif
 
 
@@ -246,6 +247,9 @@ public:
 //	void AddRegenMonSetting();
 //	void LoadMonsterSprite(int nIdx);
 	void MakeMonsterSeed(int nStageNum);
+	void MakeMonsterSeed();
+
+
 	void Analysis_Mon_Message();
 
 
@@ -325,6 +329,9 @@ public:
 	void ProcessWorldMap();
 	void PaintWorldMap();
 	void KeyEvtWorldMap(int m_keyCode, int m_keyRepeat);
+
+	//	minimap
+	class cMinimap* pMinimap;
 
 
 };
