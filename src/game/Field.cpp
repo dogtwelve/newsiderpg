@@ -1,5 +1,5 @@
 #include "Field.h"
-
+#include "Minimap.h"
 
 int Field::m_nFieldSize_X = 0;
 
@@ -240,6 +240,648 @@ void Field::GetMessage()
 
 ////////////////////////////////////////////////////
 
+
+//--------------------------------------------------------------------------
+void Field::Load_EVT(char* packName, int packIndex)
+//--------------------------------------------------------------------------
+{
+	int tmpId = 0;
+	int arrowpointx, arrowpointy, arrowtype = 0;
+
+	//	쓰일 각종 리스트를 초기화시켜준다.
+	Release_EVT_WAY();
+	Release_EVT_INPUTKEY();
+	//Npc::ReleaseAspriteNPC();
+	MoveHead(pDontgoRect);
+	MoveHead(pEventRect);
+//	MoveHead(pMonsterGenRect);
+	
+	
+	//	각종 데이타를 초기화시켜준다.
+	MAP_EVT_WAY* pEvtWay = NULL;
+	VEvent*		pEvtKeyInput = NULL;
+
+	//	팩을 읽으면서 데이타를 분리시켜서 각각의 리스트에 넣어준다.
+	SUTIL_Data_init(packName);		//<< 맵 이벤트 할 팩 로드
+	SUTIL_Data_open(packIndex);
+
+	while(1)
+	{
+		SUTIL_Data_readU8();											//	0x08		읽고 버린다.
+		tmpId				= (short)SUTIL_Data_readU16();				//	Data0
+		switch(tmpId)
+		{
+			case 1:
+			//---------------------------------------------------------------
+			{
+				break;
+			}
+			case EVT_NEXT_MAP_POS:		//	맵에서 이동시 다음 맵을 정한다.
+			//---------------------------------------------------------------
+			{
+/*
+				pEvtWay = GL_NEW MAP_EVT_WAY();
+//				pEvtWay->switchtime	 = 0;
+
+				pEvtWay->sx			 = (short)SUTIL_Data_readU16();				//	x
+				pEvtWay->sy			 = (short)SUTIL_Data_readU16();				//	y
+				pEvtWay->dx			 = (short)SUTIL_Data_readU16();				//	인자1
+				pEvtWay->dy			 = (short)SUTIL_Data_readU16();				//	인자2
+				pEvtWay->type		 = (short)SUTIL_Data_readU16();				//	언제나:1 전투후:2
+				pEvtWay->nextStage	 = (short)SUTIL_Data_readU16();				//	다음 움직일 스테이지
+				pEvtWay->charx		 = (short)SUTIL_Data_readU16();				//	캐릭터 위치x
+				pEvtWay->chary		 = (short)SUTIL_Data_readU16();				//	캐릭터 위치y
+
+				pEvtWay->dx += pEvtWay->sx;										//	넓이를 좌표로 바꿔서 저장한다.
+				pEvtWay->dy += pEvtWay->sy;
+
+				//	화살표 셋팅
+				arrowpointx = (pEvtWay->sx+pEvtWay->dx)/2;
+				arrowpointy = (pEvtWay->sy+pEvtWay->dy)/2;
+
+				//	에니메이션 셋팅
+				arrowtype = ANIM_BG_OBJECT_ARROW_RIGHT;
+				if(150 > arrowpointy)	{arrowtype = ANIM_BG_OBJECT_ARROW_UP;}
+				if(250 < arrowpointy)	{arrowtype = ANIM_BG_OBJECT_ARROW_DOWN;}
+				if(0 > arrowpointx)	{arrowtype = ANIM_BG_OBJECT_ARROW_LEFT;}
+
+				switch(arrowtype)
+				{
+					case ANIM_BG_OBJECT_ARROW_DOWN:	{arrowpointy = pEvtWay->sy;		break;}
+					case ANIM_BG_OBJECT_ARROW_UP:	{arrowpointy = pEvtWay->dy;		break;}
+					case ANIM_BG_OBJECT_ARROW_LEFT:	{arrowpointx = pEvtWay->dx+20;	break;}
+					case ANIM_BG_OBJECT_ARROW_RIGHT:{arrowpointx = pEvtWay->sx-20;	break;}
+					default:	{break;}
+				}
+
+				pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, arrowpointx, arrowpointy, NULL);// 0번째 배열, 실사용시는 define 필요
+				SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, arrowtype);
+				SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
+
+				pEvtWayList->Insert_next(pEvtWay);
+*/
+				continue;
+			}
+			case EVT_MAP_SIZE:			//	맵의 사이즈를 결정한다.
+			//---------------------------------------------------------------
+			{
+				m_nFieldSize_X = (short)SUTIL_Data_readU16();	//	x는 맵의 크기이다.
+				(short)SUTIL_Data_readU16();
+				(short)SUTIL_Data_readU16();
+				(short)SUTIL_Data_readU16();
+				(short)SUTIL_Data_readU16();
+				(short)SUTIL_Data_readU16();
+				(short)SUTIL_Data_readU16();
+				continue;
+			}
+			case EVT_DONT_GO_RECT:				//	EVT_DONT_GO_RECT
+			//---------------------------------------------------------------
+			{
+				DONT_GO_RECT* pTmpRect = GL_NEW DONT_GO_RECT();
+
+				pTmpRect->sx			 = (short)SUTIL_Data_readU16();				//	x
+				pTmpRect->sy			 = (short)SUTIL_Data_readU16();				//	y
+				pTmpRect->dx			 = (short)SUTIL_Data_readU16();				//	w
+				pTmpRect->dy			 = (short)SUTIL_Data_readU16();				//	h
+				SUTIL_Data_readU16();
+				SUTIL_Data_readU16();
+				SUTIL_Data_readU16();
+				SUTIL_Data_readU16();
+
+				pDontgoRect->Insert_next(pTmpRect);
+				continue;
+			}
+			case EVT_NPC:				//	NPC
+			//---------------------------------------------------------------
+			{
+				int x				 = (short)SUTIL_Data_readU16();				//	x
+				int y				 = (short)SUTIL_Data_readU16();				//	y
+				int imgidx			 = (short)SUTIL_Data_readU16();				//	인자1
+				Npc* pTmpStoreNpc = GL_NEW Npc(imgidx, x, y);
+				pTmpStoreNpc->m_nType = tmpId;
+				pTmpStoreNpc->m_nSaveEvtCode = (short)SUTIL_Data_readU16();		//	인자2
+				SUTIL_Data_readU16();				//	더미
+				SUTIL_Data_readU16();				//	
+				SUTIL_Data_readU16();				//	
+
+				pKeyInputEvt->Insert_next(pTmpStoreNpc);
+				continue;
+			}
+			case EVT_EVENT_RECT:				//	EVT_EVENT_RECT
+			//---------------------------------------------------------------
+			{
+				EVENT_RECT* pTmpRect = GL_NEW EVENT_RECT();
+
+				pTmpRect->sx			 = (short)SUTIL_Data_readU16();				//	x
+				pTmpRect->sy			 = (short)SUTIL_Data_readU16();				//	y
+				pTmpRect->dx			 = (short)SUTIL_Data_readU16();				//	w
+				pTmpRect->dy			 = (short)SUTIL_Data_readU16();				//	h
+				pTmpRect->eCode			 = (short)SUTIL_Data_readU16();
+				pTmpRect->dummy[0]		 = (short)SUTIL_Data_readU16();
+				pTmpRect->dummy[1]		 = (short)SUTIL_Data_readU16();
+				pTmpRect->dummy[2]		 = (short)SUTIL_Data_readU16();
+
+				pTmpRect->dx += pTmpRect->sx;
+				pTmpRect->dy += pTmpRect->sy;
+
+				pEventRect->Insert_next(pTmpRect);
+				continue;
+			}
+//			case EVT_MON_GEN_RECT:				//	EVT_MON_GEN_RECT
+//			//---------------------------------------------------------------
+//			{
+//				MONSTER_REGEN_DATA* pTmpData = GL_NEW MONSTER_REGEN_DATA();
+//
+//				pTmpData->x			 = (short)SUTIL_Data_readU16();				//	x
+//				pTmpData->y			 = (short)SUTIL_Data_readU16();				//	y
+//				pTmpData->nType		 = (short)SUTIL_Data_readU16();				//	w
+//				(short)SUTIL_Data_readU16();				//	h
+//				(short)SUTIL_Data_readU16();
+//				(short)SUTIL_Data_readU16();
+//				(short)SUTIL_Data_readU16();
+//				pMonsterGenRect->Insert_next(pTmpData);
+//				continue;
+//			}
+
+			//case EVT_BARREL:
+			////---------------------------------------------------------------
+			//{
+			//	int x				 = (short)SUTIL_Data_readU16();				//	x
+			//	int y				 = (short)SUTIL_Data_readU16();				//	y
+			//	int dummy			 = (short)SUTIL_Data_readU16();				//	인자1
+			//	CrushObj* pTmpObject = GL_NEW CrushObj(dummy, x, y);
+			//	//pTmpObject->m_nType = tmpId;
+			//	pTmpObject->m_nType = EVT_BARREL;
+			//	pTmpObject->m_nSaveEvtCode = (short)SUTIL_Data_readU16();		//	인자2
+			//	SUTIL_Data_readU16();				//	더미
+			//	SUTIL_Data_readU16();				//	
+			//	SUTIL_Data_readU16();				//	
+			//
+			//	pKeyInputEvt->Insert_next(pTmpObject);
+			//	continue;
+			//	break;
+//			}
+		}
+		break;
+	}
+
+	SUTIL_Data_free();
+
+	//	로드를 한후 이미지를 로드한다. (파일 인풋때문에)
+
+	for(InitList(pKeyInputEvt);NotEndList(pKeyInputEvt);MoveNext(pKeyInputEvt))
+	{
+		switch(GetData(pKeyInputEvt)->m_nType )
+		{
+			case EVT_NPC:
+			//--------------------------------------------------------------
+			{
+				((Npc*)GetData(pKeyInputEvt))->ReadyObject(s_ASpriteSet);
+				break;
+			}
+//			case EVT_BARREL:
+//			//--------------------------------------------------------------
+//			{
+//				((CrushObj*)GetData(pKeyInputEvt))->ReadyObject(s_ASpriteSet);
+//				break;
+//			}
+
+			
+		}
+	}
+
+}
+
+
+//--------------------------------------------------------------------------
+void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, bool isRepeat)
+//--------------------------------------------------------------------------
+{
+	BackLayerObject* pBackObject = NULL;
+	int tmpsprid = 0;
+
+	SUTIL_Data_init(packName);
+	SUTIL_Data_open(packIndex);
+
+	int AsframeNum = 0;
+	int tmpId = 0;
+
+	ASprite*	tmpASprite;
+	while(1)
+	{
+		SUTIL_Data_readU8();											//	0x08		읽고 버린다.
+		tmpId				= (short)SUTIL_Data_readU16();
+
+		switch(tmpId)
+		{
+			case EVT_DONT_GO_RECT:				//	EVT_DONT_GO_RECT
+			//---------------------------------------------------------------
+			{
+				DONT_GO_RECT* pTmpRect = GL_NEW DONT_GO_RECT();
+
+				pTmpRect->sx			 = (short)SUTIL_Data_readU16();				//	x
+				pTmpRect->sy			 = (short)SUTIL_Data_readU16();				//	y
+				pTmpRect->dx			 = (short)SUTIL_Data_readU16();				//	w
+				pTmpRect->dy			 = (short)SUTIL_Data_readU16();				//	h
+				SUTIL_Data_readU16();
+				SUTIL_Data_readU16();
+				SUTIL_Data_readU16();
+				SUTIL_Data_readU16();
+
+				//	패턴이기 때문에 더해줘야 된다.
+				pTmpRect->sx += pBackLayer->m_nLayerSizeX;
+
+				pDontgoRect->Insert_next(pTmpRect);
+				continue;
+			}
+			case EVT_END_OF_LAYER:			
+			//---------------------------------------------------------------
+			{
+				pBackLayer->m_nLayerSizeX += (short)SUTIL_Data_readU16();
+				break;
+			}
+			default:
+			//---------------------------------------------------------------
+			{
+				//	리피트 일경우는 이벤트만 복사해야되므로 이미지패턴은 재로드하지 않는다.
+				if(true == isRepeat)
+				{
+					(short)SUTIL_Data_readU16();
+					(short)SUTIL_Data_readU16();
+					(short)SUTIL_Data_readU16();
+					(short)SUTIL_Data_readU16();
+					(short)SUTIL_Data_readU16();
+					(short)SUTIL_Data_readU16();
+					(short)SUTIL_Data_readU16();
+					continue;
+				}
+
+
+				if(100 <= tmpId)		//현재 오브젝트의 스프라이트 넘버값을 알려준다.
+				{
+					tmpsprid = (tmpId-100)/100;
+					tmpASprite = pFieldAs[tmpsprid];
+				}
+
+				pBackObject	= GL_NEW BackLayerObject();
+				pBackObject->x			= (short)SUTIL_Data_readU16();				//	x
+				pBackObject->y			= (short)SUTIL_Data_readU16();				//	y
+
+										  (short)SUTIL_Data_readU16();				//	읽고 버린다.
+				pBackObject->type		= (short)SUTIL_Data_readU16();				//	고유 타입
+				pBackObject->drawtype	= (short)SUTIL_Data_readU16();				//	draw type	//	0이면 frame, 1이면 animation
+				AsframeNum				= (short)SUTIL_Data_readU16();				//	draw num
+										  (short)SUTIL_Data_readU16();				//	임시3		읽고 버린다.
+
+				pBackObject->spridx = tmpsprid;
+				pBackObject->pAsIns = GL_NEW ASpriteInstance(tmpASprite, 0, 0, NULL);
+				pBackObject->pAsIns->SetAniMoveLock(true);
+
+				if(0 == pBackObject->drawtype)		{SUTIL_SetTypeFrameAsprite(pBackObject->pAsIns, AsframeNum);}
+				else if(1 == pBackObject->drawtype)
+				{
+					SUTIL_SetTypeAniAsprite(pBackObject->pAsIns, AsframeNum);
+					SUTIL_SetLoopAsprite(pBackObject->pAsIns, true);
+				}
+				
+			//	pBackObject->adjustx = tmpASprite->GetFrameX(AsframeNum);
+			//	pBackObject->width = tmpASprite->GetFrameWidth(AsframeNum);
+				pBackObject->x += pBackLayer->m_nLayerSizeX;
+				pBackObject->y += pBackLayer->m_nBaseYLine;
+			//	pBackObject->x += pBackObject->adjustx;
+				pBackObject->z = 0;
+
+				pBackObject->startx = pBackObject->x + tmpASprite->GetFrameX(AsframeNum);
+				pBackObject->endx = pBackObject->startx + tmpASprite->GetFrameWidth(AsframeNum);
+
+				pBackLayer->InsertObject(pBackObject);
+
+				continue;;
+			}
+		}
+
+		break;
+	}
+
+	SUTIL_Data_free();
+
+/*
+
+//		if(1 == tmpId)		//	마지막 데이타
+//		{
+//			pBackLayer->m_nLayerSizeX += (short)SUTIL_Data_readU16();
+//			break;
+//		}
+		else if(2 == tmpId || 3 == tmpId)			//	임시값 그냥 흘러간다.
+		{
+		}
+		else if(11 == tmpId)							//	랙트를 그려야 한다.
+		{
+			(short)SUTIL_Data_readU16();				//	x
+			(short)SUTIL_Data_readU16();				//	y
+			(short)SUTIL_Data_readU16();				//	고유 타입
+			(short)SUTIL_Data_readU16();				//	draw type	//	0이면 frame, 1이면 animation
+			(short)SUTIL_Data_readU16();				//	draw num
+			(short)SUTIL_Data_readU16();											//	임시3		읽고 버린다.
+			(short)SUTIL_Data_readU16();											//	임시3		읽고 버린다.
+			continue;
+		}
+		else
+		{
+			//DONT_GO_RECT* pTmpRect;
+
+			if(100 <= tmpId)		//현재 오브젝트의 스프라이트 넘버값을 알려준다.
+			{
+				tmpsprid = (tmpId-100)/100;
+				tmpASprite = pFieldAs[tmpsprid];
+			}
+		}
+
+		pBackObject	= GL_NEW BackLayerObject();
+		pBackObject->x			= (short)SUTIL_Data_readU16();				//	x
+		pBackObject->y			= (short)SUTIL_Data_readU16();				//	y
+
+								  (short)SUTIL_Data_readU16();				//	읽고 버린다.
+		pBackObject->type		= (short)SUTIL_Data_readU16();				//	고유 타입
+		pBackObject->drawtype	= (short)SUTIL_Data_readU16();				//	draw type	//	0이면 frame, 1이면 animation
+		AsframeNum				= (short)SUTIL_Data_readU16();				//	draw num
+								  (short)SUTIL_Data_readU16();				//	임시3		읽고 버린다.
+
+		pBackObject->spridx = tmpsprid;
+		pBackObject->pAsIns = GL_NEW ASpriteInstance(tmpASprite, 0, 0, NULL);
+		pBackObject->pAsIns->SetAniMoveLock(true);
+
+		if(0 == pBackObject->drawtype)		{SUTIL_SetTypeFrameAsprite(pBackObject->pAsIns, AsframeNum);}
+		else if(1 == pBackObject->drawtype)
+		{
+			SUTIL_SetTypeAniAsprite(pBackObject->pAsIns, AsframeNum);
+			SUTIL_SetLoopAsprite(pBackObject->pAsIns, true);
+		}
+		
+	//	pBackObject->adjustx = tmpASprite->GetFrameX(AsframeNum);
+	//	pBackObject->width = tmpASprite->GetFrameWidth(AsframeNum);
+		pBackObject->x += pBackLayer->m_nLayerSizeX;
+		pBackObject->y += pBackLayer->m_nBaseYLine;
+	//	pBackObject->x += pBackObject->adjustx;
+		pBackObject->z = 0;
+
+		pBackObject->startx = pBackObject->x + tmpASprite->GetFrameX(AsframeNum);
+		pBackObject->endx = pBackObject->startx + tmpASprite->GetFrameWidth(AsframeNum);
+
+		pBackLayer->InsertObject(pBackObject);
+	}
+
+	SUTIL_Data_free();
+*/
+}
+
+
+
+
+//--------------------------------------------------------------------------
+void Field::LoadMap(void* pMinimapData)
+//--------------------------------------------------------------------------
+{
+	int loop = 0;
+
+	BackLayer* pBackLayer = NULL;
+	m_nSrcCamAngle_X = 0;
+
+	m_pMiniMapData = pMinimapData;
+//	m_pMiniMapData = (MiniMapData*)pMinimapData;
+	MiniMapData* pMiniMapData = (MiniMapData*)m_pMiniMapData;
+
+	//	리소스 해제
+	ReleaseMap(pMiniMapData->m_nResType);
+
+	//	스프라이트 로드
+	if(m_nSaveResType != pMiniMapData->m_nResType)
+	{
+		m_nSaveResType = pMiniMapData->m_nResType;
+		LoadFieldImage(m_nSaveResType);
+	}
+
+	//	이동영역 제한 리스트
+	MoveHead(pDontgoRect);
+
+	char packName[3];
+	int baseIdx[6];
+
+	switch(m_nSaveResType)
+	{
+		case 1:		// forest
+		//-------------------------------------------------------------------
+		{
+			strcpy(packName, PACK_DATA_MAP_FOREST);	
+
+			baseIdx[0] = 0;			//	뒷 배경	시작
+			baseIdx[1] = 3;			//	윗바닥 시작
+			baseIdx[2] = 4;			//	아래바닥 시작
+			baseIdx[3] = 5;			//	바닥 오브젝트 시작
+			baseIdx[4] = 8;			//	앞 배경 시작
+			baseIdx[5] = 11;		//	오브젝트
+			break;
+		}
+	}
+
+	//	인덱스가 1부터 시작한다.
+	baseIdx[0] -= 1;
+	baseIdx[1] -= 1;
+	baseIdx[2] -= 1;
+	baseIdx[3] -= 1;
+	baseIdx[4] -= 1;
+	baseIdx[5] -= 1;
+
+	// 맵데이타 로드
+	MoveHead(pLayerList);
+
+	//	배경 레이어 로드 //////////////////////////////////////////////////////////
+	pBackLayer = GL_NEW BackLayer();
+	pBackLayer->m_nMoveRate = 30;
+	LoadMapLayer(pBackLayer, packName, baseIdx[0] + pMiniMapData->m_nBackType);
+	pLayerList->Insert_next(pBackLayer);
+
+	//	바닥 레이어 로드 /////////////////////////////////////////////////////////
+	pBackLayer = GL_NEW BackLayer();
+	pBackLayer->m_nMoveRate = 100;
+	LoadMapLayer(pBackLayer, packName, baseIdx[1] + 1 );
+
+	//	임시
+	for(loop = 0; loop < pMiniMapData->m_nCellCount-1; loop++)
+	{
+		LoadMapLayer(pBackLayer, packName, baseIdx[1] + 1 , true);
+	}
+	
+
+	pLayerList->Insert_next(pBackLayer);
+
+	//	앞 바닥 레이어 로드
+	pBackLayer = GL_NEW BackLayer();
+	pBackLayer->m_nMoveRate = 130;
+
+	//	임시
+	LoadMapLayer(pBackLayer, packName, baseIdx[2] + 1 );
+//	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+//	{
+//		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
+//		LoadMapLayer(pBackLayer, packName, baseIdx[2] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
+//	}
+	pLayerList->Insert_next(pBackLayer);
+
+	//	앞 바닥 오브젝트 레이어 로드
+	pBackLayer = GL_NEW BackLayer();
+	pBackLayer->m_nMoveRate = 130;
+	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+	{
+		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
+		LoadMapLayer(pBackLayer, packName, baseIdx[3] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
+	}
+	pLayerList->Insert_next(pBackLayer);
+
+
+	//	앞 전경 레이어 로드
+	pBackLayer = GL_NEW BackLayer();
+	pBackLayer->m_nMoveRate = 130;
+	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+	{
+		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
+		LoadMapLayer(pBackLayer, packName, baseIdx[4] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
+	}
+	pLayerList->Insert_next(pBackLayer);
+
+	//	오브젝트 레이어 로드 //////////////////////////////////////////////////////////
+	pBackLayer = GL_NEW BackLayer();
+	pBackLayer->m_nMoveRate = 100;
+	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+	{
+		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnObject)	{break;}
+		LoadMapLayer(pBackLayer, packName, baseIdx[5] + pMiniMapData->m_sMapCellData[loop].m_PtnObject );
+	}
+	pLayerList->Insert_next(pBackLayer);
+
+
+	//	맵 정보
+	m_nFieldSize_X = pMiniMapData->m_nCellCount*500;
+
+
+	//	맵 화살표 정보
+	Release_EVT_WAY();
+
+	MAP_EVT_WAY* pEvtWay = NULL;
+
+	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+	{
+		if(MNC_RIGHT_LINK & pMiniMapData->m_sMapCellData[loop].m_nPtnType)
+		{
+			pEvtWay = GL_NEW MAP_EVT_WAY();
+			pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, (SECTOR_SIZE*(loop+1))-20, (MAP_MOVE_UP_Y+MAP_MOVE_DOWN_Y)/2, NULL);// 0번째 배열, 실사용시는 define 필요
+			SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, ANIM_BG_OBJECT_ARROW_RIGHT);
+			SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
+			pEvtWayList->Insert_next(pEvtWay);
+		}
+
+		if(MNC_LEFT_LINK & pMiniMapData->m_sMapCellData[loop].m_nPtnType)
+		{
+			pEvtWay = GL_NEW MAP_EVT_WAY();
+			pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, (SECTOR_SIZE*(loop+0))+20, (MAP_MOVE_UP_Y+MAP_MOVE_DOWN_Y)/2, NULL);// 0번째 배열, 실사용시는 define 필요
+			SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, ANIM_BG_OBJECT_ARROW_LEFT);
+			SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
+			pEvtWayList->Insert_next(pEvtWay);
+		}
+
+		if(MNC_UP_LINK & pMiniMapData->m_sMapCellData[loop].m_nPtnType)
+		{
+			pEvtWay = GL_NEW MAP_EVT_WAY();
+			pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, (SECTOR_SIZE*(loop))+(SECTOR_SIZE/2), (MAP_DEF_CHAR_UP_Y), NULL);// 0번째 배열, 실사용시는 define 필요
+			SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, ANIM_BG_OBJECT_ARROW_UP);
+			SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
+			pEvtWayList->Insert_next(pEvtWay);
+		}
+
+		if(MNC_DOWN_LINK & pMiniMapData->m_sMapCellData[loop].m_nPtnType)
+		{
+			pEvtWay = GL_NEW MAP_EVT_WAY();
+			pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, (SECTOR_SIZE*(loop))+(SECTOR_SIZE/2), (MAP_DEF_CHAR_DOWN_Y), NULL);// 0번째 배열, 실사용시는 define 필요
+			SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, ANIM_BG_OBJECT_ARROW_DOWN);
+			SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
+			pEvtWayList->Insert_next(pEvtWay);
+		}
+	}
+
+	//	캐릭터 위치 설정
+
+
+/*
+
+	MiniMapData* pMiniMapData = (MiniMapData*)m_pMiniMapData;
+
+	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+	{
+
+m_nPtnType = MNC_RIGHT_LINK | MNC_DOWN_LINK;
+
+
+		if(MNC_RIGHT_LINK & pMiniMapData->m_sMapCellData[loop].m_nPtnType)
+		{
+
+		}
+
+		MNC_DOWN_LINK
+	}
+
+
+	for(InitList(pEvtWayList);NotEndList(pEvtWayList);MoveNext(pEvtWayList))
+	{
+		GetData(pEvtWayList)->pArrawAsIns->CameraX = -m_nSrcCamAngle_X;
+		SUTIL_PaintAsprite(GetData(pEvtWayList)->pArrawAsIns, S_NOT_INCLUDE_SORT);
+	}
+
+
+*/
+
+
+//				pEvtWay = GL_NEW MAP_EVT_WAY();
+//				pEvtWay->switchtime	 = 0;
+/*
+				pEvtWay->sx			 = (short)SUTIL_Data_readU16();				//	x
+				pEvtWay->sy			 = (short)SUTIL_Data_readU16();				//	y
+				pEvtWay->dx			 = (short)SUTIL_Data_readU16();				//	인자1
+				pEvtWay->dy			 = (short)SUTIL_Data_readU16();				//	인자2
+				pEvtWay->type		 = (short)SUTIL_Data_readU16();				//	언제나:1 전투후:2
+				pEvtWay->nextStage	 = (short)SUTIL_Data_readU16();				//	다음 움직일 스테이지
+				pEvtWay->charx		 = (short)SUTIL_Data_readU16();				//	캐릭터 위치x
+				pEvtWay->chary		 = (short)SUTIL_Data_readU16();				//	캐릭터 위치y
+
+				pEvtWay->dx += pEvtWay->sx;										//	넓이를 좌표로 바꿔서 저장한다.
+				pEvtWay->dy += pEvtWay->sy;
+
+				//	화살표 셋팅
+				arrowpointx = (pEvtWay->sx+pEvtWay->dx)/2;
+				arrowpointy = (pEvtWay->sy+pEvtWay->dy)/2;
+
+				//	에니메이션 셋팅
+				arrowtype = ANIM_BG_OBJECT_ARROW_RIGHT;
+				if(150 > arrowpointy)	{arrowtype = ANIM_BG_OBJECT_ARROW_UP;}
+				if(250 < arrowpointy)	{arrowtype = ANIM_BG_OBJECT_ARROW_DOWN;}
+				if(0 > arrowpointx)	{arrowtype = ANIM_BG_OBJECT_ARROW_LEFT;}
+
+				switch(arrowtype)
+				{
+					case ANIM_BG_OBJECT_ARROW_DOWN:	{arrowpointy = pEvtWay->sy;		break;}
+					case ANIM_BG_OBJECT_ARROW_UP:	{arrowpointy = pEvtWay->dy;		break;}
+					case ANIM_BG_OBJECT_ARROW_LEFT:	{arrowpointx = pEvtWay->dx+20;	break;}
+					case ANIM_BG_OBJECT_ARROW_RIGHT:{arrowpointx = pEvtWay->sx-20;	break;}
+					default:	{break;}
+				}
+
+				pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, arrowpointx, arrowpointy, NULL);// 0번째 배열, 실사용시는 define 필요
+				SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, arrowtype);
+				SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
+
+				pEvtWayList->Insert_next(pEvtWay);
+*/
+
+}
 
 //--------------------------------------------------------------------------
 void Field::LoadMap(int nNextStageNum)
@@ -1915,11 +2557,11 @@ void Field::LoadMap(int nNextStageNum)
 
 
 //--------------------------------------------------------------------------
-void Field::ReleaseMap(int nNextStageNum)
+void Field::ReleaseMap(int nResIdx)
 //--------------------------------------------------------------------------
 {
 	//	같으면 이미지 재로딩을 하지 않는다.
-	if(nNextStageNum/100 != m_nSaveStageNum/100)
+	if(m_nSaveResType != nResIdx)
 	{
 		DeleteFieldImage();
 
@@ -1928,6 +2570,8 @@ void Field::ReleaseMap(int nNextStageNum)
 //			if(pFieldAs[loop])	{SUTIL_FreeSprite(pFieldAs[loop]);}
 //		}
 	}
+
+	m_pMiniMapData = NULL;
 
 	InitList(pLayerList);
 	while(NotEndList(pLayerList))
@@ -2148,214 +2792,6 @@ void Field::SetCamera(int camx, int camy)
 }
 
 
-//--------------------------------------------------------------------------
-void Field::Load_EVT(char* packName, int packIndex)
-//--------------------------------------------------------------------------
-{
-	int tmpId = 0;
-	int arrowpointx, arrowpointy, arrowtype = 0;
-
-	//	쓰일 각종 리스트를 초기화시켜준다.
-	Release_EVT_WAY();
-	Release_EVT_INPUTKEY();
-	//Npc::ReleaseAspriteNPC();
-	MoveHead(pDontgoRect);
-	MoveHead(pEventRect);
-//	MoveHead(pMonsterGenRect);
-	
-	
-	//	각종 데이타를 초기화시켜준다.
-	MAP_EVT_WAY* pEvtWay = NULL;
-	VEvent*		pEvtKeyInput = NULL;
-
-	//	팩을 읽으면서 데이타를 분리시켜서 각각의 리스트에 넣어준다.
-	SUTIL_Data_init(packName);		//<< 맵 이벤트 할 팩 로드
-	SUTIL_Data_open(packIndex);
-
-	while(1)
-	{
-		SUTIL_Data_readU8();											//	0x08		읽고 버린다.
-		tmpId				= (short)SUTIL_Data_readU16();				//	Data0
-		switch(tmpId)
-		{
-			case 1:
-			//---------------------------------------------------------------
-			{
-				break;
-			}
-			case EVT_NEXT_MAP_POS:		//	맵에서 이동시 다음 맵을 정한다.
-			//---------------------------------------------------------------
-			{
-				pEvtWay = GL_NEW MAP_EVT_WAY();
-				pEvtWay->switchtime	 = 0;
-
-				pEvtWay->sx			 = (short)SUTIL_Data_readU16();				//	x
-				pEvtWay->sy			 = (short)SUTIL_Data_readU16();				//	y
-				pEvtWay->dx			 = (short)SUTIL_Data_readU16();				//	인자1
-				pEvtWay->dy			 = (short)SUTIL_Data_readU16();				//	인자2
-				pEvtWay->type		 = (short)SUTIL_Data_readU16();				//	언제나:1 전투후:2
-				pEvtWay->nextStage	 = (short)SUTIL_Data_readU16();				//	다음 움직일 스테이지
-				pEvtWay->charx		 = (short)SUTIL_Data_readU16();				//	캐릭터 위치x
-				pEvtWay->chary		 = (short)SUTIL_Data_readU16();				//	캐릭터 위치y
-
-				pEvtWay->dx += pEvtWay->sx;										//	넓이를 좌표로 바꿔서 저장한다.
-				pEvtWay->dy += pEvtWay->sy;
-
-				//	화살표 셋팅
-				arrowpointx = (pEvtWay->sx+pEvtWay->dx)/2;
-				arrowpointy = (pEvtWay->sy+pEvtWay->dy)/2;
-
-				//	에니메이션 셋팅
-				arrowtype = ANIM_BG_OBJECT_ARROW_RIGHT;
-				if(150 > arrowpointy)	{arrowtype = ANIM_BG_OBJECT_ARROW_UP;}
-				if(250 < arrowpointy)	{arrowtype = ANIM_BG_OBJECT_ARROW_DOWN;}
-				if(0 > arrowpointx)	{arrowtype = ANIM_BG_OBJECT_ARROW_LEFT;}
-
-				switch(arrowtype)
-				{
-					case ANIM_BG_OBJECT_ARROW_DOWN:	{arrowpointy = pEvtWay->sy;		break;}
-					case ANIM_BG_OBJECT_ARROW_UP:	{arrowpointy = pEvtWay->dy;		break;}
-					case ANIM_BG_OBJECT_ARROW_LEFT:	{arrowpointx = pEvtWay->dx+20;	break;}
-					case ANIM_BG_OBJECT_ARROW_RIGHT:{arrowpointx = pEvtWay->sx-20;	break;}
-					default:	{break;}
-				}
-
-				pEvtWay->pArrawAsIns = GL_NEW ASpriteInstance(pWayAs, arrowpointx, arrowpointy, NULL);// 0번째 배열, 실사용시는 define 필요
-				SUTIL_SetTypeAniAsprite(pEvtWay->pArrawAsIns, arrowtype);
-				SUTIL_SetLoopAsprite(pEvtWay->pArrawAsIns, true);
-
-				pEvtWayList->Insert_next(pEvtWay);
-				continue;
-			}
-			case EVT_MAP_SIZE:			//	맵의 사이즈를 결정한다.
-			//---------------------------------------------------------------
-			{
-				m_nFieldSize_X = (short)SUTIL_Data_readU16();	//	x는 맵의 크기이다.
-				(short)SUTIL_Data_readU16();
-				(short)SUTIL_Data_readU16();
-				(short)SUTIL_Data_readU16();
-				(short)SUTIL_Data_readU16();
-				(short)SUTIL_Data_readU16();
-				(short)SUTIL_Data_readU16();
-				continue;
-			}
-			case EVT_DONT_GO_RECT:				//	EVT_DONT_GO_RECT
-			//---------------------------------------------------------------
-			{
-				DONT_GO_RECT* pTmpRect = GL_NEW DONT_GO_RECT();
-
-				pTmpRect->sx			 = (short)SUTIL_Data_readU16();				//	x
-				pTmpRect->sy			 = (short)SUTIL_Data_readU16();				//	y
-				pTmpRect->dx			 = (short)SUTIL_Data_readU16();				//	w
-				pTmpRect->dy			 = (short)SUTIL_Data_readU16();				//	h
-				SUTIL_Data_readU16();
-				SUTIL_Data_readU16();
-				SUTIL_Data_readU16();
-				SUTIL_Data_readU16();
-
-				pDontgoRect->Insert_next(pTmpRect);
-				continue;
-			}
-			case EVT_NPC:				//	NPC
-			//---------------------------------------------------------------
-			{
-				int x				 = (short)SUTIL_Data_readU16();				//	x
-				int y				 = (short)SUTIL_Data_readU16();				//	y
-				int imgidx			 = (short)SUTIL_Data_readU16();				//	인자1
-				Npc* pTmpStoreNpc = GL_NEW Npc(imgidx, x, y);
-				pTmpStoreNpc->m_nType = tmpId;
-				pTmpStoreNpc->m_nSaveEvtCode = (short)SUTIL_Data_readU16();		//	인자2
-				SUTIL_Data_readU16();				//	더미
-				SUTIL_Data_readU16();				//	
-				SUTIL_Data_readU16();				//	
-
-				pKeyInputEvt->Insert_next(pTmpStoreNpc);
-				continue;
-			}
-			case EVT_EVENT_RECT:				//	EVT_EVENT_RECT
-			//---------------------------------------------------------------
-			{
-				EVENT_RECT* pTmpRect = GL_NEW EVENT_RECT();
-
-				pTmpRect->sx			 = (short)SUTIL_Data_readU16();				//	x
-				pTmpRect->sy			 = (short)SUTIL_Data_readU16();				//	y
-				pTmpRect->dx			 = (short)SUTIL_Data_readU16();				//	w
-				pTmpRect->dy			 = (short)SUTIL_Data_readU16();				//	h
-				pTmpRect->eCode			 = (short)SUTIL_Data_readU16();
-				pTmpRect->dummy[0]		 = (short)SUTIL_Data_readU16();
-				pTmpRect->dummy[1]		 = (short)SUTIL_Data_readU16();
-				pTmpRect->dummy[2]		 = (short)SUTIL_Data_readU16();
-
-				pTmpRect->dx += pTmpRect->sx;
-				pTmpRect->dy += pTmpRect->sy;
-
-				pEventRect->Insert_next(pTmpRect);
-				continue;
-			}
-//			case EVT_MON_GEN_RECT:				//	EVT_MON_GEN_RECT
-//			//---------------------------------------------------------------
-//			{
-//				MONSTER_REGEN_DATA* pTmpData = GL_NEW MONSTER_REGEN_DATA();
-//
-//				pTmpData->x			 = (short)SUTIL_Data_readU16();				//	x
-//				pTmpData->y			 = (short)SUTIL_Data_readU16();				//	y
-//				pTmpData->nType		 = (short)SUTIL_Data_readU16();				//	w
-//				(short)SUTIL_Data_readU16();				//	h
-//				(short)SUTIL_Data_readU16();
-//				(short)SUTIL_Data_readU16();
-//				(short)SUTIL_Data_readU16();
-//				pMonsterGenRect->Insert_next(pTmpData);
-//				continue;
-//			}
-
-			//case EVT_BARREL:
-			////---------------------------------------------------------------
-			//{
-			//	int x				 = (short)SUTIL_Data_readU16();				//	x
-			//	int y				 = (short)SUTIL_Data_readU16();				//	y
-			//	int dummy			 = (short)SUTIL_Data_readU16();				//	인자1
-			//	CrushObj* pTmpObject = GL_NEW CrushObj(dummy, x, y);
-			//	//pTmpObject->m_nType = tmpId;
-			//	pTmpObject->m_nType = EVT_BARREL;
-			//	pTmpObject->m_nSaveEvtCode = (short)SUTIL_Data_readU16();		//	인자2
-			//	SUTIL_Data_readU16();				//	더미
-			//	SUTIL_Data_readU16();				//	
-			//	SUTIL_Data_readU16();				//	
-			//
-			//	pKeyInputEvt->Insert_next(pTmpObject);
-			//	continue;
-			//	break;
-//			}
-		}
-		break;
-	}
-
-	SUTIL_Data_free();
-
-	//	로드를 한후 이미지를 로드한다. (파일 인풋때문에)
-
-	for(InitList(pKeyInputEvt);NotEndList(pKeyInputEvt);MoveNext(pKeyInputEvt))
-	{
-		switch(GetData(pKeyInputEvt)->m_nType )
-		{
-			case EVT_NPC:
-			//--------------------------------------------------------------
-			{
-				((Npc*)GetData(pKeyInputEvt))->ReadyObject(s_ASpriteSet);
-				break;
-			}
-//			case EVT_BARREL:
-//			//--------------------------------------------------------------
-//			{
-//				((CrushObj*)GetData(pKeyInputEvt))->ReadyObject(s_ASpriteSet);
-//				break;
-//			}
-
-			
-		}
-	}
-
-}
 
 
 //--------------------------------------------------------------------------
@@ -2377,23 +2813,23 @@ int Field::Process_EVT_WAY(int battleState, int herodir, int herox1, int heroy1)
 //--------------------------------------------------------------------------
 {
 	//	캐릭터의 위치
-	m_nCharx = herox1;
-	m_nChary = heroy1;
-
-	switch(herodir)
-	{
-		case MAP_EVT_WAY_DIR_UP:	{heroy1-=40;	break;}
-		case MAP_EVT_WAY_DIR_DOWN:	{heroy1+=40;	break;}
-		case MAP_EVT_WAY_DIR_LEFT:	{herox1-=40;	break;}
-		case MAP_EVT_WAY_DIR_RIGHT:	{herox1+=40;	break;}
-	}
+//	m_nCharx = herox1;
+//	m_nChary = heroy1;
+//
+//	switch(herodir)
+//	{
+//		case MAP_EVT_WAY_DIR_UP:	{heroy1-=40;	break;}
+//		case MAP_EVT_WAY_DIR_DOWN:	{heroy1+=40;	break;}
+//		case MAP_EVT_WAY_DIR_LEFT:	{herox1-=40;	break;}
+//		case MAP_EVT_WAY_DIR_RIGHT:	{herox1+=40;	break;}
+//	}
 
 	//	화살표 에니메이션 업데이트
 	for(InitList(pEvtWayList);NotEndList(pEvtWayList);MoveNext(pEvtWayList))
 	{
 		SUTIL_UpdateTimeAsprite(GetData(pEvtWayList)->pArrawAsIns);
 	}
-
+/*
 	for(InitList(pEvtWayList);NotEndList(pEvtWayList);MoveNext(pEvtWayList))
 	{
 		if(herox1 > GetData(pEvtWayList)->sx &&
@@ -2402,9 +2838,9 @@ int Field::Process_EVT_WAY(int battleState, int herodir, int herox1, int heroy1)
 			heroy1 < GetData(pEvtWayList)->dy &&
 			battleState >= GetData(pEvtWayList)->type )
 		{
-			GetData(pEvtWayList)->switchtime++;
+//			GetData(pEvtWayList)->switchtime++;
 
-			if(5 < GetData(pEvtWayList)->switchtime)
+//			if(5 < GetData(pEvtWayList)->switchtime)
 			{
 //				if(100 > GetData(pEvtWayList)->charx)	//	방향은 오른쪽을 보고 있는다.
 //				{
@@ -2419,17 +2855,17 @@ int Field::Process_EVT_WAY(int battleState, int herodir, int herox1, int heroy1)
 				m_nWayMoveChary = GetData(pEvtWayList)->chary;
 
 				//	이벤트를 던지고 최소 시간을 딜레이준다. 안그럼 계속 이벤트를 던짐
-				GetData(pEvtWayList)->switchtime = -20;
+//				GetData(pEvtWayList)->switchtime = -20;
 
 				return GetData(pEvtWayList)->nextStage;
 			}
 		}
 		else
 		{
-			GetData(pEvtWayList)->switchtime = 0;
+//			GetData(pEvtWayList)->switchtime = 0;
 		}
 	}
-
+*/
 	return 0;
 }
 
@@ -2722,7 +3158,7 @@ void Field::LoadFieldImage(int idx)
 //	if(nNextStageNum/100 != m_nSaveStageNum/100)
 //	{
 		SUTIL_LoadAspritePack(PACK_SPRITE_MAP);
-		switch(idx/100)
+		switch(idx)
 		{
 			case 1://	FOREST
 			//-----------------------------------------------------------
@@ -2731,6 +3167,7 @@ void Field::LoadFieldImage(int idx)
 				LoadSprite(SPRITE_MAP_MAP_1);
 				LoadSprite(SPRITE_MAP_MAP_2);
 				LoadSprite(SPRITE_MAP_MAP_3);
+				LoadSprite(SPRITE_MAP_MAP_33);
 				break;
 			}
 			case 2://	CAVE

@@ -7,6 +7,7 @@
 #include "FieldObject.h"
 #include "SaveLoad.h"
 
+
 #ifndef		__NEWFIELD_H_
 #define		__NEWFIELD_H_
 
@@ -21,6 +22,7 @@
 #define MAP_EVT_WAY_DIR_LEFT				3
 #define MAP_EVT_WAY_DIR_RIGHT				4
 
+#define EVT_END_OF_LAYER					1
 #define EVT_NEXT_MAP_POS					50
 #define EVT_MAP_SIZE						51
 #define EVT_NPC								52
@@ -127,13 +129,13 @@ static const int FIELD_MONSTER_INFO[][GEN_INFO_MAX] =
 
 typedef struct _MAP_EVT_WAY
 {
-	int sx,sy,dx,dy;
-	int direction;
-	int switchtime;
-	int nextStage;
-	int type;
-	int charx;
-	int chary;
+//	int sx,sy,dx,dy;
+//	int direction;
+//	int switchtime;
+//	int nextStage;
+//	int type;
+//	int charx;
+//	int chary;
 //	int arrowpointx;
 //	int arrowpointy;
 //	int arrowtype;
@@ -168,6 +170,7 @@ typedef struct _ITEM_STRUCT
 //	int nType;
 //}MONSTER_REGEN_DATA;
 
+ 
 class Field
 {
 public:
@@ -194,8 +197,15 @@ public:
 
 	void LoadSprite(int nSpriteNum);
 	void LoadMap(int nNextStageNum);
-	void ReleaseMap(int nNextStageNum);
+	void LoadMap(void* pMinimapData);
+	void LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, bool isRepeat = false);
+
+	void ReleaseMap(int nResIdx);
 	int m_nSaveStageNum;		//	로딩을 위해서 이전스테이지를 기억한다.(로딩 번호가 같을경우 이미지를 지우지 않는다.)
+
+	int m_nSaveResType;			//	로딩을 위해서 이전스테이지를 기억한다.(로딩 번호가 같을경우 이미지를 지우지 않는다.)
+	int m_nSaveZone;			//	로딩을 위해서 이전스테이지를 기억한다.(로딩 번호가 같을경우 이미지를 지우지 않는다.)
+	int m_nSaveSector;			//	로딩을 위해서 이전스테이지를 기억한다.(로딩 번호가 같을경우 이미지를 지우지 않는다.)
 
 	BackLayer*			pFrontLayer;						//	캐릭터보다 앞에 위치한다.
 
@@ -267,6 +277,8 @@ public:
 	void ProcessWorldMap();
 	void PaintWorldMap();
 	bool KeyEvent(int m_keyCode, int m_keyRepeat);
+
+	void* m_pMiniMapData;
 };
 
 #endif
