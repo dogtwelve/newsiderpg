@@ -1455,7 +1455,7 @@ void GFieldBattle::Process()
 			hero->_ins_Hero->setCamera(camera_x,0);
 			for(int xx = 0;xx<3;xx++){//이펙트에 카메라좌표 적용
 				for(int sex = 0;sex<2;sex++){
-					if(hero->s_Skill.Equip_A[sex][xx]>=0){
+					if(hero->s_Skill.Equip_A[sex*3 + xx]>=0){
 						hero->_ins_Skill[sex][xx][0]->setCamera(camera_x,0);
 						hero->_ins_Skill[sex][xx][1]->setCamera(camera_x,0);
 					}

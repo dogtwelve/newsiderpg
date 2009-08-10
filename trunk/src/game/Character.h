@@ -330,7 +330,7 @@ struct HeroTag{
 	Damage s_Damage;
 };
 struct Skill{ 
-	int Equip_A[2][3];	//장착 액티브 스킬//-1은 미습득
+	int Equip_A[3*2];	//장착 액티브 스킬//-1은 미습득
 	int Equip_P[9];	//장착 패시브 스킬//-1은 미습득
 
 	int Level_A[7*3];	//액티브 스킬레벨
