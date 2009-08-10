@@ -7,13 +7,13 @@
     // Images:  1
     // Modules: 4
     // Frames:  5
-    // Anims:   0
+    // Anims:   1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\shadow_all.png" TRANSP 0x00FF00FF // 0  size: 37 x 24  palettes: 1
+    IMAGE 0x0001 ".\man_s1.png" TRANSP 0x00FF00FF // 0  size: 200 x 200  palettes: 1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -31,10 +31,10 @@
 
     MODULES
     {
-        MD	0x1000	MD_IMAGE	0	0	2	14	5	"m"
-        MD	0x1001	MD_IMAGE	0	14	3	19	7	"m_01"
-        MD	0x1002	MD_IMAGE	0	0	15	27	9	"m_02"
-        MD	0x1003	MD_IMAGE	0	28	12	9	3	"m_03"
+        MD	0x1036	MD_IMAGE	0	13	19	58	58
+        MD	0x103A	MD_IMAGE	0	85	13	64	66
+        MD	0x1040	MD_IMAGE	0	13	95	70	74
+        MD	0x1000	MD_IMAGE	0	0	0	1	1
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,49 +44,64 @@
 // <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
 // Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
 
-    FRAME "shadow_1" // Index = 0, FModules = 4
+    FRAME "empty" // Index = 0, FModules = 1
+    {
+        0x22B2
+        FM	0x1000	0	0
+    }
+
+    FRAME "" // Index = 1, FModules = 4
+    {
+        0x220E
+        RC	0	0	0	0
+        RC	0	0	4	0
+        RC	-58	-59	58	58
+        FM	0x1036	-58	-59
+        FM	0x1036	0	-58	+ROT_90
+        FM	0x1036	0	0	+FLIP_X	+FLIP_Y
+        FM	0x1036	-58	-1	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "" // Index = 2, FModules = 4
+    {
+        0x220F
+        FM	0x103A	-64	-66
+        FM	0x103A	0	-64	+ROT_90
+        FM	0x103A	0	0	+FLIP_X	+FLIP_Y
+        FM	0x103A	-66	0	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "" // Index = 3, FModules = 4
+    {
+        0x2210
+        FM	0x1040	-71	-70
+        FM	0x1040	-1	-70	+ROT_90
+        FM	0x1040	1	0	+FLIP_X	+FLIP_Y
+        FM	0x1040	-73	4	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "BLEND" // Index = 4, FModules = 3
     {
         0x2000
-        FM	0x1000	-14	-5
-        FM	0x1000	0	-5	+FLIP_X
-        FM	0x1000	-14	0	+FLIP_Y
-        FM	0x1000	0	0	+FLIP_X	+FLIP_Y
+        FM	0x1036	2	0
+        FM	0x103A	2	0
+        FM	0x1040	2	0
     }
 
-    FRAME "shadow_2" // Index = 1, FModules = 4
-    {
-        0x2001
-        FM	0x1001	-19	-7
-        FM	0x1001	0	-7	+FLIP_X
-        FM	0x1001	-19	0	+FLIP_Y
-        FM	0x1001	0	0	+FLIP_X	+FLIP_Y
-    }
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    FRAME "shadow_3" // Index = 2, FModules = 4
+    ANIM "a_s_skill_1_e" // Index = 0, AFrames = 5
     {
-        0x2002
-        FM	0x1002	-27	-9
-        FM	0x1002	0	-9	+FLIP_X
-        FM	0x1002	-27	0	+FLIP_Y
-        FM	0x1002	0	0	+FLIP_X	+FLIP_Y
-    }
-
-    FRAME "shadow_4" // Index = 3, FModules = 4
-    {
-        0x2004
-        FM	0x1003	0	0	+FLIP_X	+FLIP_Y
-        FM	0x1003	0	-3	+FLIP_X
-        FM	0x1003	-9	0	+FLIP_Y
-        FM	0x1003	-9	-3
-    }
-
-    FRAME "BLEND" // Index = 4, FModules = 4
-    {
-        0x2003
-        FM	0x1000	4	0
-        FM	0x1001	4	0
-        FM	0x1002	4	0
-        FM	0x1003	4	0
+        0x304F
+        AF	0x22B2	3	0	0
+        AF	0x220E	1	14	-27
+        AF	0x220F	1	14	-27
+        AF	0x2210	1	14	-27
+        AF	0x22B2	2	0	0
     }
 
     SPRITE_END

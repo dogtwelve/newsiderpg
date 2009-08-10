@@ -42,10 +42,10 @@
 
 
 		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, SPRITE_WOMAN_BODY);
-		_spr_Hero_W->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+		_spr_Hero_W->SetBlendFrame(FRAME_WOMAN_BODY_BLEND);
 
 		_spr_Hero_M = SUTIL_LoadSprite(PACK_SPRITE, SPRITE_MAN_BODY);
-		_spr_Hero_M->SetBlendFrame(Check_sex(FRAME_MAN_BODY_BLEND,FRAME_MAN_BODY_BLEND));
+		_spr_Hero_M->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 		_ins_Hero = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
 		//_ins_Hero_clone = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 250, NULL);
@@ -65,8 +65,10 @@
 
 
 		{
-			for (int xx = 0;xx<5;xx++)
-				s_Skill.Equip_A[xx] = -1;
+			for (int xx = 0;xx<3;xx++){
+				s_Skill.Equip_A[0][xx] = -1;
+				s_Skill.Equip_A[1][xx] = -1;
+			}
 			for (int xx = 0;xx<9;xx++)
 				s_Skill.Equip_P[xx] = -1;
 
@@ -84,9 +86,9 @@
 				s_Skill.Level_A[xx]=1;	//액티브 스킬레벨
 			}
 
-			s_Skill.Level_A[4]=1;
-			s_Skill.Level_A[7]=1;
-			s_Skill.Level_A[14]=1;
+// 			s_Skill.Level_A[4]=1;
+// 			s_Skill.Level_A[7]=1;
+// 			s_Skill.Level_A[14]=1;
 
 			for(int xx = 0;xx<28-1;xx++){
 				s_Skill.Level_P[xx]=1;	//패시브 스킬레벨
@@ -95,41 +97,62 @@
 
 		{//initial - 케릭터 수치관련 초기화
 
-			s_Ability.JAB_KNIFE	=false;	//검사 - 직업 선택 가능하다면 true
-			s_Ability.JAB_GUN	=false;	//총사 - 직업 선택 가능하다면 true
-			s_Ability.JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
+			s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
+			s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
+			//s_Ability.JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
 
-			s_Status.LEVEL = 31;
-			switch(SAVELOAD_sex){ // 0 : 남자 1 : 여자
-				case 0:
-					s_Skill.Equip_A[0] = 4;
-					s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
-					s_Ability.STR = 7 + (s_Status.LEVEL-1)*2;
-					s_Ability.DEX = 0 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-					s_Ability.CON = 10 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-					s_Ability.INT = 3 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-					s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
-					break;
-				case 1:
-					s_Skill.Equip_A[0] = 7;
-					s_Skill.Equip_A[1] = 12;
-					s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
-					s_Ability.STR = 3 + (s_Status.LEVEL-1)*2;
-					s_Ability.DEX = 7 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-					s_Ability.CON = 5 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-					s_Ability.INT = 5 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-					s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
-					break;
-				//case 2:
-				//	s_Skill.Equip_A[0] = 14;
-				//	s_Ability.JAB_MAGIC	=true;	//술사 - 직업 선택 가능하다면 true
-				//	s_Ability.STR = 0 + (s_Status.LEVEL-1)*2;
-				//	s_Ability.DEX = 5 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-				//	s_Ability.CON = 3 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-				//	s_Ability.INT = 10 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-				//	s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
-				//	break;
-			}
+			s_Status.LEVEL =  31;
+
+
+// 			switch(SAVELOAD_sex){ // 0 : 여자 1 : 남자
+// 				case 0:
+
+			s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
+			s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
+			s_Status.LEVEL =  31;
+
+			s_Skill.Equip_A[0][0] = 4;
+			s_Skill.Equip_A[0][1] = 5;
+			s_Skill.Equip_A[0][2] = 6;
+
+			s_Skill.Equip_A[1][0] = 7;
+			s_Skill.Equip_A[1][1] = 8;
+			s_Skill.Equip_A[1][2] = 9;
+
+			//s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
+			s_Ability.STR = 7 + (s_Status.LEVEL-1)*2;
+			s_Ability.DEX = 0 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+			s_Ability.CON = 10 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+			s_Ability.INT = 3 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+			s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+
+			s_Skill_Set.Cool_TimeMax[SAVELOAD_sex][4] = 20;
+
+
+// 					break;
+// 				case 1:
+// 					s_Skill.Equip_A[1][0] = 7;
+// 					s_Skill.Equip_A[1][1] = 8;
+// 					s_Skill.Equip_A[1][2] = 9;
+// 					//s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
+// 					s_Ability.STR = 3 + (s_Status.LEVEL-1)*2;
+// 					s_Ability.DEX = 7 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+// 					s_Ability.CON = 5 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+// 					s_Ability.INT = 5 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+// 					s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+// 
+// 					s_Skill_Set.Cool_TimeMax[SAVELOAD_sex][4] = 20;
+// 					break;
+// 				//case 2:
+// 				//	s_Skill.Equip_A[0] = 14;
+// 				//	s_Ability.JAB_MAGIC	=true;	//술사 - 직업 선택 가능하다면 true
+// 				//	s_Ability.STR = 0 + (s_Status.LEVEL-1)*2;
+// 				//	s_Ability.DEX = 5 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+// 				//	s_Ability.CON = 3 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+// 				//	s_Ability.INT = 10 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+// 				//	s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+// 				//	break;
+// 			}
 			
 			s_Status.ELEMENTAL = _b_JabNum = (s_Ability.JAB_KNIFE?0:(s_Ability.JAB_GUN?1:2));
 			s_Status.EXP_MAX = 0;
@@ -141,7 +164,7 @@
 			s_Status.MANA = s_Status.MANA_MAX;
 			s_Status.EXP = 0;
 
-			s_Skill_Set.Cool_TimeMax[5] = 20;
+			
 			s_Status.Qslot[0]=-1;//퀵슬롯 비우기
 			s_Status.Qslot[1]=-1;//퀵슬롯 비우기
 		}
@@ -164,11 +187,12 @@
 		SUTIL_FreeSprite(_spr_Hero_M);
 
 
-		for (int xx = 0; xx<5; xx++)
-		{
-			SUTIL_FreeSpriteInstance(_ins_Skill[xx][0]);
-			SUTIL_FreeSpriteInstance(_ins_Skill[xx][1]);
-			SUTIL_FreeSprite(_spr_Skill[xx]);
+		for (int xx = 0; xx<3; xx++){
+			for(int sex = 0;sex<2;sex++){
+				SUTIL_FreeSpriteInstance(_ins_Skill[sex][xx][0]);
+				SUTIL_FreeSpriteInstance(_ins_Skill[sex][xx][1]);
+				SUTIL_FreeSprite(_spr_Skill[sex][xx]);
+			}
 		}
 
 		SAFE_DEL(m_Hero_Physics);
@@ -278,8 +302,8 @@
 		{
 			//_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
 			//_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-			SUTIL_SetDirAsprite(_ins_Skill[s_Skill_Set.Num][1], _b_LookRight);
-			SUTIL_PaintAsprite(_ins_Skill[s_Skill_Set.Num][1],S_INCLUDE_SORT);
+			SUTIL_SetDirAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1], _b_LookRight);
+			SUTIL_PaintAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1],S_INCLUDE_SORT);
 		}
 
 		//	paint character
@@ -293,8 +317,8 @@
 		{
 			//_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
 			//_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-			SUTIL_SetDirAsprite(_ins_Skill[s_Skill_Set.Num][0], _b_LookRight);
-			SUTIL_PaintAsprite(_ins_Skill[s_Skill_Set.Num][0],S_INCLUDE_SORT);
+			SUTIL_SetDirAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0], _b_LookRight);
+			SUTIL_PaintAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0],S_INCLUDE_SORT);
 		}
 		
 
@@ -338,7 +362,7 @@
 						case HERO_LINE_MOVE_UP	:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
 						case HERO_LINE_MOVE_DOWN:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
 						case HERO_CHARGE		:
-							if(!Get_Skill(Check_sex(SKILL_P_P_guard,SKILL_P_P_chargeShot))){return false;}//패시브
+							if(!Get_Skill(Check_sex(SKILL_P_P_chargeShot,SKILL_P_P_guard))){return false;}//패시브
 							if(_b_JabNum==JAB_KNIGHT && (s_Status.MANA < PER(s_Status.MANA_MAX,30))){return false;}//가드 - 마나가 부족하면 발동하지않는다
 
 							break;
@@ -393,31 +417,31 @@
 				if(m_keyRepeat || Check_skill_impossible(0))return 0;//스킬을 쓸 수 없는 상황이다
 				
 				s_Skill_Set.Input_Key=MH_KEY_1;
-				return Check_weapon( s_Skill_Set.Skill_ID[0]/7 , HERO_SKILL_0);
+				return HERO_SKILL_0;
 
 			case MH_KEY_3:
 				if(m_keyRepeat || Check_skill_impossible(1))return 0;//스킬을 쓸 수 없는 상황이다
 
 				s_Skill_Set.Input_Key=MH_KEY_3;
-				return Check_weapon( s_Skill_Set.Skill_ID[1]/7 , HERO_SKILL_1);
+				return HERO_SKILL_1;
 
 			case MH_KEY_7:
 				if(m_keyRepeat || Check_skill_impossible(2))return 0;//스킬을 쓸 수 없는 상황이다
 
 				s_Skill_Set.Input_Key=MH_KEY_7;
-				return Check_weapon( s_Skill_Set.Skill_ID[2]/7 , HERO_SKILL_2);
+				return HERO_SKILL_2;
 
 			case MH_KEY_9:
 				if(m_keyRepeat || Check_skill_impossible(3))return 0;//스킬을 쓸 수 없는 상황이다
 
 				s_Skill_Set.Input_Key=MH_KEY_9;
-				return Check_weapon( s_Skill_Set.Skill_ID[3]/7 , HERO_SKILL_3);
+				return HERO_SKILL_3;
 
 			case MH_KEY_0:
 				if(m_keyRepeat || Check_skill_impossible(4))return 0;//스킬을 쓸 수 없는 상황이다
 
 				s_Skill_Set.Input_Key=MH_KEY_0;
-				return Check_weapon( s_Skill_Set.Skill_ID[4]/7 , HERO_SKILL_4);
+				return HERO_SKILL_4;
 
 
 			//case MH_KEY_ASTERISK:// 히어로 변경 - 태그시작
@@ -441,14 +465,18 @@
 				s_Ability.FAM++;
 				SUTIL_LoadAspritePack(PACK_SPRITE_COSTUME);//팩열기
 /////////////////////////////////////
- 				ChangeCostume(PAL_HEAD,RND(0,4),RND(0,4));
- 				ChangeCostume(PAL_BODY,RND(0,4),RND(0,4));
- 				ChangeCostume(PAL_ARM,RND(0,4),RND(0,4));
- 				ChangeCostume(PAL_LEG,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_W,PAL_HEAD,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_W,PAL_BODY,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_W,PAL_ARM,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_W,PAL_LEG,RND(0,4),RND(0,4));
+				ChangeCostume(_spr_Hero_W,PAL_BOW,RND(0,9),RND(0,1));
  ////////////////////////////////////
- 				ChangeCostume(PAL_KNIFE1,RND(0,9),RND(0,1));
- 				ChangeCostume(PAL_KNIFE2,RND(0,9),RND(0,1));
- 				ChangeCostume(PAL_BOW,RND(0,9),RND(0,1));
+				ChangeCostume(_spr_Hero_M,PAL_HEAD,RND(0,4),RND(0,4));
+				ChangeCostume(_spr_Hero_M,PAL_BODY,RND(0,4),RND(0,4));
+				ChangeCostume(_spr_Hero_M,PAL_ARM,RND(0,4),RND(0,4));
+				ChangeCostume(_spr_Hero_M,PAL_LEG,RND(0,4),RND(0,4));
+				ChangeCostume(_spr_Hero_M,PAL_CLAW,RND(0,9),RND(0,1));
+
  				//ChangeCostume(PAL_ORB,RND(0,9),RND(0,1));
 ///////////////////////////////////
 				SUTIL_ReleaseAspritePack();//팩닫기
@@ -523,55 +551,114 @@
 				case HERO_SKILL_2:
 				case HERO_SKILL_3:
 				case HERO_SKILL_4:
-					switch( s_Skill_Set.Skill_ID[s_Skill_Set.Num] ){//예외적인 스킬들
-						case 0://어검술
-							if(_b_ActionEnd){
-								_b_Knife_SetNum = s_Skill_Set.Num; //이스킬을 사용중에 다른스킬을 쓰면 Num값이 바뀌므로 저장필요
-								s_Knife_Eff[3].act = true;
-								return 0;
-							}
-							return m_actNum;
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 0://5연발샷 
+							{
+								if(_ins_Hero->m_nCrtFrame == 8)s_Bullet_Eff[0].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 12)s_Bullet_Eff[1].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 15)s_Bullet_Eff[2].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 18)s_Bullet_Eff[3].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 21)s_Bullet_Eff[4].act = true;//발사
+								if(_b_ActionEnd){
+									return 0;
+								}
+							}break;
+						case 1://프로즌 샤워
+							{ 
+								if(_ins_Hero->m_nCrtFrame == 8)s_Bullet_Eff[5].act = true;//발사
+								if(_b_ActionEnd){
+									return 0;
+								}
+							}break;
+						case 2://바운딩 콤보
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 							break;
-						case 1://보드타기
-							if(_b_ActionEnd){
-								s_Throw.ThrowPossible = true;//잡기
-								s_Throw.ThrowNum = 2;//잡기
-								return HERO_SKILL_E1;
-							}
-							return m_actNum;
-							break;
-
-						case 6://칼 공중 잡기스킬
+						case 3://스카이샷
 							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 							break;
 
-						case 13://이퀄리브리엄
+						case 4://유도파이어볼
+							{
+								if(_b_ActionEnd){
+									return 0;
+								}
+							}break;
+						case 5://토네이도
+							{ 
+								if(_ins_Hero->m_nCrtFrame == 5)s_Bullet_Eff[6].act = true;//발사
+								if(_b_ActionEnd){
+									return 0;
+								}
+							}break;
+						case 6://마인 3샷
+							{
+								if(_ins_Hero->m_nCrtFrame == 9)s_Bullet_Eff[7].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 9)s_Bullet_Eff[8].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 9)s_Bullet_Eff[9].act = true;//발사
+								if(_b_ActionEnd){
+									return 0;
+								}
+							}break;
+
+
+
+						case 9://연계3타
 							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 							break;
-
-						
-						case 14:
-							if(_ins_Hero->m_nCrtFrame == 1)s_Bullet_Eff[0].act = true;//발사
-							if(_ins_Hero->m_nCrtFrame == 4)s_Bullet_Eff[1].act = true;//발사
-							if(_b_ActionEnd){
-								return 0;
-							}
+						case 10://콤보잡기
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 							break;
-
-						case 15:
-							if(_b_ActionEnd){
-								s_Bullet_Eff[3].act = true;//발사
-								return 0;
-
-							}
+						case 12://바위내리찍기
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 							break;
+						//case 0://5연발샷
+						//	if(_b_ActionEnd){
+						//		_b_Knife_SetNum = s_Skill_Set.Num; //이스킬을 사용중에 다른스킬을 쓰면 Num값이 바뀌므로 저장필요
+						//		s_Knife_Eff[3].act = true;
+						//		return 0;
+						//	}
+						//	return m_actNum;
+						//	break;
+						//case 1://프로즌 샤워
+						//	if(_b_ActionEnd){
+						//		s_Throw.ThrowPossible = true;//잡기
+						//		s_Throw.ThrowNum = 2;//잡기
+						//		return HERO_SKILL_E1;
+						//	}
+						//	return m_actNum;
+						//	break;
 
-						case 20:
-							if(_ins_Hero->m_nCrtFrame == 10)s_Bullet_Eff[2].act = true;//발사
-							if(_b_ActionEnd){
-								return 0;
-							}
-							break;
+						//case 6://칼 공중 잡기스킬
+						//	return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
+						//	break;
+
+						//case 13://이퀄리브리엄
+						//	return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
+						//	break;
+
+						//
+						//case 14:
+						//	if(_ins_Hero->m_nCrtFrame == 1)s_Bullet_Eff[0].act = true;//발사
+						//	if(_ins_Hero->m_nCrtFrame == 4)s_Bullet_Eff[1].act = true;//발사
+						//	if(_b_ActionEnd){
+						//		return 0;
+						//	}
+						//	break;
+
+						//case 15:
+						//	if(_b_ActionEnd){
+						//		s_Bullet_Eff[3].act = true;//발사
+						//		return 0;
+
+						//	}
+						//	break;
+
+						//case 20:
+						//	if(_ins_Hero->m_nCrtFrame == 10)s_Bullet_Eff[2].act = true;//발사
+						//	if(_b_ActionEnd){
+						//		return 0;
+						//	}
+						//	break;
 							
 
 						default:
@@ -583,22 +670,46 @@
 					}
 					break;
 				case HERO_SKILL_C2:
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 1){
-						if(_b_ActionEnd){return 0;}
-					}else{
-						return  Set_skill_chain(1, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C3, HERO_SKILL_E2);
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 2://바운딩 콤보
+							if(_b_ActionEnd){return 0;}
+							break;
+						case 3://스카이샷
+							if(_b_ActionEnd){return 0;}
+							break;
+						case 9://연계3타
+							if(_b_ActionEnd){return 0;}
+							break;
+						case 10://콤보잡기
+							if(_b_ActionEnd){
+								if(s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] == 10){
+									s_Throw.ThrowPossible = true;//잡기
+									s_Throw.ThrowNum = 2;//잡기
+								}
+								return HERO_SKILL_E2;
+							}
+							break;
+						case 12://바위내리찍기
+							if(_b_ActionEnd){return 0;}
+							break;
 					}
 					break;
 				case HERO_SKILL_C3:
-					if(_b_ActionEnd){
-						if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6){
-							s_Throw.ThrowPossible = true;//잡기
-							s_Throw.ThrowNum = 1;//잡기
-						}
-						return HERO_SKILL_E3;
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 10://콤보잡기
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C4, 0);
 					}
 					break;
 				case HERO_SKILL_C4:
+					if(_b_ActionEnd){
+						if(s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] == 10){
+							s_Throw.ThrowPossible = true;//잡기
+							s_Throw.ThrowNum = 1;//잡기
+						}
+						return HERO_SKILL_E4;
+					}
+					break;
+				case HERO_SKILL_C5:
 					if(_b_ActionEnd){return 0;}
 					break;
 
@@ -610,6 +721,9 @@
 					if(_b_ActionEnd){return 0;}
 					break;
 				case HERO_SKILL_E3:
+					if(_b_ActionEnd){return 0;}
+					break;
+				case HERO_SKILL_E4:
 					if(_b_ActionEnd){return 0;}
 					break;
 
@@ -775,10 +889,10 @@
 					return HERO_THROW;
 				case 1://공중잡기
 					s_Throw.act = false;
-					return HERO_SKILL_C4;
-				case 2://보드타기
+					return HERO_SKILL_C5;
+				case 2://바닥끌기
 					s_Throw.act = false;
-					return HERO_SKILL_C2;
+					return HERO_SKILL_C3;
 			}
 		}
 		
@@ -896,7 +1010,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_STAND);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_STAND,ANIM_WOMAN_BODY_A_S_STAND));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_STAND,ANIM_MAN_BODY_A_S_STAND));
 					}
 					
 					break;
@@ -906,7 +1020,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_WALK);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_WALK,ANIM_MAN_BODY_A_S_WALK));
 					}
 					break;
 
@@ -915,7 +1029,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_WALK);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_WALK,ANIM_WOMAN_BODY_A_S_WALK));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_WALK,ANIM_MAN_BODY_A_S_WALK));
 					}
 					break;
 
@@ -924,38 +1038,38 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_WALK_VERTICAL);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_WALK_VERTICAL,ANIM_WOMAN_BODY_A_S_WALK_VERTICAL));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_WALK_VERTICAL,ANIM_MAN_BODY_A_S_WALK_VERTICAL));
 					}
 					break;
 
 				case HERO_ATTACK1:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_1,ANIM_WOMAN_BODY_A_S_ATT_1));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_ATT_1,ANIM_MAN_BODY_A_S_ATT_1));
 					break;
 				case HERO_ATTACK2:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_2,ANIM_WOMAN_BODY_A_S_ATT_2));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_ATT_2,ANIM_MAN_BODY_A_S_ATT_2));
 					break;
 				case HERO_ATTACK3:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_3,ANIM_WOMAN_BODY_A_S_ATT_3));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_ATT_3,ANIM_MAN_BODY_A_S_ATT_3));
 					break;
 				case HERO_ATTACK4:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_3,0));
+					_ins_Hero->SetAnim(Check_sex(0,ANIM_MAN_BODY_A_S_ATT_3));
 					break;
 
 				case HERO_ATTACK1END:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_1AFTER,ANIM_WOMAN_BODY_A_S_ATT_1AFTER));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_ATT_1AFTER,ANIM_MAN_BODY_A_S_ATT_1AFTER));
 					break;
 				case HERO_ATTACK2END:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_2AFTER,ANIM_WOMAN_BODY_A_S_ATT_2AFTER));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_ATT_2AFTER,ANIM_MAN_BODY_A_S_ATT_2AFTER));
 					break;
 				case HERO_ATTACK3END:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_ATT_2AFTER,0));
+					_ins_Hero->SetAnim(Check_sex(0,ANIM_MAN_BODY_A_S_ATT_2AFTER));
 					break;
 
 
@@ -969,26 +1083,26 @@
 					s_Skill_Set.act = true;
 					_ins_Hero->m_bLoop = false;
 
-					_ins_Skill[s_Skill_Set.Num][1]->m_bLoop = false;
-					_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Skill_Set.Num] ][ 3 ]);
+					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_bLoop = false;
+					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 3 ]);
 					
 					s_Skill_Set.OVER_SkillEffect = false;
 					s_Skill_Set.DOWN_SkillEffect = false;
-					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Skill_Set.Num] ][ 4 ]>=0){
+					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 4 ]>=0){
 						s_Skill_Set.OVER_SkillEffect = true;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Skill_Set.Num] ][ 4 ]);
-						_ins_Skill[s_Skill_Set.Num][0]->m_posZ = 0;
+						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 4 ]);
+						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_posZ = 0;
 					}
-					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Skill_Set.Num] ][ 5 ]>=0){
+					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 5 ]>=0){
 						s_Skill_Set.DOWN_SkillEffect = true;
-						_ins_Skill[s_Skill_Set.Num][1]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Skill_Set.Num] ][ 5 ]);
-						_ins_Skill[s_Skill_Set.Num][1]->m_posZ = 0;
+						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 5 ]);
+						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_posZ = 0;
 					}
-					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					
 
 					
@@ -1031,84 +1145,144 @@
 				case HERO_SKILL_E1: //연타스킬의 예외처리
 					//익셉션 스위치 코드, 삽입
 					_ins_Hero->m_bLoop = false;
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 1 ){//보드 타는 스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL2_1AFTER);
-					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_1AFTER);
-					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_1AFTER);
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 2://바운딩 콤보
+							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL3_1AFTER);
+							break;
 					} 
 					break;
 				case HERO_SKILL_C2: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 1 ){//보드 타는 스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL2_2);
-						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_S2_A_S_SKILL2_2_E);
-					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2);
-						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_S7_A_S_SKILL7_2_E);
-					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2);
-						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_2_E);
-					} 
-					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 2://바운딩 콤보
+							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL3_2);
+							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S3_A_B_SKILL3_2_E);
+							break;
+						case 3://스카이샷
+							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL4_2);
+							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+							break;
+						case 9://연계3타
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_3_2);
+							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S3_A_S_SKILL_3_2E);
+							break;
+						case 10://콤보잡기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_2);
+// 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+							break;
+						case 12://바위내리찍기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_6_2);
+							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S6_A_S_SKILL_6_2_E);
+							break;
+					}
+// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 1 ){//보드 타는 스킬
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL2_2);
+// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S2_A_S_SKILL2_2_E);
+// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2);
+// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_2_E);
+// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2);
+// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_2_E);
+// 					} 
+// 					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					break;
 				case HERO_SKILL_E2: //연타스킬의 예외처리
-					_ins_Hero->m_bLoop = false;
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2AFTER);
-					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2AFTER);
-					} 
+ 					_ins_Hero->m_bLoop = false;
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 10://콤보잡기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_2AFTER);
+							break;
+					}
+// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2AFTER);
+// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2AFTER);
+// 					} 
 					break;
 				case HERO_SKILL_C3: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3);
-						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_S7_A_S_SKILL7_3_E);
-					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3);
-						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_E);
-						s_Skill_Set.DOWN_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][1]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][1]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_EBACK);
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 10://콤보잡기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_3);
+							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_3_E);
+							break;
 					}
-					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3);
+// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_3_E);
+// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3);
+// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_E);
+// 						s_Skill_Set.DOWN_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set.Num][1]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set.Num][1]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_EBACK);
+// 					}
+// 					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					break;
 				case HERO_SKILL_E3: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3AFTER);
-					} 
+// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3AFTER);
+// 					} 
 					break;
 				case HERO_SKILL_C4:
 					_ins_Hero->m_bLoop = false;
-					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
-						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_4);
-						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_S7_A_S_SKILL7_4_E);
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 10://콤보잡기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_4);
+// 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+							break;
 					}
-					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					break; 
+				case HERO_SKILL_E4: //연타스킬의 예외처리
+ 					_ins_Hero->m_bLoop = false;
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 10://콤보잡기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_4AFTER);
+							break;
+					}
+					break;
+				case HERO_SKILL_C5: //연타스킬의 예외처리
+					_ins_Hero->m_bLoop = false;
+					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+						case 10://콤보잡기
+							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_5);
+							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_5_E);
+							break;
+					}
 					break;
 				//case HERO_SWITCH:
 				//	//현재 케릭터를 백업하고 태그 출현 케릭터를 바뀐 케릭터로 제어시작
@@ -1180,7 +1354,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_LINE_MOVE);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_LINE_MOVE,ANIM_WOMAN_BODY_A_S_LINE_MOVE));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_LINE_MOVE,ANIM_MAN_BODY_A_S_LINE_MOVE));
 					}
 					break;
 
@@ -1191,7 +1365,7 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_DASH);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DASH,ANIM_WOMAN_BODY_A_S_DASH));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DASH,ANIM_MAN_BODY_A_S_DASH));
 					}
 					break;
 
@@ -1200,20 +1374,20 @@
 					if(TOWN){//마을 임
 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TOWN_DASH_STOP);
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DASHSTOP,ANIM_WOMAN_BODY_A_S_DASHSTOP));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DASHSTOP,ANIM_MAN_BODY_A_S_DASHSTOP));
 					}
 					break;
 
 				case HERO_DASH_ATT:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DASHATT,ANIM_WOMAN_BODY_A_S_DASHATT));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DASHATT,ANIM_MAN_BODY_A_S_DASHATT));
 					break;
 
 				case HERO_CHARGE:
 					if(_b_JabNum==JAB_KNIGHT) s_Status.MANA -= PER(s_Status.MANA_MAX,30);//가드 - 마나소비
 
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_CHARGE,ANIM_WOMAN_BODY_A_S_CHARGE));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_CHARGE,ANIM_MAN_BODY_A_S_CHARGE));
 					break;
 
 				case HERO_CHARGE_SHOOT:
@@ -1228,26 +1402,26 @@
 
 	
 				case HERO_DOWNED:
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_MAN_BODY_A_S_FLYHI_6));
 					_move_Order = HERO_DOWNED_2;
 					break;
 
 				case HERO_DOWNED_2:
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DOWNED,ANIM_WOMAN_BODY_A_S_DOWNED));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DOWNED,ANIM_MAN_BODY_A_S_DOWNED));
 					s_Damage.Down_Time--;
 					if(s_Damage.Down_Time<=0)
 						_move_Order = HERO_AWAKE;
 					break;
 
 				case HERO_AWAKE:
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_AWAKE,ANIM_WOMAN_BODY_A_S_AWAKE));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_AWAKE,ANIM_MAN_BODY_A_S_AWAKE));
 					_ins_Hero->m_bLoop = false;
 					s_Damage._b_Must_Decide = false;
 					_move_Order = HERO_STOP;
 					break;
 
 				case HERO_THROW:
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_THROW,ANIM_WOMAN_BODY_A_S_THROW));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_THROW,ANIM_MAN_BODY_A_S_THROW));
 					_ins_Hero->m_bLoop = false;
 					break;
 				case HERO_JumpUp:
@@ -1263,7 +1437,7 @@
 
 				case HERO_TAG_IN:
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_TAG_IN);
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_TAG_IN,ANIM_MAN_BODY_A_TAG_IN));
 					break;
 
 
@@ -1288,14 +1462,14 @@
 					s_HeroTag.act = false;
 				}else if(s_HeroTag.s_Damage.Type == DAMAGE_NOT){
 					s_HeroTag.TAG_OUT = true;
-					_ins_Hero_clone->SetAnim(ANIM_WOMAN_BODY_A_TAG_OUT);
+					_ins_Hero_clone->SetAnim(Check_sex(ANIM_MAN_BODY_A_TAG_OUT,ANIM_WOMAN_BODY_A_TAG_OUT));//이미 성별이 바뀐상태이므로 거꾸로적용한다
 				}
 				
 			}
 		}
 
-		if(s_Skill_Set.OVER_SkillEffect) _ins_Skill[s_Skill_Set.Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
-		if(s_Skill_Set.DOWN_SkillEffect) _ins_Skill[s_Skill_Set.Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+		if(s_Skill_Set.OVER_SkillEffect) _ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+		if(s_Skill_Set.DOWN_SkillEffect) _ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
 
 
 
@@ -1405,7 +1579,7 @@
 
 
 
-		for(int xx =0;xx<3;xx++){//디버프의 해제와 그래픽적인 구현
+		for(int xx =0;xx<3;xx++){//디버프의 해제와 그래픽적인 구현 디버프는 3개까지 겹칠수있다
 			if(xx < 2 && s_Debuff.stack[xx][0] == 0){
 				s_Debuff.stack[xx][0] = s_Debuff.stack[xx+1][0];
 				s_Debuff.stack[xx][1] = s_Debuff.stack[xx+1][1];
@@ -1645,153 +1819,183 @@
 	void Character::Paint_Knife()
 	{// 호밍 나이프 버프 상태일때
 
-		if(s_Knife_Eff[3].act){//버프지속
-
-			if(s_Knife_Eff[3].LVup_ActionEnd){//버프 종료
-				s_Knife_Eff[3].act = false;
-				s_Knife_Eff[3].LVupEff_Num = 0;
-				s_Knife_Eff[3].LVup_ActionEnd = false;
-				///*SUTIL_FreeSpriteInstance*/SAFE_DELETE(s_Knife_Eff[3].LVup_Eff_Ins);
-				SAFE_DEL(s_Knife_Eff[3].LVup_Eff_Ins);
-				SAFE_DEL(s_Knife_Eff[4].LVup_Eff_Ins);
-				for(int i =0;i<3;i++){
+		for(int i =0;i<3;i++){
+			if(s_Knife_Eff[i].act){
+				if(s_Knife_Eff[i].LVup_ActionEnd){
 					s_Knife_Eff[i].act = false;
+					s_Knife_Eff[i].LVupEff_Num = 0;
+					s_Knife_Eff[i].LVup_ActionEnd = false;
+					///*SUTIL_FreeSpriteInstance*/SAFE_DELETE(s_Knife_Eff[i].LVup_Eff_Ins);
 					SAFE_DEL(s_Knife_Eff[i].LVup_Eff_Ins);
+				}else{
+
+
+					s_Knife_Eff[i].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
+					s_Knife_Eff[i].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
+					SUTIL_PaintAsprite(s_Knife_Eff[i].LVup_Eff_Ins,S_INCLUDE_SORT);
+					s_Knife_Eff[i].LVup_ActionEnd = !s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+					//s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+					s_Knife_Eff[i].LVupEff_Num++;
+
+
+
+
+					//루프 애니메이션의 경우 지정프레임에 강제적인 종료를 해줘야함
+					if(s_Knife_Eff[i].LVupEff_Num >= 32){s_Knife_Eff[i].LVup_ActionEnd = true;}else{s_Knife_Eff[i].LVup_ActionEnd = false;}
+
+
 				}
-
-			}else{
-				
-					
-				if(s_Knife_Eff[3].LVupEff_Num==0){//초기할당
-					s_Knife_Eff[0].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 칼1
-					s_Knife_Eff[1].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 칼2
-					s_Knife_Eff[2].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 칼3
-
-
-					s_Knife_Eff[3].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
-					s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = true;
-					s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_A_S_SKILL1_BUFF_E_BACK);
-					s_Knife_Eff[3].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
-					s_Knife_Eff[3].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-					s_Knife_Eff[3].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
-
-					s_Knife_Eff[4].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
-				}else if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S_S1_A_S_SKILL1_ATT_E_BACK){
-					if(!s_Knife_Eff[0].act &&!s_Knife_Eff[1].act &&!s_Knife_Eff[2].act && s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtFrame>6){ //발사되고난뒤
-						//int aa =0;
-						
-						if(s_Knife_Eff[3].LVupEff_Num >= 200)
-						{//버프종료
-							s_Knife_Eff[3].LVup_ActionEnd = true;
-						}else{
-							s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_A_S_SKILL1_REFILL_E_BACK);
-							s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = false;
-						}
-
-						
-
-
-
-						
-					}
-				}else if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S_S1_A_S_SKILL1_REFILL_E_BACK){
-					if(_b_Knife_ActionEnd){
-						s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = true;
-						s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_A_S_SKILL1_BUFF_E_BACK);
-						s_Knife_Eff[3].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
-						s_Knife_Eff[3].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-						s_Knife_Eff[3].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
-
-					}
-				}
-
-
-				s_Knife_Eff[3].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
-				s_Knife_Eff[3].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-				if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule !=ANIM_WOMAN_S_S1_A_S_SKILL1_ATT_E_BACK)
-					s_Knife_Eff[3].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
-				s_Knife_Eff[3].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
-				s_Knife_Eff[3].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
-				_b_Knife_ActionEnd = !s_Knife_Eff[3].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
-
-
-				
-
-				SUTIL_PaintAsprite(s_Knife_Eff[3].LVup_Eff_Ins,S_INCLUDE_SORT);
-
-				s_Knife_Eff[4].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
-				s_Knife_Eff[4].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY+1;
-				s_Knife_Eff[4].LVup_Eff_Ins->m_flags = s_Knife_Eff[3].LVup_Eff_Ins->m_flags;
-				s_Knife_Eff[4].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
-				s_Knife_Eff[4].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
-				s_Knife_Eff[4].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
-
-				if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S_S1_A_S_SKILL1_ATT_E_BACK)
-					SUTIL_PaintAsprite(s_Knife_Eff[4].LVup_Eff_Ins,S_INCLUDE_SORT);
-
-				
-				
-
-
-
-				s_Knife_Eff[3].LVupEff_Num++;
-				
-			
-
-
-				for(int i =0;i<3;i++){
-					if(s_Knife_Eff[i].act){
-						if(s_Knife_Eff[i].LVup_ActionEnd){
-							s_Knife_Eff[i].act = false;
-							s_Knife_Eff[i].LVupEff_Num = 0;
-							s_Knife_Eff[i].LVup_ActionEnd = false;
-							///*SUTIL_FreeSpriteInstance*/SAFE_DELETE(s_Knife_Eff[i].LVup_Eff_Ins);
-							//SAFE_DEL(s_Knife_Eff[i].LVup_Eff_Ins);
-						}else{
-							if(s_Knife_Eff[i].LVupEff_Num==0){//초기할당
-
-								
-								s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop = true;
-
-								s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_DAGGER);
-
-								s_Knife_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
-								s_Knife_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-								//s_Knife_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
-							}else{
-								s_Knife_Eff[i].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
-								s_Knife_Eff[i].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
-								SUTIL_PaintAsprite(s_Knife_Eff[i].LVup_Eff_Ins,S_INCLUDE_SORT);
-								//s_Knife_Eff[i].LVup_ActionEnd = !s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
-								s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
-								
-							}
-							s_Knife_Eff[i].LVupEff_Num++;
-							if(s_Knife_Eff[i].LVupEff_Num >= 30)s_Knife_Eff[i].LVup_ActionEnd = true;
-
-
-							
-						}
-
-
-						if(s_Knife_Eff[i].LVup_Eff_Ins != NULL){
-
-						}
-					}
-				}
-
 			}
-
-
-
-
 		}
+
+
+//		if(s_Knife_Eff[3].act){//버프지속
+
+// 			if(s_Knife_Eff[3].LVup_ActionEnd){//버프 종료
+// 				s_Knife_Eff[3].act = false;
+// 				s_Knife_Eff[3].LVupEff_Num = 0;
+// 				s_Knife_Eff[3].LVup_ActionEnd = false;
+// 				///*SUTIL_FreeSpriteInstance*/SAFE_DELETE(s_Knife_Eff[3].LVup_Eff_Ins);
+// 				SAFE_DEL(s_Knife_Eff[3].LVup_Eff_Ins);
+// 				SAFE_DEL(s_Knife_Eff[4].LVup_Eff_Ins);
+// 				for(int i =0;i<3;i++){
+// 					s_Knife_Eff[i].act = false;
+// 					SAFE_DEL(s_Knife_Eff[i].LVup_Eff_Ins);
+// 				}
+// 
+// 			}else{
+// 				
+// 					
+// 				if(s_Knife_Eff[3].LVupEff_Num==0){//초기할당
+// 					s_Knife_Eff[0].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 칼1
+// 					s_Knife_Eff[1].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 칼2
+// 					s_Knife_Eff[2].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 칼3
+// 
+// 
+// 					s_Knife_Eff[3].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+// 					s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = true;
+// 					s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_BUFF_E_BACK);
+// 					s_Knife_Eff[3].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
+// 					s_Knife_Eff[3].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+// 					s_Knife_Eff[3].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+// 
+// 					s_Knife_Eff[4].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[_b_Knife_SetNum], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+// 				}else if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S1_A_S_SKILL1_ATT_E_BACK){
+// 					if(!s_Knife_Eff[0].act &&!s_Knife_Eff[1].act &&!s_Knife_Eff[2].act && s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtFrame>6){ //발사되고난뒤
+// 						//int aa =0;
+// 						
+// 						if(s_Knife_Eff[3].LVupEff_Num >= 200)
+// 						{//버프종료
+// 							s_Knife_Eff[3].LVup_ActionEnd = true;
+// 						}else{
+// 							s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_REFILL_E_BACK);
+// 							s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = false;
+// 						}
+// 
+// 						
+// 
+// 
+// 
+// 						
+// 					}
+// 				}else if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S1_A_S_SKILL1_REFILL_E_BACK){
+// 					if(_b_Knife_ActionEnd){
+// 						s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = true;
+// 						s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_BUFF_E_BACK);
+// 						s_Knife_Eff[3].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
+// 						s_Knife_Eff[3].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+// 						s_Knife_Eff[3].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+// 
+// 					}
+// 				}
+// 
+// 
+// 				s_Knife_Eff[3].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
+// 				s_Knife_Eff[3].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+// 				if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule !=ANIM_WOMAN_S1_A_S_SKILL1_ATT_E_BACK)
+// 					s_Knife_Eff[3].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+// 				s_Knife_Eff[3].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
+// 				s_Knife_Eff[3].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
+// 				_b_Knife_ActionEnd = !s_Knife_Eff[3].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+// 
+// 
+// 				
+// 
+// 				SUTIL_PaintAsprite(s_Knife_Eff[3].LVup_Eff_Ins,S_INCLUDE_SORT);
+// 
+// 				s_Knife_Eff[4].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
+// 				s_Knife_Eff[4].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY+1;
+// 				s_Knife_Eff[4].LVup_Eff_Ins->m_flags = s_Knife_Eff[3].LVup_Eff_Ins->m_flags;
+// 				s_Knife_Eff[4].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
+// 				s_Knife_Eff[4].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
+// 				s_Knife_Eff[4].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+// 
+// 				if(s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S1_A_S_SKILL1_ATT_E_BACK)
+// 					SUTIL_PaintAsprite(s_Knife_Eff[4].LVup_Eff_Ins,S_INCLUDE_SORT);
+// 
+// 				
+// 				
+// 
+// 
+// 
+// 				s_Knife_Eff[3].LVupEff_Num++;
+// 				
+// 			
+// 
+// 
+// 				for(int i =0;i<3;i++){
+// 					if(s_Knife_Eff[i].act){
+// 						if(s_Knife_Eff[i].LVup_ActionEnd){
+// 							s_Knife_Eff[i].act = false;
+// 							s_Knife_Eff[i].LVupEff_Num = 0;
+// 							s_Knife_Eff[i].LVup_ActionEnd = false;
+// 							///*SUTIL_FreeSpriteInstance*/SAFE_DELETE(s_Knife_Eff[i].LVup_Eff_Ins);
+// 							//SAFE_DEL(s_Knife_Eff[i].LVup_Eff_Ins);
+// 						}else{
+// 							if(s_Knife_Eff[i].LVupEff_Num==0){//초기할당
+// 
+// 								
+// 								s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop = true;
+// 
+// 								s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_DAGGER);
+// 
+// 								s_Knife_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
+// 								s_Knife_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+// 								//s_Knife_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+// 							}else{
+// 								s_Knife_Eff[i].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
+// 								s_Knife_Eff[i].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
+// 								SUTIL_PaintAsprite(s_Knife_Eff[i].LVup_Eff_Ins,S_INCLUDE_SORT);
+// 								//s_Knife_Eff[i].LVup_ActionEnd = !s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+// 								s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+// 								
+// 							}
+// 							s_Knife_Eff[i].LVupEff_Num++;
+// 							if(s_Knife_Eff[i].LVupEff_Num >= 30)s_Knife_Eff[i].LVup_ActionEnd = true;
+// 
+// 
+// 							
+// 						}
+// 
+// 
+// 						if(s_Knife_Eff[i].LVup_Eff_Ins != NULL){
+// 
+// 						}
+// 					}
+// 				}
+// 
+// 			}
+
+
+
+
+//		}
 	}
 
 
 	void Character::Paint_Bollet()
 	{// 발사형 이펙트를 그릴때 총 3가지의 경우가 있다
-		for(int i =0;i<4;i++){
+		for(int i =0;i<BULLET_MAX;i++){
 			if(s_Bullet_Eff[i].act){
 				if(s_Bullet_Eff[i].LVup_ActionEnd){
 					s_Bullet_Eff[i].act = false;
@@ -1802,40 +2006,101 @@
 				}else{
 					if(s_Bullet_Eff[i].LVupEff_Num==0){//초기할당
 						
-						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[s_Status.SEX][s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 
 						s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = true;
 
-						if(i==0)s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_O1_A_O_SKILL1_BULLET_1);
-						if(i==1)s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_O1_A_O_SKILL1_BULLET_2);
-						if(i==2)s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_O7_A_O_SKILL7_BULLET);
-						if(i==3)s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_O2_A_O_SKILL2_FTOTEM_E);
+						switch(i){//애니메이션 결정
+							case 0:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET1);	break;
+							case 1:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET2);	break;
+							case 2:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET3);	break;
+							case 3:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET4);	break;
+							case 4:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET5);	break;
 
-						if(i==3){ 
-							s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -38:+38);
-							s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY-1;
-							s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
-						}else{
-							s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX ;
-							s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-							s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+							case 5:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S2_A_B_SKILL2_E2);	break;
+
+							case 6:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S6_A_S_SKILL6_BULLET);	
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = false;break;
+
+							case 7:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_2);	s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = false;	break;
+							case 8:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_2);	s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = false;	break;
+							case 9:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_2);	s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = false;	break;
 						}
-						
+
+						switch(i){//좌표특성 
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX +(_ins_Hero->m_flags? -26:+26);
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+								break;
+
+							case 5:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -100:+100);
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = 200;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+								break;
+
+
+							case 6:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -26:+26) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+
+							case 7:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -40:+40) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+							case 8:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -80:+80) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+							case 9:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -120:+120) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+						}
+
 						
 					}
 
-					
+				
 					s_Bullet_Eff[i].LVup_Eff_Ins->CameraX = _ins_Hero->CameraX;
 					s_Bullet_Eff[i].LVup_Eff_Ins->CameraY = _ins_Hero->CameraY;
 					SUTIL_PaintAsprite(s_Bullet_Eff[i].LVup_Eff_Ins,S_INCLUDE_SORT);
-					//s_Bullet_Eff[i].LVup_ActionEnd = !s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
-					s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+					s_Bullet_Eff[i].LVup_ActionEnd = !s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
+					//s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect 에니메이션 업데이트 실행
 					s_Bullet_Eff[i].LVupEff_Num++;
 
-					if(i==3){
-						if(s_Bullet_Eff[i].LVupEff_Num >= 50)s_Bullet_Eff[i].LVup_ActionEnd = true;
-					}else{
-						if(s_Bullet_Eff[i].LVupEff_Num >= 10)s_Bullet_Eff[i].LVup_ActionEnd = true;
+
+
+
+					switch(i){//루프 애니메이션의 경우 지정프레임에 강제적인 종료를 해줘야함
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+								if(s_Bullet_Eff[i].LVupEff_Num >= 10){s_Bullet_Eff[i].LVup_ActionEnd = true;}else{s_Bullet_Eff[i].LVup_ActionEnd = false;}
+								break;
+
+							case 5:
+								if(s_Bullet_Eff[i].LVupEff_Num >= 22){s_Bullet_Eff[i].LVup_ActionEnd = true;}else{s_Bullet_Eff[i].LVup_ActionEnd = false;}	
+								break;
+
+
+// 							case 6:s_Bullet_Eff[i].LVup_ActionEnd = !s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();	break;
+// 
+  							case 7:
+  							case 8:
+  							case 9: 
+								if(s_Bullet_Eff[i].LVup_ActionEnd && s_Bullet_Eff[i].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S7_A_S_SKILL7_2){
+  									s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_3);
+									s_Bullet_Eff[i].LVup_ActionEnd = !s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();
+								}break;
 					}
 
 					
@@ -1917,14 +2182,14 @@
 			if(s_Skill_Set.Cool_TimeNow[m_skillnum]){
 				return true;//쿨타임이 남아있거나 마나가 부족하면 스킬은 나가지 않는다
 			}else{
-				s_Skill_Set.Cool_TimeNow[m_skillnum] = s_Skill_Set.Cool_TimeMax[m_skillnum];
+				s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][m_skillnum];
 			}
 		}else{
-			if(s_Skill_Set.Cool_TimeNow[m_skillnum]  ||  s_Status.MANA < s_Skill_Set.Need_Mana[m_skillnum] || (s_Skill.Equip_A[m_skillnum] == -1)){
+			if(s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum]  ||  s_Status.MANA < s_Skill_Set.Need_Mana[s_Status.SEX][m_skillnum] || (s_Skill.Equip_A[s_Status.SEX][m_skillnum] == -1)){
 				return true;//쿨타임이 남아있거나 마나가 부족하거나 슬롯이 비었으면 스킬은 나가지 않는다
 			}else{
-				s_Skill_Set.Cool_TimeNow[m_skillnum] = s_Skill_Set.Cool_TimeMax[m_skillnum];
-				s_Status.MANA -= s_Skill_Set.Need_Mana[m_skillnum];
+				s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][m_skillnum];
+				s_Status.MANA -= s_Skill_Set.Need_Mana[s_Status.SEX][m_skillnum];
 			}
 		}
 		
@@ -1950,13 +2215,13 @@
 	//	}
 
 	//}
-	int Character::Check_sex(int  m_Man,int m_Woman)
+	int Character::Check_sex(int m_Woman,int  m_Man)
 	{//SangHo - 직업별 행동을 자연분화시킨다
 		switch(s_Status.SEX){
-			case SEX_MAN:
-				return m_Man;
 			case SEX_WOMAN:
 				return m_Woman;
+			case SEX_MAN:
+				return m_Man;
 			default:
 				return m_Woman;
 		}
@@ -1964,16 +2229,16 @@
 	}
 	int Character::Check_weapon(int m_Must_Weapon , int m_if_true_set_action )
 	{//SangHo - 해당 직업이 아니면 해당 직업으로 바꾸는 액션을 취한다, 또한 액션이 끝나면 이어질 스킬을 지정한다
-		if(_b_JabNum == m_Must_Weapon){
-			return m_if_true_set_action;
-		}else{
-			s_WeaponSwitch.act = true;
-			s_WeaponSwitch.nextWeapon = m_Must_Weapon;
-			//s_WeaponSwitch.Key_Protection =_m_Key_Protection;
-			s_WeaponSwitch.next_Event =  m_if_true_set_action;
-			//_m_Key_Protection = MH_KEY_ASTERISK;
-			return HERO_SWITCH;
-		}
+// 		if(_b_JabNum == m_Must_Weapon){
+ 			return m_if_true_set_action; 
+// 		}else{
+// 			s_WeaponSwitch.act = true;
+// 			s_WeaponSwitch.nextWeapon = m_Must_Weapon;
+// 			//s_WeaponSwitch.Key_Protection =_m_Key_Protection;
+// 			s_WeaponSwitch.next_Event =  m_if_true_set_action;
+// 			//_m_Key_Protection = MH_KEY_ASTERISK;
+//			return HERO_SWITCH;
+//		}
 	}
 	int Character::Set_skill_chain(int chain_Num, int m_keyCode, int chain_Key, int skill_Now, int skill_Next, int skill_Stop)
 	{//체인 액션에 따른 각종 이벤트 분기처리
@@ -2008,26 +2273,26 @@
 			case DAMAGE_FLY:
 				if(p_Damage.Bound_Num!=0){						//체공 프레임	
 					if(LOW_BOUND < m_Hero_Physics->SaveAccel.z){	//낮은 바운딩
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_5,ANIM_WOMAN_BODY_A_S_FLYHI_5));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_5,ANIM_MAN_BODY_A_S_FLYHI_5));
 					}else{											//높은 바운딩
 
 						if(-HIGH_PITCH >= p_Position3D.z){										//상승중	
-							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_2,ANIM_WOMAN_BODY_A_S_FLYHI_2));
+							_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_2,ANIM_MAN_BODY_A_S_FLYHI_2));
 						}else if(HIGH_PITCH > p_Position3D.z && -HIGH_PITCH < p_Position3D.z){	//체공중
-							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
+							_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_MAN_BODY_A_S_FLYHI_3));
 						}else{																	//낙하중								
-							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_4,ANIM_WOMAN_BODY_A_S_FLYHI_4));
+							_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_4,ANIM_MAN_BODY_A_S_FLYHI_4));
 						}
 
 					}
 				}else{							//"첫번째 프레임" - 맞거나 바운딩되는 직후의
 					if(p_Damage.Bound==0){			//맞은 직후 모션인가?
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_1,ANIM_WOMAN_BODY_A_S_FLYHI_1));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_1,ANIM_MAN_BODY_A_S_FLYHI_1));
 					}else{							//바운딩 직후 모션인가?
 						//if(LAST_BOUND < m_Hero_Physics->SaveAccel.z){	//Z 충격량이 LAST_BOUND 보다 작아서 더이상 튀지않을때
 						//	_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6,ANIM_WOMAN_BODY_A_S_FLYHI_6));
 						//}else{											//Z 충격량이 LAST_BOUND 보다 커서 튀어오를때
-							_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_FLYHI_3,ANIM_WOMAN_BODY_A_S_FLYHI_3));
+							_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_FLYHI_3,ANIM_MAN_BODY_A_S_FLYHI_3));
 						//}
 					}
 				}
@@ -2036,12 +2301,12 @@
 			case DAMAGE_GROUND:
 				if(p_Damage.Bound_Num!=0){//맞아서 밀리고 있는 상황
 					if(s_Damage.Bound){
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DAMAGE_3,ANIM_WOMAN_BODY_A_S_DAMAGE_3));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DAMAGE_3,ANIM_MAN_BODY_A_S_DAMAGE_3));
 					}else{
-						_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DAMAGE_2,ANIM_WOMAN_BODY_A_S_DAMAGE_2));
+						_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DAMAGE_2,ANIM_MAN_BODY_A_S_DAMAGE_2));
 					}
 				}else{//"첫번째 프레임" - 맞은 직후
-					_ins_Hero->SetAnim(Check_sex(ANIM_MAN_BODY_A_S_DAMAGE_1,ANIM_WOMAN_BODY_A_S_DAMAGE_1));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_DAMAGE_1,ANIM_MAN_BODY_A_S_DAMAGE_1));
 				}
 				//if(p_Damage.Bound_Num!=0){						//체공 프레임	
 				//	if(LOW_BOUND < m_Hero_Physics->SaveAccel.z){	//낮은 바운딩
@@ -2146,16 +2411,16 @@
 
 		//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
 		if(Get_Skill(SKILL_P_O_coolTimeDown)){//패시브
-			for(int xx = 0;xx<5;xx++){
-				if(s_Skill.Equip_A[xx]>=0){
-					int need_frm = a_Skill_Table[s_Skill.Equip_A[xx]*10 + s_Skill_Set.Skill_LEVEL[xx]][2];//스킬 쿨타임
+			for(int xx = 0;xx<3;xx++){
+				if(s_Skill.Equip_A[s_Status.SEX][xx]>=0){
+					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_Status.SEX][xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
 					if(need_frm >= 100){
-						s_Skill_Set.Cool_TimeMax[xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}else{
-						s_Skill_Set.Cool_TimeMax[xx] = need_frm;
+						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = need_frm;
 					}
-					if(s_Skill_Set.Cool_TimeNow[xx]>s_Skill_Set.Cool_TimeMax[xx]){
-						s_Skill_Set.Cool_TimeNow[xx]=s_Skill_Set.Cool_TimeMax[xx];
+					if(s_Skill_Set.Cool_TimeNow[s_Status.SEX][xx]>s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx]){
+						s_Skill_Set.Cool_TimeNow[s_Status.SEX][xx]=s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx];
 					}
 				}
 			}
@@ -2166,40 +2431,44 @@
 
 	void Character::Init_Skill(){//스킬들의 초기화를 처리
 
-		for (int xx = 0; xx<5; xx++)
+		for (int xx = 0; xx<3; xx++)
 		{		//각자의 값에 변화가 있을경우 각 값들을 Free 시켜주는 코드 
-			SUTIL_FreeSpriteInstance(_ins_Skill[xx][0]);
-			SUTIL_FreeSpriteInstance(_ins_Skill[xx][1]);
-			SUTIL_FreeSprite(_spr_Skill[xx]);
+			for(int sex = 0;sex<2;sex++){
+				SUTIL_FreeSpriteInstance(_ins_Skill[sex][xx][0]);
+				SUTIL_FreeSpriteInstance(_ins_Skill[sex][xx][1]);
+				SUTIL_FreeSprite(_spr_Skill[sex][xx]);
+			}
 		}
 
 
 		SUTIL_LoadAspritePack(PACK_SPRITE);//팩열기
 
-		for(int xx = 0;xx<5;xx++){
-			if(s_Skill.Equip_A[xx]>=0){
-				_spr_Skill[xx] = SUTIL_LoadAspriteFromPack(PACK_SPRITE, s__ins_Skill[s_Skill.Equip_A[xx]][1]);
-				_ins_Skill[xx][0] = GL_NEW ASpriteInstance(_spr_Skill[xx], 0, 0, NULL);//백
-				_ins_Skill[xx][1] = GL_NEW ASpriteInstance(_spr_Skill[xx], 0, 0, NULL);//프런트
-				_ins_Skill[xx][0]->m_sprite->SetBlendFrame(s__ins_Skill[s_Skill.Equip_A[xx]][2]);//블랜딩
+		for(int xx = 0;xx<3;xx++){
+			for(int sex = 0;sex<2;sex++){
+				if(s_Skill.Equip_A[sex][xx]>=0){
+					_spr_Skill[sex][xx] = SUTIL_LoadAspriteFromPack(PACK_SPRITE, s__ins_Skill[s_Skill.Equip_A[sex][xx]][1]);
+					_ins_Skill[sex][xx][0] = GL_NEW ASpriteInstance(_spr_Skill[sex][xx], 0, 0, NULL);//백
+					_ins_Skill[sex][xx][1] = GL_NEW ASpriteInstance(_spr_Skill[sex][xx], 0, 0, NULL);//프런트
+					_ins_Skill[sex][xx][0]->m_sprite->SetBlendFrame(s__ins_Skill[s_Skill.Equip_A[sex][xx]][2]);//블랜딩
 
+	//여기까지
+					s_Skill_Set.Skill_LEVEL[sex][xx] = s_Skill.Level_A[s_Skill.Equip_A[sex][xx]];//스킬 레벨
+					
+					s_Skill_Set.Skill_ID[sex][xx] = s__ins_Skill[s_Skill.Equip_A[sex][xx]][0];//스킬 고유ID
 
-				s_Skill_Set.Skill_LEVEL[xx] = s_Skill.Level_A[s_Skill.Equip_A[xx]];//스킬 레벨
-				
-				s_Skill_Set.Skill_ID[xx] = s__ins_Skill[s_Skill.Equip_A[xx]][0];//스킬 고유ID
+					//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
 
-				//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
+					
 
-				
+					s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex][xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
+					if(s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] >= 100){
+						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+					}
 
-				s_Skill_Set.Cool_TimeMax[xx] = a_Skill_Table[s_Skill.Equip_A[xx]*10 + s_Skill_Set.Skill_LEVEL[xx]][2];//스킬 쿨타임
-				if(s_Skill_Set.Cool_TimeMax[xx] >= 100){
-					s_Skill_Set.Cool_TimeMax[xx] = s_Skill_Set.Cool_TimeMax[xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+					s_Skill_Set.Need_Mana[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex][xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][4];//필요마나
+				}else{//빈소캣
+					s_Skill_Set.Skill_ID[s_Status.SEX][xx] = -1;
 				}
-
-				s_Skill_Set.Need_Mana[xx] = a_Skill_Table[s_Skill.Equip_A[xx]*10 + s_Skill_Set.Skill_LEVEL[xx]][4];//필요마나
-			}else{//빈소캣
-				s_Skill_Set.Skill_ID[xx] = -1;
 			}
 		}
 
@@ -2539,8 +2808,8 @@
 		//인스턴스 카피
 			SUTIL_FreeSpriteInstance(_ins_Hero_clone);
 		_ins_Hero_clone = GL_NEW ASpriteInstance(_ins_Hero);
-		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_Skill_Set.Num][0]);
-		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_Skill_Set.Num][1]);
+		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]);
+		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]);
 
 		_ins_Hero_clone->m_bLoop = false;
 
@@ -2604,56 +2873,96 @@
 		for(int xx = 0;xx<_spr_Hero_W->_nModules;xx++)
 			_spr_Hero_W->_modules_data_pal[xx] = 0;
 
-		for(int xx = 0;xx<LENGTH_HEAD;xx++)
-			_spr_Hero_W->_modules_data_pal[START_HEAD+xx] = PAL_HEAD;
+		for(int xx = 0;xx<LENGTH_W_HEAD;xx++)
+			_spr_Hero_W->_modules_data_pal[START_W_HEAD+xx] = PAL_HEAD;
 
-		for(int xx = 0;xx<LENGTH_BODY;xx++)
-			_spr_Hero_W->_modules_data_pal[START_BODY+xx] = PAL_BODY;
+		for(int xx = 0;xx<LENGTH_W_BODY;xx++)
+			_spr_Hero_W->_modules_data_pal[START_W_BODY+xx] = PAL_BODY;
 
-		for(int xx = 0;xx<LENGTH_ARM;xx++)
-			_spr_Hero_W->_modules_data_pal[START_ARM+xx] = PAL_ARM;
+		for(int xx = 0;xx<LENGTH_W_ARM;xx++)
+			_spr_Hero_W->_modules_data_pal[START_W_ARM+xx] = PAL_ARM;
 
-		for(int xx = 0;xx<LENGTH_LEG;xx++)
-			_spr_Hero_W->_modules_data_pal[START_LEG+xx] = PAL_LEG;
+		for(int xx = 0;xx<LENGTH_W_LEG;xx++)
+			_spr_Hero_W->_modules_data_pal[START_W_LEG+xx] = PAL_LEG;
+
+		for(int xx = 0;xx<LENGTH_W_BOW;xx++)
+			_spr_Hero_W->_modules_data_pal[START_W_BOW+xx] = PAL_BOW;
 
 
-		for(int xx = 0;xx<LENGTH_KNIFE1;xx++)
-			_spr_Hero_W->_modules_data_pal[START_KNIFE1+xx] = PAL_KNIFE1;
 
-		for(int xx = 0;xx<LENGTH_KNIFE2;xx++)
-			_spr_Hero_W->_modules_data_pal[START_KNIFE2+xx] = PAL_KNIFE2;
+		for(int xx = 0;xx<_spr_Hero_M->_nModules;xx++)
+			_spr_Hero_M->_modules_data_pal[xx] = 0;
 
-		for(int xx = 0;xx<LENGTH_BOW;xx++)
-			_spr_Hero_W->_modules_data_pal[START_BOW+xx] = PAL_BOW;
+		for(int xx = 0;xx<LENGTH_M_HEAD;xx++)
+			_spr_Hero_M->_modules_data_pal[START_M_HEAD+xx] = PAL_HEAD;
+
+		for(int xx = 0;xx<LENGTH_M_BODY;xx++)
+			_spr_Hero_M->_modules_data_pal[START_M_BODY+xx] = PAL_BODY;
+
+		for(int xx = 0;xx<LENGTH_M_ARM;xx++)
+			_spr_Hero_M->_modules_data_pal[START_M_ARM+xx] = PAL_ARM;
+
+		for(int xx = 0;xx<LENGTH_M_LEG;xx++)
+			_spr_Hero_M->_modules_data_pal[START_M_LEG+xx] = PAL_LEG;
+
+		for(int xx = 0;xx<LENGTH_M_CLAW;xx++)
+			_spr_Hero_M->_modules_data_pal[START_M_CLAW+xx] = PAL_CLAW;
+
+
 
 		/*for(int xx = 0;xx<LENGTH_ORB;xx++)
 			_spr_Hero_W->_modules_data_pal[START_ORB+xx] = PAL_ORB;*/
 
 		SUTIL_LoadAspritePack(PACK_SPRITE_COSTUME);//팩열기
-		ChangeCostume(PAL_HEAD,0,0);
-		ChangeCostume(PAL_BODY,0,0);
-		ChangeCostume(PAL_ARM,0,0);
-		ChangeCostume(PAL_LEG,0,0);
+		ChangeCostume(_spr_Hero_W,PAL_HEAD,0,0);
+		ChangeCostume(_spr_Hero_W,PAL_BODY,0,0);
+		ChangeCostume(_spr_Hero_W,PAL_ARM,0,0);
+		ChangeCostume(_spr_Hero_W,PAL_LEG,0,0);
+		ChangeCostume(_spr_Hero_W,PAL_BOW,0,0);
 		////////////////////////////////////
-		ChangeCostume(PAL_KNIFE1,0,0);
-		ChangeCostume(PAL_KNIFE2,5,0);
-		ChangeCostume(PAL_BOW,0,0);
+		ChangeCostume(_spr_Hero_M,PAL_HEAD,0,0);
+		ChangeCostume(_spr_Hero_M,PAL_BODY,0,0);
+		ChangeCostume(_spr_Hero_M,PAL_ARM,0,0);
+		ChangeCostume(_spr_Hero_M,PAL_LEG,0,0);
+		ChangeCostume(_spr_Hero_M,PAL_CLAW,0,0);
+
+		//ChangeCostume(PAL_KNIFE2,5,0);
 		//ChangeCostume(PAL_ORB,0,0);
 		SUTIL_ReleaseAspritePack();//팩닫기
 	}
-	void Character::ChangeCostume(int part,int index,int pal)
+	void Character::ChangeCostume(ASprite* spr, int part,int index,int pal)
 	{
 		int Start=0;
 		int Length=0;
 		switch(part){
-			case PAL_HEAD	:index=Check_sex(SPRITE_COSTUME_MAN_0_HEAD,SPRITE_COSTUME_WOMAN_0_HEAD)+index		;Start=START_HEAD	;Length=LENGTH_HEAD	;break;
-			case PAL_BODY	:index=Check_sex(SPRITE_COSTUME_MAN_0_BODY,SPRITE_COSTUME_WOMAN_0_BODY)+index		;Start=START_BODY	;Length=LENGTH_BODY	;break;
-			case PAL_ARM	:index=Check_sex(SPRITE_COSTUME_MAN_0_ARM,SPRITE_COSTUME_WOMAN_0_ARM)+index		;Start=START_ARM	;Length=LENGTH_ARM	;break;
-			case PAL_LEG	:index=Check_sex(SPRITE_COSTUME_MAN_0_LEG,SPRITE_COSTUME_WOMAN_0_LEG)+index		;Start=START_LEG	;Length=LENGTH_LEG	;break;
-			case PAL_KNIFE1	:index=SPRITE_COSTUME_HUMAN_0_SWORD+index	;Start=START_KNIFE1 ;Length=LENGTH_KNIFE1;break;
-			case PAL_KNIFE2	:index=SPRITE_COSTUME_HUMAN_0_SWORD+index	;Start=START_KNIFE2	;Length=LENGTH_KNIFE2;break;
-			case PAL_BOW	:index=SPRITE_COSTUME_HUMAN_0_BOW+index		;Start=START_BOW	;Length=LENGTH_BOW	;break;
-			//case PAL_ORB	:index=SPRITE_COSTUME_HUMAN_0_ORB+index		;Start=START_ORB	;Length=LENGTH_ORB	;break;
+			case PAL_HEAD	:
+				if (spr == _spr_Hero_W){
+					index=SPRITE_COSTUME_WOMAN_0_HEAD+index;Start=START_W_HEAD;Length=LENGTH_W_HEAD	;
+				}else{
+					index=SPRITE_COSTUME_MAN_0_HEAD+index;Start=START_M_HEAD;Length=LENGTH_M_HEAD	;
+				}break;
+			case PAL_BODY	:
+				if (spr == _spr_Hero_W){
+					index=SPRITE_COSTUME_WOMAN_0_BODY+index;Start=START_W_BODY;Length=LENGTH_W_BODY	;
+				}else{
+					index=SPRITE_COSTUME_MAN_0_BODY+index;Start=START_M_BODY;Length=LENGTH_M_BODY	;
+				}break;
+			case PAL_ARM	:
+				if (spr == _spr_Hero_W){
+					index=SPRITE_COSTUME_WOMAN_0_ARM+index;Start=START_W_ARM;Length=LENGTH_W_ARM	;
+				}else{
+					index=SPRITE_COSTUME_MAN_0_ARM+index;Start=START_M_ARM;Length=LENGTH_M_ARM	;
+				}break;
+			case PAL_LEG	:
+				if (spr == _spr_Hero_W){
+					index=SPRITE_COSTUME_WOMAN_0_LEG+index;Start=START_W_LEG;Length=LENGTH_W_LEG	;
+				}else{
+					index=SPRITE_COSTUME_MAN_0_LEG+index;Start=START_M_LEG;Length=LENGTH_M_LEG	;
+				}break;
+
+			case PAL_CLAW	:index=SPRITE_COSTUME_HUMAN_0_CLAW+index	;Start=START_M_CLAW ;Length=LENGTH_M_CLAW;break;
+
+			case PAL_BOW	:index=SPRITE_COSTUME_HUMAN_0_BOW+index		;Start=START_W_BOW	;Length=LENGTH_W_BOW	;break;
 		}
 
 		//교체할 코스튬을 불러온다//SUTIL_LoadAspriteFromPack은 SUTIL_LoadSprite와는 달리 팩의 열고 닫는 사이에가 아니면 실행되지않는다
@@ -2661,42 +2970,42 @@
 
 
 
-		int gap = - (_spr_Hero_W->_modules_data_off[Start+Length] - _spr_Hero_W->_modules_data_off[Start])//삭제할 파츠
+		int gap = - (spr->_modules_data_off[Start+Length] - spr->_modules_data_off[Start])//삭제할 파츠
 			+ (Part_Sprite->_modules_data_off[Part_Sprite->_nModules]);//대체할 파츠
-		int len = _spr_Hero_W->_modules_data_off[_spr_Hero_W->_nModules] + gap;
+		int len = spr->_modules_data_off[spr->_nModules] + gap;
 
 		byte* temp_data = GL_NEW byte[len];//새로운 데이터풀을 만든다
 
-		arraycopy(_spr_Hero_W->_modules_data, 0, 
+		arraycopy(spr->_modules_data, 0, 
 			temp_data, 0, 
-			_spr_Hero_W->_modules_data_off[Start]);//교체 part 이전 부분을 복제한다
+			spr->_modules_data_off[Start]);//교체 part 이전 부분을 복제한다
 
 		arraycopy(Part_Sprite->_modules_data, 0, 
-			temp_data, _spr_Hero_W->_modules_data_off[Start], 
+			temp_data, spr->_modules_data_off[Start], 
 			Part_Sprite->_modules_data_off[Part_Sprite->_nModules]);//교체 part 대상을 복제한다
 
-		arraycopy(_spr_Hero_W->_modules_data, _spr_Hero_W->_modules_data_off[Start+Length], 
-			temp_data, _spr_Hero_W->_modules_data_off[Start] + Part_Sprite->_modules_data_off[Part_Sprite->_nModules], 
-			_spr_Hero_W->_modules_data_off[_spr_Hero_W->_nModules] - _spr_Hero_W->_modules_data_off[Start+Length]);//교체 part 이후 부분을 복제한다
+		arraycopy(spr->_modules_data, spr->_modules_data_off[Start+Length], 
+			temp_data, spr->_modules_data_off[Start] + Part_Sprite->_modules_data_off[Part_Sprite->_nModules], 
+			spr->_modules_data_off[spr->_nModules] - spr->_modules_data_off[Start+Length]);//교체 part 이후 부분을 복제한다
 
 
-		SAFE_DEL_ARRAY(_spr_Hero_W->_modules_data);
-		_spr_Hero_W->_modules_data = temp_data;
-		_spr_Hero_W->_modules_image->m_modulesPixel = (unsigned char*)temp_data;
-		int * aa = _spr_Hero_W->_modules_image->m_modulesPixelOffset;
+		SAFE_DEL_ARRAY(spr->_modules_data);
+		spr->_modules_data = temp_data;
+		spr->_modules_image->m_modulesPixel = (unsigned char*)temp_data;
+		int * aa = spr->_modules_image->m_modulesPixelOffset;
 
 		//교체 part off 변경
 		for(int xx = 0;xx<Length;xx++){
-			_spr_Hero_W->_modules_data_off[Start+xx]=_spr_Hero_W->_modules_data_off[Start]+Part_Sprite->_modules_data_off[xx];
+			spr->_modules_data_off[Start+xx]=spr->_modules_data_off[Start]+Part_Sprite->_modules_data_off[xx];
 		}
 		//교체 part 이후의 off값에 Gap 반영
-		for(int xx = Start+Length;xx<=_spr_Hero_W->_nModules;xx++){
-			_spr_Hero_W->_modules_data_off[xx] += gap;
+		for(int xx = Start+Length;xx<=spr->_nModules;xx++){
+			spr->_modules_data_off[xx] += gap;
 		}
 
 		////팔렛트 값 바꿔치기
 		for(int xx = 0;xx<Part_Sprite->_colors;xx++){
-			*(_spr_Hero_W->_pal[part]+xx) = *(Part_Sprite->_pal[pal]+xx);
+			*(spr->_pal[part]+xx) = *(Part_Sprite->_pal[pal]+xx);
 		}
 
 		SUTIL_FreeSprite(Part_Sprite);//스프라이트 지우기

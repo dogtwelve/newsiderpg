@@ -1955,7 +1955,7 @@ if( rECT_NUM >= 1){ //무결성체크 - 몸통이 있다
 
 	
 
-	// Added by Chun, 12, 02
+	// Added by Chun, 12, 02-5
 	//Chun
 	void ASprite::PaintModule(CGraphics* g, int module, int posX, int posY, int flags, int anchor)
 	{
@@ -1974,7 +1974,7 @@ if( rECT_NUM >= 1){ //무결성체크 - 몸통이 있다
 		}	
 		else if ((anchor & CGraphics::VCENTER) == CGraphics::VCENTER)
 		{
-			posX -= GetModuleHeight(module) / 2;
+			posY -= GetModuleHeight(module) / 2;
 		}
 
 		PaintModule(g, module, posX, posY, flags);

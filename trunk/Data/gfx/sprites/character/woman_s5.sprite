@@ -600,10 +600,10 @@
     ANIM "dagger" // Index = 3, AFrames = 4
     {
         0x3091
-        AF	0x2371	1	0	0
-        AF	0x2378	1	0	0
         AF	0x237A	1	0	0
         AF	0x2379	1	0	0
+        AF	0x2371	1	0	0
+        AF	0x2378	1	0	0
     }
 
     ANIM "dagger_01" // Index = 4, AFrames = 4
@@ -636,10 +636,10 @@
     ANIM "dagger_04" // Index = 7, AFrames = 4
     {
         0x30A2
-        AF	0x2384	1	0	0
-        AF	0x2383	1	0	0
         AF	0x2385	1	0	0
         AF	0x2386	1	0	0
+        AF	0x2384	1	0	0
+        AF	0x2383	1	0	0
     }
 
     ANIM "dagger_05" // Index = 8, AFrames = 4
@@ -654,10 +654,10 @@
     ANIM "dagger_06" // Index = 9, AFrames = 4
     {
         0x3095
-        AF	0x2380	1	0	0
-        AF	0x237F	1	0	0
         AF	0x2382	1	0	0
         AF	0x2381	1	0	0
+        AF	0x2380	1	0	0
+        AF	0x237F	1	0	0
     }
 
     ANIM "dagger_07" // Index = 10, AFrames = 4
@@ -672,10 +672,10 @@
     ANIM "dagger_08" // Index = 11, AFrames = 4
     {
         0x30A9
-        AF	0x2393	1	0	0
-        AF	0x2394	1	0	0
         AF	0x2395	1	0	0
         AF	0x2396	1	0	0
+        AF	0x2393	1	0	0
+        AF	0x2394	1	0	0
     }
 
     ANIM "dagger_09" // Index = 12, AFrames = 4
@@ -690,10 +690,10 @@
     ANIM "dagger_10" // Index = 13, AFrames = 4
     {
         0x30AA
-        AF	0x2397	1	0	0
-        AF	0x2398	1	0	0
         AF	0x2399	1	0	0
         AF	0x239A	1	0	0
+        AF	0x2397	1	0	0
+        AF	0x2398	1	0	0
     }
 
     ANIM "dagger_11" // Index = 14, AFrames = 4

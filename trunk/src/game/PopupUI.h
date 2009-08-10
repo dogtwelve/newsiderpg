@@ -22,6 +22,7 @@
 #define GAGE_RED		0
 #define GAGE_BLUE		1
 #define GAGE_YELLOW		2
+#define GAGE_GREEN		3
 
 #define XPOS		(SCREEN_WIDTH/2)
 #define YPOS		(SCREEN_HEIGHT/2)
@@ -106,6 +107,8 @@ struct Page{//공용 스프라이트 묶음
 	int Ly8_sel;
 	int Ly9_sel;
 	int Ly10_sel;
+	int Ly11_sel;
+	int Ly12_sel;
 };
 struct ItemList{//공용 스프라이트 묶음
 	int Color;//보유퀘스트목록
@@ -127,7 +130,8 @@ struct AreaMessage{//지역명 메세지
 };
 #include "PopupTable.h" //아이템 정보 테이블
 
-
+const short s_X[2][7] = {{-34,56,-34,26, 26,-64,-4},{-34,56,-64,26,-64, -4,-4}};
+const short s_Y[2][7] = {{-19, 0, 19,19,-19,  0, 0},{  1, 1, 20, 1,-18,-18,20}};
 
 class PopupUi
 {
@@ -151,6 +155,8 @@ public:
 	static ItemList s_ItemList[5];
 	static PlayMessage s_PlayMessage;
 	static AreaMessage s_AreaMessage;
+
+
 
 
 	static Page s_Page;
@@ -190,11 +196,15 @@ public:
 #define SELECT_SKILL_ACT_PAS		(s_Page.Ly2_sel)
 #define SELECT_SKILL_SLOT			(s_Page.Ly3_sel)
 #define SELECT_SKILL_TYPE			(s_Page.Ly4_sel)
-#define SELECT_SKILL_TYPE_NOW		(s_Page.Ly5_sel)
+#define SELECT_SKILL_TYPE_NOW		(s_Page.Ly5_sel) //스킬 타입
 #define SELECT_SKILL_KIND			(s_Page.Ly6_sel)
-#define SELECT_SKILL_KIND_NOW		(s_Page.Ly7_sel)
+
 #define SELECT_SKILL_SELECT			(s_Page.Ly8_sel)
 
+#define SELECT_SKILL_ACC_X			(s_Page.Ly9_sel)
+#define SELECT_SKILL_ACC_Y			(s_Page.Ly10_sel)
+#define SELECT_SKILL_C_X			(s_Page.Ly11_sel)
+#define SELECT_SKILL_C_Y			(s_Page.Ly12_sel)
 
 #define QUEST_DESC					(8)//출력 줄 수
 #define SELECT_QUEST_Y				(s_Page.Ly1_sel)
@@ -295,7 +305,7 @@ private:
 	void PaintPopup_Sharp(struct ItemBag _item);
 	void PaintPopup_Sharp(int Skill_Num);
 	void PaintNumber(ASprite* pAsIns, int numImgIdx, int value, int x, int y, int gap , int position);
-	void PaintGage(int gageType, int gagewidth, int x, int y, int nowvalue, int maxvalue);
+	void PaintGage(int gageType, int gagewidth,int gageheight, int x, int y, int nowvalue, int maxvalue);
 	int itemNAME(int m_Kind, int m_Index)	;//낱개의 아이템의 텍스트 인덱스를 넘겨주는 부분
 	void itemTEXT(struct ItemBag _item)	;//낱개의 아이템의 텍스트 인덱스를 넘겨주는 부분
 

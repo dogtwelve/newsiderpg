@@ -162,16 +162,16 @@ Load("costume\w_leg_2.sprite")		ExportBSpriteEx("w_leg_2.bsprite", GLOBAL , I256
 Load("costume\w_leg_3.sprite")		ExportBSpriteEx("w_leg_3.bsprite", GLOBAL , I256RLE, _1555)
 Load("costume\w_leg_4.sprite")		ExportBSpriteEx("w_leg_4.bsprite", GLOBAL , I256RLE, _1555)
 
-Load("costume\h_sword_0.sprite")		ExportBSpriteEx("h_sword_0.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_sword_1.sprite")		ExportBSpriteEx("h_sword_1.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_sword_2.sprite")		ExportBSpriteEx("h_sword_2.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_sword_3.sprite")		ExportBSpriteEx("h_sword_3.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_sword_4.sprite")		ExportBSpriteEx("h_sword_4.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_axe_0.sprite")		ExportBSpriteEx("h_axe_0.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_axe_1.sprite")		ExportBSpriteEx("h_axe_1.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_axe_2.sprite")		ExportBSpriteEx("h_axe_2.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_axe_3.sprite")		ExportBSpriteEx("h_axe_3.bsprite", GLOBAL , I256RLE, _1555)
-Load("costume\h_axe_4.sprite")		ExportBSpriteEx("h_axe_4.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_0.sprite")		ExportBSpriteEx("h_claw_0.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_1.sprite")		ExportBSpriteEx("h_claw_1.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_2.sprite")		ExportBSpriteEx("h_claw_2.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_3.sprite")		ExportBSpriteEx("h_claw_3.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_4.sprite")		ExportBSpriteEx("h_claw_4.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_5.sprite")		ExportBSpriteEx("h_claw_5.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_6.sprite")		ExportBSpriteEx("h_claw_6.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_7.sprite")		ExportBSpriteEx("h_claw_7.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_8.sprite")		ExportBSpriteEx("h_claw_8.bsprite", GLOBAL , I256RLE, _1555)
+Load("costume\h_claw_9.sprite")		ExportBSpriteEx("h_claw_9.bsprite", GLOBAL , I256RLE, _1555)
 
 Load("costume\h_bow_0.sprite")		ExportBSpriteEx("h_bow_0.bsprite", GLOBAL , I256RLE, _1555)
 Load("costume\h_bow_1.sprite")		ExportBSpriteEx("h_bow_1.bsprite", GLOBAL , I256RLE, _1555)
@@ -191,26 +191,50 @@ Load("character\man_body.sprite")
 	ExportBSpriteEx("man_body.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 Load("character\woman_body.sprite")	
 	ExportBSpriteEx("woman_body.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+	
+	
+	
+Load("character\woman_s1.sprite")	
+	ExportBSpriteEx("woman_s_s1.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g1.sprite")	
+Load("character\woman_s2.sprite")	
+	ExportBSpriteEx("woman_s_s2.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+
+Load("character\woman_s3.sprite")	
+	ExportBSpriteEx("woman_s_s3.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+
+Load("character\woman_s4.sprite")	
+	ExportBSpriteEx("woman_s_s4.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+
+Load("character\woman_s5.sprite")	
+	ExportBSpriteEx("woman_s_s5.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+
+Load("character\woman_s6.sprite")	
+	ExportBSpriteEx("woman_s_s6.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+
+Load("character\woman_s7.sprite")	
+	ExportBSpriteEx("woman_s_s7.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
+	
+
+Load("character\man_s1.sprite")	
 	ExportBSpriteEx("woman_s_g1.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g2.sprite")	
+Load("character\man_s2.sprite")	
 	ExportBSpriteEx("woman_s_g2.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g3.sprite")	
+Load("character\man_s3.sprite")	
 	ExportBSpriteEx("woman_s_g3.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g4.sprite")	
+Load("character\man_s4.sprite")	
 	ExportBSpriteEx("woman_s_g4.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g5.sprite")	
+Load("character\man_s5.sprite")	
 	ExportBSpriteEx("woman_s_g5.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g6.sprite")	
+Load("character\man_s6.sprite")	
 	ExportBSpriteEx("woman_s_g6.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
-Load("character\woman_s_g7.sprite")	
+Load("character\man_s7.sprite")	
 	ExportBSpriteEx("woman_s_g7.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
 
@@ -236,26 +260,6 @@ Load("character\woman_s_o7.sprite")
 	ExportBSpriteEx("woman_s_o7.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
 
-Load("character\woman_s_s1.sprite")	
-	ExportBSpriteEx("woman_s_s1.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
-
-Load("character\woman_s_s2.sprite")	
-	ExportBSpriteEx("woman_s_s2.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
-
-Load("character\woman_s_s3.sprite")	
-	ExportBSpriteEx("woman_s_s3.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
-
-Load("character\woman_s_s4.sprite")	
-	ExportBSpriteEx("woman_s_s4.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
-
-Load("character\woman_s_s5.sprite")	
-	ExportBSpriteEx("woman_s_s5.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
-
-Load("character\woman_s_s6.sprite")	
-	ExportBSpriteEx("woman_s_s6.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
-
-Load("character\woman_s_s7.sprite")	
-	ExportBSpriteEx("woman_s_s7.bsprite", GLOBAL|BS_FRAME_RECTS , I256RLE, _1555)
 
 /////////////////////////////////////////////////////////////////////////////
 // ** MONSTER **

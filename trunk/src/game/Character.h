@@ -53,6 +53,9 @@
 #define	HERO_SKILL_C3	53
 #define	HERO_SKILL_E3	54
 #define	HERO_SKILL_C4	55
+#define	HERO_SKILL_E4	56
+#define	HERO_SKILL_C5	57
+
 
 
 #define	DAMAGE_NOT		100
@@ -171,34 +174,34 @@
 #define	PAL_ARM				3 
 #define	PAL_LEG				4 
 #define	PAL_BOW				5 
-#define	PAL_KNIFE1			6 
-#define	PAL_KNIFE2			7 
+#define	PAL_CLAW			6 
+//#define	PAL_KNIFE2			7 
 //#define	PAL_ORB				8 
 //시작점
-#define	START_HEAD				0//0 
-#define	START_BODY				13//13
-#define	START_ARM				23//24
-#define	START_LEG				37//39
+#define	START_W_HEAD				0//0 
+#define	START_W_BODY				13//13
+#define	START_W_ARM					23//24
+#define	START_W_LEG					37//39
+#define	START_W_BOW					56//69
 
-#define	START_BOW				56//69
+#define	START_M_HEAD				0//0 
+#define	START_M_BODY				12//13
+#define	START_M_ARM					20//24
+#define	START_M_LEG					26//39
+#define	START_M_CLAW				48//69
 
-#define	START_KNIFE1			60//61
-#define	START_KNIFE2			64//65
-
-//#define	START_ORB				68//72
 //갯수
-#define	LENGTH_HEAD				13//13 
-#define	LENGTH_BODY				10//11
-#define	LENGTH_ARM				14//15
-#define	LENGTH_LEG				19//22
-#define	LENGTH_BOW				4//3
-#define	LENGTH_KNIFE1			4//4
-#define	LENGTH_KNIFE2			4//4
-//#define	LENGTH_ORB				0//1
-// 머리13
-// 바디10
-// 팔 14
-// 다리19
+#define	LENGTH_W_HEAD				13//13 
+#define	LENGTH_W_BODY				10//11
+#define	LENGTH_W_ARM				14//15
+#define	LENGTH_W_LEG				19//22
+#define	LENGTH_W_BOW				4//3
+
+#define	LENGTH_M_HEAD				12//13 
+#define	LENGTH_M_BODY				8//11
+#define	LENGTH_M_ARM				6//15
+#define	LENGTH_M_LEG				22//22
+#define	LENGTH_M_CLAW				8//4
 
 
 
@@ -208,8 +211,9 @@
 #define	JAB_MAGE	2
 
 //parameter
-#define	SEX_MAN		0
-#define	SEX_WOMAN	1
+
+#define	SEX_WOMAN	0
+#define	SEX_MAN		1
 
 #define	TEMP_UP_LIMIT	157
 #define	TEMP_DOWN_LIMIT	255
@@ -326,7 +330,7 @@ struct HeroTag{
 	Damage s_Damage;
 };
 struct Skill{ 
-	int Equip_A[5];	//장착 액티브 스킬//-1은 미습득
+	int Equip_A[2][3];	//장착 액티브 스킬//-1은 미습득
 	int Equip_P[9];	//장착 패시브 스킬//-1은 미습득
 
 	int Level_A[7*3];	//액티브 스킬레벨
@@ -336,11 +340,11 @@ struct Skill_Set{
 	bool act;	//SangHo - 스킬이 시전되면
 	int Num;//스킬번호 (0,1,2,3,4) - 슬롯번호
 	int Input_Key;	//SangHo - 주인공의 잡기가 가능하다면
-	int Skill_ID[5];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
-	int Skill_LEVEL[5];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
-	int Need_Mana[5];//스킬의 소비마나 수치
-	int Cool_TimeMax[6];//스킬의 쿨타임을 기록
-	int Cool_TimeNow[6];//스킬의 현재 쿨타임
+	int Skill_ID[2][3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
+	int Skill_LEVEL[2][3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
+	int Need_Mana[2][3];//스킬의 소비마나 수치
+	int Cool_TimeMax[2][5];//스킬의 쿨타임을 기록
+	int Cool_TimeNow[2][5];//스킬의 현재 쿨타임
 	bool OVER_SkillEffect;		//SangHo - 주인공의 스킬이 발동하면 True 이다
 	bool DOWN_SkillEffect;		//SangHo - 주인공의 스킬이 발동하면 True 이다
 };
@@ -410,14 +414,14 @@ public:
 	static class ASprite*	_spr_Hero_W;				//스프라이트 - 히어로 여
 	static class ASprite*	_spr_Hero_M;				//스프라이트 - 히어로 남
 
-	class ASprite*	_spr_Skill[5];		//스프라이트 - 히어로 스킬 5개
+	class ASprite*	_spr_Skill[2][3];		//스프라이트 - 히어로 스킬 2x3개
 
 	class ASpriteInstance*	_ins_Hero;			//인스턴스 - 히어로
 	class ASpriteInstance*	_ins_Hero_clone;	//인스턴스 - 태그직후 히어로의 행동 보존개체
 	class ASpriteInstance*	_ins_Skill_clone[2];		//인스턴스 - 히어로 스킬 5개
 
 	class ASpriteInstance*	_ins_Debuff;	//인스턴스 - 디버프
-	class ASpriteInstance*	_ins_Skill[5][2];		//인스턴스 - 히어로 스킬 5개
+	class ASpriteInstance*	_ins_Skill[2][3][2];		//인스턴스 -{남,여] [히어로 스킬 3개] [앞,뒤]
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -470,8 +474,32 @@ public:
 		short LVupEff_Num;
 		class ASpriteInstance*	Bullet_Eff_Ins;
 	};
-	Level_Eff s_Bullet_Eff[4];
-	Level_Eff s_Knife_Eff[5];//K1,K2,K3 ,Back_E , Front_E
+	/*
+	#스킬5(유도탄)
+	6 - 첫탄=8프레임 x55
+	7 - 둘째탄=11프레임x55
+	8 - 셋째탄=14프레임x55
+
+	@여
+	#스킬1
+		0 - 불렛1=8프레임 x26
+		1 - 불렛2=12프레임 x26
+		2 - 불렛3=15프레임 x26
+		3 - 불렛4=18프레임 x26
+		4 - 불렛5=21프레임 x26
+	#스킬2= 
+		5 - 0프레임 x0  장풍지속시간 22프레임간
+
+	#스킬6
+		6 - 5프레임 x26  지속시간 32프레임간
+	#스킬7
+		7 - 0프레임 x0 31프레임간
+		8 - 0프레임 x0 31프레임간
+		9 - 0프레임 x0 31프레임간
+	*/
+#define	BULLET_MAX 10
+	Level_Eff s_Bullet_Eff[BULLET_MAX];
+	Level_Eff s_Knife_Eff[3];//K1,K2,K3 ,Back_E , Front_E
 	bool	_b_Knife_ActionEnd;		//SangHo - 주인공의 액션이 종료했다면 True 이다
 	int	_b_Knife_SetNum;		//SangHo - 주인공의 액션이 종료했다면 True 이다
 
@@ -479,6 +507,7 @@ public:
 		bool ThrowPossible;	//SangHo - 주인공의 잡기가 가능하다면
 		bool act;	//SangHo - 주인공의 잡기가 가능하다면
 		int ThrowNum;	//SangHo - 주인공의 잡기가 가능하다면
+		// 0 - 일반잡기   1 - 1단잡기    2 - 2단잡기
 	};
 	Throw s_Throw;
 
@@ -579,10 +608,10 @@ private:
 
 public://G Field
 	
-	static int	Check_sex(int  m_Man,int m_Woman);
+	static int	Check_sex(int m_Woman,int  m_Man);
 	static void	Set_state_calculate();//각종 수치 변환으로 인한 데이터의 재계산이 필요할시 적용
 	static void InitCostume();
-	static void ChangeCostume(int part,int index,int pal);
+	static void ChangeCostume(ASprite* spr, int part,int index,int pal);
 
 	static bool	Set_MustAction(int x, int y,int Action,int Look);//주인공이 강제적으로 취해야 할 행동에 대한부분
 	
