@@ -9300,7 +9300,7 @@
         FM	0x1000	-14	-62
     }
 
-    FRAME "o_skill6_02" // Index = 666, FModules = 8
+    FRAME "" // Index = 666, FModules = 8
     {
         0x2324
         RC	-11	-54	9	2
@@ -9314,7 +9314,7 @@
         FM	0x1000	-14	-62
     }
 
-    FRAME "o_skill6_02" // Index = 667, FModules = 7
+    FRAME "" // Index = 667, FModules = 7
     {
         0x22EF
         RC	-11	-54	9	2
@@ -9370,7 +9370,7 @@
         FM	0x101F	-16	-59	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "o_skill6_04z" // Index = 671, FModules = 9
+    FRAME "" // Index = 671, FModules = 9
     {
         0x22FB
         RC	-9	-54	9	2
@@ -9398,7 +9398,7 @@
         FM	0x1000	-14	-63
     }
 
-    FRAME "o_skill6_04z" // Index = 673, FModules = 9
+    FRAME "" // Index = 673, FModules = 9
     {
         0x22FD
         RC	-9	-54	9	2
@@ -9413,7 +9413,7 @@
         FM	0x101F	-16	-58	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "o_skill6_04z" // Index = 674, FModules = 9
+    FRAME "" // Index = 674, FModules = 9
     {
         0x2325
         RC	-9	-54	9	2
@@ -9428,7 +9428,7 @@
         FM	0x101F	-16	-58	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "o_skill6_04z" // Index = 675, FModules = 9
+    FRAME "" // Index = 675, FModules = 9
     {
         0x2338
         RC	-9	-54	9	2

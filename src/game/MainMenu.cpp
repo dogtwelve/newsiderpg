@@ -161,7 +161,7 @@ void MainMenu::KeyEvent(int m_keyNum, int m_keyRepeat)
 
 				case MH_KEY_SOFT1:
 					{//바로가기
-						SAVELOAD_sex	= 1;//여자
+						SAVELOAD_sex	= 0;//여자
 						//SAVELOAD_MainStyle	= 0;
 						//GET_MAINQUEST_IDX() = MAIN_QUEST_openDoor;
 						AppMain::ResvNextState(MS_GAME_FIELD, 400, 0);
@@ -169,7 +169,7 @@ void MainMenu::KeyEvent(int m_keyNum, int m_keyRepeat)
 					}
 					break;
 
-				case MH_KEY_SEND:	{Init_int();MAINMENU_PAGE = PAGE_GO_QUEST;GO_QUEST_SEX=1;break;}
+				case MH_KEY_SEND:	{Init_int();MAINMENU_PAGE = PAGE_GO_QUEST;GO_QUEST_SEX=0;break;}
 
 				case MH_KEY_SELECT:	{Init_int();MAINMENU_PAGE = PAGE_SELECT_SEX;SELECT_SEX_ACTION_START=true; _spr_title->workPal(true,0,-20);break;}
 				case MH_KEY_UP:		{MAINMENU_WING_STATE=1;_ins_Wing->SetAnim(ANIM_MAINMENU_ROTATEUP);			break;}

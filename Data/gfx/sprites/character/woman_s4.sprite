@@ -156,7 +156,7 @@
     FRAME "" // Index = 10, FModules = 1
     {
         0x231E
-        FM	0x1024	108	23
+        FM	0x1024	108	-77
     }
 
     FRAME "" // Index = 11, FModules = 6
@@ -283,7 +283,7 @@
         AF	0x231B	1	0	-100
         AF	0x231C	1	0	-100
         AF	0x231D	1	0	-100
-        AF	0x231E	1	0	-100
+        AF	0x231E	1	0	0
     }
 
     ANIM "a_s_skill4_2_e" // Index = 1, AFrames = 9

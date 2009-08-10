@@ -414,8 +414,9 @@ void FieldUi::InsertMonsterInfo(int _idx, int _name, int _level, int _nowHp, int
 #define GAGE_RED		0
 #define GAGE_BLUE		1
 #define GAGE_YELLOW		2
+#define GAGE_GREEN		3
 //--------------------------------------------------------------------------
-void FieldUi::PaintGage(int gageType, int gagewidth, int x, int y, int nowvalue, int maxvalue)
+void FieldUi::PaintGage(int gageType, int gagewidth,int gageheight, int x, int y, int nowvalue, int maxvalue)
 //--------------------------------------------------------------------------
 {if(nowvalue>maxvalue){nowvalue = maxvalue;}
 	int color[4];
@@ -445,20 +446,28 @@ void FieldUi::PaintGage(int gageType, int gagewidth, int x, int y, int nowvalue,
 			color[3] = 0x22292E;
 			break;
 		}
+		case GAGE_GREEN:
+		{
+			color[0] = 0x00FFB1;
+			color[1] = 0x0ACC8C;
+			color[2] = 0x1D6B58;
+			color[3] = 0x03403A;
+			break;
+		}
 	}
 	int curgage = ((nowvalue*gagewidth)/maxvalue);
 
 	//	yellow gage(remain hp)
 	SUTIL_SetColor(color[0]);
-	SUTIL_FillRect(x, y, (curgage), 2);
+	SUTIL_FillRect(x, y, (curgage), (gageheight-1));
 	SUTIL_SetColor(color[1]);
-	SUTIL_FillRect(x, y+2, (curgage), 1);
+	SUTIL_FillRect(x, y+(gageheight-1), (curgage), 1);
 
 	//	max gage(max hp)
 	SUTIL_SetColor(color[2]);
 	SUTIL_FillRect(x+curgage, y, (gagewidth-curgage), 1);
 	SUTIL_SetColor(color[3]);
-	SUTIL_FillRect(x+curgage, y+1, (gagewidth-curgage), 2);
+	SUTIL_FillRect(x+curgage, y+1, (gagewidth-curgage), (gageheight-1));
 }
 
 
@@ -1088,10 +1097,11 @@ int FieldUi::GetFlags(int index){
 
 
 
-#define CHARINFO_POS_X	(7)
+#define CHARINFO_POS_X	(0)
 #define CHARINFO_POS_Y	(0)
 
-#define CHAR_HP_GAGE_SIZE	(39)
+#define CHAR_HP_GAGE_SIZE	(52)
+#define CHAR_HP_HEIGHT_SIZE	(4)
 #define LEVEL_NUM_IMG_WIDTH		(5)
 
 //--------------------------------------------------------------------------
@@ -1105,6 +1115,12 @@ void FieldUi::PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxM
 //	int MaxMp = 60000;
 //	int level = 8;
 	//	base
+
+	// char hp
+	PaintGage(GAGE_RED, CHAR_HP_GAGE_SIZE,CHAR_HP_HEIGHT_SIZE, CHARINFO_POS_X+34, CHARINFO_POS_Y+12, NowHp, MaxHp);
+	// char mp
+	PaintGage(GAGE_BLUE, CHAR_HP_GAGE_SIZE,CHAR_HP_HEIGHT_SIZE, CHARINFO_POS_X+30, CHARINFO_POS_Y+21, NowMp, MaxMp);
+
 	if(level<100){
 		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CHARINFO_1, CHARINFO_POS_X, CHARINFO_POS_Y, 0);
 	}else{
@@ -1112,10 +1128,10 @@ void FieldUi::PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxM
 	}
 
 	//	face
-	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,Character::Check_sex(FRAME_UI_MC_HEAD_M,FRAME_UI_MC_HEAD_W), CHARINFO_POS_X, CHARINFO_POS_Y, 0);
+	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,Character::Check_sex(FRAME_UI_MC_HEAD_W,FRAME_UI_MC_HEAD_M), CHARINFO_POS_X, CHARINFO_POS_Y, 0);
 
 	//	element
-	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_MC_ELE1+elemental, CHARINFO_POS_X, CHARINFO_POS_Y, 0);
+//	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_MC_ELE1+elemental, CHARINFO_POS_X, CHARINFO_POS_Y, 0);
 
 
 	if(Character::s_Ability.POINT){
@@ -1140,43 +1156,33 @@ void FieldUi::PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxM
 
 
 
-	// char hp
-	PaintGage(GAGE_RED, CHAR_HP_GAGE_SIZE, CHARINFO_POS_X+50, CHARINFO_POS_Y+5, NowHp, MaxHp);
 
-	// char mp
-	PaintGage(GAGE_BLUE, CHAR_HP_GAGE_SIZE, CHARINFO_POS_X+53, CHARINFO_POS_Y+11, NowMp, MaxMp);
-
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM,NowHp, CHARINFO_POS_X+79, CHARINFO_POS_Y+8, 0, CGraphics::RIGHT);
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM,NowMp, CHARINFO_POS_X+75, CHARINFO_POS_Y+17, 0, CGraphics::RIGHT);
 }
 
 
 #define MONINFO_POS_X			(SCREEN_WIDTH-90)
 #define MONINFO_POS_Y			(3)
-#define MONSTER_HP_GAGE_SIZE	(36)
+#define MONSTER_HP_GAGE_SIZE	(51)
 //--------------------------------------------------------------------------
 void FieldUi::PaintMonsterInfo(int MonName, int level, int NowHp, int MaxHp, int elemental)
 //--------------------------------------------------------------------------
 {
 	//	base
-	SUTIL_SetTypeFrameAsprite(m_pFieldUiAsIns,FRAME_UI_MONSTERINFO);
-	SUTIL_SetXPosAsprite(m_pFieldUiAsIns, MONINFO_POS_X);
-	SUTIL_SetYPosAsprite(m_pFieldUiAsIns, MONINFO_POS_Y);
-	SUTIL_SetZPosAsprite(m_pFieldUiAsIns, 0);
-	SUTIL_PaintAsprite(m_pFieldUiAsIns,S_NOT_INCLUDE_SORT);
+	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_MONSTERINFO, MONINFO_POS_X, MONINFO_POS_Y, 0);
+
+	// monster hp
+	PaintGage(GAGE_RED, MONSTER_HP_GAGE_SIZE,CHAR_HP_HEIGHT_SIZE, MONINFO_POS_X+34, MONINFO_POS_Y+19, NowHp, MaxHp);
 
 	//	element
-	SUTIL_SetTypeFrameAsprite(m_pFieldUiAsIns,FRAME_UI_MON_ELE1+elemental);
-	SUTIL_SetXPosAsprite(m_pFieldUiAsIns, MONINFO_POS_X);
-	SUTIL_SetYPosAsprite(m_pFieldUiAsIns, MONINFO_POS_Y);
-	SUTIL_SetZPosAsprite(m_pFieldUiAsIns, 0);
-	SUTIL_PaintAsprite(m_pFieldUiAsIns,S_NOT_INCLUDE_SORT);
+	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_MON_ELE1+elemental, MONINFO_POS_X, MONINFO_POS_Y, 0);
 
 	//	monster name
 	_SUTIL->pFont->setColor(0xffffff);
 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pMonNameText->nText[MonName], MONINFO_POS_X+35, MONINFO_POS_Y+5, 0);
 	
-	// monster hp
-	PaintGage(GAGE_RED, MONSTER_HP_GAGE_SIZE, MONINFO_POS_X+31, MONINFO_POS_Y+23, NowHp, MaxHp);
-
+	
 	//	levelnum
 	//PaintLevel(MONINFO_POS_X+22, MONINFO_POS_Y+21, level);
 	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM,level, MONINFO_POS_X+17, MONINFO_POS_Y+21, 0,  0);
@@ -1184,17 +1190,18 @@ void FieldUi::PaintMonsterInfo(int MonName, int level, int NowHp, int MaxHp, int
 }
 
 
-#define SKILL_SLOT_POS_X	(4)
-#define SKILL_SLOT_POS_Y	(SCREEN_HEIGHT - 36)
+#define SKILL_SLOT_POS_X	(2)
+#define SKILL_SLOT_POS_Y	(SCREEN_HEIGHT - 38)
 #define SKILL_SLOT_SIZE		(30)
-
+ 
 //--------------------------------------------------------------------------
 void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,int* needmana)
 //--------------------------------------------------------------------------
 {
-	//	1379 skill   m_pFieldUiAs
+	//	1379 skill   m_pFieldUiAs 
 
-	for(int loop = 0; loop < 5; loop++){//아이콘
+	for(int loop = 0; loop < 3; loop++){//아이콘
+		
 		if(skill_id[loop]>=0){//비설정 상태가 아니라면 
 			if(cooltime[loop]>2){//쿨타임이 남아있다면
 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);//그레이 스케일
@@ -1303,32 +1310,31 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 }
 
 
-#define EXP_GAGE_POS_X	(4)
-#define EXP_GAGE_POS_Y	(SCREEN_HEIGHT - 9)
-#define EXP_GAGE_SIZE	(80)
+#define EXP_GAGE_POS_X	(0)
+#define EXP_GAGE_POS_Y	(SCREEN_HEIGHT - 0)
+#define EXP_GAGE_SIZE	(183)
+#define EXP_GAGE_HEIGHT	(4)
 
 //--------------------------------------------------------------------------
 void FieldUi::PaintExpInfo(int NowExp, int MaxExp)
 //--------------------------------------------------------------------------
-{
+{ 
 //	int NowExp = 45642;
 //	int MaxExp = 60000;
 
 //	int curgage = ((NowExp*EXP_GAGE_SIZE)/MaxExp);
-
-	//	sharp skill
-	SUTIL_SetColor(0x000000);
-	SUTIL_FillRect(EXP_GAGE_POS_X, EXP_GAGE_POS_Y, 20+EXP_GAGE_SIZE, 7);
-
-	//	yellow gage
-	PaintGage(GAGE_YELLOW, EXP_GAGE_SIZE, EXP_GAGE_POS_X+19, EXP_GAGE_POS_Y+2, NowExp, MaxExp);
 
 	//	skill text
 	SUTIL_SetTypeFrameAsprite(m_pFieldUiAsIns,FRAME_UI_GAGE_EXP_TEXT);
 	SUTIL_SetXPosAsprite(m_pFieldUiAsIns, EXP_GAGE_POS_X);
 	SUTIL_SetYPosAsprite(m_pFieldUiAsIns, EXP_GAGE_POS_Y);
 	SUTIL_SetZPosAsprite(m_pFieldUiAsIns, 0);
-	SUTIL_PaintAsprite(m_pFieldUiAsIns,S_NOT_INCLUDE_SORT);
+	SUTIL_PaintAsprite(m_pFieldUiAsIns,S_NOT_INCLUDE_SORT); 
+
+	//	yellow gage
+	PaintGage(GAGE_GREEN, EXP_GAGE_SIZE,EXP_GAGE_HEIGHT, EXP_GAGE_POS_X+21, EXP_GAGE_POS_Y-9, NowExp, MaxExp);
+
+
 }
 
 
@@ -1341,18 +1347,18 @@ void FieldUi::PaintCombo()
 	if(0 == m_nSaveCombo)	{return;}
 
 	//	블랜딩
-//	switch(m_nSaveComboTimer)
-//	{
-//		case 0:	{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//		case 1:	{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//		case 2:	{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//		case 3:	{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//		case 4:	{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//		case 5:	{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//		default:{m_pFieldUiDamageNumAs->workPal(true, 0, 5);	break;}
-//	}
-
-//	m_pFieldUiDamageNumAs->workPal(true, 0, 5);
+	if(30 < m_nSaveComboTimer)
+	{
+		m_nSaveComboTimer--;
+		m_nSaveCombo = 0;
+		m_nSaveComboMax = 0;
+	}
+	if(m_nSaveComboTimer > 15){
+		int SetAlpha = 62 -  (m_nSaveComboTimer*2);
+		m_pFieldUiDamageNumAs->SetBlendCustom(true,false,1,SetAlpha);
+	}
+	
+	//m_pFieldUiDamageNumAs->workPal(true, 0, 5);
 
 	//	콤보
 	if(0 == m_nSaveCombo%20)
@@ -1365,12 +1371,12 @@ void FieldUi::PaintCombo()
 			case 4:
 			{
 				//	이미지가 1부터 시작함
-				SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,79-1+(m_nSaveCombo/20), COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
+				SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,FRAME_DAMAGE_NUM_GOOD-1+(m_nSaveCombo/20), COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
 				break;
 			}
 			default:
 			{
-				SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,79-1+5, COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
+				SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,FRAME_DAMAGE_NUM_GOOD-1+5, COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
 				break;
 			}
 		}
@@ -1382,11 +1388,13 @@ void FieldUi::PaintCombo()
 		//	콤보 바탕 이미지
 		if(2 < temp)	{temp = 2;}
 		
-		SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,76+temp, COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
+		SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,FRAME_DAMAGE_NUM_HIT_START+temp, COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
 
 		//	콤보 숫자
-		PaintNumber(m_pFieldUiDamageNumAs, 65, m_nSaveCombo,COMBO_TEXT_LOCATE_X-m_pFieldUiDamageNumAsIns->CameraX , COMBO_TEXT_LOCATE_Y, 0,0);
+
+		PaintNumber(m_pFieldUiDamageNumAs, MODULE_DAMAGE_NUM_COMBO_NUM, m_nSaveCombo,COMBO_TEXT_LOCATE_X+8, COMBO_TEXT_LOCATE_Y-16, -5,Graphics::RIGHT);
 	}
+	m_pFieldUiDamageNumAs->SetBlendCustom(false,false,0,0);//블랜딩 해제
 }
 
 //--------------------------------------------------------------------------
@@ -1409,7 +1417,7 @@ void FieldUi::ProcessCombo()
 		m_nSaveComboTimer++;
 	}
 	
-	if(20 < m_nSaveComboTimer)
+	if(30 < m_nSaveComboTimer)
 	{
 		m_nSaveComboTimer--;
 		m_nSaveCombo = 0;

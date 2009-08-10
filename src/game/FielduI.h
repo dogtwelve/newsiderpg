@@ -175,7 +175,7 @@ public:
 
 private:
 
-	void PaintGage(int gageType, int gagewidth, int x, int y, int nowvalue, int maxvalue);
+	void PaintGage(int gageType, int gagewidth,int gageheight, int x, int y, int nowvalue, int maxvalue);
 
 	void ProcessCombo();
 	void PaintCombo();

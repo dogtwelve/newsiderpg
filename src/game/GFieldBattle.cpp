@@ -1152,7 +1152,7 @@ void GFieldBattle::Process()
 
 			if(hero->s_Skill_Set.OVER_SkillEffect)
 			{
-				if(Contact_Check(hero->_ins_Skill[hero->s_Skill_Set.Num][0], GetData(pMonList)->pMonAsIns,NULL, GetData(pMonList)->m_nBodySize))
+				if(Contact_Check(hero->_ins_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num][0], GetData(pMonList)->pMonAsIns,NULL, GetData(pMonList)->m_nBodySize))
 				{
 					pFieldUi->AddCombo();	//	nams
 					DamageSand_Hero(hero, GetData(pMonList));//¡÷¿Œ∞¯ Ω∫≈≥
@@ -1168,14 +1168,22 @@ void GFieldBattle::Process()
 					}
 			}
 
-			for(int i =0 ;i<4 ; i++){
+			for(int i =0 ;i<BULLET_MAX ; i++){
 				if(hero->s_Bullet_Eff[i].act && hero->s_Bullet_Eff[i].LVup_Eff_Ins)
 				{
 					if(Contact_Check(hero->s_Bullet_Eff[i].LVup_Eff_Ins, GetData(pMonList)->pMonAsIns,NULL,GetData(pMonList)->m_nBodySize))//√ÊÆG!!
 					{
 						pFieldUi->AddCombo();	//	nams
 						DamageSand_Hero(hero, GetData(pMonList));//¿Â«≥ √º≈©
-						if(i == 0 || i == 1) hero->s_Bullet_Eff[i].LVupEff_Num = 100;//¿Â«≥ªÁ∂Û¡¸
+						switch (i){
+							case 0:case 1:case 2:case 3:case 4:
+								hero->s_Bullet_Eff[i].LVupEff_Num = 100;//¿Â«≥ªÁ∂Û¡¸
+								break;
+							case 7:case 8:case 9:
+								if(hero->s_Bullet_Eff[i].LVup_Eff_Ins->m_nCrtModule == ANIM_WOMAN_S7_A_S_SKILL7_2)
+									hero->s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_3);
+								break;
+						}
 					}
 				}
 			}
@@ -1301,10 +1309,12 @@ void GFieldBattle::Process()
 
 			int camera_x = -(pField->m_nSrcCamAngle_X);
 			hero->_ins_Hero->setCamera(camera_x,0);
-			for(int xx = 0;xx<5;xx++){//¿Ã∆Â∆Æø° ƒ´∏ﬁ∂Û¡¬«• ¿˚øÎ
-				if(hero->s_Skill.Equip_A[xx]>=0){
-					hero->_ins_Skill[xx][0]->setCamera(camera_x,0);
-					hero->_ins_Skill[xx][1]->setCamera(camera_x,0);
+			for(int xx = 0;xx<3;xx++){//¿Ã∆Â∆Æø° ƒ´∏ﬁ∂Û¡¬«• ¿˚øÎ
+				for(int sex = 0;sex<2;sex++){
+					if(hero->s_Skill.Equip_A[sex][xx]>=0){
+						hero->_ins_Skill[sex][xx][0]->setCamera(camera_x,0);
+						hero->_ins_Skill[sex][xx][1]->setCamera(camera_x,0);
+					}
 				}
 			}
 			if(hero->s_HeroTag.act){
@@ -1464,14 +1474,14 @@ void GFieldBattle::Process()
 
 
 			if(hero->s_Skill_Set.act){
-				if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 11){//øπø‹Ω∫≈≥
-					hero->_ins_Skill[hero->s_Skill_Set.Num][1]->m_posX = hero->_ins_Skill[hero->s_Skill_Set.Num][0]->m_posX = hero->_ins_Hero->m_posX;
-					hero->_ins_Skill[hero->s_Skill_Set.Num][1]->m_posY = hero->_ins_Skill[hero->s_Skill_Set.Num][0]->m_posY = hero->_ins_Hero->m_posY; 
+				if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[Character::s_Status.SEX][hero->s_Skill_Set.Num] == 11){//øπø‹Ω∫≈≥
+					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posX = hero->_ins_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posX = hero->_ins_Hero->m_posX;
+					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posY = hero->_ins_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posY = hero->_ins_Hero->m_posY; 
 				}else{
-					hero->_ins_Skill[hero->s_Skill_Set.Num][1]->m_posX += (Hero_XY%100000);
-					hero->_ins_Skill[hero->s_Skill_Set.Num][0]->m_posX += (Hero_XY%100000);
-					hero->_ins_Skill[hero->s_Skill_Set.Num][1]->m_posY += (Hero_XY/100000);
-					hero->_ins_Skill[hero->s_Skill_Set.Num][0]->m_posY += (Hero_XY/100000);
+					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posX += (Hero_XY%100000);
+					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posX += (Hero_XY%100000);
+					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posY += (Hero_XY/100000);
+					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posY += (Hero_XY/100000);
 				}
 			}
 
@@ -1681,11 +1691,11 @@ void GFieldBattle::Paint()
 	if(pFieldUi->s_TalkBox.View){//¥Î»≠√¢¿Ã∂„∂ß
 		pFieldUi->PaintTalkBox();
 	}else{
-		pFieldUi->PaintSkillInfo(&(hero->s_Skill_Set.Skill_ID[0]),
-			&(hero->s_Skill_Set.Cool_TimeMax[0]),
-			&(hero->s_Skill_Set.Cool_TimeNow[0]),
+		pFieldUi->PaintSkillInfo(&(hero->s_Skill_Set.Skill_ID[hero->s_Status.SEX][0]),
+			&(hero->s_Skill_Set.Cool_TimeMax[hero->s_Status.SEX][0]),
+			&(hero->s_Skill_Set.Cool_TimeNow[hero->s_Status.SEX][0]),
 			hero->s_Status.MANA,
-			&(hero->s_Skill_Set.Need_Mana[0]));
+			&(hero->s_Skill_Set.Need_Mana[hero->s_Status.SEX][0]));
 		pFieldUi->PaintExpInfo(hero->s_Status.EXP,
 			hero->s_Status.EXP_MAX);
 	}
@@ -2578,389 +2588,600 @@ void GFieldBattle::Paint_Exception_Check()
 {
 	Exception_Num = 0; //√ ±‚»≠
 
-	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 19)
-	{//≥˙∑Ê
-		switch(hero->_ins_Hero->m_nCrtFrame){
-			case 1:
-				pField->workPal(true,0,-5);
-				break;
-			case 2:
-				pField->workPal(true,0,-10);
-				break;
-			case 9:
-				pField->workPal(true,0,-5);
-				break;
-			case 10:
-				pField->workPal(false,0,0);
-				break;
-		}
+// 	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 19)
+// 	{//≥˙∑Ê
+// 		switch(hero->_ins_Hero->m_nCrtFrame){
+// 			case 1:
+// 				pField->workPal(true,0,-5);
+// 				break;
+// 			case 2:
+// 				pField->workPal(true,0,-10);
+// 				break;
+// 			case 9:
+// 				pField->workPal(true,0,-5);
+// 				break;
+// 			case 10:
+// 				pField->workPal(false,0,0);
+// 				break;
+// 		}
+// 
+// 	}
+// 	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 3)
+// 	{//∞¯∞£∫£±‚
+// 
+// 		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
+// 		switch(hero->_ins_Hero->m_nCrtFrame){
+// 			case 5:
+// 				pField->workPal(true,0,-10);
+// 				break;
+// 			case 6:
+// 				pField->workPal(true,0,-20);
+// 				break;
+// 			case 49:
+// 				switch(ani_time){
+// 			case 0:
+// 				pField->workPal(true,0,20);
+// 				break;
+// 			case 1:
+// 				pField->workPal(true,0,10);
+// 				break;
+// 			case 2:
+// 				pField->workPal(false,0,0);
+// 				break;
+// 				}
+// 		}
+// 
+// 
+// 		if(hero->_ins_Hero->m_nCrtFrame == 18 || hero->_ins_Hero->m_nCrtFrame == 48){//¿¸√º ∞¯∞›
+// 			MoveHead(pMonList);
+// 			MoveNext(pMonList);
+// 			Position3D power;
+// 			int tmp = 0;
+// 
+// 			while(NotEndList(pMonList))
+// 			{
+// 				if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
+// 					MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
+// 					(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
+// 				{
+// 
+// 					if(hero->_ins_Hero->m_nCrtFrame == 18){
+// 						s_Contact.x = 1;
+// 						s_Contact.y = 0;
+// 						s_Contact.z = 0;
+// 					}else{
+// 						s_Contact.x = 0;
+// 						s_Contact.y = 0;
+// 						s_Contact.z = -50;
+// 					}
+// 					s_Contact.D_index = 56;//∞¯∞£ ¬¸∞› ¿Œµ¶Ω∫
+// 					DamageSand_Hero(hero, GetData(pMonList));//¡÷¿Œ∞¯¿« ∞¯∞›
+// 
+// 
+// 				}
+// 
+// 				MoveNext(pMonList);
+// 			}
+// 		}else{
+// 			Exception_Num+=PROCESS_MON_NOT;//∏ÛΩ∫≈Õ ¡§¡ˆ
+// 		}
+// 
+// 	}
+// 	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 18)
+// 	{//∫Ì∑¢»¶
+// 		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
+// 
+// 		switch(hero->_ins_Hero->m_nCrtFrame){
+// 			case 6:
+// 				switch(ani_time%4){
+// 			case 0:
+// 				pField->workPal(true,0,-3);
+// 				break;
+// 			case 1:
+// 				pField->workPal(true,0,-7);
+// 				break;
+// 			case 2:
+// 				pField->workPal(true,0,-3);
+// 				break;
+// 			case 3:
+// 				pField->workPal(false,0,0);
+// 				break;
+// 
+// 
+// 				}
+// 				break;
+// 			case 7:
+// 				pField->workPal(false,0,0);
+// 				break;
+// 
+// 
+// 		}
+// 		//if(hero->_ins_Hero->m_nCrtFrame < 7){//ª°æ∆¥Á±‚±‚
+// 		//	MoveHead(pMonList);
+// 		//	MoveNext(pMonList);
+// 		//	while(NotEndList(pMonList))
+// 		//	{
+// 		//		if(MON_AC_DIE != GetData(pMonList)->m_ActState && MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState)
+// 		//		{
+// 
+// 		//			//MON_AC_BLACKHOLE
+// 
+// 		//		}
+// 		//		MoveNext(pMonList);
+// 		//	}	
+// 		//}
+// 
+// 	}
+// 
+
+
+	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Status.SEX][hero->s_Skill_Set.Num] == 4)
+	{//»˜æÓ∑Œ ∏≈¡˜πÃªÁ¿œ Ω√¿¸«ﬂ¿ª∂ß
+					switch(hero->_ins_Hero->m_nCrtFrame){
+						case 0://±‚º˙ Ω√¿€∂ß ≈∏∞Ÿ ∏ÛΩ∫≈Õ ¡ˆ¡§
+			 				{
+			 					int RangeLengthMAX = 200;
+			 					int RangeLengthMIN = 0;
+			 
+			 					int pMonsIns_Num = 0;
+			 					class Monster* pMonsIns[5]; 
+			 
+			 					MoveHead(pMonList);
+			 					MoveNext(pMonList);
+			 					while(NotEndList(pMonList))
+			 					{
+			 						if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
+			 							MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
+			 							(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
+			 						{
+			 
+			 							int tempX = GetData(pMonList)->pMonAsIns->m_posX - (hero->_ins_Hero->m_posX);
+			 							int tempY = 0;//GetData(pMonList)->pMonAsIns->m_posY - (hero->_ins_Hero->m_posY);
+			 
+			 
+			 							if((RangeLengthMAX> ABS(tempX)+ABS(tempY)) && (RangeLengthMIN< ABS(tempX)+ABS(tempY))){//πﬂªÁ∞≈∏Æø° ¡∏¿Á«œ∏È ∏ÆΩ∫∆Æø° √ﬂ∞°
+			 								pMonsIns[pMonsIns_Num] = GetData(pMonList);//∆˜¿Œ≈Õ ¿˙¿Â 
+			 								pMonsIns_Num++;
+			 								if(pMonsIns_Num > 4)
+			 									break;//∏ÛΩ∫≈Õ «Æ¿Ã ∞°µÊ √°¥Ÿ
+			 
+			 							}
+			 
+			 						}
+			 						MoveNext(pMonList);
+			 					}		
+			 
+			 
+			 
+			 					if(pMonsIns_Num>0){//≈∏≈∂ ∏ÛΩ∫≈Õ∞° 1∏∂∏Æ ¿ÃªÛ ¿÷¿∏∏È
+			 						s_Homing[0].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
+			 						s_Homing[1].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
+			 						s_Homing[2].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
+			 
+									
+
+// 			 						hero->s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_ATT_E_BACK);
+// 			 						hero->s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = false;
+// 			 
+// 			 						hero->s_Knife_Eff[4].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_ATT_E);
+// 			 						hero->s_Knife_Eff[4].LVup_Eff_Ins->m_bLoop = false;
+								}else{
+									for(int i = 0;i<3;i++){
+										s_Homing[i].pMons = NULL;
+										s_Homing[i].X2 = (hero->_ins_Hero->m_flags? -10000:+10000);
+										s_Homing[i].Y2 = (hero->_ins_Hero->m_posY);
+									}
+									
+								}
+			 				}
+			 
+ 			 				break;
+ 	 					case 8:
+ 	 						hero->s_Knife_Eff[0].act = true;
+							hero->s_Knife_Eff[0].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0π¯¬∞ πËø≠, Ω«ªÁøÎΩ√¥¬ define « ø‰
+							hero->s_Knife_Eff[0].LVup_Eff_Ins->m_bLoop = true;
+	 						s_Homing[0].X1 =(hero->_ins_Hero->m_flags? -30:+30) + (hero->_ins_Hero->m_posX);
+	 						s_Homing[0].Y1 = (hero->_ins_Hero->m_posY);
+							if(s_Homing[0].pMons){
+								s_Homing[0].X2 = s_Homing[0].pMons->pMonAsIns->m_posX;
+								s_Homing[0].Y2 = s_Homing[0].pMons->pMonAsIns->m_posY;
+							}
+	 						s_Homing[0].Cita1=(hero->_ins_Hero->m_flags? 270:90);
+			 
+	 						s_Homing[0].TurnCita = 5;//Ω√¿€ »∏¿¸ «—∞Ë∞¢(¡°¡°¥√æÓ≥≤)
+	 						s_Homing[0].R = 15;//¿Ãµø∑Æ
+	 						break;
+	 					case 11:
+	 						hero->s_Knife_Eff[1].act = true;
+							hero->s_Knife_Eff[1].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0π¯¬∞ πËø≠, Ω«ªÁøÎΩ√¥¬ define « ø‰
+							hero->s_Knife_Eff[1].LVup_Eff_Ins->m_bLoop = true;
+	 						s_Homing[1].X1 =(hero->_ins_Hero->m_flags? -30:+30) + (hero->_ins_Hero->m_posX);
+	 						s_Homing[1].Y1 = (hero->_ins_Hero->m_posY);
+							if(s_Homing[1].pMons){
+	 							s_Homing[1].X2 = s_Homing[1].pMons->pMonAsIns->m_posX;
+	 							s_Homing[1].Y2 = s_Homing[1].pMons->pMonAsIns->m_posY;
+							}
+	 						s_Homing[1].Cita1=(hero->_ins_Hero->m_flags? 270:90);
+			 
+	 						s_Homing[1].TurnCita = 5;//Ω√¿€ »∏¿¸ «—∞Ë∞¢(¡°¡°¥√æÓ≥≤)
+	 						s_Homing[1].R = 15;//¿Ãµø∑Æ
+ 	 						break;
+ 	 					case 14:
+ 	 						hero->s_Knife_Eff[2].act = true;
+							hero->s_Knife_Eff[2].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0π¯¬∞ πËø≠, Ω«ªÁøÎΩ√¥¬ define « ø‰
+							hero->s_Knife_Eff[2].LVup_Eff_Ins->m_bLoop = true;
+	 						s_Homing[2].X1 =(hero->_ins_Hero->m_flags? -30:+30) + (hero->_ins_Hero->m_posX);
+	 						s_Homing[2].Y1 = (hero->_ins_Hero->m_posY);
+							if(s_Homing[2].pMons){
+	 							s_Homing[2].X2 = s_Homing[2].pMons->pMonAsIns->m_posX;
+	 							s_Homing[2].Y2 = s_Homing[2].pMons->pMonAsIns->m_posY;
+							}
+	 						s_Homing[2].Cita1=(hero->_ins_Hero->m_flags? 270:90);
+			 
+	 						s_Homing[2].TurnCita = 5;//Ω√¿€ »∏¿¸ «—∞Ë∞¢(¡°¡°¥√æÓ≥≤)
+	 						s_Homing[2].R = 15;//¿Ãµø∑Æ
+	 						break;
+	 
+		 			}
+			 
+// 
+// 
+// 
+// 			 				for(int i =0;i<3;i++){
+// 			 					if(hero->s_Knife_Eff[i].act && hero->s_Knife_Eff[i].LVup_Eff_Ins!=NULL){//»£π÷ Ω√¿€
+// 			 
+// 			 
+// 			 
+// 			 
+// 			 						if(ABS(s_Homing[i].X1 - s_Homing[i].X2) + ABS(s_Homing[i].Y1 - s_Homing[i].Y2) < s_Homing[i].R){
+// 			 							hero->s_Knife_Eff[i].LVup_ActionEnd = !hero->s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect ø°¥œ∏ﬁ¿Ãº« æ˜µ•¿Ã∆Æ Ω««‡
+// 			 							if(hero->s_Knife_Eff[i].LVup_ActionEnd ){
+// 			 								int zz = 0;
+// 			 							}
+// 			 							if(hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop){
+// 			 								//hero->s_Knife_Eff[i].LVup_ActionEnd=true;
+// 			 								hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_HIT1+i);
+// 			 								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X2;
+// 			 								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y2+1;
+// 			 								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop = false;
+// 			 
+// 			 								//s_Homing[i].R=0;
+// 			 							}
+// 			 
+// 			 
+// 			 						}else{
+// 			 
+// 			 							if(s_Homing[i].pMons){
+// 			 								s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
+// 			 								s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;
+// 			 							}
+// 			 
+// 			 							GetHomingXY(&s_Homing[i]);
+// 			 							hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X1;
+// 			 							hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y1;
+// 			 
+// 			 							int xxx = ANIM_WOMAN_S1_DAGGER+((s_Homing[i].Cita1+15)%360) /30;
+// 			 							if(xxx != hero->s_Knife_Eff[i].LVup_Eff_Ins->m_nCrtModule)
+// 			 								hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(xxx);
+// 			 
+// 			 							if(s_Homing[i].TurnCita <90)s_Homing[i].TurnCita *= 2;
+// 			 							if(s_Homing[i].R<30)s_Homing[i].R += 1;
+// 			 
+// 			 						}
+// 			 					}
+// 			 				}
+// 			 
+// 			 				break;
+//			 		}
 
 	}
-	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 3)
-	{//∞¯∞£∫£±‚
-
-		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
-		switch(hero->_ins_Hero->m_nCrtFrame){
-			case 5:
-				pField->workPal(true,0,-10);
-				break;
-			case 6:
-				pField->workPal(true,0,-20);
-				break;
-			case 49:
-				switch(ani_time){
-			case 0:
-				pField->workPal(true,0,20);
-				break;
-			case 1:
-				pField->workPal(true,0,10);
-				break;
-			case 2:
-				pField->workPal(false,0,0);
-				break;
-				}
-		}
+	//∏≈¡˜ πÃªÁ¿œ √ﬂ¿˚∫Œ∫–
+	for(int i =0,Homing = 6;i<3;i++){
+		if(hero->s_Knife_Eff[i].act){
+			if(hero->s_Knife_Eff[i].act && hero->s_Knife_Eff[i].LVup_Eff_Ins!=NULL){//»£π÷ Ω√¿€
 
 
-		if(hero->_ins_Hero->m_nCrtFrame == 18 || hero->_ins_Hero->m_nCrtFrame == 48){//¿¸√º ∞¯∞›
-			MoveHead(pMonList);
-			MoveNext(pMonList);
-			Position3D power;
-			int tmp = 0;
 
-			while(NotEndList(pMonList))
-			{
-				if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
-					MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
-					(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
-				{
 
-					if(hero->_ins_Hero->m_nCrtFrame == 18){
-						s_Contact.x = 1;
-						s_Contact.y = 0;
-						s_Contact.z = 0;
-					}else{
-						s_Contact.x = 0;
-						s_Contact.y = 0;
-						s_Contact.z = -50;
+				if(ABS(s_Homing[i].X1 - s_Homing[i].X2) + ABS(s_Homing[i].Y1 - s_Homing[i].Y2) < s_Homing[i].R){
+					hero->s_Knife_Eff[i].LVup_ActionEnd = !hero->s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect ø°¥œ∏ﬁ¿Ãº« æ˜µ•¿Ã∆Æ Ω««‡
+					if(hero->s_Knife_Eff[i].LVup_ActionEnd ){
+						int zz = 0;
 					}
-					s_Contact.D_index = 56;//∞¯∞£ ¬¸∞› ¿Œµ¶Ω∫
-					DamageSand_Hero(hero, GetData(pMonList));//¡÷¿Œ∞¯¿« ∞¯∞›
+					if(hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop){
+						//hero->s_Knife_Eff[i].LVup_ActionEnd=true;
+						hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S5_HIT_1+(i%2));
+						hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X2;
+						hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y2+1;
+						hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop = false;
 
+						//s_Homing[i].R=0;
+					}
+
+
+				}else{
+
+					if(s_Homing[i].pMons && s_Homing[i].pMons->pMonAsIns){
+						s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
+						s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;
+					}
+
+					GetHomingXY(&s_Homing[i]);
+					hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X1;
+					hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y1;
+
+					int xxx = ANIM_WOMAN_S5_DAGGER+((s_Homing[i].Cita1+15)%360) /30;
+					if(xxx != hero->s_Knife_Eff[i].LVup_Eff_Ins->m_nCrtModule)
+						hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(xxx);
+
+					if(s_Homing[i].TurnCita <90)s_Homing[i].TurnCita *= 2;
+					if(s_Homing[i].R<30)s_Homing[i].R += 1;
 
 				}
-
-				MoveNext(pMonList);
 			}
-		}else{
-			Exception_Num+=PROCESS_MON_NOT;//∏ÛΩ∫≈Õ ¡§¡ˆ
-		}
-
-	}
-	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 18)
-	{//∫Ì∑¢»¶
-		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
-
-		switch(hero->_ins_Hero->m_nCrtFrame){
-			case 6:
-				switch(ani_time%4){
-			case 0:
-				pField->workPal(true,0,-3);
-				break;
-			case 1:
-				pField->workPal(true,0,-7);
-				break;
-			case 2:
-				pField->workPal(true,0,-3);
-				break;
-			case 3:
-				pField->workPal(false,0,0);
-				break;
-
-
-				}
-				break;
-			case 7:
-				pField->workPal(false,0,0);
-				break;
-
-
-		}
-		//if(hero->_ins_Hero->m_nCrtFrame < 7){//ª°æ∆¥Á±‚±‚
-		//	MoveHead(pMonList);
-		//	MoveNext(pMonList);
-		//	while(NotEndList(pMonList))
-		//	{
-		//		if(MON_AC_DIE != GetData(pMonList)->m_ActState && MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState)
-		//		{
-
-		//			//MON_AC_BLACKHOLE
-
-		//		}
-		//		MoveNext(pMonList);
-		//	}	
-		//}
-
-	}
-
-	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 0)
-	{//»˜æÓ∑Œ ∞Àπˆ«¡ Ω√¿¸«ﬂ¿ª∂ß
-		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
-
-		switch(hero->_ins_Hero->m_nCrtFrame){
-			case 16:
-				switch(ani_time){
-			case 0:
-				pField->workPal(true,0,31);
-				Exception_Num+=PAINT_MON_NOT+PAINT_HERO_NOT;
-
-				break;
-			case 1:
-				pField->workPal(true,0,15);
-				break;
-				}
-				break;
-			case 17:
-				pField->workPal(false,0,0);
-				break;
-
-
-
-		}
-	}
-	if(hero->s_Knife_Eff[3].act && hero->s_Knife_Eff[3].LVup_Eff_Ins)
-	{//»˜æÓ∑Œ ∞Àπˆ«¡ ¡ﬂ¿œ∂ß
-
-		if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 11)
-			hero->s_Knife_Eff[3].LVup_ActionEnd = true;//øÏ¡÷∫ˆ πﬂµøΩ√ø°¥¬ «ÿ¡¶«—¥Ÿ
-
-		switch(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule){
-			case ANIM_WOMAN_S_S1_A_S_SKILL1_BUFF_E_BACK://√≠¡ˆ
-				{
-					int RangeLengthMAX = 200;
-					int RangeLengthMIN = 100;
-
-					int pMonsIns_Num = 0;
-					class Monster* pMonsIns[5]; 
-
-					MoveHead(pMonList);
-					MoveNext(pMonList);
-					while(NotEndList(pMonList))
-					{
-						if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
-							MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
-							(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
-						{
-
-							int tempX = GetData(pMonList)->pMonAsIns->m_posX - (hero->_ins_Hero->m_posX);
-							int tempY = GetData(pMonList)->pMonAsIns->m_posY - (hero->_ins_Hero->m_posY);
-
-
-							if((RangeLengthMAX> ABS(tempX)+ABS(tempY)) && (RangeLengthMIN< ABS(tempX)+ABS(tempY))){//πﬂªÁ∞≈∏Æø° ¡∏¿Á«œ∏È ∏ÆΩ∫∆Æø° √ﬂ∞°
-								pMonsIns[pMonsIns_Num] = GetData(pMonList);//∆˜¿Œ≈Õ ¿˙¿Â 
-								pMonsIns_Num++;
-								if(pMonsIns_Num > 4)
-									break;//∏ÛΩ∫≈Õ «Æ¿Ã ∞°µÊ √°¥Ÿ
-
-							}
-
-						}
-						MoveNext(pMonList);
-					}		
-
-
-
-					if(pMonsIns_Num>0){//≈∏≈∂ ∏ÛΩ∫≈Õ∞° 1∏∂∏Æ ¿ÃªÛ ¿÷¿∏∏È
-						s_Homing[0].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
-						s_Homing[1].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
-						s_Homing[2].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
-
-						hero->s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_A_S_SKILL1_ATT_E_BACK);
-						hero->s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = false;
-
-						hero->s_Knife_Eff[4].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_A_S_SKILL1_ATT_E);
-						hero->s_Knife_Eff[4].LVup_Eff_Ins->m_bLoop = false;
-					}
-				}
-
-				break;
-			case ANIM_WOMAN_S_S1_A_S_SKILL1_ATT_E_BACK://πﬂªÁ
-				switch(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtFrame){
-			case 4:
-				hero->s_Knife_Eff[0].act = true;
-
-				s_Homing[0].X1 =(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? -51:+51) + (hero->_ins_Hero->m_posX);
-				s_Homing[0].Y1 =-6 + (hero->_ins_Hero->m_posY);
-				s_Homing[0].X2 = s_Homing[0].pMons->pMonAsIns->m_posX;
-				s_Homing[0].Y2 = s_Homing[0].pMons->pMonAsIns->m_posY;
-				s_Homing[0].Cita1=(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? 240:120);
-
-				s_Homing[0].TurnCita = 5;
-				s_Homing[0].R = 15;
-				break;
-			case 5:
-				hero->s_Knife_Eff[1].act = true;
-
-				s_Homing[1].X1 =(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? -61:+61) + (hero->_ins_Hero->m_posX);
-				s_Homing[1].Y1 =-19 + (hero->_ins_Hero->m_posY);
-				s_Homing[1].X2 = s_Homing[1].pMons->pMonAsIns->m_posX;
-				s_Homing[1].Y2 = s_Homing[1].pMons->pMonAsIns->m_posY;
-				s_Homing[1].Cita1=(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? 300:60);
-
-				s_Homing[1].TurnCita = 5;
-				s_Homing[1].R = 15;
-				break;
-			case 6:
-				hero->s_Knife_Eff[2].act = true;
-
-				s_Homing[2].X1 =(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? -71:+71) + (hero->_ins_Hero->m_posX);
-				s_Homing[2].Y1 =+28 + (hero->_ins_Hero->m_posY);
-				s_Homing[2].X2 = s_Homing[2].pMons->pMonAsIns->m_posX;
-				s_Homing[2].Y2 = s_Homing[2].pMons->pMonAsIns->m_posY;
-				s_Homing[2].Cita1=(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? 210:150);
-
-				s_Homing[2].TurnCita = 5;
-				s_Homing[2].R = 15;
-				break;
-
-				}
-
-				for(int i =0;i<3;i++){
-					if(hero->s_Knife_Eff[i].act && hero->s_Knife_Eff[i].LVup_Eff_Ins!=NULL){//»£π÷ Ω√¿€
-
-
-
-
-						if(ABS(s_Homing[i].X1 - s_Homing[i].X2) + ABS(s_Homing[i].Y1 - s_Homing[i].Y2) < s_Homing[i].R){
-							hero->s_Knife_Eff[i].LVup_ActionEnd = !hero->s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect ø°¥œ∏ﬁ¿Ãº« æ˜µ•¿Ã∆Æ Ω««‡
-							if(hero->s_Knife_Eff[i].LVup_ActionEnd ){
-								int zz = 0;
-							}
-							if(hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop){
-								//hero->s_Knife_Eff[i].LVup_ActionEnd=true;
-								hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S_S1_A_S_SKILL1_HIT1+i);
-								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X2;
-								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y2+1;
-								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop = false;
-
-								//s_Homing[i].R=0;
-							}
-
-
-						}else{
-
-							if(s_Homing[i].pMons){
-								s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
-								s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;
-							}
-
-							GetHomingXY(&s_Homing[i]);
-							hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X1;
-							hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y1;
-
-							int xxx = ANIM_WOMAN_S_S1_DAGGER+((s_Homing[i].Cita1+15)%360) /30;
-							if(xxx != hero->s_Knife_Eff[i].LVup_Eff_Ins->m_nCrtModule)
-								hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(xxx);
-
-							if(s_Homing[i].TurnCita <90)s_Homing[i].TurnCita *= 2;
-							if(s_Homing[i].R<30)s_Homing[i].R += 1;
-
-						}
-					}
-				}
-
-				break;
 		}
 	}
 
 
 
-
-
-	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 11)
-	{//øÏ¡÷∫ˆ
-
-
-		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
-
-		switch(hero->_ins_Hero->m_nCrtFrame){
-			case 2:if(ani_time==0)pField->workPal(true,0,-5);
-				break;
-			case 3:if(ani_time==0)pField->workPal(true,0,-17);
-				break;
-			case 4:
-				if(ani_time==0){
-					pField->workPal(true,0,-31);
-					BAKUP_HERO_Y = hero->_ins_Hero->m_posY;
-					hero->_ins_Hero->m_posY = SCREEN_HEIGHT/2;
-				}
-				break;
-			case 37:
-				s_Camera.CameraAdd = (ani_time%2 ?-1 : +1)*RND(1,3);//ƒ´∏ﬁ∂Û »ÁµÈ±‚
-				switch(ani_time){
-			case 0:
-				hero->_ins_Hero->m_posY  = BAKUP_HERO_Y;
-				pField->workPal(true,0,0);
-				break;
-			case 11:
-				pField->workPal(true,0,15);
-				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,15);
-				break;
-			case 12:
-				pField->workPal(true,0,21);
-				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,31);
-				break;
-			case 14:
-				pField->workPal(true,0,20);
-				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,17);
-				break;
-			case 15:
-				pField->workPal(true,0,10);
-				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,5);
-				{
-					MoveHead(pMonList);
-					MoveNext(pMonList);
-					Position3D power;
-					int tmp = 0;
-					while(NotEndList(pMonList))
-					{
-						if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
-							MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
-							(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
-						{
-
-							s_Contact.x = 0;
-							s_Contact.y = 0;
-							s_Contact.z = -50;
-							s_Contact.D_index = 72;//æ»µÂ∑Œ∏ﬁ¥Ÿ ¿Œµ¶Ω∫
-							DamageSand_Hero(hero, GetData(pMonList));//¡÷¿Œ∞¯¿« ∞¯∞›
-
-						}
-
-						MoveNext(pMonList);
-					}
-				}
-
-				break;
-			case 16:
-				pField->workPal(false,0,0);
-				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(false,0,0);
-				break;
-
-				}
-
-				break;
-		}
-		if(hero->_ins_Hero->m_nCrtFrame >= 4 && hero->_ins_Hero->m_nCrtFrame <= 36){
-			Exception_Num+=PAINT_MON_NOT+PAINT_FIELD_FRONT_NOT;
-		}
-
-	}
-
-	if(CRI_SHINING){//≈©∏Æ∆ºƒ√ »≠∏È π¯¬Ω¿”
-		CRI_SHINING--;
-		pField->workPal(CRI_SHINING,0,7*CRI_SHINING);
-	}
+// 	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 0)
+// 	{//»˜æÓ∑Œ ∞Àπˆ«¡ Ω√¿¸«ﬂ¿ª∂ß
+// 		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
+// 
+// 		switch(hero->_ins_Hero->m_nCrtFrame){
+// 			case 16:
+// 				switch(ani_time){
+// 			case 0:
+// 				pField->workPal(true,0,31);
+// 				Exception_Num+=PAINT_MON_NOT+PAINT_HERO_NOT;
+// 
+// 				break;
+// 			case 1:
+// 				pField->workPal(true,0,15);
+// 				break;
+// 				}
+// 				break;
+// 			case 17:
+// 				pField->workPal(false,0,0);
+// 				break;
+// 
+// 
+// 
+// 		}
+// 	}
+// 	if(hero->s_Knife_Eff[3].act && hero->s_Knife_Eff[3].LVup_Eff_Ins)
+// 	{//»˜æÓ∑Œ ∞Àπˆ«¡ ¡ﬂ¿œ∂ß
+// 
+// 		if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 11)
+// 			hero->s_Knife_Eff[3].LVup_ActionEnd = true;//øÏ¡÷∫ˆ πﬂµøΩ√ø°¥¬ «ÿ¡¶«—¥Ÿ
+// 
+// 		switch(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtModule){
+// 			case ANIM_WOMAN_S1_A_S_SKILL1_BUFF_E_BACK://√≠¡ˆ
+// 				{
+// 					int RangeLengthMAX = 200;
+// 					int RangeLengthMIN = 100;
+// 
+// 					int pMonsIns_Num = 0;
+// 					class Monster* pMonsIns[5]; 
+// 
+// 					MoveHead(pMonList);
+// 					MoveNext(pMonList);
+// 					while(NotEndList(pMonList))
+// 					{
+// 						if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
+// 							MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
+// 							(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
+// 						{
+// 
+// 							int tempX = GetData(pMonList)->pMonAsIns->m_posX - (hero->_ins_Hero->m_posX);
+// 							int tempY = GetData(pMonList)->pMonAsIns->m_posY - (hero->_ins_Hero->m_posY);
+// 
+// 
+// 							if((RangeLengthMAX> ABS(tempX)+ABS(tempY)) && (RangeLengthMIN< ABS(tempX)+ABS(tempY))){//πﬂªÁ∞≈∏Æø° ¡∏¿Á«œ∏È ∏ÆΩ∫∆Æø° √ﬂ∞°
+// 								pMonsIns[pMonsIns_Num] = GetData(pMonList);//∆˜¿Œ≈Õ ¿˙¿Â 
+// 								pMonsIns_Num++;
+// 								if(pMonsIns_Num > 4)
+// 									break;//∏ÛΩ∫≈Õ «Æ¿Ã ∞°µÊ √°¥Ÿ
+// 
+// 							}
+// 
+// 						}
+// 						MoveNext(pMonList);
+// 					}		
+// 
+// 
+// 
+// 					if(pMonsIns_Num>0){//≈∏≈∂ ∏ÛΩ∫≈Õ∞° 1∏∂∏Æ ¿ÃªÛ ¿÷¿∏∏È
+// 						s_Homing[0].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
+// 						s_Homing[1].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
+// 						s_Homing[2].pMons = pMonsIns[RND(0,pMonsIns_Num-1)];//∏ÛΩ∫≈Õ ∆˜¿Œ≈Õ ≥—±‚±‚
+// 
+// 						hero->s_Knife_Eff[3].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_ATT_E_BACK);
+// 						hero->s_Knife_Eff[3].LVup_Eff_Ins->m_bLoop = false;
+// 
+// 						hero->s_Knife_Eff[4].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_ATT_E);
+// 						hero->s_Knife_Eff[4].LVup_Eff_Ins->m_bLoop = false;
+// 					}
+// 				}
+// 
+// 				break;
+// 			case ANIM_WOMAN_S1_A_S_SKILL1_ATT_E_BACK://πﬂªÁ
+// 				switch(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_nCrtFrame){
+// 			case 4:
+// 				hero->s_Knife_Eff[0].act = true;
+// 
+// 				s_Homing[0].X1 =(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? -51:+51) + (hero->_ins_Hero->m_posX);
+// 				s_Homing[0].Y1 =-6 + (hero->_ins_Hero->m_posY);
+// 				s_Homing[0].X2 = s_Homing[0].pMons->pMonAsIns->m_posX;
+// 				s_Homing[0].Y2 = s_Homing[0].pMons->pMonAsIns->m_posY;
+// 				s_Homing[0].Cita1=(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? 240:120);
+// 
+// 				s_Homing[0].TurnCita = 5;
+// 				s_Homing[0].R = 15;
+// 				break;
+// 			case 5:
+// 				hero->s_Knife_Eff[1].act = true;
+// 
+// 				s_Homing[1].X1 =(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? -61:+61) + (hero->_ins_Hero->m_posX);
+// 				s_Homing[1].Y1 =-19 + (hero->_ins_Hero->m_posY);
+// 				s_Homing[1].X2 = s_Homing[1].pMons->pMonAsIns->m_posX;
+// 				s_Homing[1].Y2 = s_Homing[1].pMons->pMonAsIns->m_posY;
+// 				s_Homing[1].Cita1=(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? 300:60);
+// 
+// 				s_Homing[1].TurnCita = 5;
+// 				s_Homing[1].R = 15;
+// 				break;
+// 			case 6:
+// 				hero->s_Knife_Eff[2].act = true;
+// 
+// 				s_Homing[2].X1 =(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? -71:+71) + (hero->_ins_Hero->m_posX);
+// 				s_Homing[2].Y1 =+28 + (hero->_ins_Hero->m_posY);
+// 				s_Homing[2].X2 = s_Homing[2].pMons->pMonAsIns->m_posX;
+// 				s_Homing[2].Y2 = s_Homing[2].pMons->pMonAsIns->m_posY;
+// 				s_Homing[2].Cita1=(hero->s_Knife_Eff[3].LVup_Eff_Ins->m_flags? 210:150);
+// 
+// 				s_Homing[2].TurnCita = 5;
+// 				s_Homing[2].R = 15;
+// 				break;
+// 
+// 				}
+// 
+// 				for(int i =0;i<3;i++){
+// 					if(hero->s_Knife_Eff[i].act && hero->s_Knife_Eff[i].LVup_Eff_Ins!=NULL){//»£π÷ Ω√¿€
+// 
+// 
+// 
+// 
+// 						if(ABS(s_Homing[i].X1 - s_Homing[i].X2) + ABS(s_Homing[i].Y1 - s_Homing[i].Y2) < s_Homing[i].R){
+// 							hero->s_Knife_Eff[i].LVup_ActionEnd = !hero->s_Knife_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();//Effect ø°¥œ∏ﬁ¿Ãº« æ˜µ•¿Ã∆Æ Ω««‡
+// 							if(hero->s_Knife_Eff[i].LVup_ActionEnd ){
+// 								int zz = 0;
+// 							}
+// 							if(hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop){
+// 								//hero->s_Knife_Eff[i].LVup_ActionEnd=true;
+// 								hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_S_SKILL1_HIT1+i);
+// 								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X2;
+// 								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y2+1;
+// 								hero->s_Knife_Eff[i].LVup_Eff_Ins->m_bLoop = false;
+// 
+// 								//s_Homing[i].R=0;
+// 							}
+// 
+// 
+// 						}else{
+// 
+// 							if(s_Homing[i].pMons){
+// 								s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
+// 								s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;
+// 							}
+// 
+// 							GetHomingXY(&s_Homing[i]);
+// 							hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X1;
+// 							hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posY = s_Homing[i].Y1;
+// 
+// 							int xxx = ANIM_WOMAN_S1_DAGGER+((s_Homing[i].Cita1+15)%360) /30;
+// 							if(xxx != hero->s_Knife_Eff[i].LVup_Eff_Ins->m_nCrtModule)
+// 								hero->s_Knife_Eff[i].LVup_Eff_Ins->SetAnim(xxx);
+// 
+// 							if(s_Homing[i].TurnCita <90)s_Homing[i].TurnCita *= 2;
+// 							if(s_Homing[i].R<30)s_Homing[i].R += 1;
+// 
+// 						}
+// 					}
+// 				}
+// 
+// 				break;
+// 		}
+// 	}
+// 
+// 
+// 
+// 
+// 
+// 	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Skill_Set.Num] == 11)
+// 	{//øÏ¡÷∫ˆ
+// 
+// 
+// 		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
+// 
+// 		switch(hero->_ins_Hero->m_nCrtFrame){
+// 			case 2:if(ani_time==0)pField->workPal(true,0,-5);
+// 				break;
+// 			case 3:if(ani_time==0)pField->workPal(true,0,-17);
+// 				break;
+// 			case 4:
+// 				if(ani_time==0){
+// 					pField->workPal(true,0,-31);
+// 					BAKUP_HERO_Y = hero->_ins_Hero->m_posY;
+// 					hero->_ins_Hero->m_posY = SCREEN_HEIGHT/2;
+// 				}
+// 				break;
+// 			case 37:
+// 				s_Camera.CameraAdd = (ani_time%2 ?-1 : +1)*RND(1,3);//ƒ´∏ﬁ∂Û »ÁµÈ±‚
+// 				switch(ani_time){
+// 			case 0:
+// 				hero->_ins_Hero->m_posY  = BAKUP_HERO_Y;
+// 				pField->workPal(true,0,0);
+// 				break;
+// 			case 11:
+// 				pField->workPal(true,0,15);
+// 				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,15);
+// 				break;
+// 			case 12:
+// 				pField->workPal(true,0,21);
+// 				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,31);
+// 				break;
+// 			case 14:
+// 				pField->workPal(true,0,20);
+// 				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,17);
+// 				break;
+// 			case 15:
+// 				pField->workPal(true,0,10);
+// 				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(true,0,5);
+// 				{
+// 					MoveHead(pMonList);
+// 					MoveNext(pMonList);
+// 					Position3D power;
+// 					int tmp = 0;
+// 					while(NotEndList(pMonList))
+// 					{
+// 						if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
+// 							MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
+// 							(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
+// 						{
+// 
+// 							s_Contact.x = 0;
+// 							s_Contact.y = 0;
+// 							s_Contact.z = -50;
+// 							s_Contact.D_index = 72;//æ»µÂ∑Œ∏ﬁ¥Ÿ ¿Œµ¶Ω∫
+// 							DamageSand_Hero(hero, GetData(pMonList));//¡÷¿Œ∞¯¿« ∞¯∞›
+// 
+// 						}
+// 
+// 						MoveNext(pMonList);
+// 					}
+// 				}
+// 
+// 				break;
+// 			case 16:
+// 				pField->workPal(false,0,0);
+// 				for(int xx = 0;xx<SPRITE_MON_MAX;xx++) if(m_MonAs[xx])m_MonAs[xx]->workPal(false,0,0);
+// 				break;
+// 
+// 				}
+// 
+// 				break;
+// 		}
+// 		if(hero->_ins_Hero->m_nCrtFrame >= 4 && hero->_ins_Hero->m_nCrtFrame <= 36){
+// 			Exception_Num+=PAINT_MON_NOT+PAINT_FIELD_FRONT_NOT;
+// 		}
+// 
+// 	}
+// 
+// 	if(CRI_SHINING){//≈©∏Æ∆ºƒ√ »≠∏È π¯¬Ω¿”
+// 		CRI_SHINING--;
+// 		pField->workPal(CRI_SHINING,0,7*CRI_SHINING);
+// 	}
 
 }
 
@@ -2975,7 +3196,7 @@ void GFieldBattle::Throw_Check()
 		MoveNext(pMonList);
 		while(NotEndList(pMonList))
 		{
-			if(GetData(pMonList)->SetHolding(hero->s_Throw.ThrowNum))
+			if(true|GetData(pMonList)->SetHolding(hero->s_Throw.ThrowNum))
 			{
 				hero->s_Throw.act = true;
 
@@ -3188,8 +3409,8 @@ void GFieldBattle::Analysis_Mon_Message()
 
 
 
-#define RADER_POS_X	(7+74)
-#define RADER_POS_Y	(16)
+#define RADER_POS_X	(90)
+#define RADER_POS_Y	(5)
 #define RADER_POS_W	(62 - 4)
 #define RADER_POS_H	(16 - 4)
 #define Y_START	(157)

@@ -752,8 +752,8 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 		case 0:	//	HERO_MC
 		//--------------------------------------------------------------------------
 		{
-			pTmpAs = SUTIL_LoadSprite(PACK_SPRITE, Character::Check_sex(SPRITE_MAN_BODY,SPRITE_WOMAN_BODY));
-			pTmpAs->SetBlendFrame(Character::Check_sex(FRAME_MAN_BODY_BLEND,FRAME_WOMAN_BODY_BLEND));
+			pTmpAs = SUTIL_LoadSprite(PACK_SPRITE, Character::Check_sex(SPRITE_WOMAN_BODY,SPRITE_MAN_BODY));
+			pTmpAs->SetBlendFrame(Character::Check_sex(FRAME_WOMAN_BODY_BLEND,FRAME_MAN_BODY_BLEND));
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);
 			break;
