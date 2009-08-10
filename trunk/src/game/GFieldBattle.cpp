@@ -3348,7 +3348,7 @@ void GFieldBattle::Throw_Check()
 		MoveNext(pMonList);
 		while(NotEndList(pMonList))
 		{
-			if(true|GetData(pMonList)->SetHolding(hero->s_Throw.ThrowNum))
+			if(GetData(pMonList)->SetHolding(hero->s_Throw.ThrowNum))
 			{
 				hero->s_Throw.act = true;
 
