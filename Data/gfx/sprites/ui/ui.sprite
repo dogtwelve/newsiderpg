@@ -1544,16 +1544,16 @@
         FM	0x202D	-66	-20	+HYPER_FM
         FM	0x202D	-66	18	+HYPER_FM
         FM	0x202D	-6	-20	+HYPER_FM
-        FM	0x202D	-36	-1	+HYPER_FM
-        FM	0x202D	24	-1	+HYPER_FM
-        FM	0x202D	54	-1	+HYPER_FM
+        FM	0x202D	-36	-2	+HYPER_FM
+        FM	0x202D	24	-2	+HYPER_FM
+        FM	0x202D	54	-2	+HYPER_FM
         FM	0x202D	-6	18	+HYPER_FM
         FM	0x1091	-47	-11
-        FM	0x1091	-42	8
-        FM	0x1091	-17	8
-        FM	0x1091	18	8
-        FM	0x1091	43	8
-        FM	0x1091	48	8
+        FM	0x1091	-42	7
+        FM	0x1091	-17	7
+        FM	0x1091	18	7
+        FM	0x1091	43	7
+        FM	0x1091	48	7
         FM	0x1091	-47	27
         FM	0x1092	-42	-10
         FM	0x1091	13	-11
@@ -1567,26 +1567,26 @@
     FRAME "ui_4_2woman" // Index = 71, FModules = 23
     {
         0x202C
-        FM	0x202D	-66	-1	+HYPER_FM
+        FM	0x202D	-66	-2	+HYPER_FM
         FM	0x202D	-36	-20	+HYPER_FM
         FM	0x202D	-36	18	+HYPER_FM
         FM	0x202D	24	-20	+HYPER_FM
         FM	0x202D	24	18	+HYPER_FM
-        FM	0x202D	-6	-1	+HYPER_FM
-        FM	0x202D	54	-1	+HYPER_FM
-        FM	0x1091	-47	8
+        FM	0x202D	-6	-2	+HYPER_FM
+        FM	0x202D	54	-2	+HYPER_FM
+        FM	0x1091	-47	7
         FM	0x1091	-42	-11
         FM	0x1091	-42	27
         FM	0x1092	-42	-10
-        FM	0x1091	13	8
+        FM	0x1091	13	7
         FM	0x1091	18	-11
         FM	0x1091	18	27
         FM	0x1092	18	-10
-        FM	0x1091	48	8
+        FM	0x1091	48	7
         FM	0x1091	43	-11
         FM	0x1091	43	27
         FM	0x1092	48	-10
-        FM	0x1091	-12	8
+        FM	0x1091	-12	7
         FM	0x1091	-17	-11
         FM	0x1091	-17	27
         FM	0x1092	-12	-10
@@ -1655,7 +1655,7 @@
         FM	0x1009	0	0
     }
 
-    FRAME "ui_3" // Index = 75, FModules = 65
+    FRAME "ui_3" // Index = 75, FModules = 61
     {
         0x2075
         FM	0x1000	-86	-93
@@ -1676,38 +1676,38 @@
         FM	0x1106	43	-73
         FM	0x1105	2	-73
         FM	0x1105	78	-73
-        FM	0x10CF	-73	-55
-        FM	0x10CF	-73	-38
-        FM	0x10CF	-73	-21
-        FM	0x10CF	-73	-4
-        FM	0x10CF	-55	-55
-        FM	0x10CF	-55	-38
-        FM	0x10CF	-55	-21
-        FM	0x10CF	-55	-4
-        FM	0x10CF	-37	-55
-        FM	0x10CF	-37	-38
-        FM	0x10CF	-37	-21
-        FM	0x10CF	-37	-4
-        FM	0x10CF	-19	-55
-        FM	0x10CF	-19	-38
-        FM	0x10CF	-19	-21
-        FM	0x10CF	-19	-4
-        FM	0x10CF	-1	-55
-        FM	0x10CF	-1	-38
-        FM	0x10CF	-1	-21
-        FM	0x10CF	-1	-4
-        FM	0x10CF	17	-55
-        FM	0x10CF	17	-38
-        FM	0x10CF	17	-21
-        FM	0x10CF	17	-4
-        FM	0x10CF	35	-55
-        FM	0x10CF	35	-38
-        FM	0x10CF	35	-21
-        FM	0x10CF	35	-4
-        FM	0x10CF	53	-55
-        FM	0x10CF	53	-38
-        FM	0x10CF	53	-21
-        FM	0x10CF	53	-4
+        FM	0x10CF	-70	-55
+        FM	0x10CF	-70	-38
+        FM	0x10CF	-70	-21
+        FM	0x10CF	-70	-4
+        FM	0x10CF	-52	-55
+        FM	0x10CF	-52	-38
+        FM	0x10CF	-52	-21
+        FM	0x10CF	-52	-4
+        FM	0x10CF	-34	-55
+        FM	0x10CF	-34	-38
+        FM	0x10CF	-34	-21
+        FM	0x10CF	-34	-4
+        FM	0x10CF	-16	-55
+        FM	0x10CF	-16	-38
+        FM	0x10CF	-16	-21
+        FM	0x10CF	-16	-4
+        FM	0x10CF	2	-55
+        FM	0x10CF	2	-38
+        FM	0x10CF	2	-21
+        FM	0x10CF	2	-4
+        FM	0x10CF	20	-55
+        FM	0x10CF	20	-38
+        FM	0x10CF	20	-21
+        FM	0x10CF	20	-4
+        FM	0x10CF	38	-55
+        FM	0x10CF	38	-38
+        FM	0x10CF	38	-21
+        FM	0x10CF	38	-4
+        FM	0x10CF	56	-55
+        FM	0x10CF	56	-38
+        FM	0x10CF	56	-21
+        FM	0x10CF	56	-4
         FM	0x1018	6	-70
         FM	0x115B	-79	-57
         FM	0x115B	77	-57	+FLIP_X
@@ -1717,10 +1717,6 @@
         FM	0x115B	77	15	+FLIP_X
         FM	0x115B	-79	83	+FLIP_Y
         FM	0x115B	77	83	+FLIP_X	+FLIP_Y
-        FM	0x10B2	71	-9	+FLIP_Y
-        FM	0x10B2	71	-16
-        FM	0x10B2	71	-36
-        FM	0x10B2	71	-56
         FM	0x1151	-15	84
         FM	0x1010	-51	-92
     }
@@ -1807,13 +1803,13 @@
         FM	0x115B	77	28	+FLIP_X
         FM	0x115B	-79	82	+FLIP_Y
         FM	0x115B	77	82	+FLIP_X	+FLIP_Y
-        FM	0x113C	-11	-16
+        FM	0x113C	31	-16
         FM	0x1136	-11	-45
         FM	0x1137	10	-45
         FM	0x1138	31	-45
         FM	0x1139	52	-45
-        FM	0x113A	10	-16
-        FM	0x113B	31	-16
+        FM	0x113A	-11	-16
+        FM	0x113B	10	-16
         FM	0x1000	-86	-93
         FM	0x1002	-9	-93
         FM	0x1003	9	-93

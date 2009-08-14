@@ -278,9 +278,9 @@ struct HeroAbility{
 	int INT;	//지능-마법사 공격력(건너의 130%) , 마나
 	int FAM;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 	int POINT;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
-	int JAB_KNIFE;	//검사 - 직업 선택 가능하다면 true
-	int JAB_GUN;	//총사 - 직업 선택 가능하다면 true
-	int JAB_MAGIC;	//술사 - 직업 선택 가능하다면 true
+// 	int JAB_KNIFE;	//검사 - 직업 선택 가능하다면 true
+// 	int JAB_GUN;	//총사 - 직업 선택 가능하다면 true
+// 	int JAB_MAGIC;	//술사 - 직업 선택 가능하다면 true
 };
 struct HeroStatus{
 	int LIFE;			//생명 0 이 되면 죽는다.
@@ -302,8 +302,8 @@ struct HeroStatus{
 	int AVOID;			//적의 공격을 피할 확률
 	int LIFE_RECOVERY;	//체력이 회복 대는 수치
 	int MANA_RECOVERY;	//마나가 회복 대는 수치
-	int	ELEMENTAL;		//공식에 의해 상대에게 직접적인 타격을 주는 수치
-	int	SEX;		//0: 남자, 1:여자
+	//int	ELEMENTAL;		//공식에 의해 상대에게 직접적인 타격을 주는 수치
+	//int	SEX;		//0: 남자, 1:여자
 	int	Qslot[2];		//0:Bag  1:Slot
 
 	int	MONEY;		//보유금액
@@ -322,6 +322,7 @@ struct Damage{
 };
 struct HeroTag{
 	bool act;			//SangHo - 태그중이라면
+	int	SEX;		//0: 남자, 1:여자
 	int FocusHero;		//현재 컨트롤 대상 히어로를 지정한다
 	bool OVER_SkillEffect;
 	bool DOWN_SkillEffect;
@@ -394,16 +395,16 @@ public:
 
 
 	//팝업 UI를 위한 참조변수
-	static HeroAbility s_Ability;
-	static HeroStatus s_Status;
+	static HeroAbility s_Ability[2];
+	static HeroStatus s_Status[2];
 	static HeroTag s_HeroTag;//히어로의 태그시 사용되는 각종 변수
 
 	
 	static Skill s_Skill;
 	static Skill_Set s_Skill_Set;
 
-	static ItemBag s_ItemEquip[10];//착용 아이템
-	static ItemAbility s_ItemAbil[10];//착용 아이템의 능력
+	static ItemBag s_ItemEquip[2][7];//착용 아이템
+	static ItemAbility s_ItemAbil[2][7];//착용 아이템의 능력
 
 	static ItemBag s_ItemSlot[4];//가방 슬롯
 	static ItemBag s_ItemBag[4][32];//슬롯당 인벤
