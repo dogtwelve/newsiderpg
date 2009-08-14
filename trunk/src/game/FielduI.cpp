@@ -455,19 +455,21 @@ void FieldUi::PaintGage(int gageType, int gagewidth,int gageheight, int x, int y
 			break;
 		}
 	}
-	int curgage = ((nowvalue*gagewidth)/maxvalue);
+	if(maxvalue){
+		int curgage = ((nowvalue*gagewidth)/maxvalue);
 
-	//	yellow gage(remain hp)
-	SUTIL_SetColor(color[0]);
-	SUTIL_FillRect(x, y, (curgage), (gageheight-1));
-	SUTIL_SetColor(color[1]);
-	SUTIL_FillRect(x, y+(gageheight-1), (curgage), 1);
+		//	yellow gage(remain hp)
+		SUTIL_SetColor(color[0]);
+		SUTIL_FillRect(x, y, (curgage), (gageheight-1));
+		SUTIL_SetColor(color[1]);
+		SUTIL_FillRect(x, y+(gageheight-1), (curgage), 1);
 
-	//	max gage(max hp)
-	SUTIL_SetColor(color[2]);
-	SUTIL_FillRect(x+curgage, y, (gagewidth-curgage), 1);
-	SUTIL_SetColor(color[3]);
-	SUTIL_FillRect(x+curgage, y+1, (gagewidth-curgage), (gageheight-1));
+		//	max gage(max hp)
+		SUTIL_SetColor(color[2]);
+		SUTIL_FillRect(x+curgage, y, (gagewidth-curgage), 1);
+		SUTIL_SetColor(color[3]);
+		SUTIL_FillRect(x+curgage, y+1, (gagewidth-curgage), (gageheight-1));
+	}
 }
 
 
@@ -785,7 +787,7 @@ int FieldUi::Find_NpcStart(int NPC_ID){//NPC ID 로 NPC 이름을 찾아낸다
 				}else if(End_keep){//명성치만 맞다면 무조건적인 실행을 한다
 					s_Sub.SameFAM = -1;
 					s_Sub.SameFam_MAX = 0;
-					if(Character::s_Ability.FAM >= fames){//명성치 만족
+					if(Character::s_Ability[Character::s_HeroTag.SEX].FAM >= fames){//명성치 만족
 						return Start_Line;
 					}
 				}else{//서브퀘스트 명령이 없으므로 명성치 체크를한다
@@ -793,7 +795,7 @@ int FieldUi::Find_NpcStart(int NPC_ID){//NPC ID 로 NPC 이름을 찾아낸다
 
 
 
-					if(Character::s_Ability.FAM < fames){//명성치가 부족하다면 바로 위의 END 값 반환을 한다
+					if(Character::s_Ability[Character::s_HeroTag.SEX].FAM < fames){//명성치가 부족하다면 바로 위의 END 값 반환을 한다
 
 						int Up = 2 +(s_Sub.SameFam_MAX-1) - (s_Sub.Talk_Num % s_Sub.SameFam_MAX); 
 						return Find_NpcRewind(2 , xx);
@@ -1134,7 +1136,7 @@ void FieldUi::PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxM
 //	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_MC_ELE1+elemental, CHARINFO_POS_X, CHARINFO_POS_Y, 0);
 
 
-	if(Character::s_Ability.POINT){
+	if(Character::s_Ability[Character::s_HeroTag.SEX].POINT){
 		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_STAT_UP, CHARINFO_POS_X, CHARINFO_POS_Y, 0);
 	}
 
@@ -1249,7 +1251,7 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 		
 
 	
-	if(Character::s_Status.Qslot[0]>=0 && Character::s_Status.Qslot[1]>=0){//비설정 상태가 아니라면 
+	if(Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]>=0 && Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]>=0){//비설정 상태가 아니라면 
 		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_EMPTY, SCREEN_WIDTH - SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
 
 		if(cooltime[5]>2){//쿨타임이 남아있다면
@@ -1257,7 +1259,7 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 			s_ASpriteSet->pItemAs->SetBlendCustom(true,false,8,0);//그레이 스케일
 			s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);//그레이 스케일
 			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status.Qslot[0]][Character::s_Status.Qslot[1]]), 
+				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
 				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
 			for(int i = 0,f = (cooltime[5]*13/coolMax[5]);i<=f;i++){
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILL_COOL, SCREEN_WIDTH - SKILL_SLOT_SIZE + 6,SKILL_SLOT_POS_Y + 6+i,0);
@@ -1268,7 +1270,7 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 			s_ASpriteSet->pItemAs->SetBlendCustom(true,false,7,42260);//60% 밝게
 			s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,42260);//60% 밝게
 			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status.Qslot[0]][Character::s_Status.Qslot[1]]), 
+				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
 				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
 			cooltime[5]--;
 		}else if(cooltime[5]==1){//쿨타임이 해제직전
@@ -1276,7 +1278,7 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 			s_ASpriteSet->pItemAs->SetBlendCustom(true,false,7,21130);//50% 밝게
 			s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,21130);//50% 밝게
 			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status.Qslot[0]][Character::s_Status.Qslot[1]]), 
+				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
 				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
 			cooltime[5]=0;
 		}else{
@@ -1285,7 +1287,7 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 			s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
 
 			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status.Qslot[0]][Character::s_Status.Qslot[1]]), 
+				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
 				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
 		}
 

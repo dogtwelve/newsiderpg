@@ -12,15 +12,15 @@
 #include "Macro.h"
 
 
-	HeroAbility Character::s_Ability;
-	HeroStatus Character::s_Status;
+	HeroAbility Character::s_Ability[2];
+	HeroStatus Character::s_Status[2];
 	HeroTag Character::s_HeroTag;
 	Skill Character::s_Skill;
 	Skill_Set Character::s_Skill_Set;
 
 
-	ItemBag Character::s_ItemEquip[10];
-	ItemAbility Character::s_ItemAbil[10];
+	ItemBag Character::s_ItemEquip[2][7];
+	ItemAbility Character::s_ItemAbil[2][7];
 	ItemBag Character::s_ItemSlot[4];
 	ItemBag Character::s_ItemBag[4][32];
 	ItemBag Character::s_ItemPick;
@@ -34,7 +34,7 @@
 	{
 
 
-		s_Status.SEX = SAVELOAD_sex;
+		s_HeroTag.SEX = SAVELOAD_sex;
 
 		s_ASpriteSet = (ASpriteSet*)s__ASpriteSet;//Void 포인터를 스프라이트 포인트struct 포인터로 치환
 
@@ -97,19 +97,19 @@
 
 		{//initial - 케릭터 수치관련 초기화
 
-			s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
-			s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
-			//s_Ability.JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
+// 			s_Ability[s_HeroTag.SEX].JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
+// 			s_Ability[s_HeroTag.SEX].JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
+// 			//s_Ability[s_HeroTag.SEX].JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
 
-			s_Status.LEVEL =  31;
+			s_Status[0].LEVEL =  31;
+			s_Status[1].LEVEL =  31;
 
 
 // 			switch(SAVELOAD_sex){ // 0 : 여자 1 : 남자
 // 				case 0:
 
-			s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
-			s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
-			s_Status.LEVEL =  31;
+// 			s_Ability[s_HeroTag.SEX].JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
+// 			s_Ability[s_HeroTag.SEX].JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
 
 			s_Skill.Equip_A[0+0] = 4;
 			s_Skill.Equip_A[0+1] = 5;
@@ -119,12 +119,23 @@
 			s_Skill.Equip_A[3+1] = 10;
 			s_Skill.Equip_A[3+2] = 13;
 
-			//s_Ability.JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
-			s_Ability.STR = 7 + (s_Status.LEVEL-1)*2;
-			s_Ability.DEX = 0 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-			s_Ability.CON = 10 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-			s_Ability.INT = 3 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-			s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+			//s_Ability[s_HeroTag.SEX].JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
+
+			
+			s_Ability[0].STR = 7  + (s_Status[0].LEVEL-1)*2;
+			s_Ability[0].DEX = 0  + (s_Status[0].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+			s_Ability[0].CON = 10 + (s_Status[0].LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+			s_Ability[0].INT = 3  + (s_Status[0].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+			s_Ability[0].FAM = 0  + (s_Status[0].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+
+
+			s_Ability[1].STR = 7  + (s_Status[1].LEVEL-1)*2;
+			s_Ability[1].DEX = 0  + (s_Status[1].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+			s_Ability[1].CON = 10 + (s_Status[1].LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+			s_Ability[1].INT = 3  + (s_Status[1].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+			s_Ability[1].FAM = 0  + (s_Status[1].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+
+
 
 			s_Skill_Set.Cool_TimeMax[SAVELOAD_sex][4] = 20;
 
@@ -134,39 +145,45 @@
 // 					s_Skill.Equip_A[1][0] = 7;
 // 					s_Skill.Equip_A[1][1] = 8;
 // 					s_Skill.Equip_A[1][2] = 9;
-// 					//s_Ability.JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
-// 					s_Ability.STR = 3 + (s_Status.LEVEL-1)*2;
-// 					s_Ability.DEX = 7 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-// 					s_Ability.CON = 5 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-// 					s_Ability.INT = 5 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-// 					s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+// 					//s_Ability[s_HeroTag.SEX].JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
+// 					s_Ability[s_HeroTag.SEX].STR = 3 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;
+// 					s_Ability[s_HeroTag.SEX].DEX = 7 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+// 					s_Ability[s_HeroTag.SEX].CON = 5 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+// 					s_Ability[s_HeroTag.SEX].INT = 5 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+// 					s_Ability[s_HeroTag.SEX].FAM = 0 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 // 
 // 					s_Skill_Set.Cool_TimeMax[SAVELOAD_sex][4] = 20;
 // 					break;
 // 				//case 2:
 // 				//	s_Skill.Equip_A[0] = 14;
-// 				//	s_Ability.JAB_MAGIC	=true;	//술사 - 직업 선택 가능하다면 true
-// 				//	s_Ability.STR = 0 + (s_Status.LEVEL-1)*2;
-// 				//	s_Ability.DEX = 5 + (s_Status.LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-// 				//	s_Ability.CON = 3 + (s_Status.LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-// 				//	s_Ability.INT = 10 + (s_Status.LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-// 				//	s_Ability.FAM = 0 + (s_Status.LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+// 				//	s_Ability[s_HeroTag.SEX].JAB_MAGIC	=true;	//술사 - 직업 선택 가능하다면 true
+// 				//	s_Ability[s_HeroTag.SEX].STR = 0 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;
+// 				//	s_Ability[s_HeroTag.SEX].DEX = 5 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+// 				//	s_Ability[s_HeroTag.SEX].CON = 3 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
+// 				//	s_Ability[s_HeroTag.SEX].INT = 10 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+// 				//	s_Ability[s_HeroTag.SEX].FAM = 0 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 // 				//	break;
 // 			}
 			
-			s_Status.ELEMENTAL = _b_JabNum = (s_Ability.JAB_KNIFE?0:(s_Ability.JAB_GUN?1:2));
-			s_Status.EXP_MAX = 0;
+/*			s_Status[s_HeroTag.SEX].ELEMENTAL = _b_JabNum = (s_Ability[s_HeroTag.SEX].JAB_KNIFE?0:(s_Ability[s_HeroTag.SEX].JAB_GUN?1:2));*/
+
 
 			Init_Skill();// 각 위치에 스킬 스프라이트를 할당한다.    ☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
 			Set_state_calculate();
 
-			s_Status.LIFE = s_Status.LIFE_MAX;
-			s_Status.MANA = s_Status.MANA_MAX;
-			s_Status.EXP = 0;
+			s_Status[0].LIFE = s_Status[0].LIFE_MAX;
+			s_Status[0].MANA = s_Status[0].MANA_MAX;
+			s_Status[0].EXP = 0;
+
+			s_Status[1].LIFE = s_Status[1].LIFE_MAX;
+			s_Status[1].MANA = s_Status[1].MANA_MAX;
+			s_Status[1].EXP = 0;
 
 			
-			s_Status.Qslot[0]=-1;//퀵슬롯 비우기
-			s_Status.Qslot[1]=-1;//퀵슬롯 비우기
+			s_Status[0].Qslot[0]=-1;//퀵슬롯 비우기
+			s_Status[0].Qslot[1]=-1;//퀵슬롯 비우기
+			s_Status[1].Qslot[0]=-1;//퀵슬롯 비우기
+			s_Status[1].Qslot[1]=-1;//퀵슬롯 비우기
 		}
 		_m_test=1;
 		s_MustAction.must_Action = -1;
@@ -302,8 +319,8 @@
 		{
 			//_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
 			//_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-			SUTIL_SetDirAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1], _b_LookRight);
-			SUTIL_PaintAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1],S_INCLUDE_SORT);
+			SUTIL_SetDirAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1], _b_LookRight);
+			SUTIL_PaintAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1],S_INCLUDE_SORT);
 		}
 
 		//	paint character
@@ -317,8 +334,8 @@
 		{
 			//_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
 			//_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-			SUTIL_SetDirAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0], _b_LookRight);
-			SUTIL_PaintAsprite(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0],S_INCLUDE_SORT);
+			SUTIL_SetDirAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0], _b_LookRight);
+			SUTIL_PaintAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0],S_INCLUDE_SORT);
 		}
 		
 
@@ -363,7 +380,7 @@
 						case HERO_LINE_MOVE_DOWN:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
 						case HERO_CHARGE		:
 							if(!Get_Skill(Check_sex(SKILL_P_P_chargeShot,SKILL_P_P_guard))){return false;}//패시브
-							if(_b_JabNum==JAB_KNIGHT && (s_Status.MANA < PER(s_Status.MANA_MAX,30))){return false;}//가드 - 마나가 부족하면 발동하지않는다
+							if(_b_JabNum==JAB_KNIGHT && (s_Status[s_HeroTag.SEX].MANA < PER(s_Status[s_HeroTag.SEX].MANA_MAX,30))){return false;}//가드 - 마나가 부족하면 발동하지않는다
 
 							break;
 					}
@@ -456,13 +473,13 @@
 				if(m_keyRepeat || Check_skill_impossible(5))return 0;//스킬을 쓸 수 없는 상황이다
 
 
-				PopupUi::USE_item(&s_ItemBag[s_Status.Qslot[0]][s_Status.Qslot[1]]);
+				PopupUi::USE_item(&s_ItemBag[s_Status[s_HeroTag.SEX].Qslot[0]][s_Status[s_HeroTag.SEX].Qslot[1]]);
 				return 0;
 			case MH_KEY_SEND:
 				for(int xx = 0;SUBQUEST_MAX>xx;xx++)SUBQUEST_IDX(xx)=QUEST_FIN;			
 				break;
 			case MH_KEY_SOFT2:
-				s_Ability.FAM++;
+				s_Ability[s_HeroTag.SEX].FAM++;
 				SUTIL_LoadAspritePack(PACK_SPRITE_COSTUME);//팩열기
 /////////////////////////////////////
  				ChangeCostume(_spr_Hero_W,PAL_HEAD,RND(0,4),RND(0,4));
@@ -551,7 +568,7 @@
 				case HERO_SKILL_2:
 				case HERO_SKILL_3:
 				case HERO_SKILL_4:
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 0://5연발샷 
 							{
 								if(_ins_Hero->m_nCrtFrame == 8)s_Bullet_Eff[0].act = true;//발사
@@ -670,7 +687,7 @@
 					}
 					break;
 				case HERO_SKILL_C2:
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 2://바운딩 콤보
 							if(_b_ActionEnd){return 0;}
 							break;
@@ -682,7 +699,7 @@
 							break;
 						case 10://콤보잡기
 							if(_b_ActionEnd){
-								if(s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] == 10){
+								if(s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] == 10){
 									s_Throw.ThrowPossible = true;//잡기
 									s_Throw.ThrowNum = 2;//잡기
 								}
@@ -695,14 +712,14 @@
 					}
 					break;
 				case HERO_SKILL_C3:
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 10://콤보잡기
 							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C4, 0);
 					}
 					break;
 				case HERO_SKILL_C4:
 					if(_b_ActionEnd){
-						if(s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] == 10){
+						if(s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] == 10){
 							s_Throw.ThrowPossible = true;//잡기
 							s_Throw.ThrowNum = 1;//잡기
 						}
@@ -794,9 +811,9 @@
 							case JAB_MAGE:
 								_ins_Hero->m_bLoop = true;
 
-								s_Status.MANA += s_Status.MANA_MAX*(NUMBER+1)/50 - s_Status.MANA_MAX*(NUMBER)/50 ;//마나 채우기
-								if(s_Status.MANA > s_Status.MANA_MAX)
-									s_Status.MANA = s_Status.MANA_MAX;
+								s_Status[s_HeroTag.SEX].MANA += s_Status[s_HeroTag.SEX].MANA_MAX*(NUMBER+1)/50 - s_Status[s_HeroTag.SEX].MANA_MAX*(NUMBER)/50 ;//마나 채우기
+								if(s_Status[s_HeroTag.SEX].MANA > s_Status[s_HeroTag.SEX].MANA_MAX)
+									s_Status[s_HeroTag.SEX].MANA = s_Status[s_HeroTag.SEX].MANA_MAX;
 								
 
 								break;
@@ -860,21 +877,21 @@
 	/******************************************  Process  ***************************************/	
 	void Character::Recovery(){//매 프레임마다 자동적으로 취해지는 연산
 		
-		if(s_Status.LIFE<=0)//주인공 사망시 작동하지않음
+		if(s_Status[s_HeroTag.SEX].LIFE<=0)//주인공 사망시 작동하지않음
 			return;
 
 		int FNFH = FULL_NEED_FRAME_HP * 100 /(100+Get_Skill(SKILL_P_O_recoveryUp));//패시브
 		int FNFM = FULL_NEED_FRAME_MP * 100 /(100+Get_Skill(SKILL_P_O_recoveryUp));//패시브
 
-		if(s_Status.LIFE < s_Status.LIFE_MAX){
-			s_Status.LIFE += s_Status.LIFE_MAX*(NUMBER+1)/FNFH - s_Status.LIFE_MAX*(NUMBER)/FNFH ;//피 채우기
-			if(s_Status.LIFE > s_Status.LIFE_MAX)s_Status.LIFE = s_Status.LIFE_MAX;
+		if(s_Status[s_HeroTag.SEX].LIFE < s_Status[s_HeroTag.SEX].LIFE_MAX){
+			s_Status[s_HeroTag.SEX].LIFE += s_Status[s_HeroTag.SEX].LIFE_MAX*(NUMBER+1)/FNFH - s_Status[s_HeroTag.SEX].LIFE_MAX*(NUMBER)/FNFH ;//피 채우기
+			if(s_Status[s_HeroTag.SEX].LIFE > s_Status[s_HeroTag.SEX].LIFE_MAX)s_Status[s_HeroTag.SEX].LIFE = s_Status[s_HeroTag.SEX].LIFE_MAX;
 		}
 
 		
-		if(s_Status.MANA < s_Status.MANA_MAX){
-			s_Status.MANA += s_Status.MANA_MAX*(NUMBER+1)/FNFM - s_Status.MANA_MAX*(NUMBER)/FNFM ;//마나 채우기
-			if(s_Status.MANA > s_Status.MANA_MAX)s_Status.MANA = s_Status.MANA_MAX;
+		if(s_Status[s_HeroTag.SEX].MANA < s_Status[s_HeroTag.SEX].MANA_MAX){
+			s_Status[s_HeroTag.SEX].MANA += s_Status[s_HeroTag.SEX].MANA_MAX*(NUMBER+1)/FNFM - s_Status[s_HeroTag.SEX].MANA_MAX*(NUMBER)/FNFM ;//마나 채우기
+			if(s_Status[s_HeroTag.SEX].MANA > s_Status[s_HeroTag.SEX].MANA_MAX)s_Status[s_HeroTag.SEX].MANA = s_Status[s_HeroTag.SEX].MANA_MAX;
 		}
 	}
 	int Character::SetDamageDecide(ASpriteInstance*	_ins_Hero,Damage& s_Damage){
@@ -1083,26 +1100,26 @@
 					s_Skill_Set.act = true;
 					_ins_Hero->m_bLoop = false;
 
-					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_bLoop = false;
-					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 3 ]);
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_bLoop = false;
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 3 ]);
 					
 					s_Skill_Set.OVER_SkillEffect = false;
 					s_Skill_Set.DOWN_SkillEffect = false;
-					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 4 ]>=0){
+					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 4 ]>=0){
 						s_Skill_Set.OVER_SkillEffect = true;
-						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 4 ]);
-						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_posZ = 0;
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 4 ]);
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_posZ = 0;
 					}
-					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 5 ]>=0){
+					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 5 ]>=0){
 						s_Skill_Set.DOWN_SkillEffect = true;
-						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ][ 5 ]);
-						_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_posZ = 0;
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 5 ]);
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_posZ = 0;
 					}
-					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					
 
 					
@@ -1145,7 +1162,7 @@
 				case HERO_SKILL_E1: //연타스킬의 예외처리
 					//익셉션 스위치 코드, 삽입
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 2://바운딩 콤보
 							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL3_1AFTER);
 							break;
@@ -1153,36 +1170,36 @@
 					break;
 				case HERO_SKILL_C2: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 2://바운딩 콤보
 							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL3_2);
 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S3_A_B_SKILL3_2_E);
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S3_A_B_SKILL3_2_E);
 							break;
 						case 3://스카이샷
 							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL4_2);
 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
 							break;
 						case 9://연계3타
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_3_2);
 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S3_A_S_SKILL_3_2E);
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S3_A_S_SKILL_3_2E);
 							break;
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_2);
 // 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
 							break;
 						case 12://바위내리찍기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_6_2);
 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S6_A_S_SKILL_6_2_E);
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S6_A_S_SKILL_6_2_E);
 							break;
 					}
 // 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 1 ){//보드 타는 스킬
@@ -1208,7 +1225,7 @@
 					break;
 				case HERO_SKILL_E2: //연타스킬의 예외처리
  					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_2AFTER);
 							break;
@@ -1221,12 +1238,12 @@
 					break;
 				case HERO_SKILL_C3: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_3);
 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_3_E);
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_3_E);
 							break;
 					}
 // 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
@@ -1256,18 +1273,18 @@
 					break;
 				case HERO_SKILL_C4:
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_4);
 // 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-// 							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
 							break;
 					}
 					break; 
 				case HERO_SKILL_E4: //연타스킬의 예외처리
  					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_4AFTER);
 							break;
@@ -1275,12 +1292,12 @@
 					break;
 				case HERO_SKILL_C5: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_Status.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_5);
 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_5_E);
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_5_E);
 							break;
 					}
 					break;
@@ -1290,7 +1307,7 @@
 
 				//	CloneCopy();
 
-				//	//if(s_Ability.JAB_KNIFE+s_Ability.JAB_GUN+s_Ability.JAB_MAGIC>1){
+				//	//if(s_Ability[s_HeroTag.SEX].JAB_KNIFE+s_Ability[s_HeroTag.SEX].JAB_GUN+s_Ability[s_HeroTag.SEX].JAB_MAGIC>1){
 				//	//	int _b_JabNext;
 
 				//	//	if(s_WeaponSwitch.act){
@@ -1298,21 +1315,21 @@
 				//	//	}else{
 				//	//		switch(_b_JabNum){
 				//	//			case 0://검
-				//	//				if(s_Ability.JAB_GUN){
+				//	//				if(s_Ability[s_HeroTag.SEX].JAB_GUN){
 				//	//					_b_JabNext = 1;
 				//	//				}else{
 				//	//					_b_JabNext = 2;
 				//	//				}
 				//	//				break;
 				//	//			case 1://총
-				//	//				if(s_Ability.JAB_MAGIC){
+				//	//				if(s_Ability[s_HeroTag.SEX].JAB_MAGIC){
 				//	//					_b_JabNext = 2;
 				//	//				}else{
 				//	//					_b_JabNext = 0;
 				//	//				}
 				//	//				break;
 				//	//			case 2://마법
-				//	//				if(s_Ability.JAB_KNIFE){
+				//	//				if(s_Ability[s_HeroTag.SEX].JAB_KNIFE){
 				//	//					_b_JabNext = 0;
 				//	//				}else{
 				//	//					_b_JabNext = 1;
@@ -1343,7 +1360,7 @@
 				//	//	}
 				//	//	
 				//	//	_b_JabNum = _b_JabNext;
-				//	//	s_Status.ELEMENTAL = _b_JabNum;//속성부여
+				//	//	s_Status[s_HeroTag.SEX].ELEMENTAL = _b_JabNum;//속성부여
 				//	//}
 				//	break;
 
@@ -1384,7 +1401,7 @@
 					break;
 
 				case HERO_CHARGE:
-					if(_b_JabNum==JAB_KNIGHT) s_Status.MANA -= PER(s_Status.MANA_MAX,30);//가드 - 마나소비
+					if(_b_JabNum==JAB_KNIGHT) s_Status[s_HeroTag.SEX].MANA -= PER(s_Status[s_HeroTag.SEX].MANA_MAX,30);//가드 - 마나소비
 
 					_ins_Hero->m_bLoop = false;
 					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_CHARGE,ANIM_MAN_BODY_A_S_CHARGE));
@@ -1468,8 +1485,8 @@
 			}
 		}
 
-		if(s_Skill_Set.OVER_SkillEffect) _ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
-		if(s_Skill_Set.DOWN_SkillEffect) _ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+		if(s_Skill_Set.OVER_SkillEffect) _ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+		if(s_Skill_Set.DOWN_SkillEffect) _ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
 
 
 
@@ -2006,7 +2023,7 @@
 				}else{
 					if(s_Bullet_Eff[i].LVupEff_Num==0){//초기할당
 						
-						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[s_Status.SEX][s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[s_HeroTag.SEX][s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 
 						s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = true;
 
@@ -2182,14 +2199,14 @@
 			if(s_Skill_Set.Cool_TimeNow[m_skillnum]){
 				return true;//쿨타임이 남아있거나 마나가 부족하면 스킬은 나가지 않는다
 			}else{
-				s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][m_skillnum];
+				s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][m_skillnum];
 			}
 		}else{
-			if(s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum]  ||  s_Status.MANA < s_Skill_Set.Need_Mana[s_Status.SEX][m_skillnum] || (s_Skill.Equip_A[s_Status.SEX*3 + m_skillnum] == -1)){
+			if(s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][m_skillnum]  ||  s_Status[s_HeroTag.SEX].MANA < s_Skill_Set.Need_Mana[s_HeroTag.SEX][m_skillnum] || (s_Skill.Equip_A[s_HeroTag.SEX*3 + m_skillnum] == -1)){
 				return true;//쿨타임이 남아있거나 마나가 부족하거나 슬롯이 비었으면 스킬은 나가지 않는다
 			}else{
-				s_Skill_Set.Cool_TimeNow[s_Status.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][m_skillnum];
-				s_Status.MANA -= s_Skill_Set.Need_Mana[s_Status.SEX][m_skillnum];
+				s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][m_skillnum];
+				s_Status[s_HeroTag.SEX].MANA -= s_Skill_Set.Need_Mana[s_HeroTag.SEX][m_skillnum];
 			}
 		}
 		
@@ -2217,7 +2234,7 @@
 	//}
 	int Character::Check_sex(int m_Woman,int  m_Man)
 	{//SangHo - 직업별 행동을 자연분화시킨다
-		switch(s_Status.SEX){
+		switch(s_HeroTag.SEX){
 			case SEX_WOMAN:
 				return m_Woman;
 			case SEX_MAN:
@@ -2342,85 +2359,89 @@
 
 	void Character::Set_state_calculate(){
 		//m_Hero_Physics = GL_NEW Physics(HERO_WRIGHT);
-		//s_Ability._STR = 3;
-		//s_Ability._DEX = 7;	//민첩-건너 공격력(100%) , 회피,크리
-		//s_Ability._CON = 5;	//체력-생명력, 방어력(30%),생명력 회복률
-		//s_Ability._INT = 5;	//지능-마법사 공격력(건너의 130%) , 마나
-		//s_Ability._FAM = 0;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+		//s_Ability[s_HeroTag.SEX]._STR = 3;
+		//s_Ability[s_HeroTag.SEX]._DEX = 7;	//민첩-건너 공격력(100%) , 회피,크리
+		//s_Ability[s_HeroTag.SEX]._CON = 5;	//체력-생명력, 방어력(30%),생명력 회복률
+		//s_Ability[s_HeroTag.SEX]._INT = 5;	//지능-마법사 공격력(건너의 130%) , 마나
+		//s_Ability[s_HeroTag.SEX]._FAM = 0;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 
-		int add_DEF = 0;
+		for (int xx = 0;xx<2;xx++){//남케 여케
+			int add_DEF = 0;
 
-		int add_CRI = 0;
-		int add_AGI = 0;
-		int add_HP = 0;
-		int add_MP = 0;
+			int add_CRI = 0;
+			int add_AGI = 0;
+			int add_HP = 0;
+			int add_MP = 0;
 
-		int add_STR = 0;
-		int add_DEX = 0; 
-		int add_CON = 0; 
-		int add_INT = 0; 
+			int add_STR = 0;
+			int add_DEX = 0; 
+			int add_CON = 0; 
+			int add_INT = 0; 
 
-		for (int slot = 0 ; slot<10 ; slot++){
-			add_DEF +=s_ItemAbil[slot].DEF;
+			for (int slot = 0 ; slot<10 ; slot++){
+				add_DEF +=s_ItemAbil[xx][slot].DEF;
 
-			add_CRI +=s_ItemAbil[slot].CRI;
-			add_AGI +=s_ItemAbil[slot].AGI;
-			add_HP  +=s_ItemAbil[slot].HP ;
-			add_MP  +=s_ItemAbil[slot].MP ;
+				add_CRI +=s_ItemAbil[xx][slot].CRI;
+				add_AGI +=s_ItemAbil[xx][slot].AGI;
+				add_HP  +=s_ItemAbil[xx][slot].HP ;
+				add_MP  +=s_ItemAbil[xx][slot].MP ;
 
-			add_STR +=s_ItemAbil[slot].STR;
-			add_DEX +=s_ItemAbil[slot].DEX;
-			add_CON +=s_ItemAbil[slot].CON;
-			add_INT +=s_ItemAbil[slot].INT;
+				add_STR +=s_ItemAbil[xx][slot].STR;
+				add_DEX +=s_ItemAbil[xx][slot].DEX;
+				add_CON +=s_ItemAbil[xx][slot].CON;
+				add_INT +=s_ItemAbil[xx][slot].INT;
+			}
+
+
+
+			s_Status[xx].LIFE_MAX		= (s_Ability[xx].CON+add_CON) * 15 + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
+			s_Status[xx].LIFE_MAX=PER(s_Status[xx].LIFE_MAX,(100+add_HP));
+			if(s_Status[xx].LIFE>s_Status[xx].LIFE_MAX)s_Status[xx].LIFE = s_Status[xx].LIFE_MAX;
+
+			s_Status[xx].MANA_MAX		= (s_Ability[xx].INT+add_INT) * 5;//마나 0 이 되면 스킬을 못쓴다.
+			s_Status[xx].MANA_MAX=PER(s_Status[xx].MANA_MAX,(100+add_MP + Get_Skill(SKILL_P_G_manaUp)));//패시브
+			if(s_Status[xx].MANA>s_Status[xx].MANA_MAX)s_Status[xx].MANA = s_Status[xx].MANA_MAX;
+
+			s_Status[xx].DAMAGE;		//공식에 의해 상대에게 직접적인 타격을 주는 수치
+			s_Status[xx].DEFENSE = (s_Ability[xx].CON+add_CON)/3+(s_Ability[xx].STR+add_STR) + add_DEF;		//방어구에 의해 방어율 계산에 적용 되는 수치(주인공만 있음/이것을 디스 플레이함)
+			s_Status[xx].CRITICAL = (s_Ability[xx].DEX+add_DEX)/6 + add_CRI;		//크리티컬 데미지 들어갈 확률
+			s_Status[xx].AVOID = (s_Ability[xx].DEX+add_DEX)/8 + add_AGI;			//적의 공격을 피할 확률
+			s_Status[xx].EXP_MAX = 18*((s_Status[xx].LEVEL+1)*(s_Status[xx].LEVEL-1)+10);
+
+			s_Status[xx].ATTACK_MAX[0]=s_Status[xx].ATTACK_MIN[0]=(s_Ability[xx].STR*2 + s_Ability[xx].DEX);		//칼 공격력 (힘*2+민첩)
+			s_Status[xx].ATTACK_MAX[1]=s_Status[xx].ATTACK_MIN[1]=(s_Ability[xx].DEX*3 + s_Ability[xx].STR);		//총 공격력(민첩*3+힘)
+			s_Status[xx].ATTACK_MAX[2]=s_Status[xx].ATTACK_MIN[2]=(s_Ability[xx].INT*2);		//마법 공격력(지능*2)
+
+			s_Status[xx].ATTACK_MAX[0] += s_ItemAbil[xx][6].ATT_MAX + s_ItemAbil[xx][5].ATT_MAX;
+			s_Status[xx].ATTACK_MIN[0] += s_ItemAbil[xx][6].ATT_MIN + s_ItemAbil[xx][5].ATT_MIN;
+// 			s_Status[xx].ATTACK_MAX[1] += s_ItemAbil[xx][2].ATT_MAX + s_ItemAbil[xx][8].ATT_MAX;
+// 			s_Status[xx].ATTACK_MIN[1] += s_ItemAbil[xx][2].ATT_MIN + s_ItemAbil[xx][8].ATT_MIN;
+// 			s_Status[xx].ATTACK_MAX[2] += s_ItemAbil[xx][2].ATT_MAX + (s_ItemAbil[xx][9].ATT_MAX / 2);
+// 			s_Status[xx].ATTACK_MIN[2] += s_ItemAbil[xx][2].ATT_MIN + (s_ItemAbil[xx][9].ATT_MIN / 2);
+
+
+
+
+			s_Status[xx].DEFENSE_PER = s_Status[xx].DEFENSE/30;	//방어력/30 = N 방어력으로 자동 계산 되는 데미지 상쇄 % (유저에겐 보여주지 않음)
+			s_Status[xx].LIFE_RECOVERY;	//체력이 회복 되는 수치
+			s_Status[xx].MANA_RECOVERY;	//마나가 회복 되는 수치
+			s_Status[xx].DAMAGE;			//공식에 의해 상대에게 직접적인 타격을 주는 수치
+
 		}
-
-
-
-		s_Status.LIFE_MAX		= (s_Ability.CON+add_CON) * 15 + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
-		s_Status.LIFE_MAX=PER(s_Status.LIFE_MAX,(100+add_HP));
-		if(s_Status.LIFE>s_Status.LIFE_MAX)s_Status.LIFE = s_Status.LIFE_MAX;
-
-		s_Status.MANA_MAX		= (s_Ability.INT+add_INT) * 5;//마나 0 이 되면 스킬을 못쓴다.
-		s_Status.MANA_MAX=PER(s_Status.MANA_MAX,(100+add_MP + Get_Skill(SKILL_P_G_manaUp)));//패시브
-		if(s_Status.MANA>s_Status.MANA_MAX)s_Status.MANA = s_Status.MANA_MAX;
 		
-		s_Status.DAMAGE;		//공식에 의해 상대에게 직접적인 타격을 주는 수치
-		s_Status.DEFENSE = (s_Ability.CON+add_CON)/3+(s_Ability.STR+add_STR) + add_DEF;		//방어구에 의해 방어율 계산에 적용 되는 수치(주인공만 있음/이것을 디스 플레이함)
-		s_Status.CRITICAL = (s_Ability.DEX+add_DEX)/6 + add_CRI;		//크리티컬 데미지 들어갈 확률
-		s_Status.AVOID = (s_Ability.DEX+add_DEX)/8 + add_AGI;			//적의 공격을 피할 확률
-		s_Status.EXP_MAX = 18*((s_Status.LEVEL+1)*(s_Status.LEVEL-1)+10);
-
-		s_Status.ATTACK_MAX[0]=s_Status.ATTACK_MIN[0]=(s_Ability.STR*2 + s_Ability.DEX);		//칼 공격력 (힘*2+민첩)
-		s_Status.ATTACK_MAX[1]=s_Status.ATTACK_MIN[1]=(s_Ability.DEX*3 + s_Ability.STR);		//총 공격력(민첩*3+힘)
-		s_Status.ATTACK_MAX[2]=s_Status.ATTACK_MIN[2]=(s_Ability.INT*2);		//마법 공격력(지능*2)
-
-		s_Status.ATTACK_MAX[0] += s_ItemAbil[2].ATT_MAX + ((s_ItemAbil[5].ATT_MAX+s_ItemAbil[6].ATT_MAX) / 2);
-		s_Status.ATTACK_MIN[0] += s_ItemAbil[2].ATT_MIN + ((s_ItemAbil[5].ATT_MIN+s_ItemAbil[6].ATT_MIN) / 2);
-		s_Status.ATTACK_MAX[1] += s_ItemAbil[2].ATT_MAX + (s_ItemAbil[8].ATT_MAX / 2);
-		s_Status.ATTACK_MIN[1] += s_ItemAbil[2].ATT_MIN + (s_ItemAbil[8].ATT_MIN / 2);
-		s_Status.ATTACK_MAX[2] += s_ItemAbil[2].ATT_MAX + (s_ItemAbil[9].ATT_MAX / 2);
-		s_Status.ATTACK_MIN[2] += s_ItemAbil[2].ATT_MIN + (s_ItemAbil[9].ATT_MIN / 2);
-
-
-		
-
-		s_Status.DEFENSE_PER = s_Status.DEFENSE/30;	//방어력/30 = N 방어력으로 자동 계산 되는 데미지 상쇄 % (유저에겐 보여주지 않음)
-		s_Status.LIFE_RECOVERY;	//체력이 회복 되는 수치
-		s_Status.MANA_RECOVERY;	//마나가 회복 되는 수치
-		s_Status.DAMAGE;			//공식에 의해 상대에게 직접적인 타격을 주는 수치
 
 		//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
 		if(Get_Skill(SKILL_P_O_coolTimeDown)){//패시브
-			for(int xx = 0;xx<3;xx++){
-				if(s_Skill.Equip_A[s_Status.SEX*3 + xx]>=0){
-					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_Status.SEX*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
+			for(int xx = 0;xx<6;xx++){
+				if(s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]>=0){
+					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_HeroTag.SEX][xx]][2];//스킬 쿨타임
 					if(need_frm >= 100){
-						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+						s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}else{
-						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = need_frm;
+						s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = need_frm;
 					}
-					if(s_Skill_Set.Cool_TimeNow[s_Status.SEX][xx]>s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx]){
-						s_Skill_Set.Cool_TimeNow[s_Status.SEX][xx]=s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx];
+					if(s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][xx]>s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx]){
+						s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][xx]=s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx];
 					}
 				}
 			}
@@ -2460,14 +2481,14 @@
 
 					
 
-					s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][2];//스킬 쿨타임
-					if(s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] >= 100){
-						s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] = s_Skill_Set.Cool_TimeMax[s_Status.SEX][xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+					s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_HeroTag.SEX][xx]][2];//스킬 쿨타임
+					if(s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] >= 100){
+						s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}
 
-					s_Skill_Set.Need_Mana[s_Status.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_Status.SEX][xx]][4];//필요마나
+					s_Skill_Set.Need_Mana[s_HeroTag.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_HeroTag.SEX][xx]][4];//필요마나
 				}else{//빈소캣
-					s_Skill_Set.Skill_ID[s_Status.SEX][xx] = -1;
+					s_Skill_Set.Skill_ID[s_HeroTag.SEX][xx] = -1;
 				}
 			}
 		}
@@ -2488,13 +2509,13 @@
 			s_Damage.Type = DAMAGE_NOT;
 			_b_Key_Nullity = false;
 
-			if(s_Status.LIFE>0){//주인공 사망시 스킬을 취소시켜버린다
+			if(s_Status[s_HeroTag.SEX].LIFE>0){//주인공 사망시 스킬을 취소시켜버린다
 				return;
 			}
 			
 		}
 
-		if(s_Status.LIFE<=0){//주인공 사망 초기화
+		if(s_Status[s_HeroTag.SEX].LIFE<=0){//주인공 사망 초기화
 			_move_Order = HERO_STOP;
 			_b_Hero_Protect = false;
 			_Power.z = -50;
@@ -2561,18 +2582,18 @@
 
 	void Character::RCV_Damage(int monDamage){
 		
-		s_Status.LIFE -= monDamage;
+		s_Status[s_HeroTag.SEX].LIFE -= monDamage;
 
-		if(s_Status.LIFE < 0) s_Status.LIFE = 0;
+		if(s_Status[s_HeroTag.SEX].LIFE < 0) s_Status[s_HeroTag.SEX].LIFE = 0;
 	}
 	int Character::SND_Damage(int monLevel, int monElemental , int monDefense , int D_index){
 
-		int ATT = RND(s_Status.ATTACK_MIN[_b_JabNum],s_Status.ATTACK_MAX[_b_JabNum]);
+		int ATT = RND(s_Status[s_HeroTag.SEX].ATTACK_MIN[_b_JabNum],s_Status[s_HeroTag.SEX].ATTACK_MAX[_b_JabNum]);
 		int percent = 100;
-		int cri_Num = s_Status.CRITICAL;
+		int cri_Num = s_Status[s_HeroTag.SEX].CRITICAL;
 
 		Critical = false;
-		s_Status.DEBUFF = 0;
+		s_Status[s_HeroTag.SEX].DEBUFF = 0;
 		
 
 		int skill_Num = (D_index-50)/2;
@@ -2580,9 +2601,9 @@
 		switch(D_index){//공식 인덱스 번호
 		//평타
 			case 0: percent = 100;
-				if(RND(1,100) <= Get_Skill(SKILL_P_S_poisonAttack))s_Status.DEBUFF = s_Status.DEBUFF|DEBUF_POISON;//패시브
+				if(RND(1,100) <= Get_Skill(SKILL_P_S_poisonAttack))s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_POISON;//패시브
 				break;
-		//건 차지샷
+		//노데미지
 			case 10:percent = 0;break;
 		//건 차지샷
 			case 40:percent = 200;break;
@@ -2617,7 +2638,7 @@
 			case 64:percent = a_Skill_Table[table_Index][0];break;	
 			case 65:percent = a_Skill_Table[table_Index][1];break;
 		/*스턴*/							
-			case 66:percent = a_Skill_Table[table_Index][0];s_Status.DEBUFF = s_Status.DEBUFF|DEBUF_STUN;break;	
+			case 66:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_STUN;break;	
 			case 67:percent = a_Skill_Table[table_Index][1];break;
 		/*스핀샷*/							
 			case 68:percent = a_Skill_Table[table_Index][0];break;	
@@ -2647,23 +2668,23 @@
 			case 83:percent = a_Skill_Table[table_Index][1];break;
 		/*아이스드래곤*/					
 			case 84:percent = a_Skill_Table[table_Index][0];break;	
-			case 85:percent = a_Skill_Table[table_Index][1];s_Status.DEBUFF = s_Status.DEBUFF|DEBUF_FREEZE;break;
+			case 85:percent = a_Skill_Table[table_Index][1];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_FREEZE;break;
 		/*블랙홀*/							
-			case 86:percent = a_Skill_Table[table_Index][0];s_Status.DEBUFF = s_Status.DEBUFF|DEBUF_CONFUSE;break;	
+			case 86:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_CONFUSE;break;	
 			case 87:percent = a_Skill_Table[table_Index][1];break;
 		/*뇌룡승천*/						
 			case 88:percent = a_Skill_Table[table_Index][0];break;	
 			case 89:percent = a_Skill_Table[table_Index][1];break;
 		/*아이스에로우*/					
-			case 90:percent = a_Skill_Table[table_Index][0];s_Status.DEBUFF = s_Status.DEBUFF|DEBUF_ICE;break;	
+			case 90:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_ICE;break;	
 			case 91:percent = a_Skill_Table[table_Index][1];break;
 
 		}
 
 		ATT = PER(ATT,percent);//데미지 퍼센트 적용
 
-		if(s_Status.LEVEL > monLevel + 4)ATT=PER(ATT,140);//본스터보다 5랩 높으면
-		if(s_Status.LEVEL < monLevel - 4)ATT=PER(ATT, 70);//본스터보다 5랩 낮으면
+		if(s_Status[s_HeroTag.SEX].LEVEL > monLevel + 4)ATT=PER(ATT,140);//본스터보다 5랩 높으면
+		if(s_Status[s_HeroTag.SEX].LEVEL < monLevel - 4)ATT=PER(ATT, 70);//본스터보다 5랩 낮으면
 
 
 		switch(_b_JabNum){//상성
@@ -2690,7 +2711,7 @@
 				break;
 		}
 
-		if(s_Status.LIFE<PER(s_Status.LIFE_MAX,20)) 
+		if(s_Status[s_HeroTag.SEX].LIFE<PER(s_Status[s_HeroTag.SEX].LIFE_MAX,20)) 
 			ATT = PER(ATT,100+Get_Skill(SKILL_P_S_deadlyAttack));//패시브
 
 		//방어율
@@ -2756,7 +2777,7 @@
 		}
 	}
 	int Character::SND_Debuff(int Attack_Type){
-		return s_Status.DEBUFF;
+		return s_Status[s_HeroTag.SEX].DEBUFF;
 			//DEBUF_WEAK		(1 << 1)			//약화
 			//DEBUF_ICE			(1 << 2)			//아이스
 			//DEBUF_FREEZE		(1 << 3)			//동결
@@ -2770,19 +2791,19 @@
 			//DEBUF_SILENCE		(1 << 11)			//침묵
 	}
 	int Character::Set_Exp(int _Exp){
-		s_Status.EXP += _Exp;
-		if(s_Status.EXP_MAX < s_Status.EXP){
-			s_Status.EXP -= s_Status.EXP_MAX;
-			s_Status.LEVEL++;
-			s_Ability.POINT += 3;
+		s_Status[s_HeroTag.SEX].EXP += _Exp;
+		if(s_Status[s_HeroTag.SEX].EXP_MAX < s_Status[s_HeroTag.SEX].EXP){
+			s_Status[s_HeroTag.SEX].EXP -= s_Status[s_HeroTag.SEX].EXP_MAX;
+			s_Status[s_HeroTag.SEX].LEVEL++;
+			s_Ability[s_HeroTag.SEX].POINT += 3;
 			if(RND(1,100) <= Get_Skill(SKILL_P_O_addAbility))
-			{s_Ability.POINT += 2;}//패시브
+			{s_Ability[s_HeroTag.SEX].POINT += 2;}//패시브
 
-			s_Ability.STR+=2;
-			s_Ability.DEX+=2;
-			s_Ability.CON+=2;
-			s_Ability.INT+=2;
-			s_Ability.FAM+=2;
+			s_Ability[s_HeroTag.SEX].STR+=2;
+			s_Ability[s_HeroTag.SEX].DEX+=2;
+			s_Ability[s_HeroTag.SEX].CON+=2;
+			s_Ability[s_HeroTag.SEX].INT+=2;
+			s_Ability[s_HeroTag.SEX].FAM+=2;
 
 
 			Set_state_calculate();
@@ -2791,8 +2812,8 @@
 				s_LV_Eff.LVupEff_Num = 0;
 				s_LV_Eff.LVup_ActionEnd = false;
 			}
-			s_Status.LIFE = s_Status.LIFE_MAX;
-			s_Status.MANA = s_Status.MANA_MAX;
+			s_Status[s_HeroTag.SEX].LIFE = s_Status[s_HeroTag.SEX].LIFE_MAX;
+			s_Status[s_HeroTag.SEX].MANA = s_Status[s_HeroTag.SEX].MANA_MAX;
 			
 		}
 		return 0;
@@ -2808,8 +2829,8 @@
 		//인스턴스 카피
 			SUTIL_FreeSpriteInstance(_ins_Hero_clone);
 		_ins_Hero_clone = GL_NEW ASpriteInstance(_ins_Hero);
-		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][0]);
-		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_Status.SEX][s_Skill_Set.Num][1]);
+		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]);
+		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]);
 
 		_ins_Hero_clone->m_bLoop = false;
 
@@ -2838,11 +2859,11 @@
 		switch(s_HeroTag.FocusHero){
 			case 0:
 				_ins_Hero->m_sprite = _spr_Hero_W;
-				s_Status.SEX = SEX_WOMAN;
+				s_HeroTag.SEX = SEX_WOMAN;
 				break;
 			case 1:
 				_ins_Hero->m_sprite = _spr_Hero_M;
-				s_Status.SEX = SEX_MAN;
+				s_HeroTag.SEX = SEX_MAN;
 				break;
 		}
 

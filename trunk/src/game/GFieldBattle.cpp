@@ -605,10 +605,10 @@ void GFieldBattle::MakeMonsterSeed()
 	m_nSeedDataGrade = GL_NEW int [m_nMonSeedCnt];
 
 	int TableIdx = 4;
-	if(70 < hero->s_Status.LEVEL)		{TableIdx = 0;}
-	else if(60 < hero->s_Status.LEVEL)	{TableIdx = 1;}
-	else if(40 < hero->s_Status.LEVEL)	{TableIdx = 2;}
-	else if(20 < hero->s_Status.LEVEL)	{TableIdx = 3;}
+	if(70 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)		{TableIdx = 0;}
+	else if(60 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 1;}
+	else if(40 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 2;}
+	else if(20 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 3;}
 
 	//	등급 확인
 	int Dice = 0;
@@ -724,10 +724,10 @@ void GFieldBattle::MakeMonsterSeed(int nStageNum)
 	m_nSeedDataGrade = GL_NEW int [m_nMonSeedCnt];
 
 	int TableIdx = 4;
-	if(70 < hero->s_Status.LEVEL)		{TableIdx = 0;}
-	else if(60 < hero->s_Status.LEVEL)	{TableIdx = 1;}
-	else if(40 < hero->s_Status.LEVEL)	{TableIdx = 2;}
-	else if(20 < hero->s_Status.LEVEL)	{TableIdx = 3;}
+	if(70 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)		{TableIdx = 0;}
+	else if(60 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 1;}
+	else if(40 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 2;}
+	else if(20 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 3;}
 
 	//	등급 확인
 	int Dice = 0;
@@ -880,7 +880,7 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 		int elementidx = nameidx%3;
 
 		//	속성 결정
-		//int levelidx = hero->s_Status.LEVEL;
+		//int levelidx = hero->s_Status[hero->s_HeroTag.SEX].LEVEL;
 		int levelidx = m_nMonLevel;
 		
 		if(m_nMonLevelRnd)
@@ -1251,7 +1251,7 @@ void GFieldBattle::Process()
 	{
 		return;
 	}
-	else if(hero->_m_actNum == HERO_DOWNED_2 && hero->s_Status.LIFE<=0){//주인공 사망
+	else if(hero->_m_actNum == HERO_DOWNED_2 && hero->s_Status[hero->s_HeroTag.SEX].LIFE<=0){//주인공 사망
 		b_PopupUi = true;
 		pPopupUi->GameOver = true;
 		pField->workPal(false,0,0);
@@ -1296,7 +1296,7 @@ void GFieldBattle::Process()
 
 			if(hero->s_Skill_Set.OVER_SkillEffect)
 			{
-				if(Contact_Check(hero->_ins_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num][0], GetData(pMonList)->pMonAsIns,NULL, GetData(pMonList)->m_nBodySize))
+				if(Contact_Check(hero->_ins_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num][0], GetData(pMonList)->pMonAsIns,NULL, GetData(pMonList)->m_nBodySize))
 				{
 					pFieldUi->AddCombo();	//	nams
 					DamageSand_Hero(hero, GetData(pMonList));//주인공 스킬
@@ -1396,11 +1396,11 @@ void GFieldBattle::Process()
 							}
 							//					m_nIsRegen[GetData(pMonList)->m_nRegenIdx] = 0;	//	재생 영역을 초기화시켜준다.
 						}
-						hero->Set_Exp(GetData(pMonList)->SND_Exp(hero->s_Status.LEVEL) );
+						hero->Set_Exp(GetData(pMonList)->SND_Exp(hero->s_Status[hero->s_HeroTag.SEX].LEVEL) );
 
 						if(!(GetData(pMonList)->m_nFeature & FE_DONT_HAVE_ITEM))
 						{
-							ItemBag tmp = pPopupUi->MakeItem(GetData(pMonList)->m_nMonIdx , GetData(pMonList)->m_nLevel, hero->s_Status.SEX, pField->m_nSaveStageNum);
+							ItemBag tmp = pPopupUi->MakeItem(GetData(pMonList)->m_nMonIdx , GetData(pMonList)->m_nLevel, hero->s_HeroTag.SEX, pField->m_nSaveStageNum);
 							if(0 != tmp.ITEM_KIND)
 							{
 								pField->InsertDropItem(tmp, GetData(pMonList)->pMonAsIns->m_posX, GetData(pMonList)->pMonAsIns->m_posY+15);
@@ -1618,14 +1618,14 @@ void GFieldBattle::Process()
 
 
 			if(hero->s_Skill_Set.act){
-				if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[Character::s_Status.SEX][hero->s_Skill_Set.Num] == 11){//예외스킬
-					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posX = hero->_ins_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posX = hero->_ins_Hero->m_posX;
-					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posY = hero->_ins_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posY = hero->_ins_Hero->m_posY; 
+				if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num] == 11){//예외스킬
+					hero->_ins_Skill[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num][1]->m_posX = hero->_ins_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num][0]->m_posX = hero->_ins_Hero->m_posX;
+					hero->_ins_Skill[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num][1]->m_posY = hero->_ins_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num][0]->m_posY = hero->_ins_Hero->m_posY; 
 				}else{
-					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posX += (Hero_XY%100000);
-					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posX += (Hero_XY%100000);
-					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][1]->m_posY += (Hero_XY/100000);
-					hero->_ins_Skill[Character::s_Status.SEX][hero->s_Skill_Set.Num][0]->m_posY += (Hero_XY/100000);
+					hero->_ins_Skill[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num][1]->m_posX += (Hero_XY%100000);
+					hero->_ins_Skill[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num][0]->m_posX += (Hero_XY%100000);
+					hero->_ins_Skill[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num][1]->m_posY += (Hero_XY/100000);
+					hero->_ins_Skill[Character::s_HeroTag.SEX][hero->s_Skill_Set.Num][0]->m_posY += (Hero_XY/100000);
 				}
 			}
 
@@ -1823,12 +1823,12 @@ void GFieldBattle::Paint()
 	//	필드 UI ( 그리기가 끝난후 위에 덮어준다.)
 	pFieldUi->Paint();
 
-	pFieldUi->PaintCharInfo(hero->s_Status.LEVEL,
-		hero->s_Status.LIFE,
-		hero->s_Status.LIFE_MAX,
-		hero->s_Status.MANA,
-		hero->s_Status.MANA_MAX,
-		hero->s_Status.ELEMENTAL );
+	pFieldUi->PaintCharInfo(hero->s_Status[hero->s_HeroTag.SEX].LEVEL,
+		hero->s_Status[hero->s_HeroTag.SEX].LIFE,
+		hero->s_Status[hero->s_HeroTag.SEX].LIFE_MAX,
+		hero->s_Status[hero->s_HeroTag.SEX].MANA,
+		hero->s_Status[hero->s_HeroTag.SEX].MANA_MAX,
+		hero->s_HeroTag.SEX /*hero->s_Status[hero->s_HeroTag.SEX].ELEMENTAL*/ );
 
 	//	미니맵 임시
 	PaintMiniMap();
@@ -1840,13 +1840,13 @@ void GFieldBattle::Paint()
 	if(pFieldUi->s_TalkBox.View){//대화창이뜰때
 		pFieldUi->PaintTalkBox();
 	}else{
-		pFieldUi->PaintSkillInfo(&(hero->s_Skill_Set.Skill_ID[hero->s_Status.SEX][0]),
-			&(hero->s_Skill_Set.Cool_TimeMax[hero->s_Status.SEX][0]),
-			&(hero->s_Skill_Set.Cool_TimeNow[hero->s_Status.SEX][0]),
-			hero->s_Status.MANA,
-			&(hero->s_Skill_Set.Need_Mana[hero->s_Status.SEX][0]));
-		pFieldUi->PaintExpInfo(hero->s_Status.EXP,
-			hero->s_Status.EXP_MAX);
+		pFieldUi->PaintSkillInfo(&(hero->s_Skill_Set.Skill_ID[hero->s_HeroTag.SEX][0]),
+			&(hero->s_Skill_Set.Cool_TimeMax[hero->s_HeroTag.SEX][0]),
+			&(hero->s_Skill_Set.Cool_TimeNow[hero->s_HeroTag.SEX][0]),
+			hero->s_Status[hero->s_HeroTag.SEX].MANA,
+			&(hero->s_Skill_Set.Need_Mana[hero->s_HeroTag.SEX][0]));
+		pFieldUi->PaintExpInfo(hero->s_Status[hero->s_HeroTag.SEX].EXP,
+			hero->s_Status[hero->s_HeroTag.SEX].EXP_MAX);
 	}
 
 
@@ -2867,10 +2867,10 @@ void GFieldBattle::Paint_Exception_Check()
 // 
 
 
-	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_Status.SEX][hero->s_Skill_Set.Num] == 4)
+	if(hero->s_Skill_Set.act && hero->s_Skill_Set.Skill_ID[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num] == 4)
 	{//히어로 매직미사일 시전했을때
 					switch(hero->_ins_Hero->m_nCrtFrame){
-						case 0://기술 시작때 타겟 몬스터 지정
+						case 7://기술 발사직전 때 타겟 몬스터 지정
 			 				{
 			 					int RangeLengthMAX = 200;
 			 					int RangeLengthMIN = 0;
@@ -2930,14 +2930,14 @@ void GFieldBattle::Paint_Exception_Check()
  			 				break;
  	 					case 8:
  	 						hero->s_Knife_Eff[0].act = true;
-							hero->s_Knife_Eff[0].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+							hero->s_Knife_Eff[0].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 							hero->s_Knife_Eff[0].LVup_Eff_Ins->m_bLoop = true;
 	 						s_Homing[0].X1 =(hero->_ins_Hero->m_flags? -30:+30) + (hero->_ins_Hero->m_posX);
 	 						s_Homing[0].Y1 = (hero->_ins_Hero->m_posY);
-							if(s_Homing[0].pMons){
-								s_Homing[0].X2 = s_Homing[0].pMons->pMonAsIns->m_posX;
-								s_Homing[0].Y2 = s_Homing[0].pMons->pMonAsIns->m_posY;
-							}
+// 							if(s_Homing[0].pMons){
+// 								s_Homing[0].X2 = s_Homing[0].pMons->pMonAsIns->m_posX;
+// 								s_Homing[0].Y2 = s_Homing[0].pMons->pMonAsIns->m_posY;
+// 							}
 	 						s_Homing[0].Cita1=(hero->_ins_Hero->m_flags? 270:90);
 			 
 	 						s_Homing[0].TurnCita = 5;//시작 회전 한계각(점점늘어남)
@@ -2945,14 +2945,14 @@ void GFieldBattle::Paint_Exception_Check()
 	 						break;
 	 					case 11:
 	 						hero->s_Knife_Eff[1].act = true;
-							hero->s_Knife_Eff[1].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+							hero->s_Knife_Eff[1].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 							hero->s_Knife_Eff[1].LVup_Eff_Ins->m_bLoop = true;
 	 						s_Homing[1].X1 =(hero->_ins_Hero->m_flags? -30:+30) + (hero->_ins_Hero->m_posX);
 	 						s_Homing[1].Y1 = (hero->_ins_Hero->m_posY);
-							if(s_Homing[1].pMons){
-	 							s_Homing[1].X2 = s_Homing[1].pMons->pMonAsIns->m_posX;
-	 							s_Homing[1].Y2 = s_Homing[1].pMons->pMonAsIns->m_posY;
-							}
+// 							if(s_Homing[1].pMons){
+// 	 							s_Homing[1].X2 = s_Homing[1].pMons->pMonAsIns->m_posX;
+// 	 							s_Homing[1].Y2 = s_Homing[1].pMons->pMonAsIns->m_posY;
+// 							}
 	 						s_Homing[1].Cita1=(hero->_ins_Hero->m_flags? 270:90);
 			 
 	 						s_Homing[1].TurnCita = 5;//시작 회전 한계각(점점늘어남)
@@ -2960,14 +2960,14 @@ void GFieldBattle::Paint_Exception_Check()
  	 						break;
  	 					case 14:
  	 						hero->s_Knife_Eff[2].act = true;
-							hero->s_Knife_Eff[2].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_Status.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+							hero->s_Knife_Eff[2].LVup_Eff_Ins = GL_NEW ASpriteInstance(hero->_spr_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 							hero->s_Knife_Eff[2].LVup_Eff_Ins->m_bLoop = true;
 	 						s_Homing[2].X1 =(hero->_ins_Hero->m_flags? -30:+30) + (hero->_ins_Hero->m_posX);
 	 						s_Homing[2].Y1 = (hero->_ins_Hero->m_posY);
-							if(s_Homing[2].pMons){
-	 							s_Homing[2].X2 = s_Homing[2].pMons->pMonAsIns->m_posX;
-	 							s_Homing[2].Y2 = s_Homing[2].pMons->pMonAsIns->m_posY;
-							}
+// 							if(s_Homing[2].pMons){
+// 	 							s_Homing[2].X2 = s_Homing[2].pMons->pMonAsIns->m_posX;
+// 	 							s_Homing[2].Y2 = s_Homing[2].pMons->pMonAsIns->m_posY;
+// 							}
 	 						s_Homing[2].Cita1=(hero->_ins_Hero->m_flags? 270:90);
 			 
 	 						s_Homing[2].TurnCita = 5;//시작 회전 한계각(점점늘어남)
@@ -3053,10 +3053,19 @@ void GFieldBattle::Paint_Exception_Check()
 
 				}else{
 
-					if(s_Homing[i].pMons && s_Homing[i].pMons->pMonAsIns){
-						s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
-						s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;
+					if(s_Homing[i].pMons){
+						if(((MON_AC_DIE != s_Homing[i].pMons->m_ActState) &&
+							(MON_ATK_DEAD_ATTACK != s_Homing[i].pMons->m_ActState) &&
+							(MON_AC_DIE_AFTER != s_Homing[i].pMons->m_ActState)) ||
+							(s_Homing[i].pMons->pMonAsIns==NULL)){//몬스터가 사망했거나 스프라이트 인스턴스가 없다면
+								s_Homing[i].pMons = NULL;//추적좌표 갱신을 중지한다
+						}else{
+							s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
+							s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;
+						}
 					}
+					
+
 
 					GetHomingXY(&s_Homing[i]);
 					hero->s_Knife_Eff[i].LVup_Eff_Ins->m_posX = s_Homing[i].X1;
@@ -3734,9 +3743,9 @@ void GFieldBattle::DamageSand_Mon(Monster* mon , Character* hero)
 	}else{
 		int tmp = 0;
 
-		tmp = mon->SND_Damage(hero->s_Status.LEVEL,
-			hero->s_Status.ELEMENTAL,
-			hero->s_Status.DEFENSE_PER,
+		tmp = mon->SND_Damage(hero->s_Status[hero->s_HeroTag.SEX].LEVEL,
+			hero->s_HeroTag.SEX /*hero->s_Status[hero->s_HeroTag.SEX].ELEMENTAL*/,
+			hero->s_Status[hero->s_HeroTag.SEX].DEFENSE_PER,
 			s_Contact.D_index);
 		
 

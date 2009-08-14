@@ -37,9 +37,9 @@
 #define ITEM_MONEY		3
 
 #define ITEM_SWORD		10
-#define ITEM_AXE		11
+//#define ITEM_AXE		11
 #define ITEM_GUN		12
-#define ITEM_OEB		13
+//#define ITEM_OEB		13
 #define ITEM_HEAD		14
 #define ITEM_CHEST		15
 #define ITEM_LEG		16
@@ -131,7 +131,7 @@ struct AreaMessage{//지역명 메세지
 #include "PopupTable.h" //아이템 정보 테이블
 
 const short s_X[2][7] = {{-34,56,-34,26, 26,-64,-4},{-34,56,-64,26,-64, -4,-4}};
-const short s_Y[2][7] = {{-19, 0, 19,19,-19,  0, 0},{  1, 1, 20, 1,-18,-18,20}};
+const short s_Y[2][7] = {{-18, 0, 20,20,-18,  0, 0},{  0, 0, 20, 0,-18,-18,20}};
 
 class PopupUi
 {
@@ -169,6 +169,8 @@ public:
 #define SELECT_EQUIP_LIST_NOW_BAG			(s_Page.Ly6_sel)
 #define SELECT_EQUIP_LIST_NOW_SLOT			(s_Page.Ly7_sel)
 #define SELECT_EQUIP_JAB_BACUP					(s_Page.Ly8_sel)
+
+#define SELECT_EQUIP_TYPE_NOW		(s_Page.Ly9_sel) //성별
 //#define SELECT_EQUIP_POS_Y			(s_Page.Ly3_sel)
 //#define SELECT_EQUIP_KIND			(s_Page.Ly4_sel)
 //#define SELECT_EQUIP_POPUP_KIND		(s_Page.Ly5_sel)
@@ -196,7 +198,7 @@ public:
 #define SELECT_SKILL_ACT_PAS		(s_Page.Ly2_sel)
 #define SELECT_SKILL_SLOT			(s_Page.Ly3_sel)
 #define SELECT_SKILL_TYPE			(s_Page.Ly4_sel)
-#define SELECT_SKILL_TYPE_NOW		(s_Page.Ly5_sel) //스킬 타입
+#define SELECT_SKILL_TYPE_NOW		(s_Page.Ly5_sel) //스킬 타입 성별
 #define SELECT_SKILL_KIND			(s_Page.Ly6_sel)
 
 #define SELECT_SKILL_SELECT			(s_Page.Ly8_sel)
@@ -322,10 +324,10 @@ private:
 	int get_BagMax(struct ItemBag _item);
 	void paint_ICON(struct ItemBag _item, int x, int y,bool full);
 	
-	void Del_Slot(int slot);
+	void Del_Slot(int sex,int slot);
 	
 	
-	void  equipTEXT(int slot,struct ItemBag _item);
+	void  equipTEXT(int sex,int slot,struct ItemBag _item);
 	void  Set_Item(struct ItemAbility *_abil,struct ItemBag *_item);
 	void  Page_init();
 
