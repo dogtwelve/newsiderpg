@@ -228,6 +228,18 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			MakeMonsterSeed();
 			AddFirstMonSetting();
 
+			
+
+
+			SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+			LoadMonsterSprite(MON_IDX_WORM);
+			LoadMonsterSprite(MON_IDX_BUG);
+			SUTIL_ReleaseAspritePack();
+
+			//	소환되는 쫄(중간중간에 소환)
+			AddMonster(1, MON_IDX_WORM, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+
+
 			break;
 
 			switch(m_nNextStage)
@@ -806,9 +818,11 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 
 		case MON_IDX_DEVIJOHNS:		{loop2 = SPRITE_MON_BOSS_7;	addcnt = FRAME_BOSS_7_BLEND;	break;}
 
-		case MON_IDX_BIG_DRAGON1:
-		case MON_IDX_BIG_DRAGON2:
-		case MON_IDX_BIG_DRAGON3:	{loop2 = SPRITE_MON_BOSS_1;	addcnt = FRAME_BOSS_1_BLEND;	break;}
+//		case MON_IDX_BIG_DRAGON1:
+//		case MON_IDX_BIG_DRAGON2:
+//		case MON_IDX_BIG_DRAGON3:	{loop2 = SPRITE_MON_BOSS_1;	addcnt = FRAME_BOSS_1_BLEND;	break;}
+
+		case MON_IDX_WORM:			{loop2 = SPRITE_MON_BOSS_1;	addcnt = FRAME_BOSS_1_BLEND;	break;}
 
 
 									
@@ -964,9 +978,11 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 		case MON_IDX_DEVIJOHNS:				{tmpMonster = GL_NEW Mon_DEVIJOHNS();				break;}
 
-		case MON_IDX_BIG_DRAGON1:			{tmpMonster = GL_NEW BossBigDragon1();				break;}
-		case MON_IDX_BIG_DRAGON2:			{tmpMonster = GL_NEW BossBigDragon2();				break;}
-		case MON_IDX_BIG_DRAGON3:			{tmpMonster = GL_NEW BossBigDragon3();				break;}
+//		case MON_IDX_BIG_DRAGON1:			{tmpMonster = GL_NEW BossBigDragon1();				break;}
+//		case MON_IDX_BIG_DRAGON2:			{tmpMonster = GL_NEW BossBigDragon2();				break;}
+//		case MON_IDX_BIG_DRAGON3:			{tmpMonster = GL_NEW BossBigDragon3();				break;}
+
+		case MON_IDX_WORM:				{tmpMonster = GL_NEW BossWorm();						break;}
 											
 	}
 

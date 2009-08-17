@@ -247,12 +247,13 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 
 #define	MON_IDX_DEVIJOHNS				71
 
-#define	MON_IDX_BIG_DRAGON1				72
-#define	MON_IDX_BIG_DRAGON2				73
-#define	MON_IDX_BIG_DRAGON3				74
+#define	MON_IDX_WORM					72
+//#define	MON_IDX_BIG_DRAGON1				72
+//#define	MON_IDX_BIG_DRAGON2				73
+//#define	MON_IDX_BIG_DRAGON3				74
 
 
-#define	MON_IDX_COUNT_BOSS				15
+#define	MON_IDX_COUNT_BOSS				13
 //------------------------------------------------------
 
 
@@ -440,9 +441,9 @@ static const int MonPtn[][STET_MAX] =
 
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DEVIJOHNS
 
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON1
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON2
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON3
+	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_WORM
+//	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON2
+//	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON3
 };
 
 
@@ -1184,7 +1185,7 @@ private:
 
 //--------------------------------------------------------------------------------
 #define BOSS_DRAGON_MAX_BODY_COUNT		2
-
+/*
 class BossBigDragon1 : public Monster
 {
 public:
@@ -1241,6 +1242,37 @@ public:
 	void Process(S_CHARINFO* _CharInfo);
 private:
 };
+*/
+
+//--------------------------------------------------------------------------------
+class BossWorm : public Monster
+{
+public:
+
+//	void ResvBossDragon_AllAction(int changeState, int dummy);
+//	Monster* pChildBody[BOSS_DRAGON_MAX_BODY_COUNT];
+
+	BossWorm();
+	~BossWorm();
+	bool ExtSetAction();
+	bool ExtProcess();
+//	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+private:
+	int m_nMoveX;
+	int m_nMoveY;
+
+	int m_nFirstX;
+
+	int m_nMoveTimer;
+
+	int m_nSaveX;
+	int m_nSaveY;
+	int m_nCurMoveTimer;
+
+	int m_nDelayTimer;
+};
+
 
 
 //--------------------------------------------------------------------------------

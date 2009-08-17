@@ -3380,7 +3380,6 @@
     FRAME "g_throw_y" // Index = 226, FModules = 7
     {
         0x21D6
-        RC	0	0	0	0
         FM	0x105D	-13	-36	+FLIP_X	+ROT_90
         FM	0x1014	3	-30	+FLIP_X
         FM	0x102C	-19	-23
@@ -3441,8 +3440,6 @@
     {
         0x22F2
         RC	0	0	0	0
-        RC	0	40	0	50
-        RC	-19	-11	1	4
         FM	0x105D	-6	-32	+FLIP_X	+FLIP_Y
         FM	0x1046	0	-33	+FLIP_X	+FLIP_Y	+ROT_90
         FM	0x1009	-9	-29	+FLIP_X	+FLIP_Y	+ROT_90
@@ -3454,6 +3451,9 @@
     FRAME "g_throw_y_04b" // Index = 232, FModules = 6
     {
         0x22F6
+        RC	0	0	0	0
+        RC	5	40	5	50
+        RC	-19	-11	1	4
         FM	0x105D	-6	-31	+FLIP_X	+FLIP_Y
         FM	0x1046	0	-32	+FLIP_X	+FLIP_Y	+ROT_90
         FM	0x1038	-9	-28	+FLIP_X	+FLIP_Y	+ROT_90

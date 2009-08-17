@@ -27,7 +27,7 @@ void cMinimap::LoadMiniMap()
 
 	int MONINFO[MI_INFO_MAX] = 
     {
-		200,1,1,		                    0, 0, 0,			     2, 3, 0, 20,  		NU, NU, NU, NU,	NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU
+		200,1,1,		                    0, 0, 0,			     2, 3, 0, 20,  		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU
 	};
 
 	m_nCurZoneIdx = m_nNextZone;
