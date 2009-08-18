@@ -86,7 +86,7 @@ void GFieldBattle::LoadFirstData(int timer, int nDummy1, int nDummy2)
 			pFieldUi = GL_NEW FieldUi((void*) &s_ASpriteSet);
 
 			//	팝업 UI
-			pPopupUi = GL_NEW PopupUi((void*) &s_ASpriteSet,hero->_spr_Hero_W);
+			pPopupUi = GL_NEW PopupUi((void*) &s_ASpriteSet/*,hero->_spr_Hero_W*/);
 
 			//	충돌체크 데이타
 			m_CharInfo = (S_CHARINFO*)MALLOC(sizeof(S_CHARINFO));
@@ -2193,6 +2193,7 @@ void GFieldBattle::KeyEvent(int m_keyCode, int m_keyRepeat)
 	if(m_keyCode == MH_KEY_CLEAR && !m_keyRepeat && !b_PopupUi){
 		if(hero->_move_Order == HERO_STOP){
 			b_PopupUi = true;
+			pPopupUi->s_Page.Woman_Man = hero->s_HeroTag.SEX;//현재 선택된 성별을 반영한다
 			if(hero->s_Knife_Eff[3].act)hero->s_Knife_Eff[3].LVup_ActionEnd = true;//검버프는꼭 해지해야한다
 		}
 	}else if(b_PopupUi){
@@ -3070,11 +3071,12 @@ void GFieldBattle::Paint_Exception_Check()
 				}else{
 
 					if(s_Homing[i].pMons){
-						if(((MON_AC_DIE != s_Homing[i].pMons->m_ActState) &&
-							(MON_ATK_DEAD_ATTACK != s_Homing[i].pMons->m_ActState) &&
-							(MON_AC_DIE_AFTER != s_Homing[i].pMons->m_ActState)) ||
-							(s_Homing[i].pMons->pMonAsIns==NULL)){//몬스터가 사망했거나 스프라이트 인스턴스가 없다면
-								s_Homing[i].pMons = NULL;//추적좌표 갱신을 중지한다
+						if(	MON_AC_DIE == s_Homing[i].pMons->m_ActState ||
+							MON_ATK_DEAD_ATTACK == s_Homing[i].pMons->m_ActState ||
+							MON_AC_DIE_AFTER == s_Homing[i].pMons->m_ActState ||
+							s_Homing[i].pMons->pMonAsIns==NULL)
+						{//몬스터가 사망했거나 스프라이트 인스턴스가 없다면
+							s_Homing[i].pMons = NULL;//추적좌표 갱신을 중지한다
 						}else{
 							s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
 							s_Homing[i].Y2 = s_Homing[i].pMons->pMonAsIns->m_posY;

@@ -101,8 +101,8 @@
 // 			s_Ability[s_HeroTag.SEX].JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
 // 			//s_Ability[s_HeroTag.SEX].JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
 
-			s_Status[0].LEVEL =  31;
-			s_Status[1].LEVEL =  31;
+			s_Status[0].LEVEL =  1;
+			s_Status[1].LEVEL =  1;
 
 
 // 			switch(SAVELOAD_sex){ // 0 : 여자 1 : 남자
@@ -2378,7 +2378,7 @@
 			int add_CON = 0; 
 			int add_INT = 0; 
 
-			for (int slot = 0 ; slot<10 ; slot++){
+			for (int slot = 0 ; slot<7 ; slot++){
 				add_DEF +=s_ItemAbil[xx][slot].DEF;
 
 				add_CRI +=s_ItemAbil[xx][slot].CRI;
