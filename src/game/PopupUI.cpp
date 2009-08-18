@@ -7,10 +7,10 @@ PlayMessage PopupUi::s_PlayMessage;
 AreaMessage PopupUi::s_AreaMessage;
 _TEXT_PACK* PopupUi::pCLRPOPUP_Text;
 
-PopupUi::PopupUi(void* s__ASpriteSet,ASprite* _Hero)
+PopupUi::PopupUi(void* s__ASpriteSet/*,ASprite* _Hero*/)
 {
 	s_ASpriteSet = (ASpriteSet*)s__ASpriteSet; // 그림자,효과 이펙트 스프라이트의 포인터
-	m_pHeroAs = _Hero;
+	//m_pHeroAs = _Hero;
 
 	pCLRPOPUP_Text = _SUTIL->LoadTextPack(PACK_DATA_TEXT, DATA_TEXT_CLRMENU_TEXT);//텍스트 팩 로드
 	pMAIN_QUEST_Text =  _SUTIL->LoadTextPack(PACK_DATA_TEXT, DATA_TEXT_MAIN_QUEST_TEXT);//메인 퀘스트 팩 로드
@@ -43,16 +43,49 @@ PopupUi::PopupUi(void* s__ASpriteSet,ASprite* _Hero)
 	Character::s_ItemBag[0][2].Data0 = 102;
 
 	Character::s_ItemBag[0][10].Data0 = 1024;			//장착인덱스(2),스프라이트인덱스(2), 팔레트(1), 아이템ID(4)
-	Character::s_ItemBag[0][10].Data1 = 10101033;	//장비여부(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][10].Data1 = 10101033+1000000000;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
 	Character::s_ItemBag[0][10].Data2 = 230109;			//스크롤레벨(3),스탯스크롤(2),강화(2)
 
-	Character::s_ItemBag[0][11].Data0 = 1124;
-	Character::s_ItemBag[0][11].Data1 = 101022;	//장비여부(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][11].Data0 = 1019;
+	Character::s_ItemBag[0][11].Data1 = 101022;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
 	Character::s_ItemBag[0][11].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
 
-	Character::s_ItemBag[0][12].Data0 = 1224;
-	Character::s_ItemBag[0][12].Data1 = 1031;	//장비여부(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
-	Character::s_ItemBag[0][12].Data2 = 231111;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+	Character::s_ItemBag[0][12].Data0 = 1014;
+	Character::s_ItemBag[0][12].Data1 = 101022;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][12].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][13].Data0 = 1009;
+	Character::s_ItemBag[0][13].Data1 = 101022;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][13].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][14].Data0 = 1224;
+	Character::s_ItemBag[0][14].Data1 = 1031;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][14].Data2 = 231111;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+
+	Character::s_ItemBag[0][19].Data0 = 1424;			//장착인덱스(2),스프라이트인덱스(2), 팔레트(1), 아이템ID(4)
+	Character::s_ItemBag[0][19].Data1 = 10101033+1000000000;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][19].Data2 = 230109;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][20].Data0 = 1424;			//장착인덱스(2),스프라이트인덱스(2), 팔레트(1), 아이템ID(4)
+	Character::s_ItemBag[0][20].Data1 = 10101033;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][20].Data2 = 230109;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][21].Data0 = 1419;
+	Character::s_ItemBag[0][21].Data1 = 101022;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][21].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][22].Data0 = 1414;
+	Character::s_ItemBag[0][22].Data1 = 101022;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][22].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][23].Data0 = 1509;
+	Character::s_ItemBag[0][23].Data1 = 101022+1000000000;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][23].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
+
+	Character::s_ItemBag[0][24].Data0 = 1524;
+	Character::s_ItemBag[0][24].Data1 = 1031+1000000000;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][24].Data2 = 231111;			//스크롤레벨(3),스탯스크롤(2),강화(2)
 
 }
 
@@ -81,7 +114,12 @@ bool PopupUi::KeyEvent(int m_keyCode, int m_keyRepeat)
 	if(m_keyCode == MH_KEY_2)m_keyCode=MH_KEY_UP;		//값대치
 	if(m_keyCode == MH_KEY_8)m_keyCode=MH_KEY_DOWN;		//값대치
 	if(m_keyCode == MH_KEY_5)m_keyCode=MH_KEY_SELECT;	//값대치
-
+	if(m_keyCode == MH_KEY_ASTERISK){//케릭터변환
+		//가능한 상황만 변환된다
+		if(s_Page.PageNum == POPUP_PAGE_STATES	&& SELECT_STATES_Y	<= 1)s_Page.Woman_Man = (s_Page.Woman_Man+1)%2;
+		if(s_Page.PageNum == POPUP_PAGE_EQUIP	&& SELECT_EQUIP_Y	<= 1)s_Page.Woman_Man = (s_Page.Woman_Man+1)%2;
+		if(s_Page.PageNum == POPUP_PAGE_SKILL	&& SELECT_SKILL_Y	<= 2)s_Page.Woman_Man = (s_Page.Woman_Man+1)%2;
+	}
 
 
 	if(GameOver){//게임 오버일때
@@ -174,7 +212,7 @@ void PopupUi::Process()
 void PopupUi::Key_STATES(int m_keyCode, int m_keyRepeat)	
 {
 	if(s_Page.Focus == 0){
-		switch(s_Page.Ly1_sel){
+		switch(SELECT_STATES_Y){
 			case 0://탑메뉴
 				if(m_keyCode == MH_KEY_LEFT){
 					s_Page.PageNum = POPUP_PAGE_MAX;
@@ -183,7 +221,7 @@ void PopupUi::Key_STATES(int m_keyCode, int m_keyRepeat)
 					s_Page.PageNum++;
 					Page_init();
 				}else if(m_keyCode == MH_KEY_SELECT){
-					s_Page.Ly1_sel++;
+					SELECT_STATES_Y++;
 				}
 				break;
 			case 1://타이틀
@@ -193,52 +231,55 @@ void PopupUi::Key_STATES(int m_keyCode, int m_keyRepeat)
 				break;
 			case 2://힘
 				if(m_keyCode == MH_KEY_SELECT){
-					if(Character::s_Ability[Character::s_HeroTag.SEX].POINT>0){
-						Character::s_Ability[Character::s_HeroTag.SEX].POINT--;
-						Character::s_Ability[Character::s_HeroTag.SEX].STR++;
+					if(Character::s_Ability[s_Page.Woman_Man].POINT>0){
+						Character::s_Ability[s_Page.Woman_Man].POINT--;
+						Character::s_Ability[s_Page.Woman_Man].STR++;
 					}
 				}
 				break;
 			case 3://민첩
 				if(m_keyCode == MH_KEY_SELECT){
-					if(Character::s_Ability[Character::s_HeroTag.SEX].POINT>0){
-						Character::s_Ability[Character::s_HeroTag.SEX].POINT--;
-						Character::s_Ability[Character::s_HeroTag.SEX].DEX++;
+					if(Character::s_Ability[s_Page.Woman_Man].POINT>0){
+						Character::s_Ability[s_Page.Woman_Man].POINT--;
+						Character::s_Ability[s_Page.Woman_Man].DEX++;
 					}
 				}
 				break;
 			case 4://체력
 				if(m_keyCode == MH_KEY_SELECT){
-					if(Character::s_Ability[Character::s_HeroTag.SEX].POINT>0){
-						Character::s_Ability[Character::s_HeroTag.SEX].POINT--;
-						Character::s_Ability[Character::s_HeroTag.SEX].CON++;
+					if(Character::s_Ability[s_Page.Woman_Man].POINT>0){
+						Character::s_Ability[s_Page.Woman_Man].POINT--;
+						Character::s_Ability[s_Page.Woman_Man].CON++;
 					}
 				}
 				break;
 			case 5://지능
 				if(m_keyCode == MH_KEY_SELECT){
-					if(Character::s_Ability[Character::s_HeroTag.SEX].POINT>0){
-						Character::s_Ability[Character::s_HeroTag.SEX].POINT--;
-						Character::s_Ability[Character::s_HeroTag.SEX].INT++;
+					if(Character::s_Ability[s_Page.Woman_Man].POINT>0){
+						Character::s_Ability[s_Page.Woman_Man].POINT--;
+						Character::s_Ability[s_Page.Woman_Man].INT++;
 					}
 				}
 				break;
 		}
+
 		if(m_keyCode == MH_KEY_UP){
-			if(s_Page.Ly1_sel>0)s_Page.Ly1_sel--;
-			if(PAGE_STATES_point[0]-Character::s_Ability[Character::s_HeroTag.SEX].POINT > 0)s_Page.Ly1_sel = MAX(s_Page.Ly1_sel,2);
+			if(SELECT_STATES_Y>0)SELECT_STATES_Y--;
+			if(PAGE_STATES_point[0]-Character::s_Ability[s_Page.Woman_Man].POINT > 0)SELECT_STATES_Y = MAX(SELECT_STATES_Y,2);
 		}else if(m_keyCode == MH_KEY_DOWN){
-			if(s_Page.Ly1_sel<5)s_Page.Ly1_sel++;
+			if(SELECT_STATES_Y<5)SELECT_STATES_Y++;
 		}else if(m_keyCode == MH_KEY_CLEAR){//게임중 팝업 호출
-			if(PAGE_STATES_point[0]-Character::s_Ability[Character::s_HeroTag.SEX].POINT > 0 && s_Page.Ly1_sel>1){
+			if(PAGE_STATES_point[0]-Character::s_Ability[s_Page.Woman_Man].POINT > 0 && SELECT_STATES_Y>1){
 				s_Page.Focus = 1;
 				s_Page.Ly2_sel = 1;//yes
 			}else{
-				s_Page.Ly1_sel=0;
+				SELECT_STATES_Y=0;
 			}
 		}
 
-		if(PAGE_STATES_point[0]> 0 && Character::s_Ability[Character::s_HeroTag.SEX].POINT ==0){//확인 팝업 호출
+
+		//스탯을 다찍었을때
+		if(SELECT_STATES_Y >1 && PAGE_STATES_point[0]> 0 && Character::s_Ability[s_Page.Woman_Man].POINT ==0){//확인 팝업 호출
 			s_Page.Focus = 1;
 			s_Page.Ly2_sel = 1;//yes
 		}
@@ -253,20 +294,20 @@ void PopupUi::Key_STATES(int m_keyCode, int m_keyRepeat)
 		}else if(m_keyCode == MH_KEY_SELECT){//올린 스탯 적용
 
 			s_Page.Focus = 0;//팝업해제
-			s_Page.Ly1_sel=0;
+			SELECT_STATES_Y=0;
 
 			if(s_Page.Ly2_sel){//No - 되돌리기
-				 Character::s_Ability[Character::s_HeroTag.SEX].POINT=PAGE_STATES_point[0];
-				 Character::s_Ability[Character::s_HeroTag.SEX].STR  =PAGE_STATES_point[1];
-				 Character::s_Ability[Character::s_HeroTag.SEX].DEX  =PAGE_STATES_point[2];
-				 Character::s_Ability[Character::s_HeroTag.SEX].CON  =PAGE_STATES_point[3];
-				 Character::s_Ability[Character::s_HeroTag.SEX].INT  =PAGE_STATES_point[4];
+				 Character::s_Ability[s_Page.Woman_Man].POINT=PAGE_STATES_point[0];
+				 Character::s_Ability[s_Page.Woman_Man].STR  =PAGE_STATES_point[1];
+				 Character::s_Ability[s_Page.Woman_Man].DEX  =PAGE_STATES_point[2];
+				 Character::s_Ability[s_Page.Woman_Man].CON  =PAGE_STATES_point[3];
+				 Character::s_Ability[s_Page.Woman_Man].INT  =PAGE_STATES_point[4];
 			}else{//Yes - 현재 상태를 백업
-				PAGE_STATES_point[0] = Character::s_Ability[Character::s_HeroTag.SEX].POINT;
-				PAGE_STATES_point[1] = Character::s_Ability[Character::s_HeroTag.SEX].STR;
-				PAGE_STATES_point[2] = Character::s_Ability[Character::s_HeroTag.SEX].DEX;
-				PAGE_STATES_point[3] = Character::s_Ability[Character::s_HeroTag.SEX].CON;
-				PAGE_STATES_point[4] = Character::s_Ability[Character::s_HeroTag.SEX].INT;
+				PAGE_STATES_point[0] = Character::s_Ability[s_Page.Woman_Man].POINT;
+				PAGE_STATES_point[1] = Character::s_Ability[s_Page.Woman_Man].STR;
+				PAGE_STATES_point[2] = Character::s_Ability[s_Page.Woman_Man].DEX;
+				PAGE_STATES_point[3] = Character::s_Ability[s_Page.Woman_Man].CON;
+				PAGE_STATES_point[4] = Character::s_Ability[s_Page.Woman_Man].INT;
 			}
 			
 
@@ -274,11 +315,11 @@ void PopupUi::Key_STATES(int m_keyCode, int m_keyRepeat)
 
 			s_Page.Focus = 0;//팝업해제
 
-			Character::s_Ability[Character::s_HeroTag.SEX].POINT=PAGE_STATES_point[0];
-			Character::s_Ability[Character::s_HeroTag.SEX].STR  =PAGE_STATES_point[1];
-			Character::s_Ability[Character::s_HeroTag.SEX].DEX  =PAGE_STATES_point[2];
-			Character::s_Ability[Character::s_HeroTag.SEX].CON  =PAGE_STATES_point[3];
-			Character::s_Ability[Character::s_HeroTag.SEX].INT  =PAGE_STATES_point[4];
+			Character::s_Ability[s_Page.Woman_Man].POINT=PAGE_STATES_point[0];
+			Character::s_Ability[s_Page.Woman_Man].STR  =PAGE_STATES_point[1];
+			Character::s_Ability[s_Page.Woman_Man].DEX  =PAGE_STATES_point[2];
+			Character::s_Ability[s_Page.Woman_Man].CON  =PAGE_STATES_point[3];
+			Character::s_Ability[s_Page.Woman_Man].INT  =PAGE_STATES_point[4];
 
 		}
 
@@ -299,113 +340,12 @@ void PopupUi::Key_EQUIP(int m_keyCode, int m_keyRepeat)
 				}
 				break;
 			case 1://장비 선택
-				switch(m_keyCode){
-					case MH_KEY_RIGHT:
-						switch(SELECT_EQUIP_POS){
-							case 4:
-								//if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){SELECT_EQUIP_POS=5;}else{SELECT_EQUIP_POS=7;}
-								break;
-							case 7:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_GUN	){
-// 									SELECT_EQUIP_POS=8;
-// 								}else if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC){
-// 									SELECT_EQUIP_POS=9;
-// 								}else{
-// 									SELECT_EQUIP_POS=0;
-// 								}
-								break;			
-							case 8:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC){
-// 									SELECT_EQUIP_POS=9;
-// 								}else{
-// 									SELECT_EQUIP_POS=0;
-// 								}
-								break;	
-							case 9:SELECT_EQUIP_POS=0;break;
-							default:SELECT_EQUIP_POS++;break;
-						}
-						//Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL = (SELECT_EQUIP_POS==5? 0 :(SELECT_EQUIP_POS==6? 0 :(SELECT_EQUIP_POS==8? 1 :(SELECT_EQUIP_POS==9? 2 :Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL))));
-						break;
-					case MH_KEY_LEFT:
-						switch(SELECT_EQUIP_POS){
-							case 7:
-								//if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){SELECT_EQUIP_POS=6;}else{SELECT_EQUIP_POS=4;}
-								break;
-							case 0:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC){
-// 									SELECT_EQUIP_POS=9;
-// 								}else if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_GUN){
-// 									SELECT_EQUIP_POS=8;
-// 								}else{
-// 									SELECT_EQUIP_POS=7;
-// 								}
-								break;						
-							default:SELECT_EQUIP_POS--;break;
-						}
-						//Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL = (SELECT_EQUIP_POS==5? 0 :(SELECT_EQUIP_POS==6? 0 :(SELECT_EQUIP_POS==8? 1 :(SELECT_EQUIP_POS==9? 2 :Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL))));
-						break;
+				switch(m_keyCode){ 
+					case MH_KEY_RIGHT:SELECT_EQUIP_POS=(SELECT_EQUIP_POS+1)%7;break;
+					case MH_KEY_LEFT:SELECT_EQUIP_POS=(SELECT_EQUIP_POS+6)%7;break;
 					case MH_KEY_DOWN:
-						switch(SELECT_EQUIP_POS){
-							case 0:SELECT_EQUIP_POS=3;break;
-							case 1:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){
-// 									SELECT_EQUIP_POS=5;
-// 								}else if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_GUN){
-// 									SELECT_EQUIP_POS=8;
-// 								}
-								break;
-							case 2:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){
-// 									SELECT_EQUIP_POS=6;
-// 								}else if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC){
-// 									SELECT_EQUIP_POS=9;
-// 								}
-								break;
-							case 3:SELECT_EQUIP_POS=4;break;
-							case 4:SELECT_EQUIP_POS=7;break;
-							case 5:
-								//if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_GUN){SELECT_EQUIP_POS=8;}else{SELECT_EQUIP_POS=1;}
-								break;
-							case 6:
-								//if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC){SELECT_EQUIP_POS=9;}else{SELECT_EQUIP_POS=2;}
-								break;
-							case 7:SELECT_EQUIP_POS=0;break;
-							case 8:SELECT_EQUIP_POS=1;break;
-							case 9:SELECT_EQUIP_POS=2;break;
-						}
-						//Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL = (SELECT_EQUIP_POS==5? 0 :(SELECT_EQUIP_POS==6? 0 :(SELECT_EQUIP_POS==8? 1 :(SELECT_EQUIP_POS==9? 2 :Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL))));
-						break;
-					case MH_KEY_UP:
-						switch(SELECT_EQUIP_POS){
-							case 0:SELECT_EQUIP_POS=7;break;
-							case 1:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_GUN){
-// 									SELECT_EQUIP_POS=8;
-// 								}else if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){
-// 									SELECT_EQUIP_POS=5;
-// 								}
-								break;
-							case 2:
-// 								if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC){
-// 									SELECT_EQUIP_POS=9;
-// 								}else if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){
-// 									SELECT_EQUIP_POS=6;
-// 								}
-								break;
-							case 3:SELECT_EQUIP_POS=0;break;
-							case 4:SELECT_EQUIP_POS=3;break;
-							case 5:SELECT_EQUIP_POS=1;break;
-							case 6:SELECT_EQUIP_POS=2;break;
-							case 7:SELECT_EQUIP_POS=4;break;
-							case 8:
-								//if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){SELECT_EQUIP_POS=5;}else{SELECT_EQUIP_POS=1;}
-								break;
-							case 9:
-								//if(Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE){SELECT_EQUIP_POS=6;}else{SELECT_EQUIP_POS=2;}
-								break;
-						}
-						//Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL = (SELECT_EQUIP_POS==5? 0 :(SELECT_EQUIP_POS==6? 0 :(SELECT_EQUIP_POS==8? 1 :(SELECT_EQUIP_POS==9? 2 :Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL))));
-						break;
+					case MH_KEY_UP:if(SELECT_EQUIP_POS!=3){SELECT_EQUIP_POS+=4;SELECT_EQUIP_POS%=8;}break;
+						
 					case MH_KEY_CLEAR:
 						SELECT_EQUIP_Y = 0;
 						//Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL = SELECT_EQUIP_JAB_BACUP;
@@ -744,11 +684,11 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 							{
 								if(m_keyRepeat)return;
 								SELECT_SKILL_Y=3;
-								SELECT_SKILL_KIND = SELECT_SKILL_TYPE_NOW*7 + SELECT_SKILL_KIND;
+								SELECT_SKILL_KIND = s_Page.Woman_Man*7 + SELECT_SKILL_KIND;
 								break;
 							}
 
-						case MH_KEY_ASTERISK:if(m_keyRepeat)return; SELECT_SKILL_TYPE_NOW = (SELECT_SKILL_TYPE_NOW+1)%2;
+						case MH_KEY_ASTERISK:if(m_keyRepeat)return; s_Page.Woman_Man = (s_Page.Woman_Man+1)%2;
 						case 0://키를떼면 가장 가까운 포인트를 찾는다
 							{
 								SELECT_SKILL_ACC_X*=2; 
@@ -769,16 +709,16 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 									int length_NOW;
 
 										length_NOW= 
-											((s_X[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_X)*(s_X[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_X)) + 
-											((s_Y[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_Y)*(s_Y[SELECT_SKILL_TYPE_NOW][xx] - SELECT_SKILL_C_Y));
+											((s_X[s_Page.Woman_Man][xx] - SELECT_SKILL_C_X)*(s_X[s_Page.Woman_Man][xx] - SELECT_SKILL_C_X)) + 
+											((s_Y[s_Page.Woman_Man][xx] - SELECT_SKILL_C_Y)*(s_Y[s_Page.Woman_Man][xx] - SELECT_SKILL_C_Y));
 
 									if(length_NOW < length_MAX){
 										SELECT_SKILL_KIND = xx;
  										length_MAX = length_NOW;
 	// 									Target_Name = Town_Buffer[xx][Sp_NAME];
 	// 									Target_Num = Town_Buffer[xx][Sp_ID];
-										Target_X = s_X[SELECT_SKILL_TYPE_NOW][xx];
-										Target_Y = s_Y[SELECT_SKILL_TYPE_NOW][xx];
+										Target_X = s_X[s_Page.Woman_Man][xx];
+										Target_Y = s_Y[s_Page.Woman_Man][xx];
 	// 									MC_posX = Town_Buffer[xx][Set_PosX];
 	// 									MC_derection = Town_Buffer[xx][Set_Dir];
 									}
@@ -924,8 +864,8 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 							{
 							//if(SELECT_SKILL_KIND_NOW>=0){
 								SkillChange_A = true; 
-								int xx = Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT];
-								Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT]=SELECT_SKILL_KIND;
+								int xx = Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + SELECT_SKILL_SLOT];
+								Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + SELECT_SKILL_SLOT]=SELECT_SKILL_KIND;
 								SELECT_SKILL_KIND = xx;
 							//}else{
 								// SELECT_SKILL_Y--;	
@@ -1410,60 +1350,57 @@ void PopupUi::Paint_STATES()
 {
 	
 	
-	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_1, XPOS, YPOS, 0);//CLRMENU
+	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_1, XPOS, YPOS, 0);//CLRMENU 
 	
 
 //상태 백업
-	if (s_Page.Ly1_sel==0){
-		PAGE_STATES_point[0] = Character::s_Ability[Character::s_HeroTag.SEX].POINT;
-		PAGE_STATES_point[1] = Character::s_Ability[Character::s_HeroTag.SEX].STR;
-		PAGE_STATES_point[2] = Character::s_Ability[Character::s_HeroTag.SEX].DEX;
-		PAGE_STATES_point[3] = Character::s_Ability[Character::s_HeroTag.SEX].CON;
-		PAGE_STATES_point[4] = Character::s_Ability[Character::s_HeroTag.SEX].INT;
+	if (SELECT_STATES_Y==0){
+		PAGE_STATES_point[0] = Character::s_Ability[s_Page.Woman_Man].POINT;
+		PAGE_STATES_point[1] = Character::s_Ability[s_Page.Woman_Man].STR;
+		PAGE_STATES_point[2] = Character::s_Ability[s_Page.Woman_Man].DEX;
+		PAGE_STATES_point[3] = Character::s_Ability[s_Page.Woman_Man].CON;
+		PAGE_STATES_point[4] = Character::s_Ability[s_Page.Woman_Man].INT;
 	}
 
 //커서
-	if (s_Page.Ly1_sel==1)
+	if (SELECT_STATES_Y==1)
 		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_4, XPOS+13, YPOS-53, 0);//호칭 커서
-	if (s_Page.Ly1_sel>=2)
-		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_1, XPOS-74, YPOS+30 + (13*(s_Page.Ly1_sel-2)), 0);//스탯 커서
+	if (SELECT_STATES_Y>=2)
+		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_1, XPOS-74, YPOS+30 + (13*(SELECT_STATES_Y-2)), 0);//스탯 커서
 
 //케릭터 전신샷 보여주기
-	_SUTIL->g->SetClip(XPOS-70,YPOS-64,49,64);	
-// 	switch(Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL){
-// 		case 0:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-50, YPOS-5, 0);//케릭터
-// 			break;
-// 		case 1:
-// 			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-50, YPOS-5, 0);//케릭터
-// 			break;
-// 		case 2:
-// 			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-50, YPOS-5, 0);//케릭터
-// 			break;
-// 	}
+	_SUTIL->g->SetClip(XPOS-79,YPOS-74,56,77);	
+	switch(s_Page.Woman_Man){
+		case 0:
+			SUTIL_Paint_Ani(Character::_spr_Hero_W ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-55, YPOS-5, 0);//케릭터
+			break;
+		case 1:
+			SUTIL_Paint_Ani(Character::_spr_Hero_M ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-55, YPOS-5, 0);//케릭터
+			break;
+	}
 	_SUTIL->g->ResetClip();
 
 //속성
-	SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs,MODULE_UI_ELEMENTAL_00+Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/, XPOS-9, YPOS-54,0,0);
+	SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs,MODULE_UI_ELEMENTAL_00+s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/, XPOS-9, YPOS-54,0,0);
  
 	// char hp
-	PaintGage(GAGE_RED, 58,4, XPOS+15, YPOS-26, Character::s_Status[Character::s_HeroTag.SEX].LIFE, Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX);
+	PaintGage(GAGE_RED, 58,4, XPOS+15, YPOS-26, Character::s_Status[s_Page.Woman_Man].LIFE, Character::s_Status[s_Page.Woman_Man].LIFE_MAX);
 	// char mp
-	PaintGage(GAGE_BLUE, 58,4, XPOS+15, YPOS-12, Character::s_Status[Character::s_HeroTag.SEX].MANA, Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX);
+	PaintGage(GAGE_BLUE, 58,4, XPOS+15, YPOS-12, Character::s_Status[s_Page.Woman_Man].MANA, Character::s_Status[s_Page.Woman_Man].MANA_MAX);
 	// char exp
-	PaintGage(GAGE_YELLOW, 58,4, XPOS+15, YPOS+2, Character::s_Status[Character::s_HeroTag.SEX].EXP, Character::s_Status[Character::s_HeroTag.SEX].EXP_MAX);
+	PaintGage(GAGE_YELLOW, 58,4, XPOS+15, YPOS+2, Character::s_Status[s_Page.Woman_Man].EXP, Character::s_Status[s_Page.Woman_Man].EXP_MAX);
 
 	for(int xx = 0, ABIL = 0;xx<4;xx++){
-		ABIL = (xx == 0 ? Character::s_Ability[Character::s_HeroTag.SEX].STR :(xx == 1 ? Character::s_Ability[Character::s_HeroTag.SEX].DEX :(xx == 2 ? Character::s_Ability[Character::s_HeroTag.SEX].CON :Character::s_Ability[Character::s_HeroTag.SEX].INT)));
+		ABIL = (xx == 0 ? Character::s_Ability[s_Page.Woman_Man].STR :(xx == 1 ? Character::s_Ability[s_Page.Woman_Man].DEX :(xx == 2 ? Character::s_Ability[s_Page.Woman_Man].CON :Character::s_Ability[s_Page.Woman_Man].INT)));
 		_SUTIL->pFont->setColor(0xab9a77);
 
- 		if(xx == (s_Page.Ly1_sel-2)){
+ 		if(xx == (SELECT_STATES_Y-2)){
  			_SUTIL->pFont->setColor(0x000000);
 // 			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_TEXT_STR+xx], XPOS-68, YPOS+81, 0);//Text
  		}
 
 		if(PAGE_STATES_point[xx+1] - ABIL)
-			_SUTIL->pFont->setOutlineColor((xx == (s_Page.Ly1_sel-2)? 0x003e9a: 0x202020));//증가된 값이면 아웃라인을 사용
+			_SUTIL->pFont->setOutlineColor((xx == (SELECT_STATES_Y-2)? 0xffc708: 0xad0408));//증가된 값이면 아웃라인을 사용
 
 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_POWER+xx], XPOS-69, YPOS+41 + (13*xx), CGraphics::BOTTOM);//힘//민첩//체력//지력
 		_SUTIL->pFont->DrawText(_SUTIL->g, ABIL, XPOS-12, YPOS+41 + (13*xx), CGraphics::RIGHT|CGraphics::BOTTOM);//힘//민첩//체력//지력
@@ -1476,19 +1413,19 @@ void PopupUi::Paint_STATES()
 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_TITLETEMP], XPOS+47, YPOS-51, CGraphics::HCENTER);//호칭
 
 	//HP,MP
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[Character::s_HeroTag.SEX].LIFE,  XPOS+43, YPOS-34, 1 , CGraphics::RIGHT);//HP
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX,  XPOS+69, YPOS-34, 1 , CGraphics::RIGHT);//HP MAX
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[s_Page.Woman_Man].LIFE,  XPOS+43, YPOS-34, 1 , CGraphics::RIGHT);//HP
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[s_Page.Woman_Man].LIFE_MAX,  XPOS+69, YPOS-34, 1 , CGraphics::RIGHT);//HP MAX
 
 	//HP,MP
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[Character::s_HeroTag.SEX].MANA,  XPOS+43, YPOS-20, 1 , CGraphics::RIGHT);//MP
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX,  XPOS+69, YPOS-20, 1 , CGraphics::RIGHT);//MP MAX
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[s_Page.Woman_Man].MANA,  XPOS+43, YPOS-20, 1 , CGraphics::RIGHT);//MP
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[s_Page.Woman_Man].MANA_MAX,  XPOS+69, YPOS-20, 1 , CGraphics::RIGHT);//MP MAX
 
 	//EXP
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[Character::s_HeroTag.SEX].EXP_MAX-Character::s_Status[Character::s_HeroTag.SEX].EXP,  XPOS+69, YPOS-6, 1 , CGraphics::RIGHT);//HP,MP,EXP MAX
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_S_NUM, Character::s_Status[s_Page.Woman_Man].EXP_MAX-Character::s_Status[s_Page.Woman_Man].EXP,  XPOS+69, YPOS-6, 1 , CGraphics::RIGHT);//HP,MP,EXP MAX
 
 	//LV
 	//SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_LEVEL, XPOS-30,YPOS-77,0);//팝업 프레임 지정
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM, Character::s_Status[Character::s_HeroTag.SEX].LEVEL,  XPOS, YPOS-72, 0 , 0);
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_LEVEL_NUM, Character::s_Status[s_Page.Woman_Man].LEVEL,  XPOS, YPOS-72, 0 , 0);
 
 
 	
@@ -1498,51 +1435,40 @@ void PopupUi::Paint_STATES()
 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_POINTS], XPOS-69, YPOS+15, 0);
 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_REPUTATION], XPOS+6, YPOS+15, 0);
 	_SUTIL->pFont->setColor(0xffc708);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Ability[Character::s_HeroTag.SEX].POINT, XPOS-11, YPOS+15, CGraphics::RIGHT);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Ability[Character::s_HeroTag.SEX].FAM, XPOS+67, YPOS+15, CGraphics::RIGHT);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Ability[s_Page.Woman_Man].POINT, XPOS-11, YPOS+15, CGraphics::RIGHT);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Ability[s_Page.Woman_Man].FAM, XPOS+67, YPOS+15, CGraphics::RIGHT);
 	
 	
 	_SUTIL->pFont->setColor(0xffc000);
-	//Att1 
-	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_ATT1 + Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/], XPOS+6, YPOS+29, 0);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/], XPOS+67, YPOS+29, CGraphics::RIGHT);
+// 	//Att1 
+// 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_ATT1 + s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/], XPOS+6, YPOS+29, 0);
+// 	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/], XPOS+67, YPOS+29, CGraphics::RIGHT);
 	
-// 	_SUTIL->pFont->setColor(0x93abc0);
-// 	//Att2
-// 	bool jab_check[3] = {Character::s_Ability[Character::s_HeroTag.SEX].JAB_KNIFE,Character::s_Ability[Character::s_HeroTag.SEX].JAB_GUN,Character::s_Ability[Character::s_HeroTag.SEX].JAB_MAGIC};
-// 	
-// 	
-// 	if(jab_check[(Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL+1)%3]){
-// 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_ATT1 + (Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL+1)%3], XPOS+6, YPOS+40, 0);
-// 		_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[(Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL+1)%3], XPOS+67, YPOS+40, CGraphics::RIGHT);
-// 	}else if(jab_check[(Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL+2)%3]){
-// 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_ATT1 + (Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL+2)%3], XPOS+6, YPOS+40, 0);
-// 		_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[(Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL+2)%3], XPOS+67, YPOS+40, CGraphics::RIGHT);
-// 	}
-
-
+	//Att1
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"ATT", XPOS+6, YPOS+41 + (13*0), CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man], XPOS+67, YPOS+41 + (13*0), CGraphics::RIGHT|CGraphics::BOTTOM);
 	//DEF
-	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"DEF", XPOS+6, YPOS+51, 0);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].DEFENSE, XPOS+67, YPOS+51, CGraphics::RIGHT);
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"DEF", XPOS+6, YPOS+41 + (13*1), CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].DEFENSE, XPOS+67, YPOS+41 + (13*1), CGraphics::RIGHT|CGraphics::BOTTOM);
 	//CRI
-	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"CRI", XPOS+6, YPOS+62, 0);
-	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"%", XPOS+59, YPOS+62, 0);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].CRITICAL, XPOS+57, YPOS+62, CGraphics::RIGHT);
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"CRI", XPOS+6, YPOS+41 + (13*2), CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"%", XPOS+59, YPOS+41 + (13*2), CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].CRITICAL, XPOS+57, YPOS+41 + (13*2), CGraphics::RIGHT|CGraphics::BOTTOM);
 	//AGI
-	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"AGI", XPOS+6, YPOS+73, 0);
-	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"%", XPOS+59, YPOS+73, 0);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].AVOID, XPOS+57, YPOS+73, CGraphics::RIGHT);
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"AGI", XPOS+6, YPOS+41 + (13*3), CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"%", XPOS+59, YPOS+41 + (13*3), CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].AVOID, XPOS+57, YPOS+41 + (13*3), CGraphics::RIGHT|CGraphics::BOTTOM);
 
 	if(s_Page.Focus == 1){// 팝업 - 스테이터스 적용 여부 확인
 		//_SUTIL->g->blandBlur();
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS,0);//팝업 프레임 지정
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + s_Page.Ly2_sel, XPOS,YPOS,0);//팝업 프레임 지정
+		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS-30,0);//팝업 프레임 지정
+		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + s_Page.Ly2_sel, XPOS,YPOS-30,0);//팝업 프레임 지정
 
 		_SUTIL->pFont->setColor(0xf8e6cb);
 
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q1], XPOS, YPOS+15, CGraphics::HCENTER);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_YES], XPOS-31, YPOS+37, CGraphics::HCENTER);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO], XPOS+31, YPOS+37, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q1], XPOS, YPOS-30+15, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_YES], XPOS-31, YPOS-30+37, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO], XPOS+31, YPOS-30+37, CGraphics::HCENTER);
 	}
 
 }
@@ -1552,17 +1478,19 @@ void PopupUi::Paint_EQUIP()
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_2, XPOS,YPOS,0);
 
 //케릭터 전신샷 보여주기
-	_SUTIL->g->SetClip(XPOS-77,YPOS-63,52,64);
-	switch(Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/){
+	_SUTIL->g->SetClip(XPOS-79,YPOS-74,56,77);	
+
+
+	switch(s_Page.Woman_Man){
 		case 0:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-42, YPOS-5, 0);//케릭터
+			SUTIL_Paint_Ani(Character::_spr_Hero_W ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-55, YPOS-5, 0);//케릭터
 			break;
 		case 1:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-12, YPOS-2, 0);//케릭터
+			SUTIL_Paint_Ani(Character::_spr_Hero_M ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-55, YPOS-5, 0);//케릭터
 			break;
-		case 2:
-			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-12, YPOS-2, 0);//케릭터
-			break;
+// 		case 2:
+// 			SUTIL_Paint_Ani(m_pHeroAs ,ANIM_WOMAN_BODY_A_S_STAND, XPOS-12, YPOS-2, 0);//케릭터
+// 			break;
 	}
 	_SUTIL->g->ResetClip();
 
@@ -1604,12 +1532,12 @@ void PopupUi::Paint_EQUIP()
 
 
 
-			if(Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][xx].ITEM_KIND){//아이템이 있다면
+			if(Character::s_ItemEquip[s_Page.Woman_Man][xx].ITEM_KIND){//아이템이 있다면
 
 				if (Scroll_x==0){//스크롤이 일어나지 않았을때만 그려준다
-					paint_ICON(Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][xx],XPOS-67, YPOS+8,true);
+					paint_ICON(Character::s_ItemEquip[s_Page.Woman_Man][xx],XPOS-67, YPOS+8,true);
 					if(SELECT_EQUIP_LIST_NOW == 0){
-						equipTEXT(SELECT_EQUIP_TYPE_NOW,SELECT_EQUIP_POS,Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][xx]);
+						equipTEXT(s_Page.Woman_Man,SELECT_EQUIP_POS,Character::s_ItemEquip[s_Page.Woman_Man][xx]);
 						SELECT_EQUIP_LIST_NOW_BAG = -1;
 						SELECT_EQUIP_LIST_NOW_SLOT = -1;
 					}
@@ -1620,12 +1548,12 @@ void PopupUi::Paint_EQUIP()
 		}
 
 		//아이콘그리기
-		if(Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][xx].ITEM_KIND){//아이템이 있다면
-			paint_ICON(Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][xx],XPOS+Xpos, YPOS+Ypos,false);
+		if(Character::s_ItemEquip[s_Page.Woman_Man][xx].ITEM_KIND){//아이템이 있다면
+			paint_ICON(Character::s_ItemEquip[s_Page.Woman_Man][xx],XPOS+Xpos, YPOS+Ypos,false);
 		}
-		else{//아이템이 없다면
-			SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_M_EMPTY_00+(xx>5?xx-1:xx), XPOS+Xpos,YPOS+Ypos,0,0);//빈 슬롯  아이콘
-		}
+// 		else{//아이템이 없다면
+// 			SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_M_EMPTY_00+xx, XPOS+Xpos,YPOS+Ypos,0,0);//빈 슬롯  아이콘
+// 		}
 
 	}
 
@@ -1657,9 +1585,9 @@ void PopupUi::Paint_EQUIP()
 			for(int yy = 0;yy<32;yy++){//가방을 돌면서 대상이 되는 아이템을 수집한다.
 
 				if(Character::s_ItemBag[xx][yy].ITEM_EQUIP == 0){// 장비하지 않은 아이템중에
-					int Kind = ITEM_SWORD/*(Character::s_ItemBag[xx][yy].ITEM_KIND == ITEM_AXE ? ITEM_SWORD : Character::s_ItemBag[xx][yy].ITEM_KIND)*/;
-
-					if(Kind == Type){
+					int Kind = Character::s_ItemBag[xx][yy].ITEM_KIND;///*(Character::s_ItemBag[xx][yy].ITEM_KIND == ITEM_AXE ? ITEM_SWORD : Character::s_ItemBag[xx][yy].ITEM_KIND)*/;
+					int Sex =  Character::s_ItemBag[xx][yy].ITEM_SEX;
+					if(Kind == Type && Sex == s_Page.Woman_Man){
 						if((SELECT_EQUIP_LIST_MAX-Scroll_x)>=0 && (SELECT_EQUIP_LIST_MAX-Scroll_x)<=6){
 							paint_ICON(Character::s_ItemBag[xx][yy],XPOS-67+((SELECT_EQUIP_LIST_MAX-Scroll_x)*17), YPOS+8,true);
 						}
@@ -1669,7 +1597,7 @@ void PopupUi::Paint_EQUIP()
 							SELECT_EQUIP_LIST_NOW_SLOT = yy;//현재 선택된 아이템의 정보를 저장
 
 
-							equipTEXT(SELECT_EQUIP_TYPE_NOW,SELECT_EQUIP_POS , Character::s_ItemBag[xx][yy]);
+							equipTEXT(s_Page.Woman_Man,SELECT_EQUIP_POS , Character::s_ItemBag[xx][yy]);
 
 							/*if(SELECT_EQUIP_LIST_NOW==5)
 								Character::Set_state_calculate(5,Character::s_ItemBag[xx][yy].Data0,Character::s_ItemBag[xx][yy].Data1,Character::s_ItemBag[xx][yy].Data2);*/
@@ -1686,7 +1614,7 @@ void PopupUi::Paint_EQUIP()
 	}
 
 	if(SELECT_EQUIP_LIST_MAX == 0){//만약 그리지 못했으면 그리준다
-		equipTEXT(SELECT_EQUIP_TYPE_NOW,SELECT_EQUIP_POS,Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][SELECT_EQUIP_POS]);
+		equipTEXT(s_Page.Woman_Man,SELECT_EQUIP_POS,Character::s_ItemEquip[s_Page.Woman_Man][SELECT_EQUIP_POS]);
 	}
 
 
@@ -1694,7 +1622,7 @@ void PopupUi::Paint_EQUIP()
 
 	if(s_Popup_Sharp.View && SELECT_EQUIP_Y > 0){
 		if(SELECT_EQUIP_Y == 1 || (SELECT_EQUIP_LIST_NOW_BAG == -1&&SELECT_EQUIP_LIST_NOW_SLOT == -1)){
-			PaintPopup_Sharp(Character::s_ItemEquip[SELECT_EQUIP_TYPE_NOW][SELECT_EQUIP_POS]);
+			PaintPopup_Sharp(Character::s_ItemEquip[s_Page.Woman_Man][SELECT_EQUIP_POS]);
 		}else if(SELECT_EQUIP_Y == 2){
 			PaintPopup_Sharp(Character::s_ItemBag[SELECT_EQUIP_LIST_NOW_BAG][SELECT_EQUIP_LIST_NOW_SLOT]);
 		}
@@ -1912,8 +1840,6 @@ void PopupUi::Paint_SKILL()
 // 		Type[xx] = 3;xx++;
 // 	}
 
-	if(SELECT_SKILL_Y == 0)SELECT_SKILL_TYPE_NOW = Character::s_HeroTag.SEX;//현재 선택된 성별
-
 
 	if(SELECT_SKILL_ACT_PAS){//패시브
 		Type[xx] = 4;//공용
@@ -1963,8 +1889,8 @@ void PopupUi::Paint_SKILL()
 		}
 	}else{//액티브
 		for(int xx = 0;xx<3;xx++){
-			if(Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + xx] > -1)
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1+Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + xx],
+			if(Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + xx] > -1)
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1+Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + xx],
 				XPOS-37 + (xx*30), 
 				YPOS+65, 0);
 		}
@@ -1976,7 +1902,7 @@ void PopupUi::Paint_SKILL()
 	if(SELECT_SKILL_ACT_PAS){//패시브
 
 		for(int xx = 0;xx<7;xx++){
-			switch(SELECT_SKILL_TYPE_NOW){
+			switch(s_Page.Woman_Man){
 				case 0:if(Character::s_Skill.Level_P[xx]){
 							SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_PASSIVE_S_00 + xx, 
 							XPOS-13 + ((skill_Max%4)*18),YPOS+37 + ((skill_Max/4)*17),0);	
@@ -1998,12 +1924,12 @@ void PopupUi::Paint_SKILL()
 	}else{//액티브
 
 		
-			switch(SELECT_SKILL_TYPE_NOW){  
+			switch(s_Page.Woman_Man){  
 				case 0:
 					{ 
 						for(int xx = 0;xx<7;xx++){
 							if(Character::s_Skill.Level_A[xx]==0){s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);}//그레이 스케일
-							SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1+xx,XPOS+s_X[SELECT_SKILL_TYPE_NOW][xx],YPOS+s_Y[SELECT_SKILL_TYPE_NOW][xx],0);
+							SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1+xx,XPOS+s_X[s_Page.Woman_Man][xx],YPOS+s_Y[s_Page.Woman_Man][xx],0);
 							s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
 						}
 
@@ -2015,7 +1941,7 @@ void PopupUi::Paint_SKILL()
 					{ 
 						for(int xx = 0;xx<7;xx++){
 							if(Character::s_Skill.Level_A[xx]==0){s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);}//그레이 스케일
-							SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_G_1+xx,XPOS+s_X[SELECT_SKILL_TYPE_NOW][xx],YPOS+s_Y[SELECT_SKILL_TYPE_NOW][xx],0);
+							SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_G_1+xx,XPOS+s_X[s_Page.Woman_Man][xx],YPOS+s_Y[s_Page.Woman_Man][xx],0);
 							s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
 						}
 
@@ -2110,7 +2036,7 @@ void PopupUi::Paint_SKILL()
 // 			if(SELECT_SKILL_Y == 2){
 // 				SkillNum = Character::s_Skill.Equip_P[SELECT_SKILL_SLOT];
 // 			}else if(SELECT_SKILL_Y == 4){
-			SkillNum = SELECT_SKILL_KIND+(SELECT_SKILL_TYPE_NOW?7:0);
+			SkillNum = SELECT_SKILL_KIND+(s_Page.Woman_Man?7:0);
 //			}
 
 			if(Character::s_Skill.Equip_P[SELECT_SKILL_SLOT]>=0){
@@ -2124,10 +2050,10 @@ void PopupUi::Paint_SKILL()
 // 			if(SELECT_SKILL_Y == 2){
 // 				SkillNum = Character::s_Skill.Equip_A[Character::s_HeroTag.SEX][SELECT_SKILL_SLOT];
 // 			}else if(SELECT_SKILL_Y == 4){
-			SkillNum = SELECT_SKILL_KIND+(SELECT_SKILL_TYPE_NOW?7:0);
+			SkillNum = SELECT_SKILL_KIND+(s_Page.Woman_Man?7:0);
 //			}
 
-			if(Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT]>=0){	
+			if(Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + SELECT_SKILL_SLOT]>=0){	
 				SPRINTF(str, "%s LV%d",
 					(char*)pCLRPOPUP_Text->nText[CLRMENU_SKILL_S_1 + (SkillNum*2)],
 					Character::s_Skill.Level_A[SkillNum]);
@@ -2142,7 +2068,7 @@ void PopupUi::Paint_SKILL()
 			// 			if(SELECT_SKILL_Y == 2){
 			// 				SkillNum = Character::s_Skill.Equip_P[SELECT_SKILL_SLOT];
 			// 			}else if(SELECT_SKILL_Y == 4){
-			SkillNum = SELECT_SKILL_KIND+(SELECT_SKILL_TYPE_NOW?7:0);
+			SkillNum = SELECT_SKILL_KIND+(s_Page.Woman_Man?7:0);
 			//			}
 
 			if(Character::s_Skill.Equip_P[SELECT_SKILL_SLOT]>=0){
@@ -2152,9 +2078,9 @@ void PopupUi::Paint_SKILL()
 				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS, YPOS+45, Graphics::HCENTER);
 			}
 		}else{
-			SkillNum = Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT];
+			SkillNum = Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + SELECT_SKILL_SLOT];
 
-			if(Character::s_Skill.Equip_A[SELECT_SKILL_TYPE_NOW*3 + SELECT_SKILL_SLOT]>=0){	
+			if(Character::s_Skill.Equip_A[s_Page.Woman_Man*3 + SELECT_SKILL_SLOT]>=0){	
 				SPRINTF(str, "%s LV%d",
 					(char*)pCLRPOPUP_Text->nText[CLRMENU_SKILL_S_1 + (SkillNum*2)],
 					Character::s_Skill.Level_A[SkillNum]);
@@ -2196,15 +2122,15 @@ void PopupUi::Paint_QUEST()
 
 		//메인 
 		_SUTIL->pFont->setColor(0xfbab29);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_MAIN], XPOS, YPOS-59, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_MAIN], XPOS-40, YPOS-64, CGraphics::HCENTER);
 		//서브
 		_SUTIL->pFont->setColor(0xb4fa1e);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_SUB], XPOS, YPOS-6, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_SUB], XPOS-40, YPOS-18, CGraphics::HCENTER);
 
 
 		//메인퀘
 		_SUTIL->pFont->setColor((SELECT_QUEST_Y==1 ?0xffda00 :0x748799)); 
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pMAIN_QUEST_Text->nText[GET_MAINQUEST_IDX()*2], XPOS-64, YPOS-38, 0); 
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pMAIN_QUEST_Text->nText[GET_MAINQUEST_IDX()*2], XPOS-72, YPOS-46, 0); 
 
 		//서브퀘
 		for (int xx = 0; xx<MIN(5,s_Quest.Max_Num); xx++)
@@ -2217,9 +2143,9 @@ void PopupUi::Paint_QUEST()
 
 		//커서
 		if(SELECT_QUEST_Y==1){//메인
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_7, XPOS-69,YPOS-41,0);
+			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_7, XPOS-77,YPOS-49,0);
 		}else if(SELECT_QUEST_Y>1){//서브
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_8, XPOS-69,YPOS+13+(SELECT_QUEST_Y-2)*15,0);
+			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_8, XPOS-77,YPOS+13+(SELECT_QUEST_Y-2)*15,0);
 		}
 
 		//스크롤바
@@ -2227,9 +2153,9 @@ void PopupUi::Paint_QUEST()
 		if(s_Quest.Max_Num > 5){//바가 줄어야 함
 			int Bar_height = MAX(30, (74 - (s_Quest.Max_Num-5)*10) );
 			int yy = ((74 - Bar_height)*SELECT_QUEST_SUB_Y)/(s_Quest.Max_Num-5);
-			_SUTIL->g->FillRect( XPOS+64, YPOS+14+yy,4,Bar_height);			
+			_SUTIL->g->FillRect( XPOS+70, YPOS+2+yy,4,Bar_height);			
 		}else{
-			_SUTIL->g->FillRect( XPOS+64, YPOS+14,4,74);
+			_SUTIL->g->FillRect( XPOS+70, YPOS+2,4,74);
 		}
 
 	}else if(s_Page.Focus==1){//세부 설명 페이지
@@ -2259,7 +2185,7 @@ void PopupUi::Paint_QUEST()
 					(char*)pITEM_Text->nText[itemNAME(Q_ITEM_ID(Num)/100,Q_ITEM_ID(Num)%100)],
 					(char*)pITEM_Text->nText[ITEM_CLEAR]); 	
 			}
-			_SUTIL->pFont->DrawText(_SUTIL->g, str,XPOS, YPOS-44, CGraphics::HCENTER);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str,XPOS, YPOS-45, CGraphics::HCENTER);
 			_SUTIL->pFont->setOutlineColor(-1);//아웃 라인을 사용하지 않음
 		}
 		
@@ -2267,7 +2193,7 @@ void PopupUi::Paint_QUEST()
 
 		//퀘스트명
 		_SUTIL->pFont->setColor(0x93abc0);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pMAIN_QUEST_Text->nText[titleNum], XPOS, YPOS-62, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pMAIN_QUEST_Text->nText[titleNum], XPOS, YPOS-68, CGraphics::HCENTER);
 		
 		//퀘스트 설명
 		_SUTIL->pFont->setColor(0xFFFFFF);
@@ -2284,16 +2210,16 @@ void PopupUi::Paint_QUEST()
 		if(SELECT_QUEST_DESC_Y_MAX > QUEST_DESC){//바가 줄어야 함
 			int Bar_height = MAX(30, (102 - (SELECT_QUEST_DESC_Y_MAX-QUEST_DESC)*10) );
 			int yy = ((102 - Bar_height)*SELECT_QUEST_DESC_Y)/(SELECT_QUEST_DESC_Y_MAX-QUEST_DESC);
-			_SUTIL->g->FillRect( XPOS+66, YPOS-37+yy,4,Bar_height);			
+			_SUTIL->g->FillRect( XPOS+73, YPOS-47+yy,4,Bar_height);			
 		}else{
-			_SUTIL->g->FillRect( XPOS+66, YPOS-37,4,102);
+			_SUTIL->g->FillRect( XPOS+73, YPOS-47,4,109);
 		}
 
 		//버튼
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + SELECT_QUEST_DESC_X, XPOS,YPOS+40,0);//팝업 프레임 지정
+		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + SELECT_QUEST_DESC_X, XPOS-1,YPOS+31,0);//팝업 프레임 지정
 		_SUTIL->pFont->setColor(0xf8e6cb);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_CLOSE], XPOS-31, YPOS+77, CGraphics::HCENTER);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_DISCARD], XPOS+31, YPOS+77, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_CLOSE], XPOS-32, YPOS+68, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_DISCARD], XPOS+30, YPOS+68, CGraphics::HCENTER);
 	}
 
 
@@ -2308,12 +2234,12 @@ void PopupUi::Paint_SYSTEM()
 		for (int xx = 0; xx<3; xx++)
 		{
 			_SUTIL->pFont->setColor((SELECT_SYSTEM_Y-1==xx ?0xffda00 :0x546779));
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_SYSTEM_0+xx], XPOS,YPOS-39 + (xx*24), CGraphics::HCENTER);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_SYSTEM_0+xx], XPOS,YPOS-48 + (xx*24), CGraphics::HCENTER);
 		}
  
 		//커서
 		if(SELECT_SYSTEM_Y>0){
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_6, XPOS-44,YPOS-45 + ((SELECT_SYSTEM_Y-1)*24),0);
+			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_6, XPOS-38,YPOS-51 + ((SELECT_SYSTEM_Y-1)*24),0);
 		}
 		
 	}
@@ -2322,9 +2248,9 @@ void PopupUi::Paint_SYSTEM()
 //		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_TRAFFIC, XPOS,YPOS-50,0);//팝업 프레임 지정
 		
 		_SUTIL->pFont->setColor(0xFF0000);
-		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"CHEAT PAGE", XPOS, YPOS+80-50, CGraphics::HCENTER);
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"CHEAT PAGE", XPOS, YPOS-60, CGraphics::HCENTER);
 
-		_SUTIL->pFont->setColor(0x777777);
+		_SUTIL->pFont->setColor(0x000055);
 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"1. Level Up", XPOS, YPOS	+15+(12*0)-50, CGraphics::HCENTER);
 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"2. God's Hp", XPOS, YPOS	+15+(12*1)-50, CGraphics::HCENTER);
 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"3. God's Mp", XPOS, YPOS	+15+(12*2)-50, CGraphics::HCENTER);
@@ -2671,7 +2597,7 @@ void PopupUi::PaintPopup_Sharp(ItemBag _item)
 
 				//성별
 				_SUTIL->pFont->setColor(0xffffff);//성별안되면 빨간색으로 바꿔주기 추후구현
-				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_HUMAN + _item.ITEM_SEX], posX+START_X + 40, posY+START_Y+GAP_Y, 0);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_WOMEN + _item.ITEM_SEX], posX+START_X + 40, posY+START_Y+GAP_Y, 0);
 
 				//레벨 제한
 				_SUTIL->pFont->setColor(0xffffff);//레벨안되면 빨간색으로 바꿔주기 추후구현
@@ -3084,14 +3010,14 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 				case 2:SPRINTF(str, "%d SLOT",24);break;
 				case 3:SPRINTF(str, "%d SLOT",32);break;
 			}	
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-64, YPOS+67, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+53, 0);
 			break;
 
 		case ITEM_POTION:
 
 		//아이템 이름
 			_SUTIL->pFont->setColor(0xffffff);//레벨안되면 빨간색으로 바꿔주기 추후구현
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-64, YPOS+37, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+23, 0);
 
 		//아이템 설명
 			switch(_item.ITEM_INDEX){
@@ -3103,13 +3029,13 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 				case 4:SPRINTF(str, "Mp + %d%",15);break;
 				case 5:SPRINTF(str, "Mp + %d%",20);break;
 			}	
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-64, YPOS+67, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+53, 0);
 			break;
 
 		case ITEM_MAINQUEST:
 			//아이템 이름
 			_SUTIL->pFont->setColor(0xffaaaa);//레벨안되면 빨간색으로 바꿔주기 추후구현
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-64, YPOS+37, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+23, 0);
 
 
 			break;
@@ -3138,7 +3064,7 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 					(head?(char*)pITEM_Text->nText[(ITEM_SCROLL_0-1)+head]:""),
 					(char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)]); 	
 			}
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-64, YPOS+37, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+23, 0);
 			
 
 		//소켓
@@ -3154,7 +3080,13 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 			SPRINTF(str, "%s %d",
 				"Lv",
 				(((_item.ITEM_KIND) == ITEM_NECK)||((_item.ITEM_KIND) == ITEM_RING)? deco_Table[_item.ITEM_INDEX][D_T_LV]: equip_Table[_item.ITEM_INDEX][E_T_LV])); 	
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-64, YPOS+55, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+41, 0);
+
+
+		//성별 
+			_SUTIL->pFont->setColor(0xffffff);//성별안되면 빨간색으로 바꿔주기 추후구현
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_WOMEN + _item.ITEM_SEX],XPOS+75, YPOS+41, CGraphics::RIGHT);
+
 
 		//ATT DEF
 			switch(_item.ITEM_KIND){//아이템 종류별 분화
@@ -3201,7 +3133,7 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 					SPRINTF(str, "ATT %d  DEF %d",deco_Table[_item.ITEM_INDEX][D_T_RI_AT],deco_Table[_item.ITEM_INDEX][D_T_RI_DE]);
 					break;
 			}
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-64, YPOS+67, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+53, 0);
 
 		//능력치
 			int scroll_Kind = (_item.Data2/100)%100; //스크롤 종류
@@ -3220,11 +3152,11 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 					case 10:SPRINTF(str, "INT+%d",UP*4/3+1);break;
 					case 11:SPRINTF(str, "ALL+%d",MAX(1,UP/2));break;
 				}
-				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-64, YPOS+80, 0);
+				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+66, 0);
 			}
 
 		//인포
-			SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_M_INFO, XPOS+44,YPOS+83,0,0);
+			//SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_M_INFO, XPOS+44,YPOS+83,0,0);
 
 
 		break;
@@ -4033,16 +3965,16 @@ void PopupUi::equipTEXT(int sex,int slot,struct ItemBag _item){//선택 아이템에 �
 
 
 
-	ItemAbility TempAbil = Character::s_ItemAbil[sex][slot]; 
+	ItemAbility TempAbil = Character::s_ItemAbil[sex][slot];  
 	ItemBag TempEquip = Character::s_ItemEquip[sex][slot];
 
 
-	int temp_Amax = Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/];
-	int temp_Def  = Character::s_Status[Character::s_HeroTag.SEX].DEFENSE;
-	int temp_Cri  = Character::s_Status[Character::s_HeroTag.SEX].CRITICAL;
-	int temp_Agi  = Character::s_Status[Character::s_HeroTag.SEX].AVOID;
-	int temp_Life = Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX;
-	int temp_Mana = Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX;
+	int temp_Amax = Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/];
+	int temp_Def  = Character::s_Status[s_Page.Woman_Man].DEFENSE;
+	int temp_Cri  = Character::s_Status[s_Page.Woman_Man].CRITICAL;
+	int temp_Agi  = Character::s_Status[s_Page.Woman_Man].AVOID;
+	int temp_Life = Character::s_Status[s_Page.Woman_Man].LIFE_MAX;
+	int temp_Mana = Character::s_Status[s_Page.Woman_Man].MANA_MAX;
 
 
 	Character::s_ItemEquip[sex][slot] = _item;//임시장착
@@ -4061,45 +3993,45 @@ void PopupUi::equipTEXT(int sex,int slot,struct ItemBag _item){//선택 아이템에 �
 
 	_SUTIL->pFont->setColor(0xffcc00);
 
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/], XPOS-22, YPOS+37, CGraphics::RIGHT);//Att1
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].DEFENSE, XPOS-22, YPOS+53, CGraphics::RIGHT);	//DEF
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].CRITICAL, XPOS-22, YPOS+69, CGraphics::RIGHT);	//CRI
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].AVOID, XPOS+57, YPOS+37, CGraphics::RIGHT);		//AGI
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX, XPOS+57, YPOS+53, CGraphics::RIGHT);	//HP
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX, XPOS+57, YPOS+69, CGraphics::RIGHT);	//MP
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/], XPOS-22, YPOS+37, CGraphics::RIGHT);//Att1
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].DEFENSE, XPOS-22, YPOS+53, CGraphics::RIGHT);	//DEF
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].CRITICAL, XPOS-22, YPOS+69, CGraphics::RIGHT);	//CRI
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].AVOID, XPOS+57, YPOS+37, CGraphics::RIGHT);		//AGI
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].LIFE_MAX, XPOS+57, YPOS+53, CGraphics::RIGHT);	//HP
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].MANA_MAX, XPOS+57, YPOS+69, CGraphics::RIGHT);	//MP
 
 
-//업 다운 아이콘
-	if(temp_Amax < Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/]){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+39,0,0);//UP아이콘
-	}else if(temp_Amax > Character::s_Status[Character::s_HeroTag.SEX].ATTACK_MAX[Character::s_HeroTag.SEX/*Character::s_Status[Character::s_HeroTag.SEX].ELEMENTAL*/]){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+39,0,0);//DOWN아이콘
+//업 다운 아이콘 
+	if(temp_Amax < Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/]){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+35,0,0);//UP아이콘
+	}else if(temp_Amax > Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/]){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+35,0,0);//DOWN아이콘
 	}
-	if(temp_Def  < Character::s_Status[Character::s_HeroTag.SEX].DEFENSE){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+55,0,0);//UP아이콘
-	}else if(temp_Def  > Character::s_Status[Character::s_HeroTag.SEX].DEFENSE){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+55,0,0);//DOWN아이콘
+	if(temp_Def  < Character::s_Status[s_Page.Woman_Man].DEFENSE){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+51,0,0);//UP아이콘
+	}else if(temp_Def  > Character::s_Status[s_Page.Woman_Man].DEFENSE){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+51,0,0);//DOWN아이콘
 	}
-	if(temp_Cri  < Character::s_Status[Character::s_HeroTag.SEX].CRITICAL){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+71,0,0);//UP아이콘
-	}else if(temp_Cri  > Character::s_Status[Character::s_HeroTag.SEX].CRITICAL){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+71,0,0);//DOWN아이콘
+	if(temp_Cri  < Character::s_Status[s_Page.Woman_Man].CRITICAL){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+66,0,0);//UP아이콘
+	}else if(temp_Cri  > Character::s_Status[s_Page.Woman_Man].CRITICAL){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+66,0,0);//DOWN아이콘
 	}
 
-	if(temp_Agi  < Character::s_Status[Character::s_HeroTag.SEX].AVOID){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS+61,YPOS+39,0,0);//UP아이콘
-	}else if(temp_Agi  > Character::s_Status[Character::s_HeroTag.SEX].AVOID){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS+61,YPOS+39,0,0);//DOWN아이콘
+	if(temp_Agi  < Character::s_Status[s_Page.Woman_Man].AVOID){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS+61,YPOS+35,0,0);//UP아이콘
+	}else if(temp_Agi  > Character::s_Status[s_Page.Woman_Man].AVOID){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS+61,YPOS+35,0,0);//DOWN아이콘
 	}
-	if(temp_Life < Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS+61,YPOS+55,0,0);//UP아이콘
-	}else if(temp_Life > Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS+61,YPOS+55,0,0);//DOWN아이콘
+	if(temp_Life < Character::s_Status[s_Page.Woman_Man].LIFE_MAX){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS+61,YPOS+51,0,0);//UP아이콘
+	}else if(temp_Life > Character::s_Status[s_Page.Woman_Man].LIFE_MAX){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS+61,YPOS+51,0,0);//DOWN아이콘
 	}
-	if(temp_Mana < Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS+61,YPOS+71,0,0);//UP아이콘
-	}else if(temp_Mana > Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX){
-		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS+61,YPOS+71,0,0);//DOWN아이콘
+	if(temp_Mana < Character::s_Status[s_Page.Woman_Man].MANA_MAX){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS+61,YPOS+66,0,0);//UP아이콘
+	}else if(temp_Mana > Character::s_Status[s_Page.Woman_Man].MANA_MAX){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS+61,YPOS+66,0,0);//DOWN아이콘
 	}
 
 

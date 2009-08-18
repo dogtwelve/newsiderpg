@@ -2145,42 +2145,6 @@
 
 // MODULE //
 
-///////////////////////////////// MON03
-// ANIM //
-	#define ANIM_MON03_STAND	 0
-	#define ANIM_MON03_WALK_1	 1
-	#define ANIM_MON03_WALK_VERTICAL_1	 2
-	#define ANIM_MON03_WALK_2	 3
-	#define ANIM_MON03_WALK_VERTICAL_2	 4
-	#define ANIM_MON03_DOWN	 5
-	#define ANIM_MON03_DOWNED	 6
-	#define ANIM_MON03_AWAKE	 7
-	#define ANIM_MON03_FLY_1	 8
-	#define ANIM_MON03_FLY_2	 9
-	#define ANIM_MON03_FLY_3	 10
-	#define ANIM_MON03_FLY_4	 11
-	#define ANIM_MON03_FLY_5	 12
-	#define ANIM_MON03_AIR_DAMAGE	 13
-	#define ANIM_MON03_DOWN_DAMAGE	 14
-	#define ANIM_MON03_DAMAGE_1	 15
-	#define ANIM_MON03_CATCH_1	 16
-	#define ANIM_MON03_CATCH_2	 17
-	#define ANIM_MON03_CATCH_3	 18
-	#define ANIM_MON03_MELEE_1	 19
-	#define ANIM_MON03_RANGE_1	 20
-	#define ANIM_MON03_BULLET_1	 21
-	#define ANIM_MON03_FLY_SAMPLE	 22
-	#define ANIM_MON03_CATCH_3_DEL	 23
-	#define ANIM_MON03_CATCH_1DEL	 24
-	#define ANIM_MON03_CATCH_2DEL	 25
-
-// FRAME //
-	#define FRAME_MON03_F_12	 3
-	#define FRAME_MON03_F_13	 4
-	#define FRAME_MON03_BLEND	 36
-
-// MODULE //
-
 ///////////////////////////////// WOMAN_BODY
 // ANIM //
 	#define ANIM_WOMAN_BODY_A_TOWN_STAND	 0

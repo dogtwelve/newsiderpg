@@ -96,6 +96,7 @@
 
 struct Page{//공용 스프라이트 묶음
 	int PageNum;
+	int Woman_Man;
 	int Focus;
 	int Ly1_sel;
 	int Ly2_sel;
@@ -136,7 +137,7 @@ const short s_Y[2][7] = {{-18, 0, 20,20,-18,  0, 0},{  0, 0, 20, 0,-18,-18,20}};
 class PopupUi
 {
 public:
-	PopupUi(void* s__ASpriteSet,ASprite* _Hero);
+	PopupUi(void* s__ASpriteSet/*,ASprite* _Hero*/);
 	~PopupUi();
 
 	struct ASpriteSet{//공용 스프라이트 묶음
@@ -161,6 +162,10 @@ public:
 
 	static Page s_Page;
 
+#define SELECT_STATES_Y				(s_Page.Ly1_sel)
+
+
+
 #define SELECT_EQUIP_Y				(s_Page.Ly1_sel)
 #define SELECT_EQUIP_POS			(s_Page.Ly2_sel)
 #define SELECT_EQUIP_LIST			(s_Page.Ly3_sel)
@@ -170,7 +175,6 @@ public:
 #define SELECT_EQUIP_LIST_NOW_SLOT			(s_Page.Ly7_sel)
 #define SELECT_EQUIP_JAB_BACUP					(s_Page.Ly8_sel)
 
-#define SELECT_EQUIP_TYPE_NOW		(s_Page.Ly9_sel) //성별
 //#define SELECT_EQUIP_POS_Y			(s_Page.Ly3_sel)
 //#define SELECT_EQUIP_KIND			(s_Page.Ly4_sel)
 //#define SELECT_EQUIP_POPUP_KIND		(s_Page.Ly5_sel)
@@ -198,7 +202,6 @@ public:
 #define SELECT_SKILL_ACT_PAS		(s_Page.Ly2_sel)
 #define SELECT_SKILL_SLOT			(s_Page.Ly3_sel)
 #define SELECT_SKILL_TYPE			(s_Page.Ly4_sel)
-#define SELECT_SKILL_TYPE_NOW		(s_Page.Ly5_sel) //스킬 타입 성별
 #define SELECT_SKILL_KIND			(s_Page.Ly6_sel)
 
 #define SELECT_SKILL_SELECT			(s_Page.Ly8_sel)
@@ -248,7 +251,7 @@ public:
 	
 
 	int PAGE_STATES_point[5];//포인트//힘//민첩//체력//지력
-	class ASprite* m_pHeroAs;
+	//class ASprite* m_pHeroAs;
 	static struct _TEXT_PACK*	pCLRPOPUP_Text;//텍스트 팩
 	struct _TEXT_PACK*	pMAIN_QUEST_Text;//메인 퀘스트 팩
 	struct _TEXT_PACK*	pSUB_QUEST_Text;//서브 퀘스트 팩

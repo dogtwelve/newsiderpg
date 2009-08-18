@@ -336,9 +336,9 @@
 #define CLRMENU_TEXT_DEX 			 117			/*건너 공격력/크리/회피*/
 #define CLRMENU_TEXT_CON 			 118			/*생명력/방어력/회복률*/
 #define CLRMENU_TEXT_INT 			 119			/*법사 공격력/마나/회복률*/
-#define CLRMENU_HUMAN 			 120			/*공용*/
-#define CLRMENU_GUY 			 121			/*남자*/
-#define CLRMENU_WOMEN 			 122			/*여자*/
+#define CLRMENU_WOMEN 			 120			/*여자 전용*/
+#define CLRMENU_GUY 			 121			/*남자 전용*/
+#define CLRMENU_HUMAN 			 122			/*공용*/
 #define CLRMENU_G_NORMAL 			 123			/*노멀*/
 #define CLRMENU_G_MAGIC 			 124			/*매직*/
 #define CLRMENU_G_RARE 			 125			/*레어*/
