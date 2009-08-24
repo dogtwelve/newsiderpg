@@ -2141,7 +2141,7 @@
 
 // FRAME //
 	#define FRAME_MAN_S7_EMPTY	 0
-	#define FRAME_MAN_S7_BLEND	 15
+	#define FRAME_MAN_S7_BLEND	 16
 
 // MODULE //
 
@@ -3225,8 +3225,8 @@
 	#define ANIM_WOMAN_S3_A_B_SKILL3_2_E	 1
 
 // FRAME //
-	#define FRAME_WOMAN_S3_BLEND	 13
-	#define FRAME_WOMAN_S3_EMPTY	 14
+	#define FRAME_WOMAN_S3_BLEND	 12
+	#define FRAME_WOMAN_S3_EMPTY	 13
 
 // MODULE //
 

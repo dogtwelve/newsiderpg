@@ -125,7 +125,7 @@
     {
         0x2372
         RC	0	0	0	0
-        RC	0	0	1	0
+        RC	0	0	1	62
         RC	-16	-52	16	7
         FM	0x1008	-51	-9
         FM	0x101E	-30	-39        	FLAGS 0x00000020
@@ -160,7 +160,7 @@
     {
         0x2375
         RC	0	0	0	0
-        RC	0	0	1	0
+        RC	0	0	1	62
         RC	-56	-52	-24	7
         FM	0x1024	-20	-84        	FLAGS 0x00000020	+FLIP_X
         FM	0x103A	-9	-99        	FLAGS 0x00000020
@@ -189,7 +189,7 @@
     {
         0x2377
         RC	0	0	0	0
-        RC	0	0	1	0
+        RC	0	0	1	62
         RC	-96	-52	-64	7
         FM	0x103A	-25	-117        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
         FM	0x1024	-70	-85        	FLAGS 0x00000020
@@ -260,7 +260,7 @@
     {
         0x2004
         RC	0	0	0	0
-        RC	0	0	1	0
+        RC	0	0	1	62
         RC	-16	-52	16	7
         FM	0x101E	-30	-39        	FLAGS 0x00000020
         FM	0x1023	-33	-75
@@ -288,9 +288,6 @@
     FRAME "e_lvupc_04" // Index = 24, FModules = 4
     {
         0x2007
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-56	-52	-24	7
         FM	0x1024	-20	-84        	FLAGS 0x00000020	+FLIP_X
         FM	0x103A	-9	-99        	FLAGS 0x00000020
         FM	0x103A	-25	-93	+FLIP_X
@@ -308,9 +305,6 @@
     FRAME "e_lvupc_06" // Index = 26, FModules = 1
     {
         0x2009
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-96	-52	-64	7
         FM	0x103A	-25	-117        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
     }
 

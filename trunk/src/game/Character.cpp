@@ -2613,7 +2613,7 @@
 
 		/*어기어검*/
 			case 50:percent = a_Skill_Table[table_Index][0]+Get_Skill(SKILL_P_S_wingSword);break;//패시브
-			case 51:percent = a_Skill_Table[table_Index][1]+Get_Skill(SKILL_P_S_wingSword);break;//패시브
+			case 51:percent = a_Skill_Table[table_Index][1]+Get_Skill(SKILL_P_S_wingSword);break;
 		/*다운스케이팅*/					
 			case 52:percent = a_Skill_Table[table_Index][0];break;	
 			case 53:percent = a_Skill_Table[table_Index][1];break;
@@ -2622,7 +2622,7 @@
 			case 55:percent = a_Skill_Table[table_Index][1];break;
 		/*공간참격*/						
 			case 56:percent = a_Skill_Table[table_Index][0];cri_Num+=Get_Skill(SKILL_P_S_spaceCut);break;//패시브	
-			case 57:percent = a_Skill_Table[table_Index][1];cri_Num+=Get_Skill(SKILL_P_S_spaceCut);break;//패시브
+			case 57:percent = a_Skill_Table[table_Index][1];cri_Num+=Get_Skill(SKILL_P_S_spaceCut);break;
 		/*돌격*/							
 			case 58:percent = a_Skill_Table[table_Index][0];break;	
 			case 59:percent = a_Skill_Table[table_Index][1];break;
@@ -2656,28 +2656,28 @@
 			case 76:percent = a_Skill_Table[table_Index][0];break;	
 			case 77:percent = a_Skill_Table[table_Index][1];break;
 
-
-		/*쌍염탄*/
-			case 78:percent = a_Skill_Table[table_Index][0];break;
-			case 79:percent = a_Skill_Table[table_Index][1];break;
-		/*토템*/							
-			case 80:percent = a_Skill_Table[table_Index][0];break;	
-			case 81:percent = a_Skill_Table[table_Index][1];break;
-		/*스카이락*/						
-			case 82:percent = a_Skill_Table[table_Index][0];break;	
-			case 83:percent = a_Skill_Table[table_Index][1];break;
-		/*아이스드래곤*/					
-			case 84:percent = a_Skill_Table[table_Index][0];break;	
-			case 85:percent = a_Skill_Table[table_Index][1];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_FREEZE;break;
-		/*블랙홀*/							
-			case 86:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_CONFUSE;break;	
-			case 87:percent = a_Skill_Table[table_Index][1];break;
-		/*뇌룡승천*/						
-			case 88:percent = a_Skill_Table[table_Index][0];break;	
-			case 89:percent = a_Skill_Table[table_Index][1];break;
-		/*아이스에로우*/					
-			case 90:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_ICE;break;	
-			case 91:percent = a_Skill_Table[table_Index][1];break;
+// 
+// 		/*쌍염탄*/
+// 			case 78:percent = a_Skill_Table[table_Index][0];break;
+// 			case 79:percent = a_Skill_Table[table_Index][1];break;
+// 		/*토템*/							
+// 			case 80:percent = a_Skill_Table[table_Index][0];break;	
+// 			case 81:percent = a_Skill_Table[table_Index][1];break;
+// 		/*스카이락*/						
+// 			case 82:percent = a_Skill_Table[table_Index][0];break;	
+// 			case 83:percent = a_Skill_Table[table_Index][1];break;
+// 		/*아이스드래곤*/					
+// 			case 84:percent = a_Skill_Table[table_Index][0];break;	
+// 			case 85:percent = a_Skill_Table[table_Index][1];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_FREEZE;break;
+// 		/*블랙홀*/							
+// 			case 86:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_CONFUSE;break;	
+// 			case 87:percent = a_Skill_Table[table_Index][1];break;
+// 		/*뇌룡승천*/						
+// 			case 88:percent = a_Skill_Table[table_Index][0];break;	
+// 			case 89:percent = a_Skill_Table[table_Index][1];break;
+// 		/*아이스에로우*/					
+// 			case 90:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_ICE;break;	
+// 			case 91:percent = a_Skill_Table[table_Index][1];break;
 
 		}
 
