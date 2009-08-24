@@ -39,18 +39,28 @@
 #define MON_AC_FALL							22
 #define MON_AC_FAINTING						23
 #define MON_AC_REST							24
+#define MON_AC_RUN_BEHOLD					25
 
-#define MON_AC_FACE_FRONTSIDE				25
-#define MON_AC_STAND_FRONTSIDE				26
-#define MON_AC_MOVE_FRONTSIDE				27
-#define MON_AC_REGEN_L_ARM_FRONTSIDE		28
-#define MON_AC_REGEN_R_ARM_FRONTSIDE		29
-#define MON_AC_HIDE_FRONTSIDE				30
-#define MON_AC_FACE_LOST_LEFTHAND			31
-#define MON_AC_FACE_LOST_RIGHTHAND			32
-#define MON_AC_FACE_REST					33
-#define MON_AC_DIE_AFTER_DONT_REMOVE		34
-#define MON_AC_MAX							35
+#define MON_AC_MAX							26
+
+#define MON_AC_WORM_BURROW					30
+#define MON_AC_WORM_UNBURROW				31
+
+
+
+
+//	나중에 지울부분
+#define MON_AC_FACE_FRONTSIDE				26
+#define MON_AC_STAND_FRONTSIDE				27
+#define MON_AC_MOVE_FRONTSIDE				28
+#define MON_AC_REGEN_L_ARM_FRONTSIDE		29
+#define MON_AC_REGEN_R_ARM_FRONTSIDE		30
+#define MON_AC_HIDE_FRONTSIDE				31
+#define MON_AC_FACE_LOST_LEFTHAND			32
+#define MON_AC_FACE_LOST_RIGHTHAND			33
+#define MON_AC_FACE_REST					34
+#define MON_AC_DIE_AFTER_DONT_REMOVE		35
+
 
 #define MON_EXT_BASE						100
 #define MON_ATK_MELEE1						(MON_EXT_BASE+1)
@@ -102,9 +112,11 @@
 
 #define MON_ATK_BOSS1_HEAD_MELEE2			(MON_EXT_BASE+46)
 
+#define MON_ATK_SPECIAL1					(MON_EXT_BASE+47)
 
 
-#define MON_ATK_MAX							(MON_EXT_BASE+47)
+
+#define MON_ATK_MAX							(MON_EXT_BASE+48)
 
 
 #define MON_NOT_ATTACK						9999
@@ -190,10 +202,10 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 
 
 //	ABOUT MONSTER STET_DATA //////////////////////////////////////////////////
-#define	MON_IDX_RAPTER					0 
+#define	MON_IDX_GHOST					0 
 #define	MON_IDX_GOLEM					1 
 #define	MON_IDX_SLIME					2 
-#define	MON_IDX_WATER_ELE				3 
+#define	MON_IDX_CROWN_BOMB				3 
 #define	MON_IDX_COBOLT					4 
 #define	MON_IDX_THUNDERBIRD				5 
 #define	MON_IDX_TANK					6
@@ -248,12 +260,13 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 #define	MON_IDX_DEVIJOHNS				71
 
 #define	MON_IDX_WORM					72
+#define	MON_IDX_SKELBIRD				73
 //#define	MON_IDX_BIG_DRAGON1				72
 //#define	MON_IDX_BIG_DRAGON2				73
 //#define	MON_IDX_BIG_DRAGON3				74
 
 
-#define	MON_IDX_COUNT_BOSS				13
+#define	MON_IDX_COUNT_BOSS				14
 //------------------------------------------------------
 
 
@@ -316,6 +329,8 @@ struct S_MESSAGE
 #define		MSG_BOSS5_SUMMON_WALL	6
 #define		MSG_BOSS5_SUMMON_DEVIL	7
 
+#define		MSG_MON4_CLONE			9
+
 #define		NOT_REGEN				9999
 
 
@@ -340,7 +355,7 @@ struct S_MESSAGE
 static const int MonPtn[][STET_MAX] = 
 {
 //DDF, HP, CRI, AGI, EXP, AT1, AT2, AT3, AT4
-  //랩터-중형
+  //MON_IDX_GHOST-중형
   {15, 80, 5,	0, 100, 140, 140, 140, 140},
 	{15, 80, 5, 0, 100, 140, 140, 140, 140},
 	//골램-대형
@@ -442,6 +457,8 @@ static const int MonPtn[][STET_MAX] =
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DEVIJOHNS
 
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_WORM
+
+	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_SKELBIRD
 //	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON2
 //	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON3
 };
@@ -467,6 +484,9 @@ static const int MonPtn[][STET_MAX] =
 
 
 static const int FACE_BOSS5_POS[6] = {0, -100, -60, -22,	3, -1};
+
+
+
 
 class Monster	
 {
@@ -540,6 +560,11 @@ public:
 	int			m_nAiState;
 
 	//	인공지능 판단 데이타
+	int			m_nAiPtnData[10];
+	int			m_nAiPtnProcess;
+	int			m_nAiPtnTotCnt;
+	int			m_nAiPtnLimitTime;
+
 	int			m_nSelectAtkTable;				//	 현재 상태가 1:일반상태인지 / 2:맞는상태인지.
 	int			m_nMelee_or_Range;				//	 현재 상태가 1:melee / 2:range
 	bool		m_bIsBattle;
@@ -617,11 +642,11 @@ public:
 
 
 //--------------------------------------------------------------------------------
-class Mon_RAPTER : public Monster
+class Mon_GHOST : public Monster
 {
 public:
-	Mon_RAPTER();
-	~Mon_RAPTER();
+	Mon_GHOST();
+	~Mon_GHOST();
 	bool ExtSetAction();
 	bool ExtProcess();
 private:
@@ -653,15 +678,17 @@ private:
 };
 
 //--------------------------------------------------------------------------------
-class Mon_WATER_EFE : public Monster
+class Mon_CROWN_BOMB : public Monster
 {
 public:
-	Mon_WATER_EFE();
-	~Mon_WATER_EFE();
+	Mon_CROWN_BOMB();
+	~Mon_CROWN_BOMB();
 	bool ExtSetAction();
 	bool ExtProcess();
 
 private:
+
+	bool isPassbleClone;
 };
 
 //--------------------------------------------------------------------------------
@@ -1259,19 +1286,27 @@ public:
 //	void Paint();
 	void Process(S_CHARINFO* _CharInfo);
 private:
-	int m_nMoveX;
-	int m_nMoveY;
 
-	int m_nFirstX;
-
-	int m_nMoveTimer;
-
-	int m_nSaveX;
-	int m_nSaveY;
-	int m_nCurMoveTimer;
-
-	int m_nDelayTimer;
 };
+
+
+//--------------------------------------------------------------------------------
+class BossSkelBird : public Monster
+{
+public:
+
+//	void ResvBossDragon_AllAction(int changeState, int dummy);
+//	Monster* pChildBody[BOSS_DRAGON_MAX_BODY_COUNT];
+
+	BossSkelBird();
+	~BossSkelBird();
+	bool ExtSetAction();
+	bool ExtProcess();
+//	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+private:
+};
+
 
 
 

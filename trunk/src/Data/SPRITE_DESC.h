@@ -5249,119 +5249,139 @@
 ///////////////////////////////// BOSS_2
 // ANIM //
 	#define ANIM_BOSS_2_STAND	 0
-	#define ANIM_BOSS_2_WALK	 1
-	#define ANIM_BOSS_2_WALK_VERTICAL	 2
-	#define ANIM_BOSS_2_MELEE_1	 3
-	#define ANIM_BOSS_2_RANGE_1	 4
-	#define ANIM_BOSS_2_BULLET_1	 5
-	#define ANIM_BOSS_2_MELEE_2	 6
-	#define ANIM_BOSS_2_SUMMON	 7
-	#define ANIM_BOSS_2_DOWN	 8
-	#define ANIM_BOSS_2_DOWNED	 9
-	#define ANIM_BOSS_2_GRRR	 11
-	#define ANIM_BOSS_2_BULLET_1DEL	 13
-	#define ANIM_BOSS_2_BULLET_2DEL	 14
+	#define ANIM_BOSS_2_ARM_L_STAND	 1
+	#define ANIM_BOSS_2_ARM_R_STAND	 2
+	#define ANIM_BOSS_2_WALK	 3
+	#define ANIM_BOSS_2_WALK_VERTICAL	 4
+	#define ANIM_BOSS_2_ARM_L_WALK	 5
+	#define ANIM_BOSS_2_ARM_R_WALK	 6
+	#define ANIM_BOSS_2_MELEE_1	 7
+	#define ANIM_BOSS_2_MELEE_2	 8
+	#define ANIM_BOSS_2_MELEE_3	 9
+	#define ANIM_BOSS_2_FLY	 10
+	#define ANIM_BOSS_2_FLING	 11
+	#define ANIM_BOSS_2_BULLET_1	 12
+	#define ANIM_BOSS_2_FALL	 13
+	#define ANIM_BOSS_2_MELEE_1_DEL	 14
+	#define ANIM_BOSS_2_MELEE_2_DEL	 15
+	#define ANIM_BOSS_2_DOWN	 16
+	#define ANIM_BOSS_2_DOWNED	 17
 
 // FRAME //
-	#define FRAME_BOSS_2_F	 0
-	#define FRAME_BOSS_2_F_01	 1
-	#define FRAME_BOSS_2_F_02	 2
-	#define FRAME_BOSS_2_F_03	 3
-	#define FRAME_BOSS_2_F_04	 4
-	#define FRAME_BOSS_2_F_05	 5
-	#define FRAME_BOSS_2_F_06	 6
-	#define FRAME_BOSS_2_F_07	 7
-	#define FRAME_BOSS_2_F_08	 8
-	#define FRAME_BOSS_2_F_09	 9
-	#define FRAME_BOSS_2_F_10	 10
-	#define FRAME_BOSS_2_F_11	 11
-	#define FRAME_BOSS_2_F_12	 12
-	#define FRAME_BOSS_2_F_13	 13
-	#define FRAME_BOSS_2_F_14	 14
-	#define FRAME_BOSS_2_F_15	 15
-	#define FRAME_BOSS_2_F_16	 16
-	#define FRAME_BOSS_2_F_17	 17
-	#define FRAME_BOSS_2_F_18	 18
-	#define FRAME_BOSS_2_F_19	 19
-	#define FRAME_BOSS_2_F_20	 20
-	#define FRAME_BOSS_2_F_21	 21
-	#define FRAME_BOSS_2_F_22	 22
-	#define FRAME_BOSS_2_F_23	 23
-	#define FRAME_BOSS_2_F_24	 24
-	#define FRAME_BOSS_2_F_25	 25
-	#define FRAME_BOSS_2_F_26	 26
-	#define FRAME_BOSS_2_F_27	 27
-	#define FRAME_BOSS_2_F_28	 28
-	#define FRAME_BOSS_2_F_29	 29
-	#define FRAME_BOSS_2_F_30	 30
-	#define FRAME_BOSS_2_F_31	 31
-	#define FRAME_BOSS_2_F_31A	 32
-	#define FRAME_BOSS_2_F_32	 33
-	#define FRAME_BOSS_2_F_33	 34
-	#define FRAME_BOSS_2_F_34	 35
-	#define FRAME_BOSS_2_F_35	 36
-	#define FRAME_BOSS_2_F_36	 37
-	#define FRAME_BOSS_2_F_37	 38
-	#define FRAME_BOSS_2_F_38	 39
-	#define FRAME_BOSS_2_F_39	 40
-	#define FRAME_BOSS_2_F_40	 41
-	#define FRAME_BOSS_2_F_41	 42
-	#define FRAME_BOSS_2_F_42	 43
-	#define FRAME_BOSS_2_F_43	 44
-	#define FRAME_BOSS_2_F_44	 45
-	#define FRAME_BOSS_2_F_45	 46
-	#define FRAME_BOSS_2_F_46	 47
-	#define FRAME_BOSS_2_F_47	 48
-	#define FRAME_BOSS_2_F_48	 49
-	#define FRAME_BOSS_2_F_49	 50
-	#define FRAME_BOSS_2_F_50	 51
-	#define FRAME_BOSS_2_F_51	 52
-	#define FRAME_BOSS_2_F_52	 53
-	#define FRAME_BOSS_2_F_54	 54
-	#define FRAME_BOSS_2_F_55	 55
-	#define FRAME_BOSS_2_F_57	 56
-	#define FRAME_BOSS_2_F_58	 57
-	#define FRAME_BOSS_2_F_59	 58
-	#define FRAME_BOSS_2_F_60	 59
-	#define FRAME_BOSS_2_F_61	 60
-	#define FRAME_BOSS_2_F_62	 61
-	#define FRAME_BOSS_2_F_63	 62
-	#define FRAME_BOSS_2_F_64	 63
-	#define FRAME_BOSS_2_F_65	 64
-	#define FRAME_BOSS_2_F_66	 65
-	#define FRAME_BOSS_2_F_67	 66
-	#define FRAME_BOSS_2_F_68	 67
-	#define FRAME_BOSS_2_F_68A	 68
-	#define FRAME_BOSS_2_F_69	 69
-	#define FRAME_BOSS_2_F_69A	 70
-	#define FRAME_BOSS_2_F_70	 71
-	#define FRAME_BOSS_2_F_70A	 72
-	#define FRAME_BOSS_2_F_71	 73
-	#define FRAME_BOSS_2_F_72	 74
-	#define FRAME_BOSS_2_F_73	 75
-	#define FRAME_BOSS_2_F_74	 76
-	#define FRAME_BOSS_2_F_75	 77
-	#define FRAME_BOSS_2_F_76	 78
-	#define FRAME_BOSS_2_F_78	 79
-	#define FRAME_BOSS_2_F_79	 80
-	#define FRAME_BOSS_2_F_80	 81
-	#define FRAME_BOSS_2_F_81	 82
-	#define FRAME_BOSS_2_F_82	 83
-	#define FRAME_BOSS_2_F_83	 84
-	#define FRAME_BOSS_2_F_84	 85
-	#define FRAME_BOSS_2_F_85	 86
-	#define FRAME_BOSS_2_F_86	 87
-	#define FRAME_BOSS_2_F_87	 88
-	#define FRAME_BOSS_2_F_88	 89
-	#define FRAME_BOSS_2_F_89	 90
-	#define FRAME_BOSS_2_F_90	 91
-	#define FRAME_BOSS_2_F_95	 92
-	#define FRAME_BOSS_2_F_96	 93
-	#define FRAME_BOSS_2_F_97	 94
-	#define FRAME_BOSS_2_EMPTY	 95
-	#define FRAME_BOSS_2_BLEND	 96
+	#define FRAME_BOSS_2_H_HEAD	 0
+	#define FRAME_BOSS_2_H_WING	 1
+	#define FRAME_BOSS_2_H_WING_01	 2
+	#define FRAME_BOSS_2_H_WING_02	 3
+	#define FRAME_BOSS_2_H_WING_03	 4
+	#define FRAME_BOSS_2_H_WING_04	 5
+	#define FRAME_BOSS_2_H_WING_05	 6
+	#define FRAME_BOSS_2_H_WING_06	 7
+	#define FRAME_BOSS_2_H_WING_07	 8
+	#define FRAME_BOSS_2_H_WING_08	 9
+	#define FRAME_BOSS_2_H_WING_09	 10
+	#define FRAME_BOSS_2_H_WING_10	 11
+	#define FRAME_BOSS_2_H_BODY	 12
+	#define FRAME_BOSS_2_H_BODY_01	 13
+	#define FRAME_BOSS_2_H_BODY_02	 14
+	#define FRAME_BOSS_2_F_STAND	 17
+	#define FRAME_BOSS_2_F_STAND_L	 18
+	#define FRAME_BOSS_2_F_STAND_R	 19
+	#define FRAME_BOSS_2_F_F	 20
+	#define FRAME_BOSS_2_F_BB0	 22
+	#define FRAME_BOSS_2_F_BBB0	 23
+	#define FRAME_BOSS_2_F_A1	 24
+	#define FRAME_BOSS_2_F_STAND_01	 25
+	#define FRAME_BOSS_2_F_STAND_01L	 26
+	#define FRAME_BOSS_2_F_STAND_01R	 27
+	#define FRAME_BOSS_2_F_D_01	 28
+	#define FRAME_BOSS_2_F_F_01	 29
+	#define FRAME_BOSS_2_F_C_01	 30
+	#define FRAME_BOSS_2_F_BB_01	 31
+	#define FRAME_BOSS_2_F_BBB_01	 32
+	#define FRAME_BOSS_2_F_B_01	 33
+	#define FRAME_BOSS_2_F_A_01	 34
+	#define FRAME_BOSS_2_F_STAND_02	 35
+	#define FRAME_BOSS_2_F_STAND_02L	 36
+	#define FRAME_BOSS_2_F_STAND_02R	 37
+	#define FRAME_BOSS_2_F_D_02	 38
+	#define FRAME_BOSS_2_F_F_02	 39
+	#define FRAME_BOSS_2_F_C_02	 40
+	#define FRAME_BOSS_2_F_DEAD_02	 41
+	#define FRAME_BOSS_2_F_C_02A	 42
+	#define FRAME_BOSS_2_F_BB_02	 43
+	#define FRAME_BOSS_2_F_BBB_02	 44
+	#define FRAME_BOSS_2_F_B_02	 45
+	#define FRAME_BOSS_2_F_A02	 46
+	#define FRAME_BOSS_2_F_STAND_03	 47
+	#define FRAME_BOSS_2_F_STAND_03L	 48
+	#define FRAME_BOSS_2_F_STAND_03R	 49
+	#define FRAME_BOSS_2_F_F_03	 50
+	#define FRAME_BOSS_2_F_C_03	 51
+	#define FRAME_BOSS_2_F_DEAD	 52
+	#define FRAME_BOSS_2_F_DEAD3	 53
+	#define FRAME_BOSS_2_F_DEAD4	 54
+	#define FRAME_BOSS_2_F_DEAD5	 55
+	#define FRAME_BOSS_2_F_DEAD6	 56
+	#define FRAME_BOSS_2_F_DEAD7	 57
+	#define FRAME_BOSS_2_F_C_03A	 58
+	#define FRAME_BOSS_2_F_BB_03	 59
+	#define FRAME_BOSS_2_F_BBB_03	 60
+	#define FRAME_BOSS_2_F_B_03	 61
+	#define FRAME_BOSS_2_F_A_03	 62
+	#define FRAME_BOSS_2_F_STAND_04	 63
+	#define FRAME_BOSS_2_F_F_04	 64
+	#define FRAME_BOSS_2_F_D_04	 65
+	#define FRAME_BOSS_2_F_C_04	 66
+	#define FRAME_BOSS_2_F_BBB_04	 67
+	#define FRAME_BOSS_2_F_BB_04	 68
+	#define FRAME_BOSS_2_F_B_04	 69
+	#define FRAME_BOSS_2_F_A_04	 70
+	#define FRAME_BOSS_2_F_STAND_05	 71
+	#define FRAME_BOSS_2_F_F_05	 72
+	#define FRAME_BOSS_2_F_D_05	 73
+	#define FRAME_BOSS_2_F_C_05	 74
+	#define FRAME_BOSS_2_F_BBB_05	 75
+	#define FRAME_BOSS_2_F_BB_05	 76
+	#define FRAME_BOSS_2_F_B_05	 77
+	#define FRAME_BOSS_2_F_A05	 78
+	#define FRAME_BOSS_2_F_STAND_06	 79
+	#define FRAME_BOSS_2_F_F_06	 80
+	#define FRAME_BOSS_2_F_D_06	 81
+	#define FRAME_BOSS_2_F_C_06	 82
+	#define FRAME_BOSS_2_F_BB_06	 83
+	#define FRAME_BOSS_2_F_BBB_06	 84
+	#define FRAME_BOSS_2_F_B_06	 85
+	#define FRAME_BOSS_2_F_A_06	 86
+	#define FRAME_BOSS_2_F_E	 87
+	#define FRAME_BOSS_2_F_E_01	 88
+	#define FRAME_BOSS_2_F_E_02	 89
+	#define FRAME_BOSS_2_F_E_03	 90
+	#define FRAME_BOSS_2_F_E_04	 91
+	#define FRAME_BOSS_2_F_E_05	 92
+	#define FRAME_BOSS_2_F_E_06	 93
+	#define FRAME_BOSS_2_EMPTY	 102
+	#define FRAME_BOSS_2_BLEND	 104
 
 // MODULE //
+	#define MODULE_BOSS_2_M_HEAD	 0
+	#define MODULE_BOSS_2_M_HEAD_01	 1
+	#define MODULE_BOSS_2_M_JAW	 2
+	#define MODULE_BOSS_2_M_SPINE	 3
+	#define MODULE_BOSS_2_M_BODY	 4
+	#define MODULE_BOSS_2_M_ARM	 5
+	#define MODULE_BOSS_2_M_ARM_01	 6
+	#define MODULE_BOSS_2_M_ARM_02	 7
+	#define MODULE_BOSS_2_M_WING	 8
+	#define MODULE_BOSS_2_M_WING_01	 9
+	#define MODULE_BOSS_2_M_WING_02	 10
+	#define MODULE_BOSS_2_M_HAND	 11
+	#define MODULE_BOSS_2_M_HAND_01	 12
+	#define MODULE_BOSS_2_M_HAND_02	 13
+	#define MODULE_BOSS_2_M_LIGHT	 14
+	#define MODULE_BOSS_2_M_LIGHT_01	 15
+	#define MODULE_BOSS_2_M_EYE	 16
+	#define MODULE_BOSS_2_M_EYE_01	 17
+	#define MODULE_BOSS_2_M_EYE_02	 18
 
 ///////////////////////////////// BOSS_3
 // ANIM //
@@ -7252,64 +7272,22 @@
 	#define ANIM_MON01_CATCH_1	 16
 	#define ANIM_MON01_CATCH_2	 17
 	#define ANIM_MON01_CATCH_3	 18
-	#define ANIM_MON01_DAMAGE_2	 19
-	#define ANIM_MON01_MELEE_1	 20
-	#define ANIM_MON01_MELEE_2	 21
-	#define ANIM_MON01_FLY_SAMPLE	 22
-	#define ANIM_MON01_CATCH_1DEL	 23
-	#define ANIM_MON01_CATCH_2DEL	 24
+	#define ANIM_MON01_MELEE_1	 19
+	#define ANIM_MON01_MELEE_2	 20
+	#define ANIM_MON01_FLY_SAMPLE	 21
+	#define ANIM_MON01_CATCH_1DEL	 22
 
 // FRAME //
-	#define FRAME_MON01_RAP	 0
-	#define FRAME_MON01_RAP_01	 1
-	#define FRAME_MON01_RAP_02	 2
-	#define FRAME_MON01_RAP_03	 3
-	#define FRAME_MON01_RAP_04	 4
-	#define FRAME_MON01_RAP_05	 5
-	#define FRAME_MON01_RAP_06	 6
-	#define FRAME_MON01_RAP_07	 7
-	#define FRAME_MON01_RAP_08	 8
-	#define FRAME_MON01_RAP_09	 9
-	#define FRAME_MON01_RAP_10	 10
-	#define FRAME_MON01_RAP_11	 11
-	#define FRAME_MON01_RAP_12	 12
-	#define FRAME_MON01_RAP_13	 13
-	#define FRAME_MON01_RAP_14	 14
-	#define FRAME_MON01_RAP_15	 15
-	#define FRAME_MON01_RAP_16	 16
-	#define FRAME_MON01_RAP_17	 17
-	#define FRAME_MON01_RAP_18	 18
-	#define FRAME_MON01_RAP_19	 19
-	#define FRAME_MON01_RAP_20	 20
-	#define FRAME_MON01_RAP_21	 21
-	#define FRAME_MON01_RAP_22	 22
-	#define FRAME_MON01_RAP_23	 23
-	#define FRAME_MON01_RAP_24	 24
-	#define FRAME_MON01_BLEND	 25
+	#define FRAME_MON01_RAP_16	 0
+	#define FRAME_MON01_RAP_17	 2
+	#define FRAME_MON01_RAP_17A	 3
+	#define FRAME_MON01_RAP_18	 4
+	#define FRAME_MON01_RAP_21	 5
+	#define FRAME_MON01_RAP_23	 6
+	#define FRAME_MON01_RAP_24	 7
+	#define FRAME_MON01_BLEND	 33
 
 // MODULE //
-	#define MODULE_MON01_M_RAPTOR	 0
-	#define MODULE_MON01_M_RAPTOR_01	 1
-	#define MODULE_MON01_M_RAPTOR_02	 2
-	#define MODULE_MON01_M_RAPTOR_03	 3
-	#define MODULE_MON01_M_RAPTOR_04	 4
-	#define MODULE_MON01_M_RAPTOR_05	 5
-	#define MODULE_MON01_M_RAPTOR_06	 6
-	#define MODULE_MON01_M_RAPTOR_07	 7
-	#define MODULE_MON01_M_RAPTOR_08	 8
-	#define MODULE_MON01_M_RAPTOR_09	 9
-	#define MODULE_MON01_M_RAPTOR_10	 10
-	#define MODULE_MON01_M_RAPTOR_11	 11
-	#define MODULE_MON01_M_RAPTOR_12	 12
-	#define MODULE_MON01_M_RAPTOR_13	 13
-	#define MODULE_MON01_M_RAPTOR_14	 14
-	#define MODULE_MON01_M_RAPTOR_15	 15
-	#define MODULE_MON01_M_RAPTOR_16	 16
-	#define MODULE_MON01_M_RAPTOR_17	 17
-	#define MODULE_MON01_M_RAPTOR_18	 18
-	#define MODULE_MON01_M_RAPTOR_19	 19
-	#define MODULE_MON01_M_RAPTOR_20	 20
-	#define MODULE_MON01_M_RAPTOR_21	 21
 
 ///////////////////////////////// MON02
 // ANIM //
@@ -7470,11 +7448,12 @@
 	#define ANIM_MON03_FLY_SAMPLE	 22
 	#define ANIM_MON03_CATCH_3_DEL	 23
 	#define ANIM_MON03_CATCH_1DEL	 24
+	#define ANIM_MON03_CATCH_2DEL	 25
 
 // FRAME //
 	#define FRAME_MON03_F_12	 3
 	#define FRAME_MON03_F_13	 4
-	#define FRAME_MON03_BLEND	 36
+	#define FRAME_MON03_BLEND	 37
 
 // MODULE //
 
@@ -7499,41 +7478,19 @@
 	#define ANIM_MON04_CATCH_1	 16
 	#define ANIM_MON04_CATCH_2	 17
 	#define ANIM_MON04_CATCH_3	 18
-	#define ANIM_MON04_CATCH_2DEL	 19
+	#define ANIM_MON04_MELEE_1	 19
 	#define ANIM_MON04_RANGE_1	 20
 	#define ANIM_MON04_BULLET_1	 21
 	#define ANIM_MON04_CLONE_1	 22
-	#define ANIM_MON04_CLONE_2	 23
-	#define ANIM_MON04_MELEE_1	 24
-	#define ANIM_MON04_DOWNED_OLD	 25
-	#define ANIM_MON04_FLY_FULL	 26
-	#define ANIM_MON04_CATCH_1_DEL	 28
+	#define ANIM_MON04_FLY_FULL	 23
+	#define ANIM_MON04_WALK_2DEL	 24
+	#define ANIM_MON04_WALK_VERTICAL_2DEL	 25
+	#define ANIM_MON04_CATCH_1DEL	 26
 
 // FRAME //
-	#define FRAME_MON04_BLEND	 50
+	#define FRAME_MON04_BLEND	 41
 
 // MODULE //
-	#define MODULE_MON04_M	 0
-	#define MODULE_MON04_M_01	 1
-	#define MODULE_MON04_M_02	 2
-	#define MODULE_MON04_M_03	 3
-	#define MODULE_MON04_M_04	 4
-	#define MODULE_MON04_M_05	 5
-	#define MODULE_MON04_M_06	 6
-	#define MODULE_MON04_M_07	 7
-	#define MODULE_MON04_M_08	 8
-	#define MODULE_MON04_M_09	 9
-	#define MODULE_MON04_M_10	 10
-	#define MODULE_MON04_M_11	 11
-	#define MODULE_MON04_M_12	 12
-	#define MODULE_MON04_M_13	 13
-	#define MODULE_MON04_M_14	 14
-	#define MODULE_MON04_M_15	 15
-	#define MODULE_MON04_M_16	 16
-	#define MODULE_MON04_M_17	 17
-	#define MODULE_MON04_M_18	 18
-	#define MODULE_MON04_M_19	 19
-	#define MODULE_MON04_M_20	 20
 
 ///////////////////////////////// MON05
 // ANIM //

@@ -134,8 +134,7 @@ public:
 	int Process_BOSS2(Monster*);
 	int Process_BOSS5(Monster*);
 //	int Process_BOSS5_Dummy(Monster*);
-	static bool Move(Monster* pMonster, Position3D* pos, int seed);
-	static bool Behold(Monster* pMonster, Position3D* pos, int seed);
+	static bool Move(Monster* pMonster, Position3D* pos, int action);
 	static void SetAttack(Monster* pMonster);
 	static void EndBattle(Monster* pMonster);
 	static void StartBattle(Monster* pMonster);
@@ -152,13 +151,14 @@ public:
 	static void AI_F_WAIT_ORDER(Monster* pMonster);			//	아무액션도 취하지 않는다.
 	static void AI_F_LOOKAROUND(Monster* pMonster);
 	static void AI_F_READY_TO_HIT(Monster* pMonster);
-	static void AI_F_ATTACK_FRONT(Monster* pMonster);
-	static void AI_F_ATTACK_REAR(Monster* pMonster);
+	static void AI_F_ATTACK(Monster* pMonster);
+	static void AI_F_MOVE_BACK(Monster* pMonster);
 	static void AI_F_RESIST_ATTACK(Monster* pMonster);
 	static void AI_F_ESCAPE(Monster* pMonster);
 	static void AI_F_MOVE_FIRST_POSITION(Monster* pMonster);
 	static void AI_F_RCV_DEMEGE(Monster* pMonster);
 	static void AI_F_ATTACK_DONTMOVE(Monster* pMonster);
+	static void AI_F_WORM_BURROWMOVE(Monster* pMonster);
 
 
 //////////////////////////////////////////////////////////////////
@@ -190,14 +190,16 @@ private:
 #define MON_AI_WAIT_ORDER				(1)
 #define MON_AI_LOOKAROUND				(2)
 #define MON_AI_READY_TO_HIT				(3)
-#define MON_AI_ATTACK_FRONT				(4)
-#define MON_AI_ATTACK_REAR				(5)
-#define MON_AI_RESIST_ATTACK			(6)
-#define MON_AI_ESCAPE					(7)
-#define MON_AI_MOVE_FIRST_POSITION		(8)
-#define MON_AI_RCV_DEMEGE				(9)
-#define MON_AI_READY_ORDER				(10)
-#define MON_AI_ATTACK_DONTMOVE			(11)
+#define MON_AI_ATTACK					(4)
+#define MON_AI_RESIST_ATTACK			(5)
+#define MON_AI_ESCAPE					(6)
+#define MON_AI_MOVE_FIRST_POSITION		(7)
+#define MON_AI_RCV_DEMEGE				(8)
+#define MON_AI_READY_ORDER				(9)
+#define MON_AI_ATTACK_DONTMOVE			(10)
+#define MON_AI_MOVE_BACK				(11)
+
+#define MON_AI_WORM_BURROWMOVE			(12)
 
 static void (*AIFuncPtr[])(Monster*) = 
 {
@@ -205,14 +207,17 @@ static void (*AIFuncPtr[])(Monster*) =
 	MonsterAI::AI_F_WAIT_ORDER,
 	MonsterAI::AI_F_LOOKAROUND,
 	MonsterAI::AI_F_READY_TO_HIT,
-	MonsterAI::AI_F_ATTACK_FRONT,
-	MonsterAI::AI_F_ATTACK_REAR,
+	MonsterAI::AI_F_ATTACK,
 	MonsterAI::AI_F_RESIST_ATTACK,
 	MonsterAI::AI_F_ESCAPE,
 	MonsterAI::AI_F_MOVE_FIRST_POSITION,
 	MonsterAI::AI_F_RCV_DEMEGE,
 	MonsterAI::AI_F_WAIT_ORDER,
 	MonsterAI::AI_F_ATTACK_DONTMOVE,
+	MonsterAI::AI_F_MOVE_BACK,
+
+	MonsterAI::AI_F_WORM_BURROWMOVE,
+	
 
 //	MonsterAI::AI_F_WATCH_HERO,
 //	MonsterAI::AI_F_ATTACK,
