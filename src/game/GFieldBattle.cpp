@@ -107,6 +107,10 @@ void GFieldBattle::LoadFirstData(int timer, int nDummy1, int nDummy2)
 			pField = GL_NEW Field((void*) &s_ASpriteSet);
 			break;
 		}
+
+		//>> 캐릭터 정보가 없어서 몬스터 클론시 에러가 나고 있음
+
+
 	case 5:
 		//--------------------------------------------------------------------------
 		{
@@ -228,16 +232,26 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			MakeMonsterSeed();
 			AddFirstMonSetting();
 
-			
+			if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			{
+				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+				LoadMonsterSprite(MON_IDX_WORM);
+				LoadMonsterSprite(MON_IDX_BUG);
+				SUTIL_ReleaseAspritePack();
 
+				//	소환되는 쫄(중간중간에 소환)
+				AddMonster(1, MON_IDX_WORM, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+			}
+			else if(3 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			{
+				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+				LoadMonsterSprite(MON_IDX_SKELBIRD);
+				SUTIL_ReleaseAspritePack();
 
-			SUTIL_LoadAspritePack(PACK_SPRITE_MON);
-			LoadMonsterSprite(MON_IDX_WORM);
-			LoadMonsterSprite(MON_IDX_BUG);
-			SUTIL_ReleaseAspritePack();
+				//	소환되는 쫄(중간중간에 소환)
+				AddMonster(1, MON_IDX_SKELBIRD, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
 
-			//	소환되는 쫄(중간중간에 소환)
-			AddMonster(1, MON_IDX_WORM, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+			}
 
 
 			break;
@@ -779,10 +793,10 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 
 	switch(monidx)
 	{
-		case MON_IDX_RAPTER:		{loop2 = SPRITE_MON_T_REX;	addcnt = FRAME_MON01_BLEND;		break;}
+		case MON_IDX_GHOST:			{loop2 = SPRITE_MON_GHOST;	addcnt = FRAME_MON01_BLEND;		break;}
 		case MON_IDX_GOLEM:			{loop2 = SPRITE_MON_GOLEM;	addcnt = FRAME_MON02_BLEND;		break;}
 		case MON_IDX_SLIME:			{loop2 = SPRITE_MON_SLIME;	addcnt = FRAME_MON03_BLEND;		break;}
-		case MON_IDX_WATER_ELE:		{loop2 = SPRITE_MON_ELEMENT;	addcnt = FRAME_MON04_BLEND;		break;}
+		case MON_IDX_CROWN_BOMB:	{loop2 = SPRITE_MON_CROWNBOMB;	addcnt = FRAME_MON04_BLEND;		break;}
 		case MON_IDX_COBOLT:		{loop2 = SPRITE_MON_COBOLT;	addcnt = FRAME_MON05_BLEND;		break;}
 		case MON_IDX_THUNDERBIRD:	{loop2 = SPRITE_MON_BIRD;	addcnt = FRAME_MON06_BLEND;		break;}
 		case MON_IDX_TANK:			{loop2 = SPRITE_MON_TANK;	addcnt = FRAME_MON07_BLEND;		break;}
@@ -823,6 +837,7 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 //		case MON_IDX_BIG_DRAGON3:	{loop2 = SPRITE_MON_BOSS_1;	addcnt = FRAME_BOSS_1_BLEND;	break;}
 
 		case MON_IDX_WORM:			{loop2 = SPRITE_MON_BOSS_1;	addcnt = FRAME_BOSS_1_BLEND;	break;}
+		case MON_IDX_SKELBIRD:		{loop2 = SPRITE_MON_BOSS_2;	addcnt = FRAME_BOSS_2_BLEND;	break;}
 
 
 									
@@ -858,10 +873,10 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 	switch(monidx)
 	{
-		case MON_IDX_RAPTER:		{tmpMonster = GL_NEW Mon_RAPTER();		break;}
+		case MON_IDX_GHOST:			{tmpMonster = GL_NEW Mon_GHOST();		break;}
 		case MON_IDX_GOLEM:			{tmpMonster = GL_NEW Mon_GOLEM();		break;}
 		case MON_IDX_SLIME:			{tmpMonster = GL_NEW Mon_SLIME();		break;}
-		case MON_IDX_WATER_ELE:		{tmpMonster = GL_NEW Mon_WATER_EFE();	break;}
+		case MON_IDX_CROWN_BOMB:	{tmpMonster = GL_NEW Mon_CROWN_BOMB();	break;}
 		case MON_IDX_COBOLT:		{tmpMonster = GL_NEW Mon_COBOLT();		break;}
 		case MON_IDX_THUNDERBIRD:	{tmpMonster = GL_NEW Mon_THUNDERBIRD();	break;}
 		case MON_IDX_TANK:			{tmpMonster = GL_NEW Mon_TANK();		break;}
@@ -982,7 +997,8 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 //		case MON_IDX_BIG_DRAGON2:			{tmpMonster = GL_NEW BossBigDragon2();				break;}
 //		case MON_IDX_BIG_DRAGON3:			{tmpMonster = GL_NEW BossBigDragon3();				break;}
 
-		case MON_IDX_WORM:				{tmpMonster = GL_NEW BossWorm();						break;}
+		case MON_IDX_WORM:					{tmpMonster = GL_NEW BossWorm();					break;}
+		case MON_IDX_SKELBIRD:				{tmpMonster = GL_NEW BossSkelBird();				break;}
 											
 	}
 
@@ -3428,6 +3444,22 @@ void GFieldBattle::Analysis_Mon_Message()
 				}
 				break;
 			}
+		case MSG_MON4_CLONE:
+		//------------------------------------------------------------
+		{
+			AddMonster(1, MON_IDX_CROWN_BOMB, 0, 0, GRADE_NORMAL,
+				GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+				GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+				NOT_REGEN);
+
+			//	방향을 정해준다.
+			GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+			//	프로세서를 한번 돌려준다.
+			GetData(pMonList)->Process(m_CharInfo);
+
+			break;
+		}
 		case MSG_SUMMONE_BABY:
 			//------------------------------------------------------------
 			{
@@ -3446,17 +3478,29 @@ void GFieldBattle::Analysis_Mon_Message()
 				//TEST
 				if(15 < GetNodeCount(pMonList))	{break;}
 
-				int posx[] = {100,  -100,  50,  50, -50, -50};
-				int posy[] = {  0,     0, -30,  30, -30,  30};
+//				int posx[] = {100,  -100,  50,  50, -50, -50};
+//				int posy[] = {  0,     0, -30,  30, -30,  30};
+//
+//				for(int loop = 0; loop < 6; loop++)
+//				{
+//					AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
+//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
+//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
+//						NOT_REGEN);
+//					GetData(pMonList)->Process(m_CharInfo);
+//				}
 
-				for(int loop = 0; loop < 6; loop++)
-				{
 					AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
-						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
-						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
+						GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+						GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
 						NOT_REGEN);
+
+					//	방향을 정해준다.
+					GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+					//	프로세서를 한번 돌려준다.
 					GetData(pMonList)->Process(m_CharInfo);
-				}
+
 
 				//	소환하다말았음
 				//	딜레이 시간 체크
@@ -3473,7 +3517,7 @@ void GFieldBattle::Analysis_Mon_Message()
 					//	모든 몬스터의 피를 없애준다. 
 					GetData(pMonList)->m_Stet.m_Hp = 0;
 
-					if(MON_IDX_HOROS != GetData(pMonList)->m_PtnIdx)
+					if(MON_IDX_WORM != GetData(pMonList)->m_PtnIdx)
 					{
 						//						if(MON_AC_STAND == GetData(pMonList)->m_ActState ||
 						//							MON_AC_MOVE == GetData(pMonList)->m_ActState ||

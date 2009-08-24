@@ -417,10 +417,10 @@
 //------------------------------------------------------------------------------
 #define PACK_SPRITE_MON 			"/16"
 
-#define SPRITE_MON_T_REX 			 0 
+#define SPRITE_MON_GHOST 			 0 
 #define SPRITE_MON_GOLEM 			 1 
 #define SPRITE_MON_SLIME 			 2 
-#define SPRITE_MON_ELEMENT 			 3 
+#define SPRITE_MON_CROWNBOMB 			 3 
 #define SPRITE_MON_COBOLT 			 4 
 #define SPRITE_MON_BIRD 			 5 
 #define SPRITE_MON_TANK 			 6 
