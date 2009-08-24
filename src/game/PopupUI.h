@@ -61,6 +61,17 @@
 #define INVENTORY_TEXT_POPUP__ABANDON		1
 #define INVENTORY_TEXT_POPUP__EQUIPDEL		2
 
+
+
+#define ITEMSHOP_POPUP_BUY				0
+#define ITEMSHOP_POPUP_SELL				1
+#define ITEMSHOP_POPUP_BUY_COUNT		2
+#define ITEMSHOP_POPUP_SELL_COUNT		3
+#define ITEMSHOP_POPUP_NOT_SPACE		4
+#define ITEMSHOP_POPUP_NO_MONEY			5
+#define ITEMSHOP_POPUP_NOT_SELL			6
+
+
 #define ALL_DEL					-1
 
 #define Q_ITEM_MAX(a)				((a)		%100)
@@ -225,9 +236,9 @@ public:
 #define SELECT_GAMEOVER_Y			(s_Page.Ly1_sel)
 
 
-
+#define SELECT_ITEMSHOP_X				(s_Page.Ly10_sel)
 #define SELECT_ITEMSHOP_Y				(s_Page.Ly1_sel)
-#define SELECT_ITEMSHOP_BAG			(s_Page.Ly2_sel)
+#define SELECT_ITEMSHOP_BAG				(s_Page.Ly2_sel)
 #define SELECT_ITEMSHOP_INSIDE			(s_Page.Ly3_sel)
 #define SELECT_ITEMSHOP_KIND			(s_Page.Ly4_sel)
 #define SELECT_ITEMSHOP_POPUP_KIND		(s_Page.Ly5_sel)
@@ -237,6 +248,8 @@ public:
 #define SELECT_ITEMSHOP_POPUP_TEXT_KIND			(s_Page.Ly8_sel)
 #define SELECT_ITEMSHOP_POPUP_TEXT_YESNO			(s_Page.Ly9_sel)
 
+	#define SELECT_ITEMSHOP_FOCUS_R_L				(s_Page.Ly11_sel)
+	#define SELECT_ITEMSHOP_Y_SCROLL				(s_Page.Ly12_sel)
 
 
 
@@ -264,7 +277,7 @@ public:
 	int ani_Num;
 	bool SkillChange_A;//스킬의 교환이 일어나면 True 로 활성화된다
 	//bool SkillChange_P;//스킬의 교환이 일어나면 True 로 활성화된다
-	bool GameOver;//스킬의 교환이 일어나면 True 로 활성화된다
+	bool GameOver;//게임오버로 인한 ui 호출시 활성화
 	bool ShopOpen;//상점이 열렸을때 샵이 활성화된다
 
 
@@ -312,7 +325,7 @@ private:
 	void PaintNumber(ASprite* pAsIns, int numImgIdx, int value, int x, int y, int gap , int position);
 	void PaintGage(int gageType, int gagewidth,int gageheight, int x, int y, int nowvalue, int maxvalue);
 	int itemNAME(int m_Kind, int m_Index)	;//낱개의 아이템의 텍스트 인덱스를 넘겨주는 부분
-	void itemTEXT(struct ItemBag _item)	;//낱개의 아이템의 텍스트 인덱스를 넘겨주는 부분
+	void itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)	;//낱개의 아이템의 텍스트 인덱스를 넘겨주는 부분
 
 
 

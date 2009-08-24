@@ -5,7 +5,7 @@
 MainMenu::MainMenu()
 //--------------------------------------------------------------------------
 {
-	MAINMENU_PAGE = 0;
+	MAINMENU_PAGE = PAGE_GO_QUEST;//0;
 	pCLRPOPUP_Text = _SUTIL->LoadTextPack(PACK_DATA_TEXT, DATA_TEXT_CLRMENU_TEXT);//텍스트 팩 로드
 }
 

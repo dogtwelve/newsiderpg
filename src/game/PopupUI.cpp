@@ -125,7 +125,11 @@ bool PopupUi::KeyEvent(int m_keyCode, int m_keyRepeat)
 	if(GameOver){//게임 오버일때
 		Key_GAMEOVER(m_keyCode, m_keyRepeat);
 		return GameOver;
+	}else if(TRUE || ShopOpen){//상점호출
+		Key_ITEMSHOP(m_keyCode, m_keyRepeat);
+		return true;//ShopOpen;
 	}
+
 
 
 
@@ -169,13 +173,17 @@ void PopupUi::Paint()
 
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CANCLE, XPOS,YPOS,0);//배경
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CANCLE_BASE, XPOS,YPOS,0);//프레임
-
-	//SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_TOP_TAP, XPOS,YPOS,0);//탭
-//	SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_TOP_ICON_00 + (s_Page.PageNum - 1), XPOS-61 + 18*(s_Page.PageNum - 1),YPOS-82,0,0);//탭 아이콘
-	//SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_TITLE_00 + (s_Page.PageNum - 1), XPOS,YPOS-98,0,CGraphics::HCENTER);//탭 아이콘
-
-
 	_SUTIL->pFont->setOutlineColor(-1);//아웃 라인을 사용하지 않음
+
+
+	if(TRUE || ShopOpen){//상점호출
+		Paint_ITEMSHOP();
+		_SUTIL->g->SetColor(0xff0000);
+		_SUTIL->g->DrawRect(XPOS,YPOS,1,1);
+		return;
+	}
+
+
 	switch(s_Page.PageNum){//내부구성요소
 		case POPUP_PAGE_STATES		: Paint_STATES()	; break;
 		case POPUP_PAGE_EQUIP		: Paint_EQUIP()		; break;
@@ -1113,10 +1121,10 @@ void PopupUi::Key_ITEMSHOP(int m_keyCode, int m_keyRepeat)
 		switch(SELECT_ITEMSHOP_Y){
 			case 0://탑메뉴
 				switch(m_keyCode){
-			case MH_KEY_LEFT:s_Page.PageNum--;Page_init();break;
-			case MH_KEY_RIGHT:s_Page.PageNum++;Page_init();break;
-			case MH_KEY_SELECT:
-			case MH_KEY_DOWN:SELECT_ITEMSHOP_Y++;break;
+					case MH_KEY_LEFT: SELECT_ITEMSHOP_X+=6;SELECT_ITEMSHOP_X%=7;break;
+					case MH_KEY_RIGHT:SELECT_ITEMSHOP_X+=1;SELECT_ITEMSHOP_X%=7;break;
+					case MH_KEY_SELECT:
+					case MH_KEY_DOWN:SELECT_ITEMSHOP_Y++;break;
 				}
 				break;
 			case 1://가방 탭
@@ -1124,73 +1132,68 @@ void PopupUi::Key_ITEMSHOP(int m_keyCode, int m_keyRepeat)
 					int rightBag = (SELECT_ITEMSHOP_BAG+1)%4;
 					int leftBag = (SELECT_ITEMSHOP_BAG+3)%4;
 					switch(m_keyCode){
-			case MH_KEY_CLEAR:
-			case MH_KEY_UP:
-				if(Character::s_ItemPick.ITEM_KIND==0){//커서에 아이템이 붙어있지않아야 한다
-					SELECT_ITEMSHOP_Y=0;
-				}
-				break;
-			case MH_KEY_SELECT:
-			case MH_KEY_DOWN:SELECT_ITEMSHOP_Y++;SELECT_ITEMSHOP_INSIDE=0;break;
-			case MH_KEY_RIGHT:if(Character::s_ItemSlot[rightBag].ITEM_KIND) SELECT_ITEMSHOP_BAG=rightBag;break;
-			case MH_KEY_LEFT:if(Character::s_ItemSlot[leftBag].ITEM_KIND) SELECT_ITEMSHOP_BAG=leftBag;break;
+						case MH_KEY_CLEAR:
+						case MH_KEY_UP:
+							if(Character::s_ItemPick.ITEM_KIND==0){//커서에 아이템이 붙어있지않아야 한다
+								SELECT_ITEMSHOP_Y=0;
+							}
+							break;
+						case MH_KEY_SELECT:
+						case MH_KEY_DOWN:SELECT_ITEMSHOP_Y++;SELECT_ITEMSHOP_INSIDE=0;break;
+						case MH_KEY_RIGHT:if(Character::s_ItemSlot[rightBag].ITEM_KIND) SELECT_ITEMSHOP_BAG=rightBag;break;
+						case MH_KEY_LEFT:if(Character::s_ItemSlot[leftBag].ITEM_KIND) SELECT_ITEMSHOP_BAG=leftBag;break;
 					}
 				}
 				break;
 			case 2://인벤내부 탭
 				switch(m_keyCode){
-			case MH_KEY_CLEAR:SELECT_ITEMSHOP_Y = 1;break;
-			case MH_KEY_SELECT:
+					case MH_KEY_CLEAR:SELECT_ITEMSHOP_Y = 1;break;
+					case MH_KEY_SELECT:
 
-				if(Character::s_ItemPick.ITEM_KIND){//들고있는 아이템이 있다면
-					MOVE_item();//커서와 인벤의 아이템 교체
-				}else if(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE].Data0){//커서가 가리키는 아이템이 없다면 팝업을 그리지않는다
+						if(Character::s_ItemPick.ITEM_KIND){//들고있는 아이템이 있다면
+							MOVE_item();//커서와 인벤의 아이템 교체
+						}else if(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE].Data0){//커서가 가리키는 아이템이 없다면 팝업을 그리지않는다
 
-					s_Page.Focus = 1;//팝업호출
-					SELECT_ITEMSHOP_POPUP_Y=0;
+							s_Page.Focus = 1;//팝업호출
+							SELECT_ITEMSHOP_POPUP_Y=0;
 
-					switch(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE].ITEM_KIND){//아이템 종류별 분화
-			case ITEM_POTION://4
-				SELECT_ITEMSHOP_POPUP_KIND = INVENTORY_POPUP_QUICK;
-				break;
-
-			case ITEM_BAG	:
-			case ITEM_SWORD	:
-			//case ITEM_AXE	:
-			case ITEM_GUN	:
-			//case ITEM_OEB	:
-			case ITEM_HEAD	:
-			case ITEM_CHEST	:
-			case ITEM_LEG	:
-			case ITEM_GLOVE	:
-			case ITEM_NECK	:
-			case ITEM_RING	://3
-				SELECT_ITEMSHOP_POPUP_KIND = INVENTORY_POPUP_EQUIP;
-				break;
-			case ITEM_MAINQUEST:
-				SELECT_ITEMSHOP_POPUP_KIND = INVENTORY_POPUP_DEFAULT;
-				//사용할수없는 일반템용 메세지
-				break;
-
-					}
-				}
-				break;
-			case MH_KEY_UP:
-				if(SELECT_ITEMSHOP_INSIDE<8){
-					SELECT_ITEMSHOP_Y--;
-				}else{
-					SELECT_ITEMSHOP_INSIDE-=8;
-				}
-				break;
-			case MH_KEY_DOWN:SELECT_ITEMSHOP_INSIDE+=8;break;
-			case MH_KEY_LEFT:SELECT_ITEMSHOP_INSIDE--;break;
-			case MH_KEY_RIGHT:SELECT_ITEMSHOP_INSIDE++;break;
+							switch(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE].ITEM_KIND){//아이템 종류별 분화
+								case ITEM_BAG	:
+								case ITEM_SWORD	:
+								case ITEM_GUN	:
+								case ITEM_HEAD	:
+								case ITEM_CHEST	:
+								case ITEM_LEG	:
+								case ITEM_GLOVE	:
+								case ITEM_NECK	:
+								case ITEM_RING	://갯수를 따지지않고 팔리는 아이템
+									SELECT_ITEMSHOP_POPUP_KIND = ITEMSHOP_POPUP_SELL;
+									break;
+								case ITEM_MAINQUEST://판매불가 - 사용할수없는 일반템용 메세지
+									SELECT_ITEMSHOP_POPUP_KIND = ITEMSHOP_POPUP_NOT_SELL;
+									break;
+								default://갯수를 먼저 확인해야하는 아이템
+									SELECT_ITEMSHOP_POPUP_KIND = ITEMSHOP_POPUP_SELL_COUNT;
+									break;
+							}
+						}
+						break;
+					case MH_KEY_UP:
+						if(SELECT_ITEMSHOP_INSIDE<4){
+							SELECT_ITEMSHOP_Y--;
+						}else{
+							SELECT_ITEMSHOP_INSIDE-=4;
+						}
+						break;
+					case MH_KEY_DOWN:SELECT_ITEMSHOP_INSIDE+=4;break;
+					case MH_KEY_LEFT:SELECT_ITEMSHOP_INSIDE--;break;
+					case MH_KEY_RIGHT:SELECT_ITEMSHOP_INSIDE++;break;
 				}
 				switch(Character::s_ItemSlot[SELECT_ITEMSHOP_BAG].Data0){//가방 고유의 Kind Num은 1이다
-			case 100:SELECT_ITEMSHOP_INSIDE +=  8;SELECT_ITEMSHOP_INSIDE %=  8;break;
-			case 101:SELECT_ITEMSHOP_INSIDE += 16;SELECT_ITEMSHOP_INSIDE %= 16;break;
-			case 102:SELECT_ITEMSHOP_INSIDE += 24;SELECT_ITEMSHOP_INSIDE %= 24;break;
-			case 103:SELECT_ITEMSHOP_INSIDE += 32;SELECT_ITEMSHOP_INSIDE %= 32;break;
+					case 100:SELECT_ITEMSHOP_INSIDE +=  8;SELECT_ITEMSHOP_INSIDE %=  8;break;
+					case 101:SELECT_ITEMSHOP_INSIDE += 16;SELECT_ITEMSHOP_INSIDE %= 16;break;
+					case 102:SELECT_ITEMSHOP_INSIDE += 24;SELECT_ITEMSHOP_INSIDE %= 24;break;
+					case 103:SELECT_ITEMSHOP_INSIDE += 32;SELECT_ITEMSHOP_INSIDE %= 32;break;
 				}
 
 		}
@@ -1199,9 +1202,6 @@ void PopupUi::Key_ITEMSHOP(int m_keyCode, int m_keyRepeat)
 
 		switch(m_keyCode){
 			case MH_KEY_CLEAR:
-				if(SELECT_ITEMSHOP_POPUP_KIND == INVENTORY_POPUP_BAGCHANGE){
-					SELECT_ITEMSHOP_BAG = 0;
-				}
 				s_Page.Focus = 0;
 				break;
 			case MH_KEY_SELECT:
@@ -1684,7 +1684,7 @@ void PopupUi::Paint_INVENTORY()
 	//인벤 커서
 	if(SELECT_INVENTORY_Y==2){//인벤내의 아이템을 선택
 		if(Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_KIND){//아이템이 없다면 그리지않는다
-			itemTEXT(Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE]);
+			itemTEXT(Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE],23,41,53,66);
 		}
 		if(Character::s_ItemPick.ITEM_KIND == 0){//커서에 아이템이 없어야 그린다
 			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, XPOS-70 + ((SELECT_INVENTORY_INSIDE%8)*18), YPOS-55 + ((SELECT_INVENTORY_INSIDE/8)*17),0);
@@ -2285,78 +2285,74 @@ void PopupUi::Paint_ITEMSHOP()
 {
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_SHOP, XPOS,YPOS,0);
 
+	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_WEAPONSHOP_TAB_1+SELECT_ITEMSHOP_X, XPOS,YPOS,0); 
+
 	for(int xx = 0;xx<4;xx++){
 		if(Character::s_ItemSlot[xx].ITEM_KIND)//가방이 존재하면
-			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,MODULE_ITEM_BAG_00+(Character::s_ItemSlot[xx].ITEM_INDEX), XPOS-74+(xx*18),YPOS-73,0,0);
+			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,MODULE_ITEM_BAG_00+(Character::s_ItemSlot[xx].ITEM_INDEX), XPOS+4+(xx*18),YPOS-73,0,0);
 	}
 
-	_SUTIL->g->SetColor(0x5a657b);
+	_SUTIL->g->SetColor(0x4a3429); 
 	switch(Character::s_ItemSlot[SELECT_ITEMSHOP_BAG].Data0){
 		case 100:
-			_SUTIL->g->FillRect(XPOS-70,YPOS-24,138,51);
+			_SUTIL->g->FillRect(XPOS+4,YPOS-22,66,47);
 			break;
 		case 101:
-			_SUTIL->g->FillRect(XPOS-70,YPOS- 7,138,34);
+			_SUTIL->g->FillRect(XPOS+4,YPOS+10,66,15);
 			break;
-		case 102:
-			_SUTIL->g->FillRect(XPOS-70,YPOS+10,138,17);
+		case 102://해당가방은 4X5 표현공간을 넘는다 - 스크롤바  표현
+			_SUTIL->g->SetColor(0x76aebf);
+			_SUTIL->g->FillRect( XPOS+109, XPOS+16,5,15);
 			break;
-		case 103:
-
-			break;
+		case 103://해당가방은 4X5 표현공간을 넘는다 - 스크롤바  표현
+			_SUTIL->g->SetColor(0x76aebf);
+			_SUTIL->g->FillRect( XPOS+109, XPOS+16,5,15);
+			break; 
 	}
+	if(SELECT_ITEMSHOP_INSIDE>=20 && SELECT_ITEMSHOP_Y_SCROLL==0)
+		SELECT_ITEMSHOP_Y_SCROLL=1;
+	if(SELECT_ITEMSHOP_INSIDE>=24 && SELECT_ITEMSHOP_Y_SCROLL==1)
+		SELECT_ITEMSHOP_Y_SCROLL=2;
+	if(SELECT_ITEMSHOP_INSIDE>=28 && SELECT_ITEMSHOP_Y_SCROLL==2)
+		SELECT_ITEMSHOP_Y_SCROLL=3;
+
+	if(SELECT_ITEMSHOP_INSIDE<12 && SELECT_ITEMSHOP_Y_SCROLL==3)
+		SELECT_ITEMSHOP_Y_SCROLL=2;
+	if(SELECT_ITEMSHOP_INSIDE<8 && SELECT_ITEMSHOP_Y_SCROLL==2)
+		SELECT_ITEMSHOP_Y_SCROLL=1;
+	if(SELECT_ITEMSHOP_INSIDE<4 && SELECT_ITEMSHOP_Y_SCROLL==1)
+		SELECT_ITEMSHOP_Y_SCROLL=0;
+
+
 
 	//소지금액 그리기
-	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_MONEY, Character::s_Status[Character::s_HeroTag.SEX].MONEY,  XPOS+66, YPOS-58 , 1 , CGraphics::RIGHT);//MONEY
+	PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_MONEY, Character::s_Status[Character::s_HeroTag.SEX].MONEY,  XPOS-6, YPOS-69 , 1 , CGraphics::RIGHT);//MONEY
 
 
 	//가방 커서 
 	if(SELECT_ITEMSHOP_Y==1){
-		if(Character::s_ItemPick.ITEM_KIND){//커서에 아이템을 들고있다면 그려준다
-			if(!(s_Page.Focus == 1 && SELECT_ITEMSHOP_POPUP_KIND == INVENTORY_POPUP_BAGCHANGE)){//가방을 바꿀때 는 가방 커서가 없다
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI5, XPOS-68+(SELECT_ITEMSHOP_BAG*17),YPOS-61,0);//가방 선택
-			}
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, 
-				XPOS-68+(SELECT_ITEMSHOP_BAG*17)	+6, 
-				YPOS-61								-4,0);//커서
-			//아이콘
-			paint_ICON(Character::s_ItemPick,XPOS-68+(SELECT_ITEMSHOP_BAG*17)+6, YPOS-61-4,true);
-		}else{
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, XPOS-68+(SELECT_ITEMSHOP_BAG*17),YPOS-61,0);//가방 선택 ANI
-		}
+		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, XPOS+4+(SELECT_ITEMSHOP_BAG*18),YPOS-73,0);//가방 선택 ANI
 	}else{
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI5, XPOS-68+(SELECT_ITEMSHOP_BAG*17),YPOS-61,0);//가방 선택
+		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI5, XPOS+4+(SELECT_ITEMSHOP_BAG*18),YPOS-73,0);//가방 선택
 	}
 
 
 
 	//인벤 커서
-	if(SELECT_ITEMSHOP_Y==2){//인벤내의 아이템을 선택
+	if(SELECT_ITEMSHOP_Y==2){//인벤내의 아이템을 선택 
 		if(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE].ITEM_KIND){//아이템이 없다면 그리지않는다
-			itemTEXT(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE]);
+			itemTEXT(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE],35,50,61,72);
 		}
-		if(Character::s_ItemPick.ITEM_KIND == 0){//커서에 아이템이 없어야 그린다
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, XPOS-68 + ((SELECT_ITEMSHOP_INSIDE%8)*17), YPOS-40 + ((SELECT_ITEMSHOP_INSIDE/8)*17),0);
-			s_Popup_Sharp.posX = XPOS-68 + ((SELECT_ITEMSHOP_INSIDE%8)*17);
-			s_Popup_Sharp.posY = YPOS-40 + ((SELECT_ITEMSHOP_INSIDE/8)*17);
-		}
+			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, XPOS+4 + ((SELECT_ITEMSHOP_INSIDE%4)*17), YPOS-54 + ((SELECT_ITEMSHOP_INSIDE/4 - SELECT_ITEMSHOP_Y_SCROLL)*16),0);
+			s_Popup_Sharp.posX = XPOS+4 + ((SELECT_ITEMSHOP_INSIDE%4)*17);
+			s_Popup_Sharp.posY = YPOS-54 + ((SELECT_ITEMSHOP_INSIDE/4 - SELECT_ITEMSHOP_Y_SCROLL)*16);
+		
 	}
 
 	//가방내 아이템을 그리기 
-	for(int xx = 0,MaxSlot = get_BagMax(Character::s_ItemSlot[SELECT_ITEMSHOP_BAG]);xx<MaxSlot;xx++){
-		if(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][xx].ITEM_KIND){//아이템이 없다면 그리지않는다
-			paint_ICON(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][xx], XPOS-68 + ((xx%8)*17), YPOS-40 + ((xx/8)*17),true);
-		}
-	}
-
-	//인벤 커서
-	if(SELECT_ITEMSHOP_Y==2){//인벤내의 아이템을 선택
-		if(Character::s_ItemPick.ITEM_KIND){//커서에 아이템을 들고있다면 그려준다
-			SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, 
-				XPOS-68 + ((SELECT_ITEMSHOP_INSIDE%8)*17)+6, 
-				YPOS-40 + ((SELECT_ITEMSHOP_INSIDE/8)*17)-4,0);//커서
-			//아이콘
-			paint_ICON(Character::s_ItemPick,XPOS-68 + ((SELECT_ITEMSHOP_INSIDE%8)*17)+6,YPOS-40 + ((SELECT_ITEMSHOP_INSIDE/8)*17)-4,true);
+	for(int xx = 0,MaxSlot = MIN(get_BagMax(Character::s_ItemSlot[SELECT_ITEMSHOP_BAG]),20);xx<MaxSlot;xx++){
+		if(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][xx+SELECT_ITEMSHOP_Y_SCROLL*4].ITEM_KIND){//아이템이 없다면 그리지않는다
+			paint_ICON(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][xx+SELECT_ITEMSHOP_Y_SCROLL*4], XPOS+4 + ((xx%4)*17), YPOS-54 + ((xx/4)*16),true);
 		}
 	}
 
@@ -2364,76 +2360,49 @@ void PopupUi::Paint_ITEMSHOP()
 	if(s_Page.Focus == 1){// 팝업 그리기 - 아이템별 차등 팝업호출
 
 
-		int Px = -68 + ((SELECT_ITEMSHOP_INSIDE%8)*17) + (((SELECT_ITEMSHOP_INSIDE%8)<4) ? 24 : -49);
-		int Py = -40 + ((SELECT_ITEMSHOP_INSIDE/8)*17);
+// 		int Px = -68 + ((SELECT_ITEMSHOP_INSIDE%4)*17) + (((SELECT_ITEMSHOP_INSIDE%8)<4) ? 24 : -49);
+// 		int Py = -40 + ((SELECT_ITEMSHOP_INSIDE/4)*16);
 
 
 
-		switch(SELECT_ITEMSHOP_POPUP_KIND){//아이템 종류별 분화
-			case INVENTORY_POPUP_QUICK://4개
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_2,XPOS+Px,YPOS+Py,0);//4개짜리 팝업창
+		switch(SELECT_ITEMSHOP_POPUP_KIND){//아이템을 클릭한 위치, 아이템의 종류에따라 다른 팝업이뜬다
 
-				for(int xx = 0;xx<4;xx++){
-					if(SELECT_ITEMSHOP_POPUP_Y == xx){
-						_SUTIL->pFont->setColor(0xcfeef4);
-						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2,XPOS+Px,YPOS+Py+(19*xx),0);//선택커서
-					}else{
-						_SUTIL->pFont->setColor(0x3a444d);
+			case ITEMSHOP_POPUP_BUY			://살때
+				_SUTIL->g->blandBlur();
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS-30,0);//팝업 프레임 지정
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + SELECT_ITEMSHOP_POPUP_TEXT_YESNO, XPOS,YPOS-30,0);//팝업 프레임 지정
 
-					}
-					_SUTIL->pFont->DrawText(_SUTIL->g, 
-						(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_USE:(xx==1?CLRMENU_QSLOT:(xx==2?CLRMENU_BAN:CLRMENU_MOVE)))], 
-						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
-				}
+				_SUTIL->pFont->setColor(0xf8e6cb);
+
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q7], XPOS, YPOS-30+15, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_YES], XPOS-31, YPOS-30+37, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO], XPOS+31, YPOS-30+37, CGraphics::HCENTER);
 				break;
+			case ITEMSHOP_POPUP_SELL		://팔때
+				_SUTIL->g->blandBlur();
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS-30,0);//팝업 프레임 지정
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + SELECT_ITEMSHOP_POPUP_TEXT_YESNO, XPOS,YPOS-30,0);//팝업 프레임 지정
 
-			case INVENTORY_POPUP_EQUIP	://3개
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_3,XPOS+Px,YPOS+Py,0);//3개짜리 팝업창
+				_SUTIL->pFont->setColor(0xf8e6cb);
 
-				for(int xx = 0;xx<3;xx++){
-					if(SELECT_ITEMSHOP_POPUP_Y == xx){
-						_SUTIL->pFont->setColor(0xcfeef4);
-						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2,XPOS+Px,YPOS+Py+(19*xx),0);//선택커서
-					}else{
-						_SUTIL->pFont->setColor(0x3a444d);
-
-					}
-					_SUTIL->pFont->DrawText(_SUTIL->g, 
-						(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_EQUIP:(xx==1?CLRMENU_BAN:CLRMENU_MOVE))], 
-						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
-				}
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q8], XPOS, YPOS-30+15, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_YES], XPOS-31, YPOS-30+37, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO], XPOS+31, YPOS-30+37, CGraphics::HCENTER);
 				break;
+			case ITEMSHOP_POPUP_BUY_COUNT	://살갯수
+				_SUTIL->g->blandBlur();
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS-30,0);//팝업 프레임 지정
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_COUNT, XPOS,YPOS-30,0);//팝업 프레임 지정
 
-			case INVENTORY_POPUP_DEFAULT : //2개
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_4,XPOS+Px,YPOS+Py,0);//3개짜리 팝업창
-
-				for(int xx = 0;xx<2;xx++){
-					if(SELECT_ITEMSHOP_POPUP_Y == xx){
-						_SUTIL->pFont->setColor(0xcfeef4);
-						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2,XPOS+Px,YPOS+Py+(19*xx),0);//선택커서
-					}else{
-						_SUTIL->pFont->setColor(0x3a444d);
-
-					}
-					_SUTIL->pFont->DrawText(_SUTIL->g, 
-						(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_BAN:CLRMENU_MOVE)], 
-						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
-				}
 				break;
+			case ITEMSHOP_POPUP_SELL_COUNT	://팔갯수
+				_SUTIL->g->blandBlur();
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS-30,0);//팝업 프레임 지정
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_COUNT, XPOS,YPOS-30,0);//팝업 프레임 지정
 
 				break;
 
-			case INVENTORY_POPUP_BAGCHANGE	://가방 슬롯에 끼기
-				int ss = 0;
-				break;
-		}
-	}
-
-	if(s_Page.Focus == 2){// 경고 팝업 그리기
-
-
-		switch(SELECT_ITEMSHOP_POPUP_TEXT_KIND){//팝업의 종류
-			case INVENTORY_TEXT_POPUP__NOT_ENOUGH://가방 공간부족
+			case ITEMSHOP_POPUP_NOT_SPACE://가방 공간부족
 				_SUTIL->g->blandBlur();
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS,0);//팝업 프레임 지정
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2, XPOS-20,YPOS+33,0);//팝업 프레임 버튼
@@ -2442,28 +2411,29 @@ void PopupUi::Paint_ITEMSHOP()
 				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q5], XPOS, YPOS+15, CGraphics::HCENTER);
 				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_IDENTIFY], XPOS, YPOS+37, CGraphics::HCENTER);
 				break;
-			case INVENTORY_TEXT_POPUP__ABANDON://아이템 버리기 확인창
-				_SUTIL->g->blandBlur();
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS,0);//팝업 프레임 지정
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1_LEFT + SELECT_ITEMSHOP_POPUP_TEXT_YESNO, XPOS,YPOS,0);//팝업 프레임 지정
-
-				_SUTIL->pFont->setColor(0xf8e6cb);
-				{
-					_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q4], XPOS, YPOS+15, CGraphics::HCENTER);
-					_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_YES], XPOS-31, YPOS+37, CGraphics::HCENTER);
-					_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO], XPOS+31, YPOS+37, CGraphics::HCENTER);
-				}break;
-			case INVENTORY_TEXT_POPUP__EQUIPDEL://장착아이템 버리기불가
+			case ITEMSHOP_POPUP_NO_MONEY://골드 부족
 				_SUTIL->g->blandBlur();
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS,0);//팝업 프레임 지정
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2, XPOS-20,YPOS+33,0);//팝업 프레임 버튼
 
 				_SUTIL->pFont->setColor(0xf8e6cb);
-				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q6], XPOS, YPOS+15, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q9], XPOS, YPOS+15, CGraphics::HCENTER);
 				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_IDENTIFY], XPOS, YPOS+37, CGraphics::HCENTER);
 				break;
+			case ITEMSHOP_POPUP_NOT_SELL://판매불가 템
+				_SUTIL->g->blandBlur();
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS,0);//팝업 프레임 지정
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2, XPOS-20,YPOS+33,0);//팝업 프레임 버튼
+
+				_SUTIL->pFont->setColor(0xf8e6cb);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q9], XPOS, YPOS+15, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_IDENTIFY], XPOS, YPOS+37, CGraphics::HCENTER);
+				break;
+
 		}
 	}
+
+	
 	if(s_Popup_Sharp.View){ 
 		if(SELECT_ITEMSHOP_Y == 2 && Character::s_ItemPick.ITEM_KIND==0 && s_Page.Focus == 0){
 			PaintPopup_Sharp(Character::s_ItemBag[SELECT_ITEMSHOP_BAG][SELECT_ITEMSHOP_INSIDE]);
@@ -2984,7 +2954,7 @@ int PopupUi::itemNAME(int m_Kind, int m_Index)
 	return 0;
 
 }
-void PopupUi::itemTEXT(struct ItemBag _item)
+void PopupUi::itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)
 {//아이템 이름을 뿌려줄때
 
 
@@ -3001,7 +2971,7 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 		case ITEM_BAG	:
 			//아이템 이름
 			_SUTIL->pFont->setColor(0xffffff);//레벨안되면 빨간색으로 바꿔주기 추후구현
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-64, YPOS+37, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-64, YPOS+L1, 0);
 
 			//아이템 설명
 			switch(_item.ITEM_INDEX){
@@ -3010,14 +2980,14 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 				case 2:SPRINTF(str, "%d SLOT",24);break;
 				case 3:SPRINTF(str, "%d SLOT",32);break;
 			}	
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+53, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L3, 0);
 			break;
 
 		case ITEM_POTION:
 
 		//아이템 이름
 			_SUTIL->pFont->setColor(0xffffff);//레벨안되면 빨간색으로 바꿔주기 추후구현
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+23, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+L1, 0);
 
 		//아이템 설명
 			switch(_item.ITEM_INDEX){
@@ -3029,13 +2999,13 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 				case 4:SPRINTF(str, "Mp + %d%",15);break;
 				case 5:SPRINTF(str, "Mp + %d%",20);break;
 			}	
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+53, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L3, 0);
 			break;
 
 		case ITEM_MAINQUEST:
 			//아이템 이름
 			_SUTIL->pFont->setColor(0xffaaaa);//레벨안되면 빨간색으로 바꿔주기 추후구현
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+23, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+L1, 0);
 
 
 			break;
@@ -3058,20 +3028,20 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 			if(upgrade){
 				SPRINTF(str, "%s %s %s%d",
 					(head?(char*)pITEM_Text->nText[(ITEM_SCROLL_0-1)+head]:""),
-					(char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)],				"+",				upgrade); 	
+					(char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)],	"+",	upgrade); 	
 			}else{
 				SPRINTF(str, "%s %s",
 					(head?(char*)pITEM_Text->nText[(ITEM_SCROLL_0-1)+head]:""),
 					(char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)]); 	
 			}
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+23, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L1, 0);
 			
 
 		//소켓
 			if(socket1 + socket2 + socket3){
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,
 					FRAME_UI_UI_3_1SOCKET + (socket2?(socket3?2:1):0)
-					, XPOS,YPOS,0);//가방 선택
+					, XPOS,YPOS+L1-20,0);//가방 선택
 			}
 
 
@@ -3080,12 +3050,12 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 			SPRINTF(str, "%s %d",
 				"Lv",
 				(((_item.ITEM_KIND) == ITEM_NECK)||((_item.ITEM_KIND) == ITEM_RING)? deco_Table[_item.ITEM_INDEX][D_T_LV]: equip_Table[_item.ITEM_INDEX][E_T_LV])); 	
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+41, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L2, 0);
 
 
 		//성별 
 			_SUTIL->pFont->setColor(0xffffff);//성별안되면 빨간색으로 바꿔주기 추후구현
-			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_WOMEN + _item.ITEM_SEX],XPOS+75, YPOS+41, CGraphics::RIGHT);
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_WOMEN + _item.ITEM_SEX],XPOS+75, YPOS+L2, CGraphics::RIGHT);
 
 
 		//ATT DEF
@@ -3133,7 +3103,7 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 					SPRINTF(str, "ATT %d  DEF %d",deco_Table[_item.ITEM_INDEX][D_T_RI_AT],deco_Table[_item.ITEM_INDEX][D_T_RI_DE]);
 					break;
 			}
-			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+53, 0);
+			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L3, 0);
 
 		//능력치
 			int scroll_Kind = (_item.Data2/100)%100; //스크롤 종류
@@ -3152,7 +3122,7 @@ void PopupUi::itemTEXT(struct ItemBag _item)
 					case 10:SPRINTF(str, "INT+%d",UP*4/3+1);break;
 					case 11:SPRINTF(str, "ALL+%d",MAX(1,UP/2));break;
 				}
-				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+66, 0);
+				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L4, 0);
 			}
 
 		//인포

@@ -109,7 +109,7 @@
     {
         0x2321
         RC	0	0	0	0
-        RC	0	0	0	0
+        RC	5	-15	5	37
         RC	17	-114	46	-73
         RC	-3	-75	26	-34
         FM	0x106A	10	-127
@@ -140,9 +140,6 @@
     FRAME "bl_e" // Index = 9, FModules = 26
     {
         0x22E4
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-42	-64	42	-13
         FM	0x103A	-24	-83
         FM	0x105F	-5	-65
         FM	0x1060	7	-86
@@ -174,9 +171,6 @@
     FRAME "bl_e_01" // Index = 10, FModules = 11
     {
         0x2310
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-42	-64	42	-13
         FM	0x103A	-24	-83
         FM	0x105F	-5	-65
         FM	0x105F	-12	-110
@@ -193,9 +187,6 @@
     FRAME "bl_e_02" // Index = 11, FModules = 21
     {
         0x22E5
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-42	-45	42	6
         FM	0x1067	-14	-31
         FM	0x1067	13	30
         FM	0x1067	-49	-1
@@ -222,9 +213,6 @@
     FRAME "bl_e_03" // Index = 12, FModules = 9
     {
         0x2319
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-42	-45	42	6
         FM	0x1068	-14	-31
         FM	0x1068	13	30
         FM	0x1068	-49	-1
@@ -259,9 +247,6 @@
     FRAME "bl_e_06" // Index = 15, FModules = 12
     {
         0x2311
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-42	-45	42	6
         FM	0x1067	-14	-26
         FM	0x22E5	127	-1	+HYPER_FM
         FM	0x1067	-49	-1
@@ -279,9 +264,6 @@
     FRAME "bl_e_07" // Index = 16, FModules = 6
     {
         0x2318
-        RC	0	0	0	0
-        RC	0	0	1	0
-        RC	-42	-45	42	6
         FM	0x1068	-14	-26
         FM	0x2319	127	-1	+HYPER_FM
         FM	0x1068	-49	-1
@@ -418,22 +400,26 @@
         AF	0x22B2	3	67	0
     }
 
-    ANIM "a_b_skill2_e2" // Index = 1, AFrames = 15
+    ANIM "a_b_skill2_e2" // Index = 1, AFrames = 19
     {
         0x3053
         AF	0x22B2	8	16	0
         AF	0x22F7	1	86	-127
         AF	0x22F7	1	86	-57
         AF	0x22F7	1	86	13
+        AF	0x22F7	1	86	83
         AF	0x231B	1	86	-127
         AF	0x231C	1	86	-57
         AF	0x231D	1	86	13
+        AF	0x231D	1	86	83
         AF	0x2312	1	86	-127
         AF	0x231A	1	86	-57
         AF	0x22F7	1	86	13
+        AF	0x22F7	1	86	83
         AF	0x2312	1	86	-127
         AF	0x231A	1	86	-57
         AF	0x22F7	1	86	13
+        AF	0x22F7	1	86	83
         AF	0x2311	1	86	0
         AF	0x2318	1	86	0
     }

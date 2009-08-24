@@ -6,7 +6,7 @@
 
     // Images:  1
     // Modules: 10
-    // Frames:  16
+    // Frames:  17
     // Anims:   1
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@
     {
         0x231E
         RC	0	0	0	0
-        RC	5	-50	6	-50
+        RC	5	-25	6	52
         RC	16	-74	52	8
         FM	0x108D	-5	-97
     }
@@ -113,7 +113,7 @@
     {
         0x231F
         RC	0	0	0	0
-        RC	5	-50	6	-50
+        RC	5	-25	6	52
         RC	23	-84	53	-15
         FM	0x108E	-2	-113
     }
@@ -142,7 +142,7 @@
     {
         0x2318
         RC	0	0	0	0
-        RC	-3	0	-3	0
+        RC	-3	0	-3	76
         RC	108	-26	132	5
         FM	0x107B	39	-26
         FM	0x107B	67	-19
@@ -151,6 +151,15 @@
     }
 
     FRAME "" // Index = 14, FModules = 4
+    {
+        0x2001
+        FM	0x107B	39	-26
+        FM	0x107B	67	-19
+        FM	0x107B	95	-12
+        FM	0x107C	117	-11
+    }
+
+    FRAME "" // Index = 15, FModules = 4
     {
         0x231A
         RC	0	0	0	0
@@ -162,7 +171,7 @@
         FM	0x107C	111	-10
     }
 
-    FRAME "BLEND" // Index = 15, FModules = 4
+    FRAME "BLEND" // Index = 16, FModules = 4
     {
         0x2000
         FM	0x108C	2	0
@@ -177,14 +186,15 @@
 // <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
 // Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    ANIM "a_s_skill_7_e" // Index = 0, AFrames = 15
+    ANIM "a_s_skill_7_e" // Index = 0, AFrames = 16
     {
         0x3071
         AF	0x2310	1	0	0
         AF	0x2311	2	0	0
         AF	0x2312	1	7	0
         AF	0x2314	1	15	0
-        AF	0x2318	2	16	0
+        AF	0x2318	1	16	0
+        AF	0x2001	1	16	0
         AF	0x231A	1	16	0
         AF	0x2319	1	16	0
         AF	0x231B	1	16	0

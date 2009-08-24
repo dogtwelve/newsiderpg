@@ -165,3 +165,35 @@ static const short head_Table[8][11]={
 	{	60	,	0	,	0	,	-20	,	-10	,	70	,	-1	,	-1	,	0	,	0,	2},
 	{	-10	,	0	,	0	,	0	,	5	,	-20	,	0	,	0	,	0	,	2,	1}
 };
+
+
+
+#define USE_T_ID			0
+#define USE_T_GREAD			1
+#define USE_T_INFO			2
+static const short H_Potion_Table[3][3]={//힐링용품
+	{	200	,	1	,	15	},
+	{	201	,	2	,	40	},
+	{	202	,	3	,	65	}
+};
+static const short M_Potion_Table[3][3]={//마나용품
+	{	203	,	1	,	5	},
+	{	204	,	2	,	15	},
+	{	205	,	3	,	20	}
+};
+static const short Bag_Table[4][3]={//가방
+	{	100	,	3	,	8	},
+	{	101	,	4	,	16	},
+	{	102	,	5	,	24	},
+	{	102	,	6	,	32	}
+};
+static const short Enchant_Table[3][3]={//강화용품
+	{	400	,	3	,	1	},
+	{	401	,	5	,	2	},
+	{	402	,	6	,	30	}
+};
+static const short Book_Table[3][3]={//스킬북
+	{	500	,	5	,	0	},
+	{	501	,	6	,	1	},
+	{	502	,	7	,	2	}
+};
