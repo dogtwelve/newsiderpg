@@ -24,6 +24,9 @@
 	ItemBag Character::s_ItemSlot[4];
 	ItemBag Character::s_ItemBag[4][32];
 	ItemBag Character::s_ItemPick;
+
+	ItemBag Character::s_ItemShop[24];
+
 	MustAction Character::s_MustAction;
 	class ASprite*	Character::_spr_Hero_W;
 	class ASprite*	Character::_spr_Hero_M;

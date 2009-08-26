@@ -863,21 +863,21 @@
         FM	0x1106	-38	-74
         FM	0x1105	-79	-74
         FM	0x1105	-3	-74
-        FM	0x1106	-2	66
-        FM	0x1106	33	66
-        FM	0x1106	38	66
-        FM	0x1105	-3	66
-        FM	0x1105	73	66
+        FM	0x1106	3	69
+        FM	0x1106	38	69
+        FM	0x1106	43	69
+        FM	0x1105	2	69
+        FM	0x1105	78	69
         FM	0x1018	-75	-71
         FM	0x10CF	4	-73
         FM	0x10CF	22	-73
         FM	0x10CF	40	-73
         FM	0x10CF	58	-73
-        FM	0x1189	-79	31
-        FM	0x115B	-79	31
-        FM	0x115B	77	31	+FLIP_X
-        FM	0x115B	-79	82	+FLIP_Y
-        FM	0x115B	77	82	+FLIP_X	+FLIP_Y
+        FM	0x1189	-79	14
+        FM	0x115B	-79	14
+        FM	0x115B	77	14	+FLIP_X
+        FM	0x115B	-79	65	+FLIP_Y
+        FM	0x115B	77	65	+FLIP_X	+FLIP_Y
     }
 
     FRAME "ui_weaponshop_tab_1" // Index = 50, FModules = 14
@@ -1806,8 +1806,8 @@
         FM	0x113C	31	-16
         FM	0x1136	-11	-45
         FM	0x1137	10	-45
-        FM	0x1138	31	-45
-        FM	0x1139	52	-45
+        FM	0x1138	52	-45
+        FM	0x1139	31	-45
         FM	0x113A	-11	-16
         FM	0x113B	10	-16
         FM	0x1000	-86	-93
