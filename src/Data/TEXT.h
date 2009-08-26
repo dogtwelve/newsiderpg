@@ -386,24 +386,25 @@
 #define CLRMENU_Q8 			 167			/*판매 하시겠습니까?*/
 #define CLRMENU_Q9 			 168			/*골드가 부족합니다.*/
 #define CLRMENU_Q10 			 169			/*판매 할 수 없는 물품입니다.*/
-#define CLRMENU_MAIN_Q 			 170			/*MQ*/
-#define CLRMENU_SUB_Q 			 171			/*SQ*/
-#define CLRMENU_YES 			 172			/*예*/
-#define CLRMENU_NO 			 173			/*아니오*/
-#define CLRMENU_IDENTIFY 			 174			/*확인*/
-#define CLRMENU_TEXT_SAVED 			 175			/*저장 되었습니다.*/
-#define CLRMENU_MINING 			 176			/*채광*/
-#define CLRMENU_PICKING 			 177			/*채집*/
-#define CLRMENU_COOKING 			 178			/*요리*/
-#define CLRMENU_JEWELRY 			 179			/*보석*/
-#define CLRMENU_TITLETEMP 			 180			/*골렘슬레이어*/
-#define CLRMENU_TESTTEXT 			 181			/*쿠냐 왕국!|그 곳^2에는 사람과 대화가 가능한 특별한 동물 쿠냐^0들이 살고 있는 작은 섬입니다.많은 사람들이 쿠냐를 보기 위해 이 섬을 찾았고, 그로 인해 쿠냐 왕국의 명성은 높아지고 있었습니다. */
-#define CLRMENU_MAINMENU_NAMEM 			 182			/*잉그램|깔쌈한 외모와 바람끼가 흐르는 생김새와 달리 성격은 내성적인 전형적 남자주인공*/
-#define CLRMENU_MAINMENU_NAMEW 			 183			/*루시엔|S라인 몸매와 사람이 아닌 3싸이즈가 게걸스럽게 먹어대도 유지되는 여자주인공*/
-#define CLRMENU_MAINMENU_TYPE1 			 184			/*워리어|양손 무기를 사용하는 근거리 공격타입|공격이 빠른 스피드형*/
-#define CLRMENU_MAINMENU_TYPE2 			 185			/*건너|총기류를 사용하는 장거리 공격 타입|공격이 느린 견제형*/
-#define CLRMENU_MAINMENU_TYPE3 			 186			/*위져드|마법을 사용하는 광역 공격타입|공격이 강력한 파워형*/
-#define CLRMENU_MAINMENU6 			 187			/*세이브 슬롯*/
+#define CLRMENU_GOLD 			 170			/*Gold*/
+#define CLRMENU_MAIN_Q 			 171			/*MQ*/
+#define CLRMENU_SUB_Q 			 172			/*SQ*/
+#define CLRMENU_YES 			 173			/*예*/
+#define CLRMENU_NO 			 174			/*아니오*/
+#define CLRMENU_IDENTIFY 			 175			/*확인*/
+#define CLRMENU_TEXT_SAVED 			 176			/*저장 되었습니다.*/
+#define CLRMENU_MINING 			 177			/*채광*/
+#define CLRMENU_PICKING 			 178			/*채집*/
+#define CLRMENU_COOKING 			 179			/*요리*/
+#define CLRMENU_JEWELRY 			 180			/*보석*/
+#define CLRMENU_TITLETEMP 			 181			/*골렘슬레이어*/
+#define CLRMENU_TESTTEXT 			 182			/*쿠냐 왕국!|그 곳^2에는 사람과 대화가 가능한 특별한 동물 쿠냐^0들이 살고 있는 작은 섬입니다.많은 사람들이 쿠냐를 보기 위해 이 섬을 찾았고, 그로 인해 쿠냐 왕국의 명성은 높아지고 있었습니다. */
+#define CLRMENU_MAINMENU_NAMEM 			 183			/*잉그램|깔쌈한 외모와 바람끼가 흐르는 생김새와 달리 성격은 내성적인 전형적 남자주인공*/
+#define CLRMENU_MAINMENU_NAMEW 			 184			/*루시엔|S라인 몸매와 사람이 아닌 3싸이즈가 게걸스럽게 먹어대도 유지되는 여자주인공*/
+#define CLRMENU_MAINMENU_TYPE1 			 185			/*워리어|양손 무기를 사용하는 근거리 공격타입|공격이 빠른 스피드형*/
+#define CLRMENU_MAINMENU_TYPE2 			 186			/*건너|총기류를 사용하는 장거리 공격 타입|공격이 느린 견제형*/
+#define CLRMENU_MAINMENU_TYPE3 			 187			/*위져드|마법을 사용하는 광역 공격타입|공격이 강력한 파워형*/
+#define CLRMENU_MAINMENU6 			 188			/*세이브 슬롯*/
 //------------------------------------------------------------------------- QUEST_M
 #define QUEST_M_QUEST_000_TITLE 			 0			/*동굴 입구를 찾아라!!*/
 #define QUEST_M_QUEST_000_CAPTION 			 1			/*탈출을 위해 동굴 입구를 찾아야 한다. 동쪽으로 이동하면 찾을수 있다.*/

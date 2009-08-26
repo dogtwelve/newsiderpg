@@ -409,6 +409,8 @@ public:
 	static ItemBag s_ItemSlot[4];//가방 슬롯
 	static ItemBag s_ItemBag[4][32];//슬롯당 인벤
 	static ItemBag s_ItemPick;//픽업 슬롯
+
+	static ItemBag s_ItemShop[24];//상점 인벤
 ////////////////////////////////////////////////////////////////////////////////////////
 
 	static MustAction s_MustAction;

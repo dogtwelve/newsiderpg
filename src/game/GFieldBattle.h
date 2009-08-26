@@ -88,6 +88,7 @@ typedef struct _STAGE_MON_DATA
 
 
 
+
 #define SOUND_COOLTIME 30//사운드 BGM 딜레이
 
 //overlab

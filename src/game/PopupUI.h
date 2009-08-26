@@ -140,6 +140,10 @@ struct AreaMessage{//지역명 메세지
 	char str[30];//지역명
 	int LifeTime;//표시 지속시간
 };
+
+
+
+
 #include "PopupTable.h" //아이템 정보 테이블
 
 const short s_X[2][7] = {{-34,56,-34,26, 26,-64,-4},{-34,56,-64,26,-64, -4,-4}};
@@ -167,6 +171,9 @@ public:
 	static ItemList s_ItemList[5];
 	static PlayMessage s_PlayMessage;
 	static AreaMessage s_AreaMessage;
+
+	
+
 
 
 
@@ -236,20 +243,23 @@ public:
 #define SELECT_GAMEOVER_Y			(s_Page.Ly1_sel)
 
 
-#define SELECT_ITEMSHOP_X				(s_Page.Ly10_sel)
-#define SELECT_ITEMSHOP_Y				(s_Page.Ly1_sel)
-#define SELECT_ITEMSHOP_BAG				(s_Page.Ly2_sel)
-#define SELECT_ITEMSHOP_INSIDE			(s_Page.Ly3_sel)
-#define SELECT_ITEMSHOP_KIND			(s_Page.Ly4_sel)
-#define SELECT_ITEMSHOP_POPUP_KIND		(s_Page.Ly5_sel)
-#define SELECT_ITEMSHOP_POPUP_X			(s_Page.Ly6_sel)
-#define SELECT_ITEMSHOP_POPUP_Y			(s_Page.Ly7_sel)
 
-#define SELECT_ITEMSHOP_POPUP_TEXT_KIND			(s_Page.Ly8_sel)
-#define SELECT_ITEMSHOP_POPUP_TEXT_YESNO			(s_Page.Ly9_sel)
 
-	#define SELECT_ITEMSHOP_FOCUS_R_L				(s_Page.Ly11_sel)
-	#define SELECT_ITEMSHOP_Y_SCROLL				(s_Page.Ly12_sel)
+#define SELECT_ITEMSHOP_X				(s_Page.Ly1_sel)
+#define SELECT_ITEMSHOP_Y				(s_Page.Ly2_sel)
+#define SELECT_ITEMSHOP_BAG				(s_Page.Ly3_sel)
+
+#define SELECT_ITEMSHOP_FOCUS_R_L		(s_Page.Ly4_sel)
+
+#define SELECT_ITEMSHOP_INSIDE			(s_Page.Ly5_sel)
+#define SELECT_ITEMSHOP_R_SCROLL		(s_Page.Ly6_sel)
+#define SELECT_ITEMSHOP_L_SCROLL		(s_Page.Ly7_sel)
+
+#define SELECT_ITEMSHOP_POPUP_KIND			(s_Page.Ly8_sel)
+#define SELECT_ITEMSHOP_POPUP_TEXT_YESNO	(s_Page.Ly10_sel)
+
+#define SELECT_ITEMSHOP_COUNT				(s_Page.Ly11_sel)
+
 
 
 
@@ -279,6 +289,7 @@ public:
 	//bool SkillChange_P;//스킬의 교환이 일어나면 True 로 활성화된다
 	bool GameOver;//게임오버로 인한 ui 호출시 활성화
 	bool ShopOpen;//상점이 열렸을때 샵이 활성화된다
+	int ShopLevel;//상점이 열렸을때 나올 아이템 수준을 참조
 
 
 
@@ -315,7 +326,9 @@ public:
 
 
 	struct ItemBag MakeItem(int nMontype, int nMonLevel, int nHeroSex, int mapIdx);		//성별man:0,girl:1
-	static bool GET_item(struct ItemBag* _item);//아이템을 넣었으면 True응 인벤이 부족해 먹지 못한경우에는False 를 리턴한다
+	void  MakeShop(int ShopKind, int ShopLevel);		//샵내 존재하는 아이템을 생성
+	int  CalkCost(struct ItemBag _item);		//아이템의 가치를 산정한다
+	static bool GET_item(struct ItemBag* _item);//아이템을 넣었으면 True를 인벤이 부족해 먹지 못한경우에는False 를 리턴한다
 	static int itemICON(struct ItemBag _item)	;//낱개의 아이템의 아이콘 인덱스를 넘겨주는 부분
 	static void USE_item(struct ItemBag *_item);//아이템 사용
 	static void  Del_Item(struct ItemBag *_item);
