@@ -228,10 +228,16 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 	case 2:
 		//----------------------------------------------------------
 		{
+			//	캐릭터의 정보를 업데이트 시켜준다.
+			m_CharInfo->m_nPos.x = hero->_ins_Hero->m_posX;
+			m_CharInfo->m_nPos.y = hero->_ins_Hero->m_posY;
+			m_CharInfo->m_nPos.z = hero->_ins_Hero->m_posZ;
+			m_CharInfo->m_Direction = hero->_b_LookRight;
+
 			//test
 			MakeMonsterSeed();
 			AddFirstMonSetting();
-
+/*
 			if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
@@ -252,7 +258,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				AddMonster(1, MON_IDX_SKELBIRD, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
 
 			}
-
+*/
 
 			break;
 
@@ -796,23 +802,23 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 		case MON_IDX_GHOST:			{loop2 = SPRITE_MON_GHOST;	addcnt = FRAME_MON01_BLEND;		break;}
 		case MON_IDX_GOLEM:			{loop2 = SPRITE_MON_GOLEM;	addcnt = FRAME_MON02_BLEND;		break;}
 		case MON_IDX_SLIME:			{loop2 = SPRITE_MON_SLIME;	addcnt = FRAME_MON03_BLEND;		break;}
-		case MON_IDX_CROWN_BOMB:	{loop2 = SPRITE_MON_CROWNBOMB;	addcnt = FRAME_MON04_BLEND;		break;}
-		case MON_IDX_COBOLT:		{loop2 = SPRITE_MON_COBOLT;	addcnt = FRAME_MON05_BLEND;		break;}
-		case MON_IDX_THUNDERBIRD:	{loop2 = SPRITE_MON_BIRD;	addcnt = FRAME_MON06_BLEND;		break;}
-		case MON_IDX_TANK:			{loop2 = SPRITE_MON_TANK;	addcnt = FRAME_MON07_BLEND;		break;}
-		case MON_IDX_PUMPKIN:		{loop2 = SPRITE_MON_PUMPKIN;	addcnt = FRAME_MON08_BLEND;		break;}
-		case MON_IDX_SKELETON:		{loop2 = SPRITE_MON_SKELETON;	addcnt = FRAME_MON09_BLEND;		break;}
-		case MON_IDX_GUNNER:		{loop2 = SPRITE_MON_GUNNER;	addcnt = FRAME_MON10_BLEND;		break;}
+		case MON_IDX_CROWN_BOMB:	{loop2 = SPRITE_MON_CROWNBOMB;	addcnt = FRAME_MON04_BLEND;	break;}
+		case MON_IDX_BEAR:			{loop2 = SPRITE_MON_BEAR;	addcnt = FRAME_MON05_BLEND;		break;}
+		case MON_IDX_TREE:			{loop2 = SPRITE_MON_TREE;	addcnt = FRAME_MON06_BLEND;		break;}
+		case Mon_IDX_SHREK:			{loop2 = SPRITE_MON_SHREK;	addcnt = FRAME_MON07_BLEND;		break;}
+		case MON_IDX_GOLLUM:		{loop2 = SPRITE_MON_GOLLUM;	addcnt = FRAME_MON08_BLEND;		break;}
+		case MON_IDX_SHRIMP:		{loop2 = SPRITE_MON_SHRIMP;	addcnt = FRAME_MON09_BLEND;		break;}
+		case MON_IDX_BEE:			{loop2 = SPRITE_MON_BEE;	addcnt = FRAME_MON10_BLEND;		break;}
 		case MON_IDX_ELF_FIRE:		{loop2 = SPRITE_MON_ELF;	addcnt = FRAME_MON11_BLEND;		break;}
 		case MON_IDX_ELF_ICE:		{loop2 = SPRITE_MON_ELF;	addcnt = FRAME_MON11_BLEND;		break;}
-		case MON_IDX_ELF_SILENCE:	{loop2 = SPRITE_MON_ELF;	addcnt = FRAME_MON11_BLEND;		break;}
-		case MON_IDX_TRICERATOPS:	{loop2 = SPRITE_MON_TRICERATOPS;	addcnt = FRAME_MON12_BLEND;		break;}
-		case MON_IDX_REDDRAGON:		{loop2 = SPRITE_MON_REDDRAGON;	addcnt = FRAME_MON13_BLEND;		break;}
-		case MON_IDX_BOSS5_DEVIL:
-		case MON_IDX_DEVIL:			{loop2 = SPRITE_MON_DEVIL;	addcnt = FRAME_MON14_BLEND;		break;}
-		case MON_IDX_HUMAN_SWORD:	{loop2 = SPRITE_MON_HUMAN;	addcnt = FRAME_MON15_BLEND;		break;}
-		case MON_IDX_HUMAN_MAGE:	{loop2 = SPRITE_MON_HUMAN;	addcnt = FRAME_MON15_BLEND;		break;}
-		case MON_IDX_FLYTRAP:		{loop2 = SPRITE_MON_FLYTRAP;	addcnt = FRAME_MON16_BLEND;		break;}
+//		case MON_IDX_ELF_SILENCE:	{loop2 = SPRITE_MON_ELF;	addcnt = FRAME_MON11_BLEND;		break;}
+		case MON_IDX_FIRE:			{loop2 = SPRITE_MON_FIRE;	addcnt = FRAME_MON12_BLEND;		break;}
+		case MON_IDX_EYE:			{loop2 = SPRITE_MON_EYE;	addcnt = FRAME_MON13_BLEND;		break;}
+//		case MON_IDX_BOSS5_DEVIL:
+		case MON_IDX_SPEAR:			{loop2 = SPRITE_MON_SPEAR;	addcnt = FRAME_MON14_BLEND;		break;}
+		case MON_IDX_HUMAN_MELEE:	{loop2 = SPRITE_MON_HUMAN;	addcnt = FRAME_MON15_BLEND;		break;}
+		case MON_IDX_HUMAN_RANGE:	{loop2 = SPRITE_MON_HUMAN;	addcnt = FRAME_MON15_BLEND;		break;}
+		case MON_IDX_FLYTRAP:		{loop2 = SPRITE_MON_FLYTRAP;	addcnt = FRAME_MON16_BLEND;	break;}
 		case MON_IDX_CRAB:			{loop2 = SPRITE_MON_CRAB;	addcnt = FRAME_MON17_BLEND;		break;}
 		case MON_IDX_BUG:			{loop2 = SPRITE_MON_BUG;	addcnt = FRAME_MON18_BLEND;		break;}
 		case MON_IDX_DRILL:			{loop2 = SPRITE_MON_DIRLL;	addcnt = FRAME_MON19_BLEND;		break;}
@@ -877,20 +883,20 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 		case MON_IDX_GOLEM:			{tmpMonster = GL_NEW Mon_GOLEM();		break;}
 		case MON_IDX_SLIME:			{tmpMonster = GL_NEW Mon_SLIME();		break;}
 		case MON_IDX_CROWN_BOMB:	{tmpMonster = GL_NEW Mon_CROWN_BOMB();	break;}
-		case MON_IDX_COBOLT:		{tmpMonster = GL_NEW Mon_COBOLT();		break;}
-		case MON_IDX_THUNDERBIRD:	{tmpMonster = GL_NEW Mon_THUNDERBIRD();	break;}
-		case MON_IDX_TANK:			{tmpMonster = GL_NEW Mon_TANK();		break;}
-		case MON_IDX_PUMPKIN:		{tmpMonster = GL_NEW Mon_PUMPKIN();		break;}
-		case MON_IDX_SKELETON:		{tmpMonster = GL_NEW Mon_SKELETON();	break;}
-		case MON_IDX_GUNNER:		{tmpMonster = GL_NEW Mon_GUNNER();		break;}
+		case MON_IDX_BEAR:			{tmpMonster = GL_NEW Mon_BEAR();		break;}
+		case MON_IDX_TREE:			{tmpMonster = GL_NEW Mon_TREE();		break;}
+		case Mon_IDX_SHREK:			{tmpMonster = GL_NEW Mon_SHREK();		break;}
+		case MON_IDX_GOLLUM:		{tmpMonster = GL_NEW Mon_GOLLUM();		break;}
+		case MON_IDX_SHRIMP:		{tmpMonster = GL_NEW Mon_SHRIMP();		break;}
+		case MON_IDX_BEE:			{tmpMonster = GL_NEW Mon_BEE();			break;}
 		case MON_IDX_ELF_FIRE:		{tmpMonster = GL_NEW Mon_ELF_FIRE();	break;}
 		case MON_IDX_ELF_ICE:		{tmpMonster = GL_NEW Mon_ELF_ICE();		break;}
-		case MON_IDX_ELF_SILENCE:	{tmpMonster = GL_NEW Mon_ELF_SILENCE();	break;}
-		case MON_IDX_TRICERATOPS:	{tmpMonster = GL_NEW Mon_TRICERATOPS();	break;}
-		case MON_IDX_REDDRAGON:		{tmpMonster = GL_NEW Mon_REDDRAGON();	break;}
-		case MON_IDX_DEVIL:			{tmpMonster = GL_NEW Mon_DEVIL();		break;}
-		case MON_IDX_HUMAN_SWORD:	{tmpMonster = GL_NEW Mon_HUMAN_SWORD();	break;}
-		case MON_IDX_HUMAN_MAGE:	{tmpMonster = GL_NEW Mon_HUMAN_MAGE();	break;}
+//		case MON_IDX_ELF_SILENCE:	{tmpMonster = GL_NEW Mon_ELF_SILENCE();	break;}
+		case MON_IDX_FIRE:			{tmpMonster = GL_NEW Mon_FIRE();		break;}
+		case MON_IDX_EYE:			{tmpMonster = GL_NEW Mon_EYE();			break;}
+		case MON_IDX_SPEAR:			{tmpMonster = GL_NEW Mon_SPEAR();		break;}
+		case MON_IDX_HUMAN_MELEE:	{tmpMonster = GL_NEW Mon_HUMAN_MELEE();	break;}
+		case MON_IDX_HUMAN_RANGE:	{tmpMonster = GL_NEW Mon_HUMAN_RANGE();	break;}
 		case MON_IDX_FLYTRAP:		{tmpMonster = GL_NEW Mon_FLYTRAP();		break;}
 		case MON_IDX_CRAB:			{tmpMonster = GL_NEW Mon_CRAB();		break;}
 		default:					{										break;}
@@ -898,6 +904,9 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 	if(tmpMonster)
 	{
+		//	캐릭터의 위치를 넣어준다.
+		tmpMonster->m_CharInfo = m_CharInfo;
+
 		tmpMonster->RegistUsingBaseData(pMonSkillList, pMonMsgList, &s_ASpriteSet);
 
 		//	컬러 결정
@@ -3458,6 +3467,85 @@ void GFieldBattle::Analysis_Mon_Message()
 			//	프로세서를 한번 돌려준다.
 			GetData(pMonList)->Process(m_CharInfo);
 
+			break;
+		}
+		case MSG_ELF_HEAL:
+		//------------------------------------------------------------
+		{
+			//	대상을 검색한다.
+			Monster* pMonster = NULL;
+			bool isMove = false;
+
+			//	맵에 대한 충돌체크
+			for(InitList(pMonList);NotEndList(pMonList);MoveNext(pMonList))
+			{
+				//	상태가 움직이거나 서있을때만 힐이 들어가게 한다.
+				if(MON_AC_MOVE < GetData(pMonList)->m_ActState)	{continue;}
+
+				//	거리가 멀면 넘어간다.
+				if(SQR(200) < (SQR(GetData(pMonMsgList)->param[0]-GetData(pMonList)->pMonAsIns->m_posX )
+									+SQR(GetData(pMonMsgList)->param[1]-GetData(pMonList)->pMonAsIns->m_posY)))	{continue;}
+
+				//	체력이 많으면 넘어간다.
+				if(GetData(pMonList)->m_Stet.m_MaxHp/2 < GetData(pMonList)->m_Stet.m_Hp )		{continue;}
+
+				if(NULL == pMonster)
+				{
+					pMonster = GetData(pMonList);
+				}
+				else
+				{
+					if(pMonster->m_Stet.m_Hp > GetData(pMonList)->m_Stet.m_Hp )
+					{
+						pMonster = GetData(pMonList);
+					}
+				}
+			}
+
+			if(pMonster)
+			{
+				//	힐을 걸어준다.
+				pFieldUi->InsertdamageNum(pMonster->pMonAsIns->m_posX , pMonster->pMonAsIns->m_posY , pMonster->pMonAsIns->m_posZ, 545, MON_CRI_NUM);
+				pMonster->RCV_Debuff( DEBUF_ICE );
+				pMonster->m_Stet.m_Hp += 100;
+				if(pMonster->m_Stet.m_MaxHp < pMonster->m_Stet.m_Hp)
+				{
+					pMonster->m_Stet.m_Hp = pMonster->m_Stet.m_MaxHp;
+				}
+			}
+
+			break;
+		}
+
+		case MSG_ELF_TOTAL_HEAL:
+		//------------------------------------------------------------
+		{
+			//	대상을 검색한다.
+			Monster* pMonster;
+			bool isMove = false;
+
+			//	맵에 대한 충돌체크
+			for(InitList(pMonList);NotEndList(pMonList);MoveNext(pMonList))
+			{
+				//	상태가 움직이거나 서있을때만 힐이 들어가게 한다.
+				if(MON_AC_MOVE < GetData(pMonList)->m_ActState)	{continue;}
+
+				//	거리가 멀면 넘어간다.
+				if(SQR(200) < (SQR(GetData(pMonMsgList)->param[0]-GetData(pMonList)->pMonAsIns->m_posX )
+									+SQR(GetData(pMonMsgList)->param[1]-GetData(pMonList)->pMonAsIns->m_posY)))	{continue;}
+
+				//	체력이 많으면 넘어간다.
+				if(GetData(pMonList)->m_Stet.m_MaxHp/2 < GetData(pMonList)->m_Stet.m_Hp )		{continue;}
+
+				//	힐을 걸어준다.
+				pFieldUi->InsertdamageNum(GetData(pMonList)->pMonAsIns->m_posX , GetData(pMonList)->pMonAsIns->m_posY , GetData(pMonList)->pMonAsIns->m_posZ, 545, MON_CRI_NUM);
+				GetData(pMonList)->RCV_Debuff( DEBUF_ICE );
+				GetData(pMonList)->m_Stet.m_Hp += 100;
+				if(GetData(pMonList)->m_Stet.m_MaxHp < GetData(pMonList)->m_Stet.m_Hp)
+				{
+					GetData(pMonList)->m_Stet.m_Hp = GetData(pMonList)->m_Stet.m_MaxHp;
+				}
+			}
 			break;
 		}
 		case MSG_SUMMONE_BABY:

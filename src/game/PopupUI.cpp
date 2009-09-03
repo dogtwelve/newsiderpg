@@ -3701,7 +3701,7 @@ ItemBag PopupUi::MakeItem(int nMontype, int nMonLevel, int nHeroSex, int mapIdx)
 
 	if(MAIN_QUEST_oldMedal == GET_MAINQUEST_IDX())
 	{
-		if(MON_IDX_COBOLT == nMontype)
+		if(MON_IDX_BEAR == nMontype)
 		{
 			if(100 == mapIdx || 101 == mapIdx)
 			{

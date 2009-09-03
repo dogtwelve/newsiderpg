@@ -145,14 +145,16 @@ void MonsterAI::EndBattle(Monster* pM)
 bool MonsterAI::CheckAttackRange(Monster* pM)
 //--------------------------------------------------------------------------
 {
-	//	y축으로 15픽셀이상 어긋나 있다면 공격을 하지 못한다.
-	if(SQR(15) < SQR(pM->pMonAsIns->m_posY - pM->m_CharInfo->m_nPos.y))	{return false;}
+
+
+	//	y축으로 15픽셀이상 어긋나 있다면 공격을 하지 못한다.(주인공 몸통 20 상수이므로 나중에 교체)
+	if(SQR((pM->m_nBodySize+10)/2) < SQR(pM->pMonAsIns->m_posY - pM->m_CharInfo->m_nPos.y))	{return false;}
 
 	//	범위가 넓으면 공격하지 못한다.
 	if(SQR(pM->m_Attack[pM->m_nUseAtkNum].MaxScope) < pM->m_CharInfo->m_nPos.Sqr_Distance(pM->pMonAsIns->m_posX, pM->pMonAsIns->m_posY, pM->pMonAsIns->m_posZ))	{return false;}
 
 	//	범위가 좁으면 공격하지 못한다.
-	if(SQR(pM->m_Attack[pM->m_nUseAtkNum].MaxScope) < pM->m_CharInfo->m_nPos.Sqr_Distance(pM->pMonAsIns->m_posX, pM->pMonAsIns->m_posY, pM->pMonAsIns->m_posZ))	{return false;}
+	if(SQR(pM->m_Attack[pM->m_nUseAtkNum].MinScope) > pM->m_CharInfo->m_nPos.Sqr_Distance(pM->pMonAsIns->m_posX, pM->pMonAsIns->m_posY, pM->pMonAsIns->m_posZ))	{return false;}
 
 	return true;
 }
@@ -276,6 +278,7 @@ void MonsterAI::AI_ChangeState(Monster* pMonster)
 int MonsterAI::Process(Monster* pMonster)
 //--------------------------------------------------------------------------
 {
+/*
 	//	타이머 셋팅
 	pMonster->m_nAiTimer = (pMonster->m_nAiTimer+1)%100000;
 
@@ -285,6 +288,61 @@ int MonsterAI::Process(Monster* pMonster)
 	if(pMonster->m_nAiState == MON_AI_WAIT_ORDER)
 	{
 		AI_ResvState(pMonster, CheckNextAction(pMonster));
+	}
+
+	//	상태 변경
+	if(MON_AI_NULL != pMonster->m_nAiNextState)	{AI_ChangeState(pMonster);}
+
+	//	ai 실행
+	AIFuncPtr[pMonster->m_nAiState](pMonster);
+
+	return 1;
+*/
+
+	//	타이머 셋팅
+	pMonster->m_nAiTimer = (pMonster->m_nAiTimer+1)%100000;
+
+	if(1 > pMonster->m_Stet.m_Hp)	{return 1;}
+
+	//범위를 체크해서 전투상태로 만들어준다.
+	if(false == pMonster->m_bIsBattle)
+	{
+		if(SQR(pMonster->m_nRange_InBattle) > 
+			pMonster->m_CharInfo->m_nPos.Sqr_Distance(pMonster->pMonAsIns->m_posX, pMonster->pMonAsIns->m_posY, pMonster->pMonAsIns->m_posZ))
+		{
+			StartBattle(pMonster);
+			pMonster->m_nAiPtnProcess = 0;
+			pMonster->ResvAction(MON_AC_STAND, 0);
+			return 1;
+		}
+	}
+
+	//	명령의 시간이 끝난 상태라면
+	if(MON_AC_STAND == pMonster->m_ActState)
+	{
+		if(pMonster->m_nAiTimer >= pMonster->m_nAiPtnLimitTime)
+		{
+			//	통같은 경우(공격이 없음)
+			if(0 == pMonster->m_nAtkMaxCount)		{return 1;}
+
+			//	전투 상태라면
+			if(pMonster->m_bIsBattle)
+			{
+				pMonster->m_nAiPtnProcess = (pMonster->m_nAiPtnProcess+1)%pMonster->m_nAiPtnTotCnt;
+				AI_ResvState(pMonster, pMonster->m_nAiPtnData[pMonster->m_nAiPtnProcess]);
+			}
+			else
+			{
+				if(80 < SUTIL_GetRandom()%100)
+				{
+					AI_ResvState(pMonster, MON_AI_READY_TO_HIT);
+				}
+				else
+				{
+					AI_ResvState(pMonster, MON_AI_LOOKAROUND);
+				}
+			}
+		}
 	}
 
 	//	상태 변경
@@ -657,7 +715,7 @@ void MonsterAI::AI_F_WAIT_ORDER(Monster* pMonster)
 	//	액션의 제한시간을 정한다.
 	if(0 == pMonster->m_nAiTimer)
 	{
-		pMonster->m_nAiPtnLimitTime = 20+SUTIL_GetRandom()%20;
+		pMonster->m_nAiPtnLimitTime = 10+SUTIL_GetRandom()%20;
 	}
 
 	//	아무행동도 하지 않는다.
@@ -672,7 +730,7 @@ void MonsterAI::AI_F_READY_TO_HIT(Monster* pMonster)
 	//	액션의 제한시간을 정한다.
 	if(0 == pMonster->m_nAiTimer)
 	{
-		pMonster->m_nAiPtnLimitTime = 20+SUTIL_GetRandom()%20;
+		pMonster->m_nAiPtnLimitTime = 10+SUTIL_GetRandom()%20;
 	}
 
 	//	아무행동도 하지 않는다.
@@ -692,11 +750,13 @@ void MonsterAI::AI_F_LOOKAROUND(Monster* pMonster)
 
 		//	액션을 실행한다. (추후 이동방향 추가)
 		Position3D pos;
-		pos.Init( (SUTIL_GetRandom()%100)-50,   (SUTIL_GetRandom()%50)-25, 0);	Move(pMonster, &pos, 0);
+		pos.Init( (SUTIL_GetRandom()%100)-50,   (SUTIL_GetRandom()%50)-25, 0);
+
+		Move(pMonster, &pos, MON_AC_MOVE);
 	}
 
 	// 액션의 종료를 체크해서 완료시킨다.
-	if(MON_AC_STAND == pMonster->m_NextActState || MON_AC_BASE == pMonster->m_NextActState)
+	if(MON_AC_STAND == pMonster->m_NextActState)
 	{
 		pMonster->m_nAiTimer = pMonster->m_nAiPtnLimitTime;
 	}
@@ -715,7 +775,7 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 	if(0 == pM->m_nAiTimer)
 	{
 		//	액션의 제한시간을 정한다.
-		pM->m_nAiPtnLimitTime = 50+SUTIL_GetRandom()%20;
+		pM->m_nAiPtnLimitTime = 100+SUTIL_GetRandom()%100;
 
 		//	초기 공격 좌표를 찍어놓는다. 이거리로 부터 몇픽셀 이상이면 탈출로 잡는다.
 		pM->m_SaveAtkPos = pM->m_CharInfo->m_nPos;
@@ -735,7 +795,7 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 	//	성공한 상태이면 오더를 기다리는 상태로 바꾼다.
 	if(true == pM->m_bIsSuccessAttack)
 	{
-		if(MON_AC_STAND == pM->m_NextActState)
+		if(MON_AC_STAND == pM->m_ActState)
 		{
 			pM->m_nAiTimer = pM->m_nAiPtnLimitTime;
 //			AI_ResvState(pM, MON_AI_WAIT_ORDER);
@@ -744,6 +804,12 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 	}
 	else
 	{
+		if(pM->m_nAiTimer == pM->m_nAiPtnLimitTime)
+		{
+			pM->ResvAction(MON_AC_STAND , 0);
+			return;
+		}
+
 		if(CheckAttackRange(pM))
 		{
 			pM->m_bIsSuccessAttack = true;
@@ -757,14 +823,23 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 			//	공격 거리 체크
 			Position3D AtkPoint;
 
-			AtkPoint.x = pM->m_CharInfo->m_nPos.x;
-			//	임시변수로 잠깐쓰고 밑에서 값을 다시 준다.
-			AtkPoint.z = pM->m_Attack[pM->m_nUseAtkNum].MinScope
-								+ (SUTIL_GetRandom()%(pM->m_Attack[pM->m_nUseAtkNum].MaxScope
-									- pM->m_Attack[pM->m_nUseAtkNum].MinScope));
+			if(pM->m_CharInfo->m_nPos.x > pM->pMonAsIns->m_posX)
+			{
+				AtkPoint.x = pM->m_CharInfo->m_nPos.x - pM->m_Attack[pM->m_nUseAtkNum].MaxScope;
+			}
+			else
+			{
+				AtkPoint.x = pM->m_CharInfo->m_nPos.x + pM->m_Attack[pM->m_nUseAtkNum].MaxScope;
+			}
+			
 
-			if(0 < pM->m_CharInfo->m_nPos.x - pM->pMonAsIns->m_posX)	{AtkPoint.x += AtkPoint.z;}
-			else														{AtkPoint.x -= AtkPoint.z;}
+//			//	임시변수로 잠깐쓰고 밑에서 값을 다시 준다.
+//			AtkPoint.z = pM->m_Attack[pM->m_nUseAtkNum].MinScope
+//								+ (SUTIL_GetRandom()%(pM->m_Attack[pM->m_nUseAtkNum].MaxScope
+//									- pM->m_Attack[pM->m_nUseAtkNum].MinScope));
+//
+//			if(0 < pM->m_CharInfo->m_nPos.x - pM->pMonAsIns->m_posX)	{AtkPoint.x += AtkPoint.z;}
+//			else														{AtkPoint.x -= AtkPoint.z;}
 			AtkPoint.y = (pM->m_CharInfo->m_nPos.y);
 
 			AtkPoint.x -= pM->pMonAsIns->m_posX;
@@ -843,7 +918,14 @@ void MonsterAI::AI_F_MOVE_BACK(Monster* pM)
 	if(0 == pM->m_nAiTimer)
 	{
 		//	액션의 제한시간을 정한다.
-		pM->m_nAiPtnLimitTime = 50+SUTIL_GetRandom()%20;
+		pM->m_nAiPtnLimitTime = 30+SUTIL_GetRandom()%20;
+	}
+
+	//	시간이 지나면 서있는 상태로 바꿔줘야 액션이 끝난다.
+	if(pM->m_nAiPtnLimitTime == pM->m_nAiTimer)
+	{
+		pM->ResvAction(MON_AC_STAND, 0);
+		return;
 	}
 
 	//	추적 위치 설정
@@ -1048,9 +1130,11 @@ void MonsterAI::AI_F_RCV_DEMEGE(Monster* pM)
 //--------------------------------------------------------------------------
 {
 	//	스탠드상태면 원하는 이동량만큼 이동이 끝이란 얘기다.
-	if(MON_AC_STAND == pM->m_NextActState)
+	if(MON_AC_STAND == pM->m_ActState)
 	{
-		AI_ResvState(pM, MON_AI_WAIT_ORDER);
+		//	다음패턴으로 넘어간다.
+		pM->m_nAiTimer = pM->m_nAiPtnLimitTime;
+		//AI_ResvState(pM, MON_AI_WAIT_ORDER);
 	}	
 }
 
