@@ -899,10 +899,10 @@ bool Monster::BaseProcess()
 			}
 
 			//	이동거리가 끝이라면 stand상태로 돌아간다.
-			if(0 == m_nMoveVec.Sqr_GetLength())
-			{
-				ResvAction(MON_AC_STAND, 0);
-			}
+//			if(0 == m_nMoveVec.Sqr_GetLength())
+//			{
+//				ResvAction(MON_AC_STAND, 0);
+//			}
 
 //			if(1 > m_Stet.m_Hp)
 //			{
@@ -13014,21 +13014,21 @@ BossWorm::BossWorm()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 70;
+	m_Attack[0].MaxScope = 60;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 40;
+	m_Attack[1].MinScope = 60;
 	m_Attack[1].MaxScope = 100;
 //	m_Attack[1].Debuff = DEBUF_STUN;
 
 	m_Attack[2].Name = MON_ATK_MELEE3;
 	m_Attack[2].MinScope = 0;
-	m_Attack[2].MaxScope = 80;
+	m_Attack[2].MaxScope = 60;
 //	m_Attack[2].Debuff = DEBUF_STUN;
 
 	m_Attack[3].Name = MON_ATK_RANGE1;
-	m_Attack[3].MinScope = 0;
-	m_Attack[3].MaxScope = 80;
+	m_Attack[3].MinScope = 100;
+	m_Attack[3].MaxScope = 200;
 //	m_Attack[2].Debuff = DEBUF_STUN;
 
 	m_Attack[4].Name = MON_ATK_SUMMON_BUG;
