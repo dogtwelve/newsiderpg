@@ -1196,7 +1196,7 @@ bool Monster::BaseSetAction()
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns, m_nUsingImgIdx[m_ActState]);
-//			SUTIL_SetLoopAsprite(pMonAsIns, true);
+			SUTIL_SetLoopAsprite(pMonAsIns, true);
 			
 			//	방향을 정해준다.
 			if(MON_AC_BEHOLD == m_ActState)
@@ -1520,11 +1520,11 @@ Mon_GHOST::Mon_GHOST()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 70;
+	m_Attack[0].MaxScope = 40;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 40;
-	m_Attack[1].MaxScope = 80;
+	m_Attack[1].MinScope = 30;
+	m_Attack[1].MaxScope = 60;
 //	m_Attack[1].Debuff = DEBUF_POISON;
 
 //	m_nStrollScope = 60;
@@ -1533,6 +1533,15 @@ Mon_GHOST::Mon_GHOST()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 6;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
 }
 
 
@@ -1824,7 +1833,7 @@ Mon_SLIME::Mon_SLIME()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].MaxScope = 30;
 
 	m_Attack[1].Name = MON_ATK_FIREBALL;
 	m_Attack[1].MinScope = 70;
@@ -1836,6 +1845,15 @@ Mon_SLIME::Mon_SLIME()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 6;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
 }
 
 
@@ -1953,6 +1971,7 @@ Mon_CROWN_BOMB::Mon_CROWN_BOMB()
 
 	//	분열이 가능한 상태로 만든다.
 	isPassbleClone = true;
+	m_Clonetimer = 0;
 
 	m_nSpriteIdx = SPRITE_MON_CROWNBOMB;
 	m_nMonIdx = MON_IDX_CROWN_BOMB;
@@ -1971,9 +1990,19 @@ Mon_CROWN_BOMB::Mon_CROWN_BOMB()
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
 	m_Attack[1].MinScope = 50;
-	m_Attack[1].MaxScope = 130;
+	m_Attack[1].MaxScope = 180;
 
-	ResvAction(MON_ATK_SPECIAL1, 0);
+//	ResvAction(MON_ATK_SPECIAL1, 0);
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
@@ -1995,12 +2024,27 @@ bool Mon_CROWN_BOMB::ExtProcess()
 
 	switch(m_ActState)
 	{
-		default:	{return false;}
+		default:
+		{
+			m_Clonetimer = 0;
+			return false;
+		}
+		case MON_ATK_SPECIAL1:		//	분열
+		//-----------------------------------------------------------
+		{
+			m_Clonetimer++;
+			if(11 == m_Clonetimer)
+			{
+				SetMessage(MSG_MON4_CLONE, pMonAsIns->m_posX+15, pMonAsIns->m_posY, m_nDirection, 0, 5);
+				//pMonAsIns->m_posX += 20;
+			}
+			break;
+		}
 		case MON_ATK_MELEE1:
 		case MON_ATK_RANGE1:
-		case MON_ATK_SPECIAL1:
 		//-----------------------------------------------------------------------
 		{
+			m_Clonetimer = 0;
 			break;
 		}
 	}
@@ -2011,21 +2055,12 @@ bool Mon_CROWN_BOMB::ExtProcess()
 		{
 			case MON_ATK_MELEE1:
 			case MON_ATK_RANGE1:
-			//-----------------------------------------------------------------------
-			{
-				ResvAction(MON_AC_STAND, 0);
-				break;
-			}
 			case MON_ATK_SPECIAL1:
 			//-----------------------------------------------------------------------
 			{
-				//	클론
-				SetMessage(MSG_MON4_CLONE, pMonAsIns->m_posX+10, pMonAsIns->m_posY, m_nDirection, 0, 5);
-				pMonAsIns->m_posX -= 10;
 				ResvAction(MON_AC_STAND, 0);
 				break;
 			}
-
 			default:	{break;}
 		}
 	}
@@ -2046,6 +2081,9 @@ bool Mon_CROWN_BOMB::ExtSetAction()
 		case MON_ATK_SPECIAL1:		//	분열
 		//-----------------------------------------------------------
 		{
+			isPassbleClone = false;
+			m_Clonetimer = 0;
+
 			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON04_CLONE_1);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
@@ -2116,13 +2154,13 @@ bool Mon_CROWN_BOMB::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_COBOLT::Mon_COBOLT()
+Mon_BEAR::Mon_BEAR()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_COBOLT;
-	m_nMonIdx = MON_IDX_COBOLT;
+	m_nSpriteIdx = SPRITE_MON_BEAR;
+	m_nMonIdx = MON_IDX_BEAR;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
@@ -2134,12 +2172,12 @@ Mon_COBOLT::Mon_COBOLT()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 70;
+	m_Attack[0].MaxScope = 30;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 30;
-	m_Attack[1].MaxScope = 80;
-	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].MinScope = 60;
+	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].Debuff = DEBUF_STUN;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2147,12 +2185,22 @@ Mon_COBOLT::Mon_COBOLT()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_COBOLT::~Mon_COBOLT()
+Mon_BEAR::~Mon_BEAR()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -2160,7 +2208,7 @@ Mon_COBOLT::~Mon_COBOLT()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_COBOLT::ExtProcess()
+bool Mon_BEAR::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2168,7 +2216,6 @@ bool Mon_COBOLT::ExtProcess()
 		default:	{return false;}
 		case MON_ATK_MELEE1:
 		case MON_ATK_MELEE2:
-		case MON_ATK_GUARD:
 		//-----------------------------------------------------------------------
 		{
 			break;
@@ -2181,7 +2228,6 @@ bool Mon_COBOLT::ExtProcess()
 		{
 			case MON_ATK_MELEE1:
 			case MON_ATK_MELEE2:
-			case MON_ATK_GUARD:
 			//-----------------------------------------------------------------------
 			{
 				ResvAction(MON_AC_STAND, 0);
@@ -2197,7 +2243,7 @@ bool Mon_COBOLT::ExtProcess()
 }
 
 //--------------------------------------------------------------------------------------
-bool Mon_COBOLT::ExtSetAction()
+bool Mon_BEAR::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2222,16 +2268,6 @@ bool Mon_COBOLT::ExtSetAction()
 			m_Physics->initForce();
 			return true;
 		}
-		case MON_ATK_GUARD:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON05_GUARD_1);
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			break;
-		}
 	}
 
 	return false;
@@ -2245,152 +2281,13 @@ bool Mon_COBOLT::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_THUNDERBIRD::Mon_THUNDERBIRD()
+Mon_TREE::Mon_TREE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 24;
 
-	m_nSpriteIdx = SPRITE_MON_BIRD;
-	m_nMonIdx = MON_IDX_THUNDERBIRD;
-	m_nFeature = FE_NORMAL_MONSTER;
-
-	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	m_nAtkMaxCount = 2;
-	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
-
-	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
-
-	m_Attack[1].Name = MON_ATK_WIND;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
-
-//	m_nStrollScope = 60;
-//	m_nSearchScope = 90;
-//	m_nEscapeCurTick = 0;
-//	m_nEscapeMaxTick = 100;
-//	m_nResvNextAtk = MON_NOT_ATTACK;
-//	m_nIsBattle = 0;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-Mon_THUNDERBIRD::~Mon_THUNDERBIRD()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-bool Mon_THUNDERBIRD::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	switch(m_ActState)
-	{
-		default:	{return false;}
-		case MON_ATK_MELEE1:
-		case MON_ATK_WIND:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-	}
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_ATK_MELEE1:
-			case MON_ATK_WIND:
-			//-----------------------------------------------------------------------
-			{
-				ResvAction(MON_AC_STAND, 0);
-				break;
-			}
-			default:	{break;}
-		}
-	}
-
-	AI_PROCESS(this);
-
-	return true;
-}
-
-//--------------------------------------------------------------------------------------
-bool Mon_THUNDERBIRD::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	switch(m_ActState)
-	{
-		case MON_ATK_MELEE1:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON06_MELEE_1);
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_WIND:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON06_RANGE_1);
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			SUTIL_SetLoopAsprite(pMonAsIns, false);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON06_BULLET_1);
-			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 1;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-
-//==============================================================================================================
-
-
-
-
-//--------------------------------------------------------------------------------------
-Mon_TANK::Mon_TANK()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_TANK;
-	m_nMonIdx = MON_IDX_TANK;
+	m_nSpriteIdx = SPRITE_MON_TREE;
+	m_nMonIdx = MON_IDX_TREE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
@@ -2405,8 +2302,10 @@ Mon_TANK::Mon_TANK()
 	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
+	m_Attack[1].MinScope = 90;
+	m_Attack[1].MaxScope = 200;
+
+
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2414,12 +2313,22 @@ Mon_TANK::Mon_TANK()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_TANK::~Mon_TANK()
+Mon_TREE::~Mon_TREE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -2427,7 +2336,7 @@ Mon_TANK::~Mon_TANK()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_TANK::ExtProcess()
+bool Mon_TREE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2462,7 +2371,181 @@ bool Mon_TANK::ExtProcess()
 }
 
 //--------------------------------------------------------------------------------------
-bool Mon_TANK::ExtSetAction()
+bool Mon_TREE::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON06_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON06_RANGE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			SUTIL_SetLoopAsprite(pMonAsIns, false);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON06_BULLET_1);
+			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+			SUTIL_SetLoopAsprite(tmpAsIns, true);
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(13*m_nDirection));
+			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)+(3));
+			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+			SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+			tmpMonSkill->type = SKILL_REMOVE;
+			tmpMonSkill->lifeTime = 10;
+			tmpMonSkill->Damage = 10;
+			tmpMonSkill->Delay = 3;
+			tmpMonSkill->who = (void*)this;
+			//tmpMonSkill->skillnum = m_ActState;
+			tmpMonSkill->skillnum = 1;
+			tmpMonSkill->damagetime = 1;
+			MoveTail(m_MonSkillList);
+			m_MonSkillList->Insert_prev(tmpMonSkill);
+			m_nSkillCount++;
+
+			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON06_BULLET_1);
+			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+			SUTIL_SetLoopAsprite(tmpAsIns, true);
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(16*m_nDirection));
+			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)-(7));
+			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+			SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+			tmpMonSkill->type = SKILL_REMOVE;
+			tmpMonSkill->lifeTime = 10;
+			tmpMonSkill->Damage = 10;
+			tmpMonSkill->Delay = 6;
+			tmpMonSkill->who = (void*)this;
+			//tmpMonSkill->skillnum = m_ActState;
+			tmpMonSkill->skillnum = 1;
+			tmpMonSkill->damagetime = 1;
+			MoveTail(m_MonSkillList);
+			m_MonSkillList->Insert_prev(tmpMonSkill);
+			m_nSkillCount++;
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+
+//==============================================================================================================
+
+
+
+
+//--------------------------------------------------------------------------------------
+Mon_SHREK::Mon_SHREK()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_SHREK;
+	m_nMonIdx = Mon_IDX_SHREK;
+	m_nFeature = FE_NORMAL_MONSTER;
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
+
+	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
+
+	m_nAtkMaxCount = 2;
+	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+
+	m_Attack[0].Name = MON_ATK_MELEE1;
+	m_Attack[0].MinScope = 0;
+	m_Attack[0].MaxScope = 60;
+
+	m_Attack[1].Name = MON_ATK_RANGE1;
+	m_Attack[1].MinScope = 90;
+	m_Attack[1].MaxScope = 300;
+
+//	m_nStrollScope = 60;
+//	m_nSearchScope = 90;
+//	m_nEscapeCurTick = 0;
+//	m_nEscapeMaxTick = 100;
+//	m_nResvNextAtk = MON_NOT_ATTACK;
+//	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+Mon_SHREK::~Mon_SHREK()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+bool Mon_SHREK::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		default:	{return false;}
+		case MON_ATK_MELEE1:
+		case MON_ATK_RANGE1:
+		//-----------------------------------------------------------------------
+		{
+			break;
+		}
+	}
+
+	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+	{
+		switch(m_ActState)
+		{
+			case MON_ATK_MELEE1:
+			case MON_ATK_RANGE1:
+			//-----------------------------------------------------------------------
+			{
+				ResvAction(MON_AC_STAND, 0);
+				break;
+			}
+			default:	{break;}
+		}
+	}
+
+	AI_PROCESS(this);
+
+	return true;
+}
+
+//--------------------------------------------------------------------------------------
+bool Mon_SHREK::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2488,10 +2571,11 @@ bool Mon_TANK::ExtSetAction()
 			m_Physics->initForce();
 
 			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON07_BULLET);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON07_BULLET_1);
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(60*m_nDirection));
+			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)+(3));
 			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
 			SUTIL_UpdateTimeAsprite(tmpAsIns);
 
@@ -2500,7 +2584,7 @@ bool Mon_TANK::ExtSetAction()
 			tmpMonSkill->type = SKILL_REMOVE;
 			tmpMonSkill->lifeTime = 10;
 			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 9;
+			tmpMonSkill->Delay = 7;
 			tmpMonSkill->who = (void*)this;
 			//tmpMonSkill->skillnum = m_ActState;
 			tmpMonSkill->skillnum = 1;
@@ -2523,13 +2607,13 @@ bool Mon_TANK::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_PUMPKIN::Mon_PUMPKIN()
+Mon_GOLLUM::Mon_GOLLUM()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_PUMPKIN;
-	m_nMonIdx = MON_IDX_PUMPKIN;
+	m_nSpriteIdx = SPRITE_MON_GOLLUM;
+	m_nMonIdx = MON_IDX_GOLLUM;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_1;
@@ -2541,11 +2625,11 @@ Mon_PUMPKIN::Mon_PUMPKIN()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].MaxScope = 80;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
+	m_Attack[1].MinScope = 80;
+	m_Attack[1].MaxScope = 200;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2553,12 +2637,22 @@ Mon_PUMPKIN::Mon_PUMPKIN()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_PUMPKIN::~Mon_PUMPKIN()
+Mon_GOLLUM::~Mon_GOLLUM()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -2566,7 +2660,7 @@ Mon_PUMPKIN::~Mon_PUMPKIN()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_PUMPKIN::ExtProcess()
+bool Mon_GOLLUM::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2574,16 +2668,8 @@ bool Mon_PUMPKIN::ExtProcess()
 		default:	{return false;}
 		case MON_ATK_MELEE1:
 		case MON_ATK_RANGE1:
-		case MON_ATK_DEAD_ATTACK:
 		//-----------------------------------------------------------------------
 		{
-			break;
-		}
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			m_nFeature = FE_DONT_TOUCH;
-			if(14 < m_nTimer)		{ResvAction(MON_ATK_DEAD_ATTACK, 0);}
 			break;
 		}
 	}
@@ -2599,12 +2685,6 @@ bool Mon_PUMPKIN::ExtProcess()
 				ResvAction(MON_AC_STAND, 0);
 				break;
 			}
-			case MON_ATK_DEAD_ATTACK:
-			//-----------------------------------------------------------------------
-			{
-				ResvAction(MON_AC_DIE_AFTER, 0);
-				break;
-			}
 			default:	{break;}
 		}
 	}
@@ -2615,7 +2695,7 @@ bool Mon_PUMPKIN::ExtProcess()
 }
 
 //--------------------------------------------------------------------------------------
-bool Mon_PUMPKIN::ExtSetAction()
+bool Mon_GOLLUM::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2645,7 +2725,7 @@ bool Mon_PUMPKIN::ExtSetAction()
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
 			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns)+19);
+			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
 			SUTIL_UpdateTimeAsprite(tmpAsIns);
 
 			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
@@ -2653,7 +2733,7 @@ bool Mon_PUMPKIN::ExtSetAction()
 			tmpMonSkill->type = SKILL_REMOVE;
 			tmpMonSkill->lifeTime = 10;
 			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 7;
+			tmpMonSkill->Delay = 3;
 			tmpMonSkill->who = (void*)this;
 			//tmpMonSkill->skillnum = m_ActState;
 			tmpMonSkill->skillnum = 1;
@@ -2663,41 +2743,6 @@ bool Mon_PUMPKIN::ExtSetAction()
 			m_nSkillCount++;
 			return true;
 		}
-		case MON_ATK_DEAD_ATTACK:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON08_DEAD);
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			SUTIL_SetLoopAsprite(pMonAsIns, false);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON08_DEAD_2);
-			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 20;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 1;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-
-
 	}
 
 	return false;
@@ -2712,13 +2757,13 @@ bool Mon_PUMPKIN::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_SKELETON::Mon_SKELETON()
+Mon_SHRIMP::Mon_SHRIMP()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_SKELETON;
-	m_nMonIdx = MON_IDX_SKELETON;
+	m_nSpriteIdx = SPRITE_MON_SHRIMP;
+	m_nMonIdx = MON_IDX_SHRIMP;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
@@ -2732,7 +2777,7 @@ Mon_SKELETON::Mon_SKELETON()
 	m_Attack[0].MinScope = 0;
 	m_Attack[0].MaxScope = 45;
 
-	m_Attack[1].Name = MON_ATK_LASERBEAM;
+	m_Attack[1].Name = MON_ATK_RANGE1;
 	m_Attack[1].MinScope = 120;
 	m_Attack[1].MaxScope = 180;
 
@@ -2742,12 +2787,22 @@ Mon_SKELETON::Mon_SKELETON()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_SKELETON::~Mon_SKELETON()
+Mon_SHRIMP::~Mon_SHRIMP()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -2755,17 +2810,17 @@ Mon_SKELETON::~Mon_SKELETON()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_SKELETON::ExtProcess()
+bool Mon_SHRIMP::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	//	레이져 빔일 경우 스킬리스트에서 제외시켜준다.
-	RemoveSkillList(MON_ATK_LASERBEAM, 1, (void*)this);
+//	RemoveSkillList(MON_ATK_LASERBEAM, 1, (void*)this);
 
 	switch(m_ActState)
 	{
 		default:	{return false;}
 		case MON_ATK_MELEE1:
-		case MON_ATK_LASERBEAM:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------------------
 		{
 			break;
@@ -2777,7 +2832,7 @@ bool Mon_SKELETON::ExtProcess()
 		switch(m_ActState)
 		{
 			case MON_ATK_MELEE1:
-			case MON_ATK_LASERBEAM:
+			case MON_ATK_RANGE1:
 			//-----------------------------------------------------------------------
 			{
 				ResvAction(MON_AC_STAND, 0);
@@ -2793,7 +2848,7 @@ bool Mon_SKELETON::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_SKELETON::ExtSetAction()
+bool Mon_SHRIMP::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2808,7 +2863,7 @@ bool Mon_SKELETON::ExtSetAction()
 			m_Physics->initForce();
 			return true;
 		}
-		case MON_ATK_LASERBEAM:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON09_RANGE_1);
@@ -2836,17 +2891,19 @@ bool Mon_SKELETON::ExtSetAction()
 				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
 				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
 				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 3;
+				tmpMonSkill->lifeTime = 6;
 				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 7;
+				tmpMonSkill->Delay = 5;
 				tmpMonSkill->who = (void*)this;
 				//tmpMonSkill->skillnum = m_ActState;
 				tmpMonSkill->skillnum = 1;
-				tmpMonSkill->damagetime = 4;
+				tmpMonSkill->damagetime = 6;
 				MoveTail(m_MonSkillList);
 				m_MonSkillList->Insert_prev(tmpMonSkill);
 				m_nSkillCount++;
+
 			}
+
 			return true;
 		}
 	}
@@ -2863,13 +2920,13 @@ bool Mon_SKELETON::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_GUNNER::Mon_GUNNER()
+Mon_BEE::Mon_BEE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_GUNNER;
-	m_nMonIdx = MON_IDX_GUNNER;
+	m_nSpriteIdx = SPRITE_MON_BEE;
+	m_nMonIdx = MON_IDX_BEE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 
@@ -2877,12 +2934,16 @@ Mon_GUNNER::Mon_GUNNER()
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
-	m_nAtkMaxCount = 1;
+	m_nAtkMaxCount = 2;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 60;
-	m_Attack[0].MaxScope = 80;
+	m_Attack[0].MinScope = 0;
+	m_Attack[0].MaxScope = 20;
+
+	m_Attack[1].Name = MON_ATK_MELEE2;
+	m_Attack[1].MinScope = 0;
+	m_Attack[1].MaxScope = 35;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2890,12 +2951,22 @@ Mon_GUNNER::Mon_GUNNER()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_GUNNER::~Mon_GUNNER()
+Mon_BEE::~Mon_BEE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -2903,14 +2974,14 @@ Mon_GUNNER::~Mon_GUNNER()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_GUNNER::ExtProcess()
+bool Mon_BEE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
 	{
 		default:	{return false;}
 		case MON_ATK_MELEE1:
-		case MON_ATK_LASERBEAM:
+		case MON_ATK_MELEE2:
 		//-----------------------------------------------------------------------
 		{
 			break;
@@ -2922,6 +2993,7 @@ bool Mon_GUNNER::ExtProcess()
 		switch(m_ActState)
 		{
 			case MON_ATK_MELEE1:
+			case MON_ATK_MELEE2:
 			//-----------------------------------------------------------------------
 			{
 				ResvAction(MON_AC_STAND, 0);
@@ -2938,7 +3010,7 @@ bool Mon_GUNNER::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_GUNNER::ExtSetAction()
+bool Mon_BEE::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -2946,7 +3018,17 @@ bool Mon_GUNNER::ExtSetAction()
 		case MON_ATK_MELEE1:
 		//-----------------------------------------------------------
 		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON09_MELEE_1);
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON10_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_MELEE2:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON10_MELEE_2);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
@@ -2980,16 +3062,16 @@ Mon_ELF_FIRE::Mon_ELF_FIRE()
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
-	m_nAtkMaxCount = 2;
+	m_nAtkMaxCount = 1;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
-	m_Attack[0].Name = MON_ATK_FIRE_WAVE;
-	m_Attack[0].MinScope = 60;
-	m_Attack[0].MaxScope = 110;
+	m_Attack[0].Name = MON_ATK_RANGE1;
+	m_Attack[0].MinScope = 0;
+	m_Attack[0].MaxScope = 200;
 
-	m_Attack[1].Name = MON_ATK_ICE_WAVE;
-	m_Attack[1].MinScope = 60;
-	m_Attack[1].MaxScope = 110;
+//	m_Attack[1].Name = MON_ATK_ICE_WAVE;
+//	m_Attack[1].MinScope = 60;
+//	m_Attack[1].MaxScope = 110;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2997,6 +3079,19 @@ Mon_ELF_FIRE::Mon_ELF_FIRE()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	//	test 힐
+	//ResvAction(MON_ATK_RANGE2, 0);
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
@@ -3016,10 +3111,21 @@ bool Mon_ELF_FIRE::ExtProcess()
 	switch(m_ActState)
 	{
 		default:	{return false;}
-		case MON_ATK_FIRE_WAVE:
-		case MON_ATK_ICE_WAVE:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------------------
 		{
+			break;
+		}
+		case MON_ATK_RANGE2:	//	heal
+		//-----------------------------------------------------------
+		{
+			m_nHealTimer++;
+
+			if(3 == m_nHealTimer)
+			{
+				SetMessage(MSG_ELF_HEAL, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nUniqueIdx, 200, 0);
+				// > 메세지로 힐을 시킨다.
+			}
 			break;
 		}
 	}
@@ -3029,10 +3135,16 @@ bool Mon_ELF_FIRE::ExtProcess()
 	{
 		switch(m_ActState)
 		{
-			case MON_ATK_FIRE_WAVE:
-			case MON_ATK_ICE_WAVE:
+			case MON_ATK_RANGE1:
 			//-----------------------------------------------------------
 			{
+				ResvAction(MON_AC_STAND, 0);
+				break;
+			}
+			case MON_ATK_RANGE2:	//	heal
+			//-----------------------------------------------------------
+			{
+				m_nHealTimer = 0;
 				ResvAction(MON_AC_STAND, 0);
 				break;
 			}
@@ -3052,7 +3164,7 @@ bool Mon_ELF_FIRE::ExtSetAction()
 {
 	switch(m_ActState)
 	{
-		case MON_ATK_FIRE_WAVE:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_RANGE_1);
@@ -3066,7 +3178,7 @@ bool Mon_ELF_FIRE::ExtSetAction()
 			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_1);
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(20*m_nDirection));
 			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
 			SUTIL_UpdateTimeAsprite(tmpAsIns);
 
@@ -3085,39 +3197,42 @@ bool Mon_ELF_FIRE::ExtSetAction()
 			m_nSkillCount++;
 			return true;
 		}
-		case MON_ATK_ICE_WAVE:
+		case MON_ATK_RANGE2:	//	heal
 		//-----------------------------------------------------------
 		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_RANGE_1);
+			m_nHealTimer = 0;
+
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_HEAL_1);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			SUTIL_SetLoopAsprite(pMonAsIns, false);
 			m_Physics->initForce();
 
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_2);
-			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 1;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
+//			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+//			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_1);
+//			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+//			SUTIL_SetLoopAsprite(tmpAsIns, true);
+//			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+//			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+//			SUTIL_UpdateTimeAsprite(tmpAsIns);
+//
+//			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+//			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+//			tmpMonSkill->type = SKILL_REMOVE;
+//			tmpMonSkill->lifeTime = 10;
+//			tmpMonSkill->Damage = 10;
+//			tmpMonSkill->Delay = 5;
+//			tmpMonSkill->who = (void*)this;
+//			//tmpMonSkill->skillnum = m_ActState;
+//			tmpMonSkill->skillnum = 0;
+//			tmpMonSkill->damagetime = 1;
+//			MoveTail(m_MonSkillList);
+//			m_MonSkillList->Insert_prev(tmpMonSkill);
+//			m_nSkillCount++;
 			return true;
 		}
+
 	}
 
 	return false;
@@ -3143,16 +3258,13 @@ Mon_ELF_ICE::Mon_ELF_ICE()
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
-	m_nAtkMaxCount = 2;
+	m_nAtkMaxCount = 1;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
-	m_Attack[0].Name = MON_ATK_FIRE_WAVE;
-	m_Attack[0].MinScope = 60;
-	m_Attack[0].MaxScope = 110;
+	m_Attack[0].Name = MON_ATK_RANGE1;
+	m_Attack[0].MinScope = 0;
+	m_Attack[0].MaxScope = 200;
 
-	m_Attack[1].Name = MON_ATK_ICE_WAVE;
-	m_Attack[1].MinScope = 60;
-	m_Attack[1].MaxScope = 110;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3160,6 +3272,16 @@ Mon_ELF_ICE::Mon_ELF_ICE()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
@@ -3179,10 +3301,21 @@ bool Mon_ELF_ICE::ExtProcess()
 	switch(m_ActState)
 	{
 		default:	{return false;}
-		case MON_ATK_FIRE_WAVE:
-		case MON_ATK_ICE_WAVE:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------------------
 		{
+			break;
+		}
+		case MON_ATK_RANGE2:	//	heal
+		//-----------------------------------------------------------
+		{
+			m_nHealTimer++;
+
+			if(3 == m_nHealTimer)
+			{
+				SetMessage(MSG_ELF_TOTAL_HEAL, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nUniqueIdx, 200, 0);
+				// > 메세지로 힐을 시킨다.
+			}
 			break;
 		}
 	}
@@ -3192,10 +3325,11 @@ bool Mon_ELF_ICE::ExtProcess()
 	{
 		switch(m_ActState)
 		{
-			case MON_ATK_FIRE_WAVE:
-			case MON_ATK_ICE_WAVE:
+			case MON_ATK_RANGE1:
+			case MON_ATK_RANGE2:
 			//-----------------------------------------------------------
 			{
+				m_nHealTimer = 0;
 				ResvAction(MON_AC_STAND, 0);
 				break;
 			}
@@ -3215,40 +3349,7 @@ bool Mon_ELF_ICE::ExtSetAction()
 {
 	switch(m_ActState)
 	{
-		case MON_ATK_FIRE_WAVE:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_RANGE_1);
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			SUTIL_SetLoopAsprite(pMonAsIns, false);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_1);
-			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 0;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-		case MON_ATK_ICE_WAVE:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_RANGE_1);
@@ -3281,167 +3382,39 @@ bool Mon_ELF_ICE::ExtSetAction()
 			m_nSkillCount++;
 			return true;
 		}
-	}
-
-	return false;
-}
-
-
-//==============================================================================================================
-
-
-
-
-//--------------------------------------------------------------------------------------
-Mon_ELF_SILENCE::Mon_ELF_SILENCE()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 14;
-
-	m_nSpriteIdx = SPRITE_MON_ELF;
-	m_nMonIdx = MON_IDX_ELF_SILENCE;
-	m_nFeature = FE_NORMAL_MONSTER;
-
-	m_nShadowIdx = FRAME_SHADOW_SHADOW_1;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	m_nAtkMaxCount = 2;
-	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
-
-	m_Attack[0].Name = MON_ATK_FIRE_WAVE;
-	m_Attack[0].MinScope = 60;
-	m_Attack[0].MaxScope = 110;
-
-	m_Attack[1].Name = MON_ATK_ICE_WAVE;
-	m_Attack[1].MinScope = 60;
-	m_Attack[1].MaxScope = 110;
-
-//	m_nStrollScope = 60;
-//	m_nSearchScope = 90;
-//	m_nEscapeCurTick = 0;
-//	m_nEscapeMaxTick = 100;
-//	m_nResvNextAtk = MON_NOT_ATTACK;
-//	m_nIsBattle = 0;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-Mon_ELF_SILENCE::~Mon_ELF_SILENCE()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-bool Mon_ELF_SILENCE::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	switch(m_ActState)
-	{
-		default:	{return false;}
-		case MON_ATK_FIRE_WAVE:
-		case MON_ATK_ICE_WAVE:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-	}
-
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_ATK_FIRE_WAVE:
-			case MON_ATK_ICE_WAVE:
-			//-----------------------------------------------------------
-			{
-				ResvAction(MON_AC_STAND, 0);
-				break;
-			}
-			default:	{break;}
-		}
-	}
-
-	AI_PROCESS(this);
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool Mon_ELF_SILENCE::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	switch(m_ActState)
-	{
-		case MON_ATK_FIRE_WAVE:
+		case MON_ATK_RANGE2:	//	heal
 		//-----------------------------------------------------------
 		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_RANGE_1);
+			m_nHealTimer = 0;
+
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_HEAL_1);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			SUTIL_SetLoopAsprite(pMonAsIns, false);
 			m_Physics->initForce();
 
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_1);
-			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 0;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-		case MON_ATK_ICE_WAVE:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON11_RANGE_1);
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			SUTIL_SetLoopAsprite(pMonAsIns, false);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_2);
-			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 1;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
+//			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+//			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON11_BULLET_1);
+//			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+//			SUTIL_SetLoopAsprite(tmpAsIns, true);
+//			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+//			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+//			SUTIL_UpdateTimeAsprite(tmpAsIns);
+//
+//			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+//			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+//			tmpMonSkill->type = SKILL_REMOVE;
+//			tmpMonSkill->lifeTime = 10;
+//			tmpMonSkill->Damage = 10;
+//			tmpMonSkill->Delay = 5;
+//			tmpMonSkill->who = (void*)this;
+//			//tmpMonSkill->skillnum = m_ActState;
+//			tmpMonSkill->skillnum = 0;
+//			tmpMonSkill->damagetime = 1;
+//			MoveTail(m_MonSkillList);
+//			m_MonSkillList->Insert_prev(tmpMonSkill);
+//			m_nSkillCount++;
 			return true;
 		}
 	}
@@ -3457,16 +3430,16 @@ bool Mon_ELF_SILENCE::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_TRICERATOPS::Mon_TRICERATOPS()
+Mon_FIRE::Mon_FIRE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_TRICERATOPS;
-	m_nMonIdx = MON_IDX_TRICERATOPS;
+	m_nSpriteIdx = SPRITE_MON_FIRE;
+	m_nMonIdx = MON_IDX_FIRE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
-	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
@@ -3475,15 +3448,15 @@ Mon_TRICERATOPS::Mon_TRICERATOPS()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].MaxScope = 60;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 0;
-	m_Attack[1].MaxScope = 60;
+	m_Attack[1].MinScope = 60;
+	m_Attack[1].MaxScope = 120;
 
 	m_Attack[2].Name = MON_ATK_BURROW;
 	m_Attack[2].MinScope = 0;
-	m_Attack[2].MaxScope = 60;
+	m_Attack[2].MaxScope = 40;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3491,12 +3464,22 @@ Mon_TRICERATOPS::Mon_TRICERATOPS()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_TRICERATOPS::~Mon_TRICERATOPS()
+Mon_FIRE::~Mon_FIRE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -3504,7 +3487,7 @@ Mon_TRICERATOPS::~Mon_TRICERATOPS()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_TRICERATOPS::ExtProcess()
+bool Mon_FIRE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	//	자기장일 경우 스킬리스트에서 제외시켜준다.
@@ -3554,7 +3537,7 @@ bool Mon_TRICERATOPS::ExtProcess()
 }
 
 //--------------------------------------------------------------------------------------
-bool Mon_TRICERATOPS::ExtSetAction()
+bool Mon_FIRE::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -3645,13 +3628,13 @@ bool Mon_TRICERATOPS::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_REDDRAGON::Mon_REDDRAGON()
+Mon_EYE::Mon_EYE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_REDDRAGON;
-	m_nMonIdx = MON_IDX_REDDRAGON;
+	m_nSpriteIdx = SPRITE_MON_EYE;
+	m_nMonIdx = MON_IDX_EYE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 
@@ -3664,11 +3647,11 @@ Mon_REDDRAGON::Mon_REDDRAGON()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].MaxScope = 50;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
+	m_Attack[1].MinScope = 80;
+	m_Attack[1].MaxScope = 200;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3676,12 +3659,22 @@ Mon_REDDRAGON::Mon_REDDRAGON()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_REDDRAGON::~Mon_REDDRAGON()
+Mon_EYE::~Mon_EYE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -3689,7 +3682,7 @@ Mon_REDDRAGON::~Mon_REDDRAGON()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_REDDRAGON::ExtProcess()
+bool Mon_EYE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -3725,7 +3718,7 @@ bool Mon_REDDRAGON::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_REDDRAGON::ExtSetAction()
+bool Mon_EYE::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -3754,7 +3747,7 @@ bool Mon_REDDRAGON::ExtSetAction()
 			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON13_BULLET_1);
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(20*m_nDirection));
 			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
 			SUTIL_UpdateTimeAsprite(tmpAsIns);
 
@@ -3787,13 +3780,13 @@ bool Mon_REDDRAGON::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_DEVIL::Mon_DEVIL()
+Mon_SPEAR::Mon_SPEAR()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_DEVIL;
-	m_nMonIdx = MON_IDX_DEVIL;
+	m_nSpriteIdx = SPRITE_MON_SPEAR;
+	m_nMonIdx = MON_IDX_SPEAR;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 
@@ -3809,7 +3802,7 @@ Mon_DEVIL::Mon_DEVIL()
 	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 120;
+	m_Attack[1].MinScope = 110;
 	m_Attack[1].MaxScope = 150;
 
 //	m_nStrollScope = 60;
@@ -3818,12 +3811,22 @@ Mon_DEVIL::Mon_DEVIL()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_DEVIL::~Mon_DEVIL()
+Mon_SPEAR::~Mon_SPEAR()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -3831,7 +3834,7 @@ Mon_DEVIL::~Mon_DEVIL()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_DEVIL::ExtProcess()
+bool Mon_SPEAR::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -3867,7 +3870,7 @@ bool Mon_DEVIL::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_DEVIL::ExtSetAction()
+bool Mon_SPEAR::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -3906,25 +3909,44 @@ bool Mon_DEVIL::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_HUMAN_SWORD::Mon_HUMAN_SWORD()
+Mon_HUMAN_MELEE::Mon_HUMAN_MELEE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
 	m_nSpriteIdx = SPRITE_MON_HUMAN;
-	m_nMonIdx = MON_IDX_HUMAN_SWORD;
+	m_nMonIdx = MON_IDX_HUMAN_MELEE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_MON15_STAND_D;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_MON15_WALK_VERTICAL_1_D;
+	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON15_AWAKE_D;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_MON15_DOWN_D;
+	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON15_FLY_1_D;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_MON15_DOWNED_D;
+	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON15_DAMAGE_1_D;
+	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON15_DOWN_DAMAGE_D;
+	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON15_AIR_DAMAGE_D;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_MON15_DOWNED_D;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_MON15_DOWNED_D;
+	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON15_CATCH_1_D;
+	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON15_CATCH_3_D;
+	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON15_CATCH_2_D;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_MON15_STAND_D;
+	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON15_WALK_VERTICAL_2_D;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_MON15_WALK_VERTICAL_1_D;
+
 	m_nAtkMaxCount = 1;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].MaxScope = 55;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3932,12 +3954,22 @@ Mon_HUMAN_SWORD::Mon_HUMAN_SWORD()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_HUMAN_SWORD::~Mon_HUMAN_SWORD()
+Mon_HUMAN_MELEE::~Mon_HUMAN_MELEE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -3945,7 +3977,7 @@ Mon_HUMAN_SWORD::~Mon_HUMAN_SWORD()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_HUMAN_SWORD::ExtProcess()
+bool Mon_HUMAN_MELEE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -3979,7 +4011,7 @@ bool Mon_HUMAN_SWORD::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_HUMAN_SWORD::ExtSetAction()
+bool Mon_HUMAN_MELEE::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -4008,13 +4040,13 @@ bool Mon_HUMAN_SWORD::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_HUMAN_MAGE::Mon_HUMAN_MAGE()
+Mon_HUMAN_RANGE::Mon_HUMAN_RANGE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
 	m_nSpriteIdx = SPRITE_MON_HUMAN;
-	m_nMonIdx = MON_IDX_HUMAN_MAGE;
+	m_nMonIdx = MON_IDX_HUMAN_RANGE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
@@ -4022,11 +4054,24 @@ Mon_HUMAN_MAGE::Mon_HUMAN_MAGE()
 	//	woman mage setting
 	//m_nBaseAniIdx = ANIM_MON15_STAND_W;
 
-	//	사용할 이미지를 설정한다.(이미지만 다시 셋팅해준다.)
-	for(int loop = MON_AC_STAND; loop <= MON_AC_RUN; loop++)
-	{
-		m_nUsingImgIdx[loop] += ANIM_MON15_STAND_W;
-	}
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_MON15_STAND_W;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_MON15_WALK_VERTICAL_1_W;
+	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON15_AWAKE_W;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_MON15_DOWN_W;
+	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON15_FLY_1_W;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_MON15_DOWNED_W;
+	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON15_DAMAGE_1_W;
+	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON15_DOWN_DAMAGE_W;
+	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON15_AIR_DAMAGE_W;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_MON15_DOWNED_W;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_MON15_DOWNED_W;
+	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON15_CATCH_1_W;
+	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON15_CATCH_3_W;
+	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON15_CATCH_2_W;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_MON15_STAND_W;
+	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON15_WALK_VERTICAL_2_W;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_MON15_WALK_VERTICAL_1_W;
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
@@ -4034,20 +4079,30 @@ Mon_HUMAN_MAGE::Mon_HUMAN_MAGE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_RANGE1;
-	m_Attack[0].MinScope = 70;
-	m_Attack[0].MaxScope = 110;
+	m_Attack[0].MinScope = 50;
+	m_Attack[0].MaxScope = 200;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
 //	m_nEscapeCurTick = 0;
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_HUMAN_MAGE::~Mon_HUMAN_MAGE()
+Mon_HUMAN_RANGE::~Mon_HUMAN_RANGE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -4055,7 +4110,7 @@ Mon_HUMAN_MAGE::~Mon_HUMAN_MAGE()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_HUMAN_MAGE::ExtProcess()
+bool Mon_HUMAN_RANGE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -4088,7 +4143,7 @@ bool Mon_HUMAN_MAGE::ExtProcess()
 }
 
 //--------------------------------------------------------------------------------------
-bool Mon_HUMAN_MAGE::ExtSetAction()
+bool Mon_HUMAN_RANGE::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -4107,7 +4162,7 @@ bool Mon_HUMAN_MAGE::ExtSetAction()
 			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON15_BULLET_1);
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(10*m_nDirection));
 			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
 			SUTIL_UpdateTimeAsprite(tmpAsIns);
 
@@ -4116,7 +4171,7 @@ bool Mon_HUMAN_MAGE::ExtSetAction()
 			tmpMonSkill->type = SKILL_REMOVE;
 			tmpMonSkill->lifeTime = 10;
 			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 3;
+			tmpMonSkill->Delay = 4;
 			tmpMonSkill->who = (void*)this;
 			//tmpMonSkill->skillnum = m_ActState;
 			tmpMonSkill->skillnum = 0;
@@ -4169,6 +4224,16 @@ Mon_FLYTRAP::Mon_FLYTRAP()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
@@ -4309,6 +4374,16 @@ Mon_CRAB::Mon_CRAB()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
@@ -4425,6 +4500,16 @@ Mon_BUG::Mon_BUG()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 7;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_ATTACK;
 }
 
 
@@ -4686,7 +4771,7 @@ Mon_BOSS5_DEVIL::Mon_BOSS5_DEVIL()
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_DEVIL;
+	m_nSpriteIdx = SPRITE_MON_KNIGHT;
 	m_nMonIdx = MON_IDX_BOSS5_DEVIL;
 	m_nFeature = FE_NORMAL_MONSTER | FE_DONT_GIVE_EXP | FE_DONT_HAVE_ITEM;
 

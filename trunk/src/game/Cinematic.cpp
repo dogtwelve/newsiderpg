@@ -795,7 +795,7 @@ void cCinematic::LoadSpriteInstance(int c, int t, int uniquenum, int color)
 		case 19://	MON_COBOLT
 		//--------------------------------------------------------------------------
 		{
-			pTmpAs = SUTIL_LoadSprite(PACK_SPRITE_MON, SPRITE_MON_COBOLT);
+			pTmpAs = SUTIL_LoadSprite(PACK_SPRITE_MON, SPRITE_MON_BEAR);
 			//pTmpAs->SetBlendFrame(FRAME_MAN_BODY_BLEND);
 
 			pTmpAsIns = GL_NEW ASpriteInstance(pTmpAs, 0, 500, NULL);

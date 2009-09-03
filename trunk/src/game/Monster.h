@@ -206,25 +206,24 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 #define	MON_IDX_GOLEM					1 
 #define	MON_IDX_SLIME					2 
 #define	MON_IDX_CROWN_BOMB				3 
-#define	MON_IDX_COBOLT					4 
-#define	MON_IDX_THUNDERBIRD				5 
-#define	MON_IDX_TANK					6
-#define	MON_IDX_PUMPKIN					7
-#define	MON_IDX_SKELETON				8
-#define	MON_IDX_GUNNER					9
+#define	MON_IDX_BEAR					4 
+#define	MON_IDX_TREE					5 
+#define	Mon_IDX_SHREK					6
+#define	MON_IDX_GOLLUM					7
+#define	MON_IDX_SHRIMP				8
+#define	MON_IDX_BEE					9
 #define	MON_IDX_ELF_FIRE				10
 #define	MON_IDX_ELF_ICE					11
-#define	MON_IDX_ELF_SILENCE				12
-#define	MON_IDX_TRICERATOPS				13
-#define	MON_IDX_REDDRAGON				14
-#define	MON_IDX_DEVIL					15
-#define	MON_IDX_HUMAN_SWORD				16
-#define	MON_IDX_HUMAN_MAGE				17
-#define	MON_IDX_FLYTRAP					18
-#define	MON_IDX_CRAB					19
+#define	MON_IDX_FIRE				12
+#define	MON_IDX_EYE				13
+#define	MON_IDX_SPEAR					14
+#define	MON_IDX_HUMAN_MELEE				15
+#define	MON_IDX_HUMAN_RANGE				16
+#define	MON_IDX_FLYTRAP					17
+#define	MON_IDX_CRAB					18
 
 
-#define	MON_IDX_COUNT_NORMAL_MON		20
+#define	MON_IDX_COUNT_NORMAL_MON		19
 //------------------------------------------------------
 
 #define	MON_IDX_BARREL					40
@@ -330,6 +329,8 @@ struct S_MESSAGE
 #define		MSG_BOSS5_SUMMON_DEVIL	7
 
 #define		MSG_MON4_CLONE			9
+#define		MSG_ELF_HEAL			10
+#define		MSG_ELF_TOTAL_HEAL		11
 
 #define		NOT_REGEN				9999
 
@@ -389,9 +390,9 @@ static const int MonPtn[][STET_MAX] =
   {15, 80, 5, 0, 100, 140, 140, 140, 140},
 	{15, 80, 5, 0, 100, 140, 140, 140, 140},
 	//Æä¾î¸®¹°
-  {15, 80, 5, 0, 100, 140, 140, 140, 140},
-	{15, 80, 5, 0, 100, 140, 140, 140, 140},
-	//Æä¾î¸®Ä§¹¬
+//  {15, 80, 5, 0, 100, 140, 140, 140, 140},
+//	{15, 80, 5, 0, 100, 140, 140, 140, 140},
+//	//Æä¾î¸®Ä§¹¬
   {15, 80, 5, 0, 100, 140, 140, 140, 140},
 	{15, 80, 5, 0, 100, 140, 140, 140, 140},
 	//Æ®¸®ÄÉ¶ó
@@ -689,14 +690,15 @@ public:
 private:
 
 	bool isPassbleClone;
+	byte m_Clonetimer;	
 };
 
 //--------------------------------------------------------------------------------
-class Mon_COBOLT : public Monster
+class Mon_BEAR : public Monster
 {
 public:
-	Mon_COBOLT();
-	~Mon_COBOLT();
+	Mon_BEAR();
+	~Mon_BEAR();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -704,24 +706,11 @@ private:
 };
 
 //--------------------------------------------------------------------------------
-class Mon_THUNDERBIRD : public Monster
+class Mon_TREE : public Monster
 {
 public:
-	Mon_THUNDERBIRD();
-	~Mon_THUNDERBIRD();
-	bool ExtSetAction();
-	bool ExtProcess();
-
-private:
-};
-
-
-//--------------------------------------------------------------------------------
-class Mon_TANK : public Monster
-{
-public:
-	Mon_TANK();
-	~Mon_TANK();
+	Mon_TREE();
+	~Mon_TREE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -730,11 +719,24 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_PUMPKIN : public Monster
+class Mon_SHREK : public Monster
 {
 public:
-	Mon_PUMPKIN();
-	~Mon_PUMPKIN();
+	Mon_SHREK();
+	~Mon_SHREK();
+	bool ExtSetAction();
+	bool ExtProcess();
+
+private:
+};
+
+
+//--------------------------------------------------------------------------------
+class Mon_GOLLUM : public Monster
+{
+public:
+	Mon_GOLLUM();
+	~Mon_GOLLUM();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -745,11 +747,11 @@ private:
 //--------------------------------------------------------------------------------
 #define MON9_LASERBEAM_COUNT					(4)
 #define MON9_LASERBEAM_SIZE						(120)
-class Mon_SKELETON : public Monster
+class Mon_SHRIMP : public Monster
 {
 public:
-	Mon_SKELETON();
-	~Mon_SKELETON();
+	Mon_SHRIMP();
+	~Mon_SHRIMP();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -758,11 +760,11 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_GUNNER : public Monster
+class Mon_BEE : public Monster
 {
 public:
-	Mon_GUNNER();
-	~Mon_GUNNER();
+	Mon_BEE();
+	~Mon_BEE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -780,6 +782,8 @@ public:
 	bool ExtProcess();
 
 private:
+
+	int	 m_nHealTimer;
 };
 
 
@@ -793,26 +797,18 @@ public:
 	bool ExtProcess();
 	
 private:
+
+	int	 m_nHealTimer;
 };
 
-//--------------------------------------------------------------------------------
-class Mon_ELF_SILENCE : public Monster
-{
-public:
-	Mon_ELF_SILENCE();
-	~Mon_ELF_SILENCE();
-	bool ExtSetAction();
-	bool ExtProcess();
 
-private:
-};
 
 //--------------------------------------------------------------------------------
-class Mon_TRICERATOPS : public Monster
+class Mon_FIRE : public Monster
 {
 public:
-	Mon_TRICERATOPS();
-	~Mon_TRICERATOPS();
+	Mon_FIRE();
+	~Mon_FIRE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -821,11 +817,11 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_REDDRAGON : public Monster
+class Mon_EYE : public Monster
 {
 public:
-	Mon_REDDRAGON();
-	~Mon_REDDRAGON();
+	Mon_EYE();
+	~Mon_EYE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -834,11 +830,11 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_DEVIL : public Monster
+class Mon_SPEAR : public Monster
 {
 public:
-	Mon_DEVIL();
-	~Mon_DEVIL();
+	Mon_SPEAR();
+	~Mon_SPEAR();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -847,11 +843,11 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_HUMAN_SWORD : public Monster
+class Mon_HUMAN_MELEE : public Monster
 {
 public:
-	Mon_HUMAN_SWORD();
-	~Mon_HUMAN_SWORD();
+	Mon_HUMAN_MELEE();
+	~Mon_HUMAN_MELEE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -860,11 +856,11 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_HUMAN_MAGE : public Monster
+class Mon_HUMAN_RANGE : public Monster
 {
 public:
-	Mon_HUMAN_MAGE();
-	~Mon_HUMAN_MAGE();
+	Mon_HUMAN_RANGE();
+	~Mon_HUMAN_RANGE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -1513,9 +1509,9 @@ static const int MonBaseStet[][STET_MAX] =
 { SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			3,		MON_ELEMENTAL_SNIPS,	0,		150,	100,	200,	 50,	 80,	  0,	  0,	100},		//	°ñ·½
 { SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			4,		MON_ELEMENTAL_STONE,	1,		150,	150,	300,	 25,	250,	  5,	  0,	100},		//	¶ô°ñ·½
 { SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			5,		MON_ELEMENTAL_PAPER,	2,		200,	300,	250,	 30,	300,	 20,	  0,	100},		//	Çï°ñ·½
-{ SPRITE_MON_BIRD,			MON_IDX_THUNDERBIRD,	6,		MON_ELEMENTAL_SNIPS,	0,		120,	200,	  0,	 10,	200,	 30,	  0,	100},		//	³úÁ¶
-{ SPRITE_MON_BIRD,			MON_IDX_THUNDERBIRD,	7,		MON_ELEMENTAL_STONE,	1,		150,	250,	  0,	 15,	300,	 40,	  0,	100},		//	Ç³Á¶
-{ SPRITE_MON_BIRD,			MON_IDX_THUNDERBIRD,	8,		MON_ELEMENTAL_PAPER,	2,		170,	300,	  0,	  0,	400,	 50,	  0,	100},		//	ºÒ»çÁ¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	6,		MON_ELEMENTAL_SNIPS,	0,		120,	200,	  0,	 10,	200,	 30,	  0,	100},		//	³úÁ¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	7,		MON_ELEMENTAL_STONE,	1,		150,	250,	  0,	 15,	300,	 40,	  0,	100},		//	Ç³Á¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	8,		MON_ELEMENTAL_PAPER,	2,		170,	300,	  0,	  0,	400,	 50,	  0,	100},		//	ºÒ»çÁ¶
 { SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			9,		MON_ELEMENTAL_SNIPS,	0,		100,	170,	  0,	  5,	120,	  6,	  0,	100},		//	ÄÚº¼Æ®
 { SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			10,		MON_ELEMENTAL_STONE,	1,		100,	200,	  0,	  7,	150,	  7,	  0,	100},		//	È©°íºí¸°
 { SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			11,		MON_ELEMENTAL_PAPER,	2,		100,	230,	  0,	 10,	200,	 12,	  0,	100},		//	ÄÚº¼Æ®Å·
@@ -1525,36 +1521,36 @@ static const int MonBaseStet[][STET_MAX] =
 { SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
 { SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
 { SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_TANK,			MON_IDX_TANK,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_TANK,			MON_IDX_TANK,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_TANK,			MON_IDX_TANK,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_PUMPKIN,		MON_IDX_PUMPKIN,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_PUMPKIN,		MON_IDX_PUMPKIN,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_PUMPKIN,		MON_IDX_PUMPKIN,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_SKELETON,		MON_IDX_SKELETON,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_SKELETON,		MON_IDX_SKELETON,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_SKELETON,		MON_IDX_SKELETON,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_GUNNER,		MON_IDX_GUNNER,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_GUNNER,		MON_IDX_GUNNER,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_GUNNER,		MON_IDX_GUNNER,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
 { SPRITE_MON_ELF,			MON_IDX_ELF,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
 { SPRITE_MON_ELF,			MON_IDX_ELF,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
 { SPRITE_MON_ELF,			MON_IDX_ELF,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_TRICERATOPS,	MON_IDX_TRICERATOPS,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_TRICERATOPS,	MON_IDX_TRICERATOPS,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_TRICERATOPS,	MON_IDX_TRICERATOPS,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_REDDRAGON,		MON_IDX_REDDRAGON,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_REDDRAGON,		MON_IDX_REDDRAGON,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_REDDRAGON,		MON_IDX_REDDRAGON,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_DEVIL,			MON_IDX_DEVIL,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_DEVIL,			MON_IDX_DEVIL,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_DEVIL,			MON_IDX_DEVIL,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_SWORD,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_SWORD,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_SWORD,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MAGE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MAGE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MAGE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
 { SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
 { SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
 { SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
