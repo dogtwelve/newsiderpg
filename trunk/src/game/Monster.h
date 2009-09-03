@@ -49,6 +49,7 @@
 
 
 
+
 //	나중에 지울부분
 #define MON_AC_FACE_FRONTSIDE				26
 #define MON_AC_STAND_FRONTSIDE				27

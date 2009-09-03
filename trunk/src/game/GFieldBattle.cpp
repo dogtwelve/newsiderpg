@@ -237,7 +237,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			//test
 			MakeMonsterSeed();
 			AddFirstMonSetting();
-/*
+
 			if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
@@ -258,7 +258,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				AddMonster(1, MON_IDX_SKELBIRD, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
 
 			}
-*/
+
 
 			break;
 
