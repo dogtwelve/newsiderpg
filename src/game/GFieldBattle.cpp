@@ -241,27 +241,46 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
-				LoadMonsterSprite(MON_IDX_WORM);
 				LoadMonsterSprite(MON_IDX_BUG);
+				LoadMonsterSprite(MON_IDX_WORM);
 				SUTIL_ReleaseAspritePack();
 
 				//	소환되는 쫄(중간중간에 소환)
 				AddMonster(1, MON_IDX_WORM, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
 			}
-			else if(3 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			else if(2 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_SKELBIRD);
 				SUTIL_ReleaseAspritePack();
 
 				//	소환되는 쫄(중간중간에 소환)
-				AddMonster(1, MON_IDX_SKELBIRD, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+				BossSkelBird* pTmpBossSkelBird = NULL;
+				pTmpBossSkelBird = (BossSkelBird*)AddMonster(1, MON_IDX_SKELBIRD, 0, 0, GRADE_SPECIAL, 160, 180, 160, 180, NOT_REGEN, 0);
+				pTmpBossSkelBird->pChildBody[0] = AddMonster(1, MON_IDX_SKELBIRD_L_ARM, 0, 0, GRADE_SPECIAL, 160, 180, 160, 180, NOT_REGEN, 0);
+				pTmpBossSkelBird->pChildBody[1] = AddMonster(1, MON_IDX_SKELBIRD_R_ARM, 0, 0, GRADE_SPECIAL, 160, 180, 160, 180, NOT_REGEN, 0);
 
+				(pTmpBossSkelBird->pChildBody[0])->m_pParents = (Monster*)pTmpBossSkelBird;
+				(pTmpBossSkelBird->pChildBody[1])->m_pParents = (Monster*)pTmpBossSkelBird;
+			}
+			else if(3 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			{
+				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+				LoadMonsterSprite(MON_IDX_SLIME);
+				LoadMonsterSprite(MON_IDX_DRILL);
+				LoadMonsterSprite(MON_IDX_FLOWER);
+				SUTIL_ReleaseAspritePack();
+
+				//	소환되는 쫄(중간중간에 소환)
+				BossFlower* pTmpBossFolwer = NULL;
+				pTmpBossFolwer = (BossFlower*)AddMonster(1, MON_IDX_FLOWER, 0, 0, GRADE_SPECIAL, 160, 162, 160, 162, NOT_REGEN, 0);
+				pTmpBossFolwer->pChildBody[0] = AddMonster(1, MON_IDX_FLOWER_BRAIN, 0, 0, GRADE_SPECIAL, 160, 162, 160, 162, NOT_REGEN, 0);
+
+				(pTmpBossFolwer->pChildBody[0])->m_pParents = (Monster*)pTmpBossFolwer;
 			}
 
-
 			break;
-
+/*
 			switch(m_nNextStage)
 			{
 				//				case 1000:
@@ -324,13 +343,13 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 						{
 							Monster* pTmpMonster = NULL;
 							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 590, 270, 590, 270, NOT_REGEN, 0);
-							pTmpMonster->pMonAsIns->m_pal = 3;												  
-							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 590, 270, 590, 270, NOT_REGEN, 0);
-							pTmpMonster->pMonAsIns->m_pal = 3;												  
-							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 640, 280, 640, 280, NOT_REGEN, 0);
-							pTmpMonster->pMonAsIns->m_pal = 3;												  
-							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 570, 290, 570, 290, NOT_REGEN, 0);
-							pTmpMonster->pMonAsIns->m_pal = 3;
+//							pTmpMonster->pMonAsIns->m_pal = 3;												  
+//							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 590, 270, 590, 270, NOT_REGEN, 0);
+//							pTmpMonster->pMonAsIns->m_pal = 3;												  
+//							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 640, 280, 640, 280, NOT_REGEN, 0);
+//							pTmpMonster->pMonAsIns->m_pal = 3;												  
+//							pTmpMonster = AddMonster(1, MON_IDX_STONE_BIG, 0, 0, GRADE_NORMAL, 570, 290, 570, 290, NOT_REGEN, 0);
+//							pTmpMonster->pMonAsIns->m_pal = 3;
 						}
 					}
 
@@ -372,7 +391,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 					}
 					break;
 				}
-/*호로스
+
 				case 400:
 				//---------------------------------------------------------------
 				{
@@ -387,10 +406,10 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 					AddMonster(1, MON_IDX_HOROS, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
 					break;
 				}
-*/
+
 				
 
-/*마지막보스
+
 				case 400:
 				//---------------------------------------------------------------
 				{
@@ -430,7 +449,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 					pTmpMon->pChildBody[8] = AddMonster(1, MON_IDX_BIGDOG10, 0, 0, GRADE_SPECIAL,  0,	-200,   0,	 -200, NOT_REGEN, 0);
 					break;
 				}
-*/
+
 
 //대비존스
 				case 400:
@@ -471,6 +490,8 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 // 				}
 
 			}
+
+*/
 			break;
 		}
 	}
@@ -844,6 +865,8 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 
 		case MON_IDX_WORM:			{loop2 = SPRITE_MON_BOSS_1;	addcnt = FRAME_BOSS_1_BLEND;	break;}
 		case MON_IDX_SKELBIRD:		{loop2 = SPRITE_MON_BOSS_2;	addcnt = FRAME_BOSS_2_BLEND;	break;}
+		case MON_IDX_FLOWER:		{loop2 = SPRITE_MON_BOSS_3;	addcnt = FRAME_BOSS_3_BLEND;	break;}
+									
 
 
 									
@@ -957,6 +980,9 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 	if(tmpMonster)
 	{
+		//	캐릭터의 위치를 넣어준다.
+		tmpMonster->m_CharInfo = m_CharInfo;
+
 		tmpMonster->RegistUsingBaseData(pMonSkillList, pMonMsgList, &s_ASpriteSet);
 
 //		//	컬러 결정
@@ -1008,11 +1034,19 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 		case MON_IDX_WORM:					{tmpMonster = GL_NEW BossWorm();					break;}
 		case MON_IDX_SKELBIRD:				{tmpMonster = GL_NEW BossSkelBird();				break;}
+		case MON_IDX_SKELBIRD_L_ARM:		{tmpMonster = GL_NEW BossSkelBird_L_ARM();			break;}
+		case MON_IDX_SKELBIRD_R_ARM:		{tmpMonster = GL_NEW BossSkelBird_R_ARM();			break;}
+
+		case MON_IDX_FLOWER:				{tmpMonster = GL_NEW BossFlower();					break;}
+		case MON_IDX_FLOWER_BRAIN:			{tmpMonster = GL_NEW BossFlower_Brain();			break;}
 											
 	}
 
 	if(tmpMonster)
 	{
+		//	캐릭터의 위치를 넣어준다.
+		tmpMonster->m_CharInfo = m_CharInfo;
+
 		tmpMonster->RegistUsingBaseData(pMonSkillList, pMonMsgList, &s_ASpriteSet);
 
 		//	컬러 결정
@@ -1604,7 +1638,7 @@ void GFieldBattle::Process()
 //			}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+			//	몬스터 끼리의 충돌체크
 			if(1)
 			{
 				Monster* pTmpMonster = NULL;
@@ -1680,6 +1714,9 @@ void GFieldBattle::Process()
 			}else{
 				m_BGM_Cooltime=0;
 			}
+
+			//	현재 몬스터의 갯수를 파악해둔다. (몬스터 소환 갯수 조절에 쓰임)
+			Monster::m_nTotalMonCnt = GetNodeCount(pMonList);
 }
 
 
@@ -3563,32 +3600,55 @@ void GFieldBattle::Analysis_Mon_Message()
 		case MSG_SUMMONE_BUGS:
 			//------------------------------------------------------------
 			{
-				//TEST
-				if(15 < GetNodeCount(pMonList))	{break;}
+				switch(GetData(pMonMsgList)->param[3])
+				{
+					case MON_IDX_WORM:
+					//-----------------------------------------------------------------
+					{
+						AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+							NOT_REGEN);
 
-//				int posx[] = {100,  -100,  50,  50, -50, -50};
-//				int posy[] = {  0,     0, -30,  30, -30,  30};
-//
-//				for(int loop = 0; loop < 6; loop++)
-//				{
-//					AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
-//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
-//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
-//						NOT_REGEN);
-//					GetData(pMonList)->Process(m_CharInfo);
-//				}
+						//	방향을 정해준다.
+						GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
 
-					AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
-						GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
-						GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
-						NOT_REGEN);
+						//	프로세서를 한번 돌려준다.
+						GetData(pMonList)->Process(m_CharInfo);
+						break;
+					}
+					case MON_IDX_FLOWER:
+					//-----------------------------------------------------------------
+					{
+						//TEST
+						if(15 < GetNodeCount(pMonList))	{break;}
 
-					//	방향을 정해준다.
-					GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+		//				int posx[] = {100,  -100,  50,  50, -50, -50};
+		//				int posy[] = {  0,     0, -30,  30, -30,  30};
+		//
+		//				for(int loop = 0; loop < 6; loop++)
+		//				{
+		//					AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
+		//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
+		//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
+		//						NOT_REGEN);
+		//					GetData(pMonList)->Process(m_CharInfo);
+		//				}
 
-					//	프로세서를 한번 돌려준다.
-					GetData(pMonList)->Process(m_CharInfo);
+						AddMonster(1, MON_IDX_SLIME, 0, 0, GRADE_NORMAL,
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1]+20,
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1]+20,
+							NOT_REGEN);
 
+						//	방향을 정해준다.
+						GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+						//	프로세서를 한번 돌려준다.
+						GetData(pMonList)->Process(m_CharInfo);
+						break;
+					}
+
+				}
 
 				//	소환하다말았음
 				//	딜레이 시간 체크
@@ -3654,7 +3714,7 @@ void GFieldBattle::Analysis_Mon_Message()
 				}
 				break;
 			}
-			case MSG_BOSS5_SUMMON_WALL:
+			case MSG_BOSS3_SUMMON_WALL:
 			//------------------------------------------------------------
 			{
 				AddMonster(1, MON_IDX_DRILL, 0, 0, GRADE_NORMAL,
@@ -3871,13 +3931,13 @@ void GFieldBattle::DamageSand_Hero(Character* hero, Monster* mon)
 
 		//	추가 데미지가 있는지 확인하고 같이 감산해서 넘긴다.
 		//	이유는 이부분의 갱신의 실제 데미지보다 빠르기때문에 그렇게 함
-		int temphp = mon->m_Stet.m_Hp-Monster::m_nExtraDamage;
-		if(0 > temphp)	{temphp = 0;}
+//		int temphp = mon->m_Stet.m_Hp-Monster::m_nExtraDamage;
+//		if(0 > temphp)	{temphp = 0;}
 
 		pFieldUi->InsertMonsterInfo(mon->m_nUniqueIdx,
 			mon->m_nMonName,
 			mon->m_nLevel,
-			temphp,//mon->m_Stet.m_Hp-Monster::m_nExtraDamage,
+			mon->m_Stet.m_Hp,
 			mon->m_Stet.m_MaxHp,
 			mon->m_nElementIdx);
 	}

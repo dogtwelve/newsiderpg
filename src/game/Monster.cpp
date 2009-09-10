@@ -1,13 +1,14 @@
 #include "Monster.h"
 
 
+int Monster::m_nTotalMonCnt = 0;
 int Monster::UniqueIdx = 0;
 int BossMon5_1::m_nNowDownCool = 0;
 int BossMon5_1::m_nBossStep = 0;		//	stand, down, sit, 
 
 int BossMon5_1::m_nMaxLegHp = 0;
 int BossMon5_1::m_nNowLegHp = 0;
-int Monster::m_nExtraDamage = 0;
+//int Monster::m_nExtraDamage = 0;
 
 int BossMon5_1::m_nCoreHp = 0;
 int BossMon5_1::m_nMaxCoreHp = 0;
@@ -34,7 +35,7 @@ int	BossMon5_1::m_nMoveValue = 0;
 Monster::Monster()
 //--------------------------------------------------------------------------------------
 {
-	m_nExtraDamage = 0;
+//	m_nExtraDamage = 0;
 	m_nBodySize = 20;
 
 	m_bIsPanic = false;
@@ -114,7 +115,8 @@ void Monster::RegistUsingBaseData(List2< struct S_MONSKILL* > *pMonSkillList,
 		FRAME_MON06_BLEND, FRAME_MON07_BLEND, FRAME_MON08_BLEND, FRAME_MON09_BLEND, FRAME_MON10_BLEND,
 		FRAME_MON11_BLEND, FRAME_MON12_BLEND, FRAME_MON13_BLEND, FRAME_MON14_BLEND, FRAME_MON15_BLEND,
 		FRAME_MON16_BLEND, FRAME_MON17_BLEND, FRAME_MON18_BLEND, FRAME_MON19_BLEND, FRAME_BOSS_1_BLEND,
-		FRAME_BOSS_2_BLEND,	FRAME_BOSS_5_BLEND, FRAME_BOSS_6_BLEND, FRAME_BOSS_7_BLEND, FRAME_MON_BARREL_BLEND
+		FRAME_BOSS_2_BLEND,	FRAME_BOSS_3_BLEND, FRAME_BOSS_5_BLEND, FRAME_BOSS_6_BLEND, FRAME_BOSS_7_BLEND,
+		FRAME_MON_BARREL_BLEND
 	};
 
 	if(0 != blendnum[m_nSpriteIdx])	{TmpAsprite->SetBlendFrame(blendnum[m_nSpriteIdx]);}
@@ -247,13 +249,30 @@ void Monster::SetPosition(int x, int y, int z)
 	pMonAsIns->m_lastX = pMonAsIns->m_posX = x;
 	pMonAsIns->m_lastY = pMonAsIns->m_posY = y;
 	pMonAsIns->m_posZ = z;
-
-	
-
-//	SUTIL_SetXPosAsprite(pMonAsIns, x);
-//	SUTIL_SetYPosAsprite(pMonAsIns, y);
-//	SUTIL_SetZPosAsprite(pMonAsIns, z);
 }
+
+
+//--------------------------------------------------------------------------------------
+void Monster::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_nUseAtkNum = SUTIL_GetRandom()%(m_nAtkMaxCount); 
+
+	while(1)
+	{
+		m_nUseAtkNum = SUTIL_GetRandom()%(m_nAtkMaxCount);
+
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime
+					= m_Attack[m_nUseAtkNum].MaxCoolTime;
+			break;
+		}
+	}
+
+	m_bIsSuccessAttack = false;
+}
+
 
 
 ////--------------------------------------------------------------------------------------
@@ -440,6 +459,7 @@ bool Monster::ReceiveAttack(Position3D& _Power)
 void Monster::RCV_Damage(int heroDamage)
 //--------------------------------------------------------------------------------------
 {
+/*
 	if(m_nMonIdx == MON_IDX_BIGDOG1 ||
 		m_nMonIdx == MON_IDX_BIGDOG4)		//	보스5의 다리라면
 	{
@@ -487,9 +507,9 @@ void Monster::RCV_Damage(int heroDamage)
 //		Monster::m_nExtraDamage += heroDamage;
 //		return;
 //	}
-
+*/
 	m_Stet.m_Hp -= heroDamage;
-	Monster::m_nExtraDamage = 0;
+//	Monster::m_nExtraDamage = 0;
 	if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
 }
 
@@ -1519,12 +1539,25 @@ Mon_GHOST::Mon_GHOST()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 40;
+
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 40;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 40;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 30;
-	m_Attack[1].MaxScope = 60;
+
+	m_Attack[1].AtkRect.x1 = 30;
+	m_Attack[1].AtkRect.x2 = 60;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+
+
+//	m_Attack[1].MinScope = 30;
+//	m_Attack[1].MaxScope = 60;
 //	m_Attack[1].Debuff = DEBUF_POISON;
 
 //	m_nStrollScope = 60;
@@ -1642,16 +1675,34 @@ Mon_GOLEM::Mon_GOLEM()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 70;
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 70;
+
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 70;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+
 
 	m_Attack[1].Name = MON_ATK_THROWSTONE;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
+//	m_Attack[1].MinScope = 70;
+//	m_Attack[1].MaxScope = 110;
+
+	m_Attack[1].AtkRect.x1 = 70;
+	m_Attack[1].AtkRect.x2 = 110;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+
 
 	m_Attack[2].Name = MON_ATK_LASERBEAM;
-	m_Attack[2].MinScope = 70;
-	m_Attack[2].MaxScope = 180;
+//	m_Attack[2].MinScope = 70;
+//	m_Attack[2].MaxScope = 180;
+
+	m_Attack[2].AtkRect.x1 = 70;
+	m_Attack[2].AtkRect.x2 = 180;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
+
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -1832,12 +1883,22 @@ Mon_SLIME::Mon_SLIME()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 30;
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 30;
+
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 30;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
 
 	m_Attack[1].Name = MON_ATK_FIREBALL;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
+//	m_Attack[1].MinScope = 70;
+//	m_Attack[1].MaxScope = 110;
+
+	m_Attack[1].AtkRect.x1 = 70;
+	m_Attack[1].AtkRect.x2 = 110;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -1985,12 +2046,20 @@ Mon_CROWN_BOMB::Mon_CROWN_BOMB()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 30;
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 30;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 30;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 50;
-	m_Attack[1].MaxScope = 180;
+//	m_Attack[1].MinScope = 50;
+//	m_Attack[1].MaxScope = 180;
+	m_Attack[1].AtkRect.x1 = 50;
+	m_Attack[1].AtkRect.x2 = 180;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
 
 //	ResvAction(MON_ATK_SPECIAL1, 0);
 
@@ -2171,12 +2240,20 @@ Mon_BEAR::Mon_BEAR()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 30;
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 30;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 30;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 60;
-	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].MinScope = 60;
+//	m_Attack[1].MaxScope = 100;
+	m_Attack[1].AtkRect.x1 = 60;
+	m_Attack[1].AtkRect.x2 = 100;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
 //	m_Attack[1].Debuff = DEBUF_STUN;
 
 //	m_nStrollScope = 60;
@@ -2298,12 +2375,20 @@ Mon_TREE::Mon_TREE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 90;
-	m_Attack[1].MaxScope = 200;
+	m_Attack[1].AtkRect.x1 = 90;
+	m_Attack[1].AtkRect.x2 = 200;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 90;
+//	m_Attack[1].MaxScope = 200;
 
 
 
@@ -2474,12 +2559,20 @@ Mon_SHREK::Mon_SHREK()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 60;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 60;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 60;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 90;
-	m_Attack[1].MaxScope = 300;
+	m_Attack[1].AtkRect.x1 = 90;
+	m_Attack[1].AtkRect.x2 = 300;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 90;
+//	m_Attack[1].MaxScope = 300;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2624,12 +2717,20 @@ Mon_GOLLUM::Mon_GOLLUM()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 80;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 80;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 80;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 80;
-	m_Attack[1].MaxScope = 200;
+	m_Attack[1].AtkRect.x1 = 80;
+	m_Attack[1].AtkRect.x2 = 200;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 80;
+//	m_Attack[1].MaxScope = 200;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2774,12 +2875,20 @@ Mon_SHRIMP::Mon_SHRIMP()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 120;
-	m_Attack[1].MaxScope = 180;
+	m_Attack[1].AtkRect.x1 = 120;
+	m_Attack[1].AtkRect.x2 = 180;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 120;
+//	m_Attack[1].MaxScope = 180;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -2938,12 +3047,20 @@ Mon_BEE::Mon_BEE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 20;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 20;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 20;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 0;
-	m_Attack[1].MaxScope = 35;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 35;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 0;
+//	m_Attack[1].MaxScope = 35;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3066,8 +3183,12 @@ Mon_ELF_FIRE::Mon_ELF_FIRE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_RANGE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 200;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 200;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 200;
 
 //	m_Attack[1].Name = MON_ATK_ICE_WAVE;
 //	m_Attack[1].MinScope = 60;
@@ -3262,8 +3383,12 @@ Mon_ELF_ICE::Mon_ELF_ICE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_RANGE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 200;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 200;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 200;
 
 
 //	m_nStrollScope = 60;
@@ -3447,16 +3572,28 @@ Mon_FIRE::Mon_FIRE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 60;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 60;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 60;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 60;
-	m_Attack[1].MaxScope = 120;
+	m_Attack[1].AtkRect.x1 = 60;
+	m_Attack[1].AtkRect.x2 = 120;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 60;
+//	m_Attack[1].MaxScope = 120;
 
 	m_Attack[2].Name = MON_ATK_BURROW;
-	m_Attack[2].MinScope = 0;
-	m_Attack[2].MaxScope = 40;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 40;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 40;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3646,12 +3783,20 @@ Mon_EYE::Mon_EYE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 50;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 50;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 50;
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
-	m_Attack[1].MinScope = 80;
-	m_Attack[1].MaxScope = 200;
+	m_Attack[1].AtkRect.x1 = 80;
+	m_Attack[1].AtkRect.x2 = 200;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 80;
+//	m_Attack[1].MaxScope = 200;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3798,12 +3943,20 @@ Mon_SPEAR::Mon_SPEAR()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 110;
-	m_Attack[1].MaxScope = 150;
+	m_Attack[1].AtkRect.x1 = 110;
+	m_Attack[1].AtkRect.x2 = 150;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 110;
+//	m_Attack[1].MaxScope = 150;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -3945,8 +4098,12 @@ Mon_HUMAN_MELEE::Mon_HUMAN_MELEE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 55;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 55;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 55;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -4079,8 +4236,12 @@ Mon_HUMAN_RANGE::Mon_HUMAN_RANGE()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_RANGE1;
-	m_Attack[0].MinScope = 50;
-	m_Attack[0].MaxScope = 200;
+	m_Attack[0].AtkRect.x1 = 50;
+	m_Attack[0].AtkRect.x2 = 200;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 50;
+//	m_Attack[0].MaxScope = 200;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -4211,8 +4372,12 @@ Mon_FLYTRAP::Mon_FLYTRAP()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 //	m_Attack[1].Name = MON_ATK_RANGE1;
 //	m_Attack[1].MinScope = 70;
@@ -4361,12 +4526,20 @@ Mon_CRAB::Mon_CRAB()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 70;
-	m_Attack[1].MaxScope = 110;
+	m_Attack[1].AtkRect.x1 = 70;
+	m_Attack[1].AtkRect.x2 = 110;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 70;
+//	m_Attack[1].MaxScope = 110;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -4486,8 +4659,12 @@ Mon_BUG::Mon_BUG()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_4;
 //	m_bIsCheckBody = false;
@@ -4783,12 +4960,20 @@ Mon_BOSS5_DEVIL::Mon_BOSS5_DEVIL()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 120;
-	m_Attack[1].MaxScope = 150;
+	m_Attack[1].AtkRect.x1 = 120;
+	m_Attack[1].AtkRect.x2 = 150;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 120;
+//	m_Attack[1].MaxScope = 150;
 
 //	m_nStrollScope = 60;
 //	m_nSearchScope = 90;
@@ -5719,25 +5904,41 @@ BossMon2_1::BossMon2_1()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 45;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
 	m_Attack[0].MaxCoolTime = 0;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 0;
-	m_Attack[1].MaxScope = 45;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 45;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 0;
+//	m_Attack[1].MaxScope = 45;
 	m_Attack[1].MaxCoolTime = 300;
 	m_Attack[1].CoolTime = 50;
 
 	m_Attack[2].Name = MON_ATK_RANGE1;
-	m_Attack[2].MinScope = 0;
-	m_Attack[2].MaxScope = 120;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 120;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 120;
 	m_Attack[2].MaxCoolTime = 300;
 	m_Attack[2].CoolTime = 150;
 
 	m_Attack[3].Name = MON_ATK_SUMMON_BUG;
-	m_Attack[3].MinScope = 0;
-	m_Attack[3].MaxScope = 120;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 120;
+	m_Attack[3].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[3].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 120;
 	m_Attack[3].MaxCoolTime = 300;
 	m_Attack[3].CoolTime = 200;
 
@@ -6020,7 +6221,7 @@ BossMon5_1::BossMon5_1()
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 	m_nAtkMaxCount = 33;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
-
+/*
 	m_Attack[0].Name = MON_ATK_MELEE1;			m_Attack[0].MinScope = 0;	m_Attack[0].MaxScope = 1000;	m_Attack[0].MaxCoolTime = 0;		m_Attack[0].CoolTime = 0;
 	m_Attack[1].Name = MON_ATK_MELEE2;			m_Attack[1].MinScope = 0;	m_Attack[1].MaxScope = 300;		m_Attack[1].MaxCoolTime = 1000;		m_Attack[1].CoolTime = 0;
 	m_Attack[2].Name = MON_ATK_MELEE3;			m_Attack[2].MinScope = 0;	m_Attack[2].MaxScope = 1000;	m_Attack[2].MaxCoolTime = 0;		m_Attack[2].CoolTime = 0;
@@ -6053,7 +6254,7 @@ BossMon5_1::BossMon5_1()
 	m_Attack[29].Name = MON_ATK_BOSS5_FACE_BEAM;			m_Attack[29].MinScope = 0;	m_Attack[29].MaxScope = 1000;	m_Attack[29].MaxCoolTime = 0;		m_Attack[29].CoolTime = 0;
 	m_Attack[30].Name = MON_ATK_BOSS5_FACE_WALL;			m_Attack[30].MinScope = 0;	m_Attack[30].MaxScope = 1000;	m_Attack[30].MaxCoolTime = 0;		m_Attack[30].CoolTime = 0;
 	m_Attack[31].Name = MON_ATK_BOSS5_FACE_SUMMON;			m_Attack[31].MinScope = 0;	m_Attack[31].MaxScope = 1000;	m_Attack[31].MaxCoolTime = 0;		m_Attack[31].CoolTime = 0;
-
+*/
 	//	사용할 이미지를 설정한다.
 	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_LEG_1_STAND;
 //	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
@@ -6125,11 +6326,11 @@ void BossMon5_1::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 
 	//	내부 프로세서를 돌린다.
 	if(!ExtProcess())	{BaseProcess();}
@@ -7332,11 +7533,11 @@ void BossMon5_2::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -7865,11 +8066,11 @@ void BossMon5_3::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -8369,11 +8570,11 @@ void BossMon5_4::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -8892,11 +9093,11 @@ void BossMon5_5::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -9370,11 +9571,11 @@ void BossMon5_6::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -9639,7 +9840,7 @@ bool BossMon5_6::ExtSetAction()
 			{
 				for(int loop = 0; loop < 6; loop++)
 				{
-					SetMessage(MSG_BOSS5_SUMMON_WALL, (m_CharInfo->m_nPos.x)-10+SUTIL_GetRandom()%20, 180 + loop*20, 0, 0, loop);			
+					SetMessage(MSG_BOSS3_SUMMON_WALL, (m_CharInfo->m_nPos.x)-10+SUTIL_GetRandom()%20, 180 + loop*20, 0, 0, loop);			
 				}
 			}
 			else
@@ -9647,7 +9848,7 @@ bool BossMon5_6::ExtSetAction()
 				int max = Field::m_nFieldSize_X/26;
 				for(int loop = 0; loop < max; loop++)
 				{
-					SetMessage(MSG_BOSS5_SUMMON_WALL, 15 + loop*26, (m_CharInfo->m_nPos.y)-10+SUTIL_GetRandom()%20, 0, 0, loop);
+					SetMessage(MSG_BOSS3_SUMMON_WALL, 15 + loop*26, (m_CharInfo->m_nPos.y)-10+SUTIL_GetRandom()%20, 0, 0, loop);
 				}
 			}
 			return true;
@@ -10105,11 +10306,11 @@ void BossMon5_7::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -10561,11 +10762,11 @@ void BossMon5_8::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -11003,11 +11204,11 @@ void BossMon5_9::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -11457,12 +11658,12 @@ void BossMon5_10::Process(S_CHARINFO* _CharInfo)
 
 	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
 	//	초기화는 5번에서 관리한다.
-	if(0 < Monster::m_nExtraDamage)
-	{
-		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-		Monster::m_nExtraDamage = 0;
-	}
+//	if(0 < Monster::m_nExtraDamage)
+//	{
+//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
+//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+//		Monster::m_nExtraDamage = 0;
+//	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -11865,7 +12066,7 @@ Mon_DEVIJOHNS::Mon_DEVIJOHNS()
 
 	m_nAtkMaxCount = 3;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
-
+/*
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].MinScope = 0;
 	m_Attack[0].MaxScope = 70;
@@ -11879,7 +12080,7 @@ Mon_DEVIJOHNS::Mon_DEVIJOHNS()
 	m_Attack[2].MinScope = 0;
 	m_Attack[2].MaxScope = 80;
 	m_Attack[2].Debuff = DEBUF_STUN;
-
+*/
 
 	//	사용할 이미지를 설정한다.
 	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_7_STAND;
@@ -13013,27 +13214,47 @@ BossWorm::BossWorm()
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 60;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 60;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 60;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 60;
-	m_Attack[1].MaxScope = 100;
+	m_Attack[1].AtkRect.x1 = 60;
+	m_Attack[1].AtkRect.x2 = 100;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 60;
+//	m_Attack[1].MaxScope = 100;
 //	m_Attack[1].Debuff = DEBUF_STUN;
 
 	m_Attack[2].Name = MON_ATK_MELEE3;
-	m_Attack[2].MinScope = 0;
-	m_Attack[2].MaxScope = 60;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 60;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 60;
 //	m_Attack[2].Debuff = DEBUF_STUN;
 
 	m_Attack[3].Name = MON_ATK_RANGE1;
-	m_Attack[3].MinScope = 100;
-	m_Attack[3].MaxScope = 200;
+	m_Attack[3].AtkRect.x1 = 100;
+	m_Attack[3].AtkRect.x2 = 200;
+	m_Attack[3].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[3].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[3].MinScope = 100;
+//	m_Attack[3].MaxScope = 200;
 //	m_Attack[2].Debuff = DEBUF_STUN;
 
 	m_Attack[4].Name = MON_ATK_SUMMON_BUG;
-	m_Attack[4].MinScope = 0;
-	m_Attack[4].MaxScope = 120;
+	m_Attack[4].AtkRect.x1 = 0;
+	m_Attack[4].AtkRect.x2 = 120;
+	m_Attack[4].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[4].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[4].MinScope = 0;
+//	m_Attack[4].MaxScope = 120;
 	m_Attack[4].MaxCoolTime = 300;
 	m_Attack[4].CoolTime = 200;
 
@@ -13071,6 +13292,55 @@ BossWorm::~BossWorm()
 	SAFE_DELETE(m_Attack);
 }
 
+
+//--------------------------------------------------------------------------------------
+void BossWorm::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+
+	//MON_ATK_SUMMON_BUG
+
+
+	m_nUseAtkNum = 4;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		//	총 소환이 10을 넘지 않게 한다.
+		if(10 > m_nTotalMonCnt)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 2;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 1;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 0;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+}
 
 //--------------------------------------------------------------------------------------
 void BossWorm::Process(S_CHARINFO* _CharInfo)
@@ -13290,7 +13560,7 @@ bool BossWorm::ExtSetAction()
 			m_Physics->initForce();
 
 			//	벌레 소환
-			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, 0, 5);
+			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, m_nMonIdx, 5);
 			return true;
 		}
 	}
@@ -13321,24 +13591,50 @@ BossSkelBird::BossSkelBird()
 	m_nAtkMaxCount = 4;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
-	m_Attack[0].Name = MON_ATK_MELEE1;
-	m_Attack[0].MinScope = 0;
-	m_Attack[0].MaxScope = 70;
+	m_Attack[0].Name = MON_ATK_MELEE3;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 20;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize);
+	m_Attack[0].AtkRect.y2 = 0;
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 80;
+//	m_Attack[0].Debuff = DEBUF_STUN;
+	m_Attack[0].CoolTime = 0;
+	m_Attack[0].MaxCoolTime = 0;
 
-	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].MinScope = 40;
-	m_Attack[1].MaxScope = 100;
-//	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].Name = MON_ATK_MELEE1;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 70;
+	m_Attack[1].AtkRect.y1 = -5;
+	m_Attack[1].AtkRect.y2 = (m_nBodySize-5);
+//	m_Attack[1].MinScope = 0;
+//	m_Attack[1].MaxScope = 70;
+	m_Attack[1].CoolTime = 0;
+	m_Attack[1].MaxCoolTime = 80;
 
-	m_Attack[2].Name = MON_ATK_MELEE3;
-	m_Attack[2].MinScope = 0;
-	m_Attack[2].MaxScope = 80;
+	m_Attack[2].Name = MON_ATK_MELEE2;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 60;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = 60;
+//	m_Attack[2].MinScope = 40;
+//	m_Attack[2].MaxScope = 100;
 //	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[2].CoolTime = 0;
+	m_Attack[2].MaxCoolTime = 200;
+
+
 
 	m_Attack[3].Name = MON_ATK_RANGE1;
-	m_Attack[3].MinScope = 0;
-	m_Attack[3].MaxScope = 80;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 300;
+	m_Attack[3].AtkRect.y1 = -(300);
+	m_Attack[3].AtkRect.y2 = (300);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
 //	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[3].CoolTime = 0;
+	m_Attack[3].MaxCoolTime = 400;
 
 	//	사용할 이미지를 설정한다.
 	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_2_STAND;
@@ -13374,6 +13670,42 @@ BossSkelBird::~BossSkelBird()
 }
 
 
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 2;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 1;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 0;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+}
+
 //--------------------------------------------------------------------------------------
 void BossSkelBird::Process(S_CHARINFO* _CharInfo)
 //--------------------------------------------------------------------------------------
@@ -13381,6 +13713,8 @@ void BossSkelBird::Process(S_CHARINFO* _CharInfo)
 	if(m_NextActState)
 	{
 		SetAction(m_NextActState);
+//		pChildBody[0]->SetAction(m_NextActState);
+//		pChildBody[1]->SetAction(m_NextActState);
 		m_NextActState = 0;
 	}
 
@@ -13398,8 +13732,6 @@ void BossSkelBird::Process(S_CHARINFO* _CharInfo)
 		pMonAsIns->m_posX += m_nPhysicsPos.x;
 		pMonAsIns->m_posY += m_nPhysicsPos.y;
 		pMonAsIns->m_posZ += m_nPhysicsPos.z;
-
-
 		if(0 < pMonAsIns->m_posZ)	{pMonAsIns->m_posZ = 0;}
 
 		//	저항상황이라면 (그라운드라면)
@@ -13432,11 +13764,57 @@ void BossSkelBird::Process(S_CHARINFO* _CharInfo)
 	}
 
 	//	내부 프로세서를 돌린다.
+	SUTIL_UpdateTimeAsprite(pChildBody[0]->pMonAsIns);
+	SUTIL_UpdateTimeAsprite(pChildBody[1]->pMonAsIns);
+
 	if(!ExtProcess())	{BaseProcess();}
 
 	//	보스전용 인공지능
 	AI_PROCESS_BOSS2(this);
+
+
+	//	child의 좌표를 갱신시킨다.
+	pChildBody[1]->pMonAsIns->m_posX = pChildBody[0]->pMonAsIns->m_posX = pMonAsIns->m_posX;
+	pChildBody[1]->pMonAsIns->m_posY = pChildBody[0]->pMonAsIns->m_posY = pMonAsIns->m_posY;
+	pChildBody[1]->pMonAsIns->m_posZ = pChildBody[0]->pMonAsIns->m_posZ = pMonAsIns->m_posZ;
+
 }
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird::Paint()
+//--------------------------------------------------------------------------------------
+{
+	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
+	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
+
+	//	paint shadow
+	//int tmpx = pMonAsIns->Get_AFrameXZ();
+	//int tmpy = tmpx%100000;
+	//tmpx = tmpx/100000; 
+
+	int tmpXZ[2];
+	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
+	int tmpx = tmpXZ[0];
+	int tmpz = tmpXZ[1];
+
+	/*pShaodwAsIns->SetFrame(FRAME_SHADOW_SHADOW_3);
+
+	SUTIL_SetXPosAsprite(pShaodwAsIns,	tmpx);
+	SUTIL_SetYPosAsprite(pShaodwAsIns,	SUTIL_GetYPosAsprite(pMonAsIns)-2);
+
+	SUTIL_PaintAsprite(pShaodwAsIns, S_NOT_INCLUDE_SORT);*/
+	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
+
+	//	paint monster
+	SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+
+	SUTIL_PaintAsprite(pChildBody[0]->pMonAsIns, S_INCLUDE_SORT);
+	SUTIL_PaintAsprite(pChildBody[1]->pMonAsIns, S_INCLUDE_SORT);
+
+	//	paint Debuff
+	Paint_Debuff(tmpx , tmpz);
+}
+
 
 //--------------------------------------------------------------------------------------
 bool BossSkelBird::ExtProcess()
@@ -13456,8 +13834,19 @@ bool BossSkelBird::ExtProcess()
 			}
 			return true;
 		}
-		case MON_ATK_MELEE1:
 		case MON_ATK_MELEE2:
+		//-----------------------------------------------------------------------
+		{
+			//	앞으로 전진하는 기술이다.
+			pMonAsIns->m_posY += 3;
+
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+		case MON_ATK_MELEE1:
 		case MON_ATK_MELEE3:
 		case MON_AC_FALL:
 		//-----------------------------------------------------------------------
@@ -13478,8 +13867,80 @@ bool BossSkelBird::ExtProcess()
 bool BossSkelBird::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
+	//	미리 비어놓는다.
+	SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_FLING);
+	SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_FLING);
+
 	switch(m_ActState)
 	{
+/*
+		case MON_AC_ING_DOWN:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_DOWN);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_DOWN);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+			return false;
+		}
+		case MON_AC_DOWNED:
+		case MON_AC_DIE:
+		case MON_AC_DIE_AFTER:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_DOWNED);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_DOWNED);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+			return false;
+		}
+*/
+		case MON_AC_STAND:
+		case MON_AC_READY:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_STAND);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_STAND);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+			return false;
+		}
+
+		case MON_AC_MOVE:
+		case MON_AC_RUN:
+		case MON_AC_BEHOLD:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_WALK);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_WALK);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+			return false;
+		}
 
 		case MON_AC_FALL:
 		//-----------------------------------------------------------
@@ -13489,6 +13950,15 @@ bool BossSkelBird::ExtSetAction()
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_FALL);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_FALL);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+
 			return true;
 		}
 		case MON_ATK_MELEE1:
@@ -13499,6 +13969,15 @@ bool BossSkelBird::ExtSetAction()
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_MELEE_1);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_MELEE_1);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+
 			return true;
 		}
 		case MON_ATK_MELEE2:
@@ -13512,6 +13991,14 @@ bool BossSkelBird::ExtSetAction()
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_MELEE_2);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_MELEE_2);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
 			return true;
 		}
 		case MON_ATK_MELEE3:
@@ -13522,6 +14009,14 @@ bool BossSkelBird::ExtSetAction()
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_MELEE_3);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_MELEE_3);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
 			return true;
 		}
 		case MON_ATK_RANGE1:
@@ -13533,6 +14028,14 @@ bool BossSkelBird::ExtSetAction()
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
 
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_2_ARM_L_FLY);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SUTIL_SetTypeAniAsprite(pChildBody[1]->pMonAsIns,ANIM_BOSS_2_ARM_R_FLY);
+			SUTIL_SetDirAsprite(pChildBody[1]->pMonAsIns, m_nDirection);
+			pChildBody[1]->m_Physics->initForce();
+
 			ASpriteInstance* tmpAsIns;
 			S_MONSKILL *tmpMonSkill;
 
@@ -13541,13 +14044,14 @@ bool BossSkelBird::ExtSetAction()
 			if(SDIR_LEFT == m_nDirection)			{addx -= 20;}
 			else									{addx += 20;}
 
-			int seed = 2 + SUTIL_GetRandom()%2;
+
+			int seed = 8 + SUTIL_GetRandom()%4;
 			for(int loop = 0; loop < seed; loop++)
 			{
 				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
 				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_2_BULLET_1);
 				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%100 );
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
 				SUTIL_SetYPosAsprite(tmpAsIns, 170 + SUTIL_GetRandom()%30);
 				SUTIL_SetZPosAsprite(tmpAsIns, 0);
 				SUTIL_UpdateTimeAsprite(tmpAsIns);
@@ -13555,7 +14059,689 @@ bool BossSkelBird::ExtSetAction()
 				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
 				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
 				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 26;
+				tmpMonSkill->lifeTime = 27;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 30+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 2;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_2_BULLET_1);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 200 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 27;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 30+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 2;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_2_BULLET_1);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 230 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 30+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 2;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird::RCV_Damage(int heroDamage)
+//--------------------------------------------------------------------------------------
+{
+	m_Stet.m_Hp -= heroDamage;
+	if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+
+	pChildBody[0]->m_Stet.m_Hp = m_Stet.m_Hp;
+	pChildBody[1]->m_Stet.m_Hp = m_Stet.m_Hp;
+}
+
+
+
+//==============================================================================================================
+
+
+
+//--------------------------------------------------------------------------------------
+BossSkelBird_L_ARM::BossSkelBird_L_ARM()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_2;
+	m_nMonIdx = MON_IDX_SKELBIRD_L_ARM;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_2_STAND;
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_2_STAND;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_2_WALK_VERTICAL;
+}
+
+
+
+
+//--------------------------------------------------------------------------------------
+BossSkelBird_L_ARM::~BossSkelBird_L_ARM()
+//--------------------------------------------------------------------------------------
+{
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossSkelBird_L_ARM::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossSkelBird_L_ARM::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird_L_ARM::Paint()
+//--------------------------------------------------------------------------------------
+{
+}
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird_L_ARM::RCV_Damage(int heroDamage)
+//--------------------------------------------------------------------------------------
+{
+	m_pParents->RCV_Damage(heroDamage);
+}
+
+//==============================================================================================================
+
+//--------------------------------------------------------------------------------------
+BossSkelBird_R_ARM::BossSkelBird_R_ARM()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_2;
+	m_nMonIdx = MON_IDX_SKELBIRD_L_ARM;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_2_STAND;
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_2_STAND;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_2_WALK_VERTICAL;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+BossSkelBird_R_ARM::~BossSkelBird_R_ARM()
+//--------------------------------------------------------------------------------------
+{
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossSkelBird_R_ARM::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossSkelBird_R_ARM::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	return true;
+}
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird_R_ARM::Paint()
+//--------------------------------------------------------------------------------------
+{
+}
+
+
+//--------------------------------------------------------------------------------------
+void BossSkelBird_R_ARM::RCV_Damage(int heroDamage)
+//--------------------------------------------------------------------------------------
+{
+	m_pParents->RCV_Damage(heroDamage);
+}
+
+
+
+
+
+
+//==============================================================================================================
+
+
+
+//--------------------------------------------------------------------------------------
+BossFlower::BossFlower()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_3;
+	m_nMonIdx = MON_IDX_FLOWER;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	m_nAtkMaxCount = 5;
+	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+
+	m_Attack[0].Name = MON_ATK_MELEE1;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 50;
+	m_Attack[0].AtkRect.y1 = 0;
+	m_Attack[0].AtkRect.y2 = m_nBodySize;
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 70;
+	m_Attack[0].CoolTime = 0;
+	m_Attack[0].MaxCoolTime = 0;
+
+	m_Attack[1].Name = MON_ATK_RANGE1;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 200;
+	m_Attack[1].AtkRect.y1 = 0;
+	m_Attack[1].AtkRect.y2 = 200;
+//	m_Attack[1].MinScope = 0;
+//	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].CoolTime = 0;
+	m_Attack[1].MaxCoolTime = 60;
+
+	m_Attack[2].Name = MON_ATK_RANGE2;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 200;
+	m_Attack[2].AtkRect.y1 = -100;
+	m_Attack[2].AtkRect.y2 = 300;
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[2].CoolTime = 0;
+	m_Attack[2].MaxCoolTime = 200;
+
+
+	m_Attack[3].Name = MON_ATK_RANGE3;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 300;
+	m_Attack[3].AtkRect.y1 = -100;
+	m_Attack[3].AtkRect.y2 = 300;
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[3].CoolTime = 0;
+	m_Attack[3].MaxCoolTime = 400;
+
+
+	m_Attack[4].Name = MON_ATK_SUMMON_BUG;
+	m_Attack[4].AtkRect.x1 = 0;
+	m_Attack[4].AtkRect.x2 = 300;
+	m_Attack[4].AtkRect.y1 = -(300);
+	m_Attack[4].AtkRect.y2 = (300);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[4].CoolTime = 0;
+	m_Attack[4].MaxCoolTime = 400;
+
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_3_STAND;
+//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_3_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_3_DOWN;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_3_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_3_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_3_DOWNED;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_3_STAND;
+//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_2_WALK_VERTICAL;
+//	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_2_WALK_VERTICAL;
+//	m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_1_WALK_VERTICAL;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 19;
+	m_nAiPtnData[0] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[3] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[4] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[5] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[6] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[7] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[8] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[9] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[10] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[11] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[12] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[13] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[14] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[15] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[16] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[17] = MON_AI_ATTACK_DONTMOVE;
+	m_nAiPtnData[18] = MON_AI_READY_TO_HIT;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+BossFlower::~BossFlower()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+void BossFlower::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+
+	m_nUseAtkNum = 4;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		//	총 소환이 10을 넘지 않게 한다.
+		if(10 > m_nTotalMonCnt)
+		{
+			//	체력이 아직 많이 남아있으면 소환을 하지 않는다.
+			if(m_Stet.m_MaxHp > (m_Stet.m_Hp*2))
+			{
+				m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+				return;
+			}
+		}
+	}
+
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 2;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 1;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 0;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+}
+
+//--------------------------------------------------------------------------------------
+void BossFlower::Process(S_CHARINFO* _CharInfo)
+//--------------------------------------------------------------------------------------
+{
+	if(m_NextActState)
+	{
+		SetAction(m_NextActState);
+//		pChildBody[0]->SetAction(m_NextActState);
+//		pChildBody[1]->SetAction(m_NextActState);
+		m_NextActState = 0;
+	}
+
+	//	물리좌표를 갱신받는다.
+	m_nPhysicsPos = m_Physics->process();
+	if(0 == m_nPhysicsPos.Sqr_GetLength() && 0 == pMonAsIns->m_posZ)
+	{
+		//	이동량이 없으므로 모든 값을 초기화시켜준다.
+		m_Physics->initForce();
+	}
+	else
+	{
+		//	이동량에 따라 좌표를 보정시켜준다.
+//		m_nPos = m_nPos + m_nPhysicsPos;
+		pMonAsIns->m_posX += m_nPhysicsPos.x;
+		pMonAsIns->m_posY += m_nPhysicsPos.y;
+		pMonAsIns->m_posZ += m_nPhysicsPos.z;
+		if(0 < pMonAsIns->m_posZ)	{pMonAsIns->m_posZ = 0;}
+
+		//	저항상황이라면 (그라운드라면)
+		if(m_nResistZ == pMonAsIns->m_posZ && 0 == pMonAsIns->m_posZ)
+		{
+			m_Physics->resistGr();
+		}
+		m_nResistZ = pMonAsIns->m_posZ;		
+	}
+
+	//	캐릭터의 좌표를 갱신시켜준다.
+	m_CharInfo = _CharInfo;
+
+	//	자체 타이머를 갖는다.
+	m_nTimer= (m_nTimer+1)%1000;
+
+	//	맞았을시 올라가던 히트 레이트를 올려준다.
+	m_nHitRate++;
+	if(5 < m_nHitRate)
+	{
+		m_nHitRate = 5;
+		m_nAccumulatedHit = 0;
+	}
+
+	//	공격에 대한 쿨타임을 줄여준다.
+	for(int loop = 0; loop < m_nAtkMaxCount; loop++)
+	{
+		m_Attack[loop].CoolTime--;
+		if(0 > m_Attack[loop].CoolTime)	{m_Attack[loop].CoolTime = 0;}
+	}
+
+	//	내부 프로세서를 돌린다.
+	SUTIL_UpdateTimeAsprite(pChildBody[0]->pMonAsIns);
+
+	if(!ExtProcess())	{BaseProcess();}
+
+	//	보스전용 인공지능
+	AI_PROCESS_BOSS2(this);
+
+
+	//	child의 좌표를 갱신시킨다.
+	pChildBody[0]->pMonAsIns->m_posX = pMonAsIns->m_posX;
+	pChildBody[0]->pMonAsIns->m_posY = pMonAsIns->m_posY;
+	pChildBody[0]->pMonAsIns->m_posZ = pMonAsIns->m_posZ;
+
+}
+
+//--------------------------------------------------------------------------------------
+void BossFlower::Paint()
+//--------------------------------------------------------------------------------------
+{
+	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
+	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
+
+	//	paint shadow
+	//int tmpx = pMonAsIns->Get_AFrameXZ();
+	//int tmpy = tmpx%100000;
+	//tmpx = tmpx/100000; 
+
+	int tmpXZ[2];
+	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
+	int tmpx = tmpXZ[0];
+	int tmpz = tmpXZ[1];
+
+	/*pShaodwAsIns->SetFrame(FRAME_SHADOW_SHADOW_3);
+
+	SUTIL_SetXPosAsprite(pShaodwAsIns,	tmpx);
+	SUTIL_SetYPosAsprite(pShaodwAsIns,	SUTIL_GetYPosAsprite(pMonAsIns)-2);
+
+	SUTIL_PaintAsprite(pShaodwAsIns, S_NOT_INCLUDE_SORT);*/
+	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
+
+	//	paint monster
+	SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+
+	SUTIL_PaintAsprite(pChildBody[0]->pMonAsIns, S_INCLUDE_SORT);
+
+	//	paint Debuff
+	Paint_Debuff(tmpx , tmpz);
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossFlower::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	//	TEST 항시전투
+	m_bIsBattle = true;
+
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		case MON_ATK_RANGE1:
+		case MON_ATK_RANGE2:
+		case MON_ATK_RANGE3:
+		case MON_ATK_SUMMON_BUG:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossFlower::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		case MON_AC_ING_DOWN:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_DOWN);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+			return false;
+		}
+		case MON_AC_DIE:
+		case MON_AC_DIE_AFTER:
+		case MON_AC_DOWNED:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_DOWNED);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+			return false;
+		}
+
+		case MON_AC_STAND:
+		case MON_AC_READY:
+		//-----------------------------------------------------------
+		{
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_STAND);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+			return false;
+		}
+		case MON_ATK_SUMMON_BUG:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_SUMMON);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	얼굴 
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_SUMMON);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, m_nMonIdx, 4);
+
+			return true;
+		}
+		case MON_ATK_MELEE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	얼굴 
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_MELEE_1);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			return true;
+		}
+		case MON_ATK_RANGE1:	//	방사형 포
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_RANGE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	얼굴 
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_RANGE_1);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns;
+			S_MONSKILL * tmpMonSkill;
+
+			int BulletSet[5][2] = {{-53,-40},{-32,-28},{0,-15},{44,-40},{23,-28}};
+			int BulletMove[5][2] = {{-8,+3},{-5,+4},{0,+4},{8,+3},{5,+4}};
+
+//			int BulletSet[8][2] = {{-32,-66},{-53,-54},{-53,-40},{-32,-28},{23,-66},{44,-54},{44,-40},{23,-28}};
+//			int BulletMove[8][2] = {{-6,-4},{-8,-3},{-8,+3},{-6,+4},{6,-4},{8,-3},{8,+3},{6,+4}};
+
+
+			for(int loop = 0; loop < 5; loop++)
+			{
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_1);
+				SUTIL_SetDirAsprite(tmpAsIns, m_nDirection);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, pMonAsIns->m_posX+BulletSet[loop][0]+5);
+				SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY+BulletSet[loop][1]+40);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMOVE;
+				tmpMonSkill->lifeTime = 17;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 0;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 2;
+				tmpMonSkill->damagetime = 6;
+				tmpMonSkill->Movex = BulletMove[loop][0];
+				tmpMonSkill->Movey = BulletMove[loop][1];
+				tmpMonSkill->Movez = 0;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+			}
+
+
+			return true;
+		}
+		case MON_ATK_RANGE3:		//	돌뭉치 떨어뜨림
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_RANGE_2);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	얼굴 
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_RANGE_2);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns;
+			S_MONSKILL *tmpMonSkill;
+
+			//	beam
+			int addx = 0;
+			if(SDIR_LEFT == m_nDirection)			{addx -= 20;}
+			else									{addx += 20;}
+
+			int seed = 8 + SUTIL_GetRandom()%4;
+			for(int loop = 0; loop < seed; loop++)
+			{
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 170 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
 				tmpMonSkill->Damage = 10;
 				tmpMonSkill->Delay = 6+loop;
 				tmpMonSkill->who = (void*)this;
@@ -13566,9 +14752,9 @@ bool BossSkelBird::ExtSetAction()
 				m_nSkillCount++;
 
 				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_2_BULLET_1);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_2);
 				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%100 );
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
 				SUTIL_SetYPosAsprite(tmpAsIns, 200 + SUTIL_GetRandom()%30);
 				SUTIL_SetZPosAsprite(tmpAsIns, 0);
 				SUTIL_UpdateTimeAsprite(tmpAsIns);
@@ -13576,7 +14762,7 @@ bool BossSkelBird::ExtSetAction()
 				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
 				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
 				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 26;
+				tmpMonSkill->lifeTime = 7;
 				tmpMonSkill->Damage = 10;
 				tmpMonSkill->Delay = 8+loop;
 				tmpMonSkill->who = (void*)this;
@@ -13587,9 +14773,9 @@ bool BossSkelBird::ExtSetAction()
 				m_nSkillCount++;
 
 				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_2_BULLET_1);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_2);
 				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%100 );
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
 				SUTIL_SetYPosAsprite(tmpAsIns, 230 + SUTIL_GetRandom()%30);
 				SUTIL_SetZPosAsprite(tmpAsIns, 0);
 				SUTIL_UpdateTimeAsprite(tmpAsIns);
@@ -13597,7 +14783,7 @@ bool BossSkelBird::ExtSetAction()
 				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
 				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
 				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 26;
+				tmpMonSkill->lifeTime = 7;
 				tmpMonSkill->Damage = 10;
 				tmpMonSkill->Delay = 10+loop;
 				tmpMonSkill->who = (void*)this;
@@ -13607,11 +14793,128 @@ bool BossSkelBird::ExtSetAction()
 				m_MonSkillList->Insert_prev(tmpMonSkill);
 				m_nSkillCount++;
 			}
+
+
+			return true;
+		}
+		case MON_ATK_RANGE2:		//	벽 소환
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_RANGE_3);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	얼굴 
+			SUTIL_SetTypeAniAsprite(pChildBody[0]->pMonAsIns,ANIM_BOSS_3_TOP_RANGE_3);
+			SUTIL_SetDirAsprite(pChildBody[0]->pMonAsIns, m_nDirection);
+			pChildBody[0]->m_Physics->initForce();
+
+			//	
+			//0 width, 1 height
+			if(SUTIL_GetRandom()%2)
+			{
+				for(int loop = 0; loop < 6; loop++)
+				{
+					SetMessage(MSG_BOSS3_SUMMON_WALL, (m_CharInfo->m_nPos.x)-10+SUTIL_GetRandom()%20, 180 + loop*20, 0, 0, loop);			
+				}
+			}
+			else
+			{
+				int max = Field::m_nFieldSize_X/26;
+				for(int loop = 0; loop < max; loop++)
+				{
+					SetMessage(MSG_BOSS3_SUMMON_WALL, 15 + loop*26, (m_CharInfo->m_nPos.y)-10+SUTIL_GetRandom()%20, 0, 0, loop);
+				}
+			}
+
 			return true;
 		}
 	}
 
 	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+void BossFlower::RCV_Damage(int heroDamage)
+//--------------------------------------------------------------------------------------
+{
+	m_Stet.m_Hp -= heroDamage;
+	if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
+
+	pChildBody[0]->m_Stet.m_Hp = m_Stet.m_Hp;
+}
+
+
+
+
+
+
+//==============================================================================================================
+
+
+
+//--------------------------------------------------------------------------------------
+BossFlower_Brain::BossFlower_Brain()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_3;
+	m_nMonIdx = MON_IDX_FLOWER_BRAIN;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+//	//	사용할 이미지를 설정한다.
+//	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_2_STAND;
+//	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_2_STAND;
+//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
+//	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_2_WALK_VERTICAL;
+}
+
+
+
+
+//--------------------------------------------------------------------------------------
+BossFlower_Brain::~BossFlower_Brain()
+//--------------------------------------------------------------------------------------
+{
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossFlower_Brain::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BossFlower_Brain::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------
+void BossFlower_Brain::Paint()
+//--------------------------------------------------------------------------------------
+{
+}
+
+//--------------------------------------------------------------------------------------
+void BossFlower_Brain::RCV_Damage(int heroDamage)
+//--------------------------------------------------------------------------------------
+{
+	m_pParents->RCV_Damage(heroDamage);
 }
 
 

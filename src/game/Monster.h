@@ -156,12 +156,21 @@ struct S_MONSKILL
 	class ASpriteInstance*	pMonSkillAsIns;		//	인스턴스
 };	
 
+struct S_ATKRECT
+{
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+};
 
 struct S_MONATK
 {
+	S_ATKRECT AtkRect;
+
 	int Name;
-	int MinScope;
-	int MaxScope;
+//	int MinScope;
+//	int MaxScope;
 	int Debuff;
 	int CoolTime;
 	int MaxCoolTime;
@@ -260,13 +269,15 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 #define	MON_IDX_DEVIJOHNS				71
 
 #define	MON_IDX_WORM					72
+
 #define	MON_IDX_SKELBIRD				73
-//#define	MON_IDX_BIG_DRAGON1				72
-//#define	MON_IDX_BIG_DRAGON2				73
-//#define	MON_IDX_BIG_DRAGON3				74
+#define	MON_IDX_SKELBIRD_L_ARM			74
+#define	MON_IDX_SKELBIRD_R_ARM			75
 
+#define	MON_IDX_FLOWER					76
+#define	MON_IDX_FLOWER_BRAIN			77
 
-#define	MON_IDX_COUNT_BOSS				14
+#define	MON_IDX_COUNT_BOSS				18
 //------------------------------------------------------
 
 
@@ -326,12 +337,14 @@ struct S_MESSAGE
 #define		MSG_DE_SUMMONE_BUGS		4
 #define		MSG_BOSS_CHANGESTATE	5
 
-#define		MSG_BOSS5_SUMMON_WALL	6
+#define		MSG_BOSS3_SUMMON_WALL	6
 #define		MSG_BOSS5_SUMMON_DEVIL	7
 
 #define		MSG_MON4_CLONE			9
 #define		MSG_ELF_HEAL			10
 #define		MSG_ELF_TOTAL_HEAL		11
+
+
 
 #define		NOT_REGEN				9999
 
@@ -512,7 +525,10 @@ public:
 	};Debuff s_Debuff;
 
 	//	고유 ID
+	Monster* m_pParents;
+
 	static int	UniqueIdx;
+	static int	m_nTotalMonCnt;
 
 	S_CHARINFO*	m_CharInfo;				//	캐릭터 정보
 	int			m_nTimer;
@@ -562,7 +578,7 @@ public:
 	int			m_nAiState;
 
 	//	인공지능 판단 데이타
-	int			m_nAiPtnData[10];
+	int			m_nAiPtnData[20];
 	int			m_nAiPtnProcess;
 	int			m_nAiPtnTotCnt;
 	int			m_nAiPtnLimitTime;
@@ -578,7 +594,7 @@ public:
 	bool		m_bIsSuccessAttack;				//	이번턴의 몬스터의 공격이 성공했는지 판단.
 	bool		m_bIsPanic;						//	잡힌상태든 몬스터의 AI를 실행할수 없는순간
 
-	static int	m_nExtraDamage;					//	몸땡이 보스들을 같이 피를 감소할때 쓰임
+//	static int	m_nExtraDamage;					//	몸땡이 보스들을 같이 피를 감소할때 쓰임
 
 	//	인공지능 각종 판단 기본 범위
 	int			m_nRange_InBattle;				//	전투 인식 범위
@@ -616,6 +632,7 @@ public:
 
 	//	상황에 따라 오버라이딩한다.
 	virtual void Paint();
+	virtual void SetAttack();
 	void GetMessage();
 	bool SetHolding(int HoldType);
 	bool ReceiveAttack(Position3D& _Power);
@@ -624,7 +641,7 @@ public:
 	void SetPosition(int x, int y, int z);
 
 	void SetSpriteInstance(class ASprite* pAsprite, void* s_ASpriteSet, int color, int x, int y, int z=0);
-	void RCV_Damage(int heroDamage);
+	virtual void RCV_Damage(int heroDamage);
 	int SND_Damage(int heroLevel, int heroElemental, int heroDefense, int D_index, int nResvNextAtk = 0);
 	void RCV_Debuff(int Debuff_Type); //디버프를 받았을때
 	int SND_Debuff(int Attack_Type);//디버프를 가할때
@@ -1282,29 +1299,98 @@ public:
 	bool ExtProcess();
 //	void Paint();
 	void Process(S_CHARINFO* _CharInfo);
+	void SetAttack();
 private:
 
 };
 
 
 //--------------------------------------------------------------------------------
+#define	BOSS_SKELBIRD_MAX_CHILD_COUNT	2
+
 class BossSkelBird : public Monster
 {
 public:
 
-//	void ResvBossDragon_AllAction(int changeState, int dummy);
-//	Monster* pChildBody[BOSS_DRAGON_MAX_BODY_COUNT];
+	//void ResvBoss_AllAction(int changeState, int dummy);
+	Monster* pChildBody[BOSS_SKELBIRD_MAX_CHILD_COUNT];
 
 	BossSkelBird();
 	~BossSkelBird();
 	bool ExtSetAction();
 	bool ExtProcess();
-//	void Paint();
+	void Paint();
 	void Process(S_CHARINFO* _CharInfo);
+	void RCV_Damage(int heroDamage);
+	void SetAttack();
 private:
 };
 
 
+
+//--------------------------------------------------------------------------------
+class BossSkelBird_L_ARM : public Monster
+{
+public:
+	BossSkelBird_L_ARM();
+	~BossSkelBird_L_ARM();
+	bool ExtSetAction();
+	bool ExtProcess();
+	void Paint();
+	void RCV_Damage(int heroDamage);
+private:
+};
+
+
+//--------------------------------------------------------------------------------
+class BossSkelBird_R_ARM : public Monster
+{
+public:
+	BossSkelBird_R_ARM();
+	~BossSkelBird_R_ARM();
+	bool ExtSetAction();
+	bool ExtProcess();
+	void Paint();
+	void RCV_Damage(int heroDamage);
+private:
+};
+
+
+//--------------------------------------------------------------------------------
+#define	BOSS_FLOWER_MAX_CHILD_COUNT	1
+
+class BossFlower : public Monster
+{
+public:
+
+	//void ResvBoss_AllAction(int changeState, int dummy);
+	Monster* pChildBody[BOSS_FLOWER_MAX_CHILD_COUNT];
+
+	BossFlower();
+	~BossFlower();
+	bool ExtSetAction();
+	bool ExtProcess();
+	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+	void RCV_Damage(int heroDamage);
+	void SetAttack();
+private:
+};
+
+
+
+//--------------------------------------------------------------------------------
+class BossFlower_Brain : public Monster
+{
+public:
+	BossFlower_Brain();
+	~BossFlower_Brain();
+	bool ExtSetAction();
+	bool ExtProcess();
+	void Paint();
+	void RCV_Damage(int heroDamage);
+private:
+};
 
 
 //--------------------------------------------------------------------------------

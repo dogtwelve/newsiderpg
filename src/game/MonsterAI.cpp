@@ -73,12 +73,11 @@ bool MonsterAI::Move(Monster* pMonster, Position3D* pos, int action)
 	return false;
 }	
 
-
+/*
 //--------------------------------------------------------------------------
 void MonsterAI::SetAttack(Monster* pMonster)
 //--------------------------------------------------------------------------
 {
-
 	//	TEST
 	//pMonster->m_nUseAtkNum = 1;
 
@@ -99,7 +98,7 @@ void MonsterAI::SetAttack(Monster* pMonster)
 
 	pMonster->m_bIsSuccessAttack = false;
 }
-
+*/
 
 //--------------------------------------------------------------------------
 void MonsterAI::ReceiveAttack(Monster* pM)
@@ -145,16 +144,17 @@ void MonsterAI::EndBattle(Monster* pM)
 bool MonsterAI::CheckAttackRange(Monster* pM)
 //--------------------------------------------------------------------------
 {
-
-
-	//	y축으로 15픽셀이상 어긋나 있다면 공격을 하지 못한다.(주인공 몸통 20 상수이므로 나중에 교체)
-	if(SQR((pM->m_nBodySize+10)/2) < SQR(pM->pMonAsIns->m_posY - pM->m_CharInfo->m_nPos.y))	{return false;}
-
 	//	범위가 넓으면 공격하지 못한다.
-	if(SQR(pM->m_Attack[pM->m_nUseAtkNum].MaxScope) < pM->m_CharInfo->m_nPos.Sqr_Distance(pM->pMonAsIns->m_posX, pM->pMonAsIns->m_posY, pM->pMonAsIns->m_posZ))	{return false;}
+	if( SQR(pM->m_Attack[pM->m_nUseAtkNum].AtkRect.x2) < SQR(pM->m_CharInfo->m_nPos.x - pM->pMonAsIns->m_posX) )	{return false;}
 
 	//	범위가 좁으면 공격하지 못한다.
-	if(SQR(pM->m_Attack[pM->m_nUseAtkNum].MinScope) > pM->m_CharInfo->m_nPos.Sqr_Distance(pM->pMonAsIns->m_posX, pM->pMonAsIns->m_posY, pM->pMonAsIns->m_posZ))	{return false;}
+	if( SQR(pM->m_Attack[pM->m_nUseAtkNum].AtkRect.x1) > SQR(pM->m_CharInfo->m_nPos.x - pM->pMonAsIns->m_posX) )	{return false;}
+
+	//	범위가 넓으면 공격하지 못한다.
+	if( (pM->m_Attack[pM->m_nUseAtkNum].AtkRect.y2) < (pM->m_CharInfo->m_nPos.y - pM->pMonAsIns->m_posY) )	{return false;}
+
+	//	범위가 좁으면 공격하지 못한다.
+	if( (pM->m_Attack[pM->m_nUseAtkNum].AtkRect.y1) > (pM->m_CharInfo->m_nPos.y - pM->pMonAsIns->m_posY) )	{return false;}
 
 	return true;
 }
@@ -781,7 +781,7 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 		pM->m_SaveAtkPos = pM->m_CharInfo->m_nPos;
 
 		//	공격을 셋팅한다.
-		SetAttack(pM);
+		pM->SetAttack();
 	}
 
 //	//	전투액션 범위보다 크면 전투를 풀어준다.
@@ -825,13 +825,25 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 
 			if(pM->m_CharInfo->m_nPos.x > pM->pMonAsIns->m_posX)
 			{
-				AtkPoint.x = pM->m_CharInfo->m_nPos.x - pM->m_Attack[pM->m_nUseAtkNum].MaxScope;
+				AtkPoint.x = pM->m_CharInfo->m_nPos.x - pM->m_Attack[pM->m_nUseAtkNum].AtkRect.x2;
 			}
 			else
 			{
-				AtkPoint.x = pM->m_CharInfo->m_nPos.x + pM->m_Attack[pM->m_nUseAtkNum].MaxScope;
+				AtkPoint.x = pM->m_CharInfo->m_nPos.x + pM->m_Attack[pM->m_nUseAtkNum].AtkRect.x2;
 			}
 			
+
+			AtkPoint.y = pM->m_CharInfo->m_nPos.y - pM->m_Attack[pM->m_nUseAtkNum].AtkRect.y2;
+
+//			if(pM->m_CharInfo->m_nPos.y > pM->pMonAsIns->m_posY)
+//			{
+//				AtkPoint.y = pM->m_CharInfo->m_nPos.y - pM->m_Attack[pM->m_nUseAtkNum].AtkRect.y2;
+//			}
+//			else
+//			{
+//				AtkPoint.y = pM->m_CharInfo->m_nPos.y + pM->m_Attack[pM->m_nUseAtkNum].AtkRect.y2;
+//			}
+
 
 //			//	임시변수로 잠깐쓰고 밑에서 값을 다시 준다.
 //			AtkPoint.z = pM->m_Attack[pM->m_nUseAtkNum].MinScope
@@ -840,7 +852,7 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 //
 //			if(0 < pM->m_CharInfo->m_nPos.x - pM->pMonAsIns->m_posX)	{AtkPoint.x += AtkPoint.z;}
 //			else														{AtkPoint.x -= AtkPoint.z;}
-			AtkPoint.y = (pM->m_CharInfo->m_nPos.y);
+//			AtkPoint.y = (pM->m_CharInfo->m_nPos.y);
 
 			AtkPoint.x -= pM->pMonAsIns->m_posX;
 			AtkPoint.y -= pM->pMonAsIns->m_posY;
@@ -873,6 +885,47 @@ void MonsterAI::AI_F_ATTACK(Monster* pM)
 	}
 }
 
+
+
+//--------------------------------------------------------------------------
+//	움직일 수 없는 보스들의 공격
+void MonsterAI::AI_F_ATTACK_DONTMOVE(Monster* pM)
+//--------------------------------------------------------------------------
+{
+	if(0 == pM->m_nAiTimer)
+	{
+		//	액션의 제한시간을 정한다.
+		pM->m_nAiPtnLimitTime = 100+SUTIL_GetRandom()%100;
+
+		//	공격을 셋팅한다.
+		pM->SetAttack();
+	}
+
+	//	성공한 상태이면 오더를 기다리는 상태로 바꾼다.
+	if(true == pM->m_bIsSuccessAttack)
+	{
+		if(MON_AC_STAND == pM->m_ActState)
+		{
+			pM->m_nAiTimer = pM->m_nAiPtnLimitTime;
+			return;
+		}
+	}
+	else
+	{
+		if(pM->m_nAiTimer == pM->m_nAiPtnLimitTime)
+		{
+			pM->ResvAction(MON_AC_STAND , 0);
+			return;
+		}
+
+		if(CheckAttackRange(pM))
+		{
+			pM->m_bIsSuccessAttack = true;
+			pM->ResvAction(pM->m_Attack[pM->m_nUseAtkNum].Name , 0);
+			return;
+		}
+	}
+}
 
 //--------------------------------------------------------------------------
 //	웜 보스 특별 행동 버로우상태로 움직인다.
@@ -908,6 +961,7 @@ void MonsterAI::AI_F_WORM_BURROWMOVE(Monster* pM)
 		}
 	}
 }
+
 
 //--------------------------------------------------------------------------
 void MonsterAI::AI_F_MOVE_BACK(Monster* pM)
@@ -946,77 +1000,6 @@ void MonsterAI::AI_F_MOVE_BACK(Monster* pM)
 		
 		Move(pM, &pos, MON_AC_BEHOLD);
 	}
-/*
-	//	대기하는 위치를 설정한다.
-	//	추적 위치 설정
-	if(1 == pM->m_nAiTimer)
-	{
-		Position3D pos;
-		pos = pM->m_CharInfo->m_nPos - pM->m_nPos;
-
-		if(0 < pos.x)
-		{ 
-			pos.x -= (70+SUTIL_GetRandom()%40);
-		}
-		else
-		{
-			pos.x += (70+SUTIL_GetRandom()%40);
-		}
-		
-		Behold(pM, &pos, 0);
-	}
-
-	// 몬스터의 움직임이 한 움직임이 끝나면 타이머를 1로 만들어서 추적을 재설정하게 해준다.
-	int movetime = pM->pMonAsIns[0]->m_sprite->GetAFrames(pM->m_nUsingImgIdx[MON_AC_BEHOLD]);
-	if(movetime <= pM->m_nAiTimer+1)
-	{
-		pM->m_nDstTime -= movetime;
-		pM->m_nAiTimer = 0;
-	}
-
-*/
-
-/*
-	//	처음 들어왔다면 셋팅해준다.
-	if(0 == pM->m_nAiTimer)
-	{
-		//	원하는 시간 만큼 대기시간을 준다.
-		pM->m_nDstTime = 40+SUTIL_GetRandom()%70;
-	}
-
-	if(pM->m_nDstTime < pM->m_nAiTimer)
-	{
-		AI_ResvState(pM, MON_AI_WAIT_ORDER);
-		return;
-	}
-
-	//	대기하는 위치를 설정한다.
-	//	추적 위치 설정
-	if(1 == pM->m_nAiTimer)
-	{
-		Position3D pos;
-		pos = pM->m_CharInfo->m_nPos - pM->m_nPos;
-
-		if(0 < pos.x)
-		{
-			pos.x -= (70+SUTIL_GetRandom()%40);
-		}
-		else
-		{
-			pos.x += (70+SUTIL_GetRandom()%40);
-		}
-		
-		Behold(pM, &pos, 0);
-	}
-
-	// 몬스터의 움직임이 한 움직임이 끝나면 타이머를 1로 만들어서 추적을 재설정하게 해준다.
-	int movetime = pM->pMonAsIns->m_sprite->GetAFrames(pM->m_nUsingImgIdx[MON_AC_BEHOLD]);
-	if(movetime <= pM->m_nAiTimer+1)
-	{
-		pM->m_nDstTime -= movetime;
-		pM->m_nAiTimer = 0;
-	}
-*/
 }
 
 
@@ -1138,69 +1121,7 @@ void MonsterAI::AI_F_RCV_DEMEGE(Monster* pM)
 	}	
 }
 
-//--------------------------------------------------------------------------
-void MonsterAI::AI_F_ATTACK_DONTMOVE(Monster* _pM)
-//--------------------------------------------------------------------------
-{
-	BossMon5_1* pM = (BossMon5_1*)_pM;
-	pM->isFirstTouch = false;
-	//	처음 들어왔다면 셋팅해준다.
-//	if(0 == pM->m_nAiTimer)
-//	{
-//		//	초기 공격 좌표를 찍어놓는다. 이거리로 부터 몇픽셀 이상이면 탈출로 잡는다.
-//		pM->m_SaveAtkPos = pM->m_CharInfo->m_nPos;
 
-		//	공격을 셋팅한다.
-//		SetAttack(pM);
-//	}
-
-	//	전투액션 범위보다 크면 전투를 풀어준다.
-//	if(SQR(pM->m_nRange_OutAction) < (pM->m_CharInfo->m_nPos.Sqr_Distance(pM->m_SaveAtkPos)) )
-//	{
-//		//	전투를 풀어준다.
-//		EndBattle(pM);
-//		return;
-//	}
-
-	//	성공한 상태이면 오더를 기다리는 상태로 바꾼다.
-	if(true == pM->m_bIsSuccessAttack)
-	{
-//		if(MON_AC_STAND == pM->m_NextActState ||
-//			MON_AC_SIT == pM->m_NextActState)
-//		{
-
-			pM->m_nAiState = MON_AI_READY_ORDER;
-			//SetAttack(pMonster);
-			pM->SetMessage(MSG_BOSS_CHANGESTATE,	MON_AI_READY_TO_HIT);
-
-
-//			AI_ResvState(pM, MON_AI_WAIT_ORDER);
-			return;
-//		}
-	}
-	else
-	{
-		//	공격 거리 안이라면 공격한다.
-//		if(CheckAttackRange(pM))
-//		{
-			pM->m_bIsSuccessAttack = true;
-			pM->ResvAction(pM->m_Attack[pM->m_nUseAtkNum].Name , 0);
-			return;
-//		}
-
-//		//	추적 위치 설정
-//		if(1 == pM->m_nAiTimer)
-//		{
-//			Position3D pos;
-//			pos = pM->m_CharInfo->m_nPos - pM->m_nPos;
-//			Move(pM, &pos, 0);
-//		}
-//
-//		// 몬스터의 움직임이 한 움직임이 끝나면 타이머를 1로 만들어서 추적을 재설정하게 해준다.
-//		int movetime = pM->pMonAsIns->m_sprite->GetAFrames(pM->m_nUsingImgIdx[MON_AC_MOVE]);
-//		if(movetime <= pM->m_nAiTimer+1)	{pM->m_nAiTimer = 0;}
-	}
-}
 
 
 
