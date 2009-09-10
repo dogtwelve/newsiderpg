@@ -135,7 +135,7 @@ public:
 	int Process_BOSS5(Monster*);
 //	int Process_BOSS5_Dummy(Monster*);
 	static bool Move(Monster* pMonster, Position3D* pos, int action);
-	static void SetAttack(Monster* pMonster);
+//	static void SetAttack(Monster* pMonster);
 	static void EndBattle(Monster* pMonster);
 	static void StartBattle(Monster* pMonster);
 	static void ReceiveAttack(Monster* pMonster);
@@ -217,7 +217,6 @@ static void (*AIFuncPtr[])(Monster*) =
 	MonsterAI::AI_F_MOVE_BACK,
 
 	MonsterAI::AI_F_WORM_BURROWMOVE,
-	
 
 //	MonsterAI::AI_F_WATCH_HERO,
 //	MonsterAI::AI_F_ATTACK,

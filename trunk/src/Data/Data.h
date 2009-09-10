@@ -438,17 +438,18 @@
 #define SPRITE_MON_DIRLL 			 18 
 #define SPRITE_MON_BOSS_1 			 19 
 #define SPRITE_MON_BOSS_2 			 20 
-#define SPRITE_MON_BOSS_5 			 21 
-#define SPRITE_MON_BOSS_6 			 22 
-#define SPRITE_MON_BOSS_7 			 23 
-#define SPRITE_MON_BARREL 			 24 
-#define SPRITE_MON_STONE_BIG 			 25 
-#define SPRITE_MON_BOX 			 26 
-#define SPRITE_MON_KNIGHT 			 27 
-#define SPRITE_MON_TMP_CROCK 			 28 
-#define SPRITE_MON_TMP_STONEBOX 			 29 
-#define SPRITE_MON_FACTORY_BOX 			 30 
-#define SPRITE_MON_MAX 			 31 
+#define SPRITE_MON_BOSS_3 			 21 
+#define SPRITE_MON_BOSS_5 			 22 
+#define SPRITE_MON_BOSS_6 			 23 
+#define SPRITE_MON_BOSS_7 			 24 
+#define SPRITE_MON_BARREL 			 25 
+#define SPRITE_MON_STONE_BIG 			 26 
+#define SPRITE_MON_BOX 			 27 
+#define SPRITE_MON_KNIGHT 			 28 
+#define SPRITE_MON_TMP_CROCK 			 29 
+#define SPRITE_MON_TMP_STONEBOX 			 30 
+#define SPRITE_MON_FACTORY_BOX 			 31 
+#define SPRITE_MON_MAX 			 32 
 
 //------------------------------------------------------------------------------
 #define PACK_SPRITE_NPC 			"/17"
