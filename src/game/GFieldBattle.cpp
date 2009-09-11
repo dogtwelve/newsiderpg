@@ -2261,6 +2261,7 @@ void GFieldBattle::KeyEvent(int m_keyCode, int m_keyRepeat)
 	///////////////////////////////////게임중 팝업 호출///////////////////////////////////////
 	if(m_keyCode == MH_KEY_CLEAR && !m_keyRepeat && !b_PopupUi){
 		if(hero->_move_Order == HERO_STOP){
+
 			b_PopupUi = true;
 			pPopupUi->s_Page.Woman_Man = hero->s_HeroTag.SEX;//현재 선택된 성별을 반영한다
 			if(hero->s_Knife_Eff[3].act)hero->s_Knife_Eff[3].LVup_ActionEnd = true;//검버프는꼭 해지해야한다

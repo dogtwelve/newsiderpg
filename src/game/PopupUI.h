@@ -7,6 +7,10 @@
 #ifndef		__POPUP_UI_H_
 #define		__POPUP_UI_H_
 
+//parameter
+#define	SEX_WOMAN	0
+#define	SEX_MAN		1
+#define	SEX_HUMAN	2
 
 #define POPUP_PAGE_STATES		(1)
 #define POPUP_PAGE_EQUIP		(2)
@@ -18,6 +22,7 @@
 #define POPUP_PAGE_MAX		(7)
 
 #define POPUP_PAGE_ITEMSHOP		(10)
+#define POPUP_PAGE_MIX			(11)
 
 #define GAGE_RED		0
 #define GAGE_BLUE		1
@@ -36,6 +41,13 @@
 
 #define ITEM_MONEY		3
 
+#define ITEM_MIX_BOOK	6//조합서
+
+#define ITEM_UP_STONE	7//강화석
+
+#define ITEM_GEM_STONE	8//보석
+
+
 #define ITEM_SWORD		10
 //#define ITEM_AXE		11
 #define ITEM_GUN		12
@@ -53,7 +65,8 @@
 
 #define INVENTORY_POPUP_QUICK		0
 #define INVENTORY_POPUP_EQUIP		1
-#define INVENTORY_POPUP_DEFAULT		2
+#define INVENTORY_POPUP_USE			2
+#define INVENTORY_POPUP_DEFAULT		3
 
 #define INVENTORY_POPUP_BAGCHANGE	10
 
@@ -72,11 +85,25 @@
 #define ITEMSHOP_POPUP_NOT_SELL			6
 
 
+#define MIX_POPUP_QUESTION				1
+#define MIX_POPUP_NO_MATERIAL			2
+#define MIX_POPUP_NO_SPACE				3
+
+#define SMITHY_POPUP_NUM				1
+#define SMITHY_POPUP_QUESTION			2
+#define SMITHY_POPUP_ING				3
+#define SMITHY_POPUP_RESULT				4
+#define SMITHY_UP_COST				    1
+
+
+
+
 #define ALL_DEL					-1
 
 #define Q_ITEM_MAX(a)				((a)		%100)
 #define Q_ITEM_NOW(a)				((a)/100	%100)
 #define Q_ITEM_ID(a)				((a)/10000	%10000)
+
 
 
 
@@ -96,6 +123,7 @@
 #define ITEM_SOCKET_3			Data1/10000000	%100
 #define ITEM_SEX				Data1/1000000000%10
 #define ITEM_STACK_COUNT		Data1			%100
+#define ITEM_MONEY_COUNT		Data1
 
 //스크롤레벨(3),스탯스크롤(2),강화(2)
 #define ITEM_UPGRADE			Data2			%100
@@ -140,6 +168,13 @@ struct AreaMessage{//지역명 메세지
 	char str[30];//지역명
 	int LifeTime;//표시 지속시간
 };
+struct Popup_Sharp{// 상세정보 팝업창
+	bool View;//상세정보창의 보여지는 유무	
+	int Line;//Y 스크롤
+	int LineMAX;//Y 끝라인
+	int posX;//X
+	int posY;//Y
+};
 
 
 
@@ -168,6 +203,7 @@ public:
 		int Max_Num;//메인퀘를 제외한 퀘스트보유갯수
 	};Quest s_Quest;
 
+	short MixBuffer[7];//조합 레시피 임시저장
 	static ItemList s_ItemList[5];
 	static PlayMessage s_PlayMessage;
 	static AreaMessage s_AreaMessage;
@@ -242,34 +278,47 @@ public:
 
 #define SELECT_GAMEOVER_Y			(s_Page.Ly1_sel)
 
-
+#define SELECT_MIX_Y_SCROLL				(s_Page.Ly1_sel)
+#define SELECT_MIX_MAX_NUM			(s_Page.Ly2_sel)
+#define SELECT_MIX_SEX				(s_Page.Ly3_sel)
+#define SELECT_MIX_SELECT			(s_Page.Ly4_sel)
+#define SELECT_MIX_MAKE_NUM			(s_Page.Ly5_sel)
+#define SELECT_MIX_MAKE_MAX			(s_Page.Ly6_sel)
+#define SELECT_MIX_POPUP_KIND		(s_Page.Ly7_sel)
+#define SELECT_MIX_POPUP_YESNO		(s_Page.Ly8_sel)
 
 
 #define SELECT_ITEMSHOP_X				(s_Page.Ly1_sel)
 #define SELECT_ITEMSHOP_Y				(s_Page.Ly2_sel)
 #define SELECT_ITEMSHOP_BAG				(s_Page.Ly3_sel)
-
 #define SELECT_ITEMSHOP_FOCUS_R_L		(s_Page.Ly4_sel)
-
 #define SELECT_ITEMSHOP_INSIDE			(s_Page.Ly5_sel)
 #define SELECT_ITEMSHOP_R_SCROLL		(s_Page.Ly6_sel)
 #define SELECT_ITEMSHOP_L_SCROLL		(s_Page.Ly7_sel)
-
 #define SELECT_ITEMSHOP_POPUP_KIND			(s_Page.Ly8_sel)
 #define SELECT_ITEMSHOP_POPUP_TEXT_YESNO	(s_Page.Ly10_sel)
-
 #define SELECT_ITEMSHOP_COUNT				(s_Page.Ly11_sel)
 
 
+#define SELECT_SMITHY_Y					(s_Page.Ly1_sel)
+#define SELECT_SMITHY_ITEM_SLOT			(s_Page.Ly3_sel)
+#define SELECT_SMITHY_STONE_SLOT		(s_Page.Ly4_sel)
+#define SELECT_SMITHY_LIST_MAX			(s_Page.Ly5_sel)
+#define SELECT_SMITHY_LIST_NOW			(s_Page.Ly6_sel)
+#define SELECT_SMITHY_LIST_ITEM_BAG			(s_Page.Ly7_sel)
+#define SELECT_SMITHY_LIST_ITEM_SLOT			(s_Page.Ly8_sel)
+#define SELECT_SMITHY_USE_STONE_BAG				(s_Page.Ly9_sel)
+#define SELECT_SMITHY_USE_STONE_SLOT					(s_Page.Ly10_sel)
+
+#define SELECT_SMITHY_USE_STONE_NUM					(s_Page.Ly2_sel)
 
 
-	struct Popup_Sharp{// 상세정보 팝업창
-		bool View;//상세정보창의 보여지는 유무	
-		int Line;//Y 스크롤
-		int LineMAX;//Y 끝라인
-		int posX;//X
-		int posY;//Y
-	};Popup_Sharp s_Popup_Sharp;
+#define SELECT_SMITHY_POPUP_KIND		(s_Page.Ly11_sel)
+#define SELECT_SMITHY_POPUP_TEXT_YESNO	(s_Page.Ly12_sel)
+
+
+
+    static Popup_Sharp s_Popup_Sharp;
 
 	
 
@@ -289,7 +338,10 @@ public:
 	//bool SkillChange_P;//스킬의 교환이 일어나면 True 로 활성화된다
 	bool GameOver;//게임오버로 인한 ui 호출시 활성화
 	bool ShopOpen;//상점이 열렸을때 샵이 활성화된다
+	bool SmithyOpen;//대장간이 열렸을때 활성화된다
 	int ShopLevel;//상점이 열렸을때 나올 아이템 수준을 참조
+	static bool MixOpen;//조합 창이 활성화된다
+	static int MixNum;//조합 창이 활성화된다
 
 
 
@@ -312,7 +364,9 @@ public:
 	void Key_SYSTEM(int m_keyCode, int m_keyRepeat)		;//취소키를 누르면 호출되는 팝업	
 	void Key_GAMEOVER(int m_keyCode, int m_keyRepeat)		;//취소키를 누르면 호출되는 팝업	
 	void Key_ITEMSHOP(int m_keyCode, int m_keyRepeat)		;//마을상점 키 이벤트
-		
+	void Key_SMITHY(int m_keyCode, int m_keyRepeat)			;//마을대장간 키 이벤트
+	void Key_MIX(int m_keyCode, int m_keyRepeat)			;//조합서 키 이벤트
+
 
 	void Paint_STATES()		;//취소키를 누르면 호출되는 팝업
 	void Paint_EQUIP()		;//취소키를 누르면 호출되는 팝업
@@ -323,6 +377,8 @@ public:
 	void Paint_SYSTEM()		;//취소키를 누르면 호출되는 팝업
 	void Paint_GAMEOVER()		;//주인공이 죽으면 호출되는 팝업
 	void Paint_ITEMSHOP()		;//마을NPC와의 대화로 열수있는 아이템 구입페이지
+	void Paint_SMITHY()			;//마을NPC와의 대화로 열수있는 아이템 강화페이지
+	void Paint_MIX()			;//조합서를 사용하면 뜨는 인벤토리 서브페이지
 
 
 	struct ItemBag MakeItem(int nMontype, int nMonLevel, int nHeroSex, int mapIdx);		//성별man:0,girl:1
@@ -358,11 +414,12 @@ private:
 	
 	void  equipTEXT(int sex,int slot,struct ItemBag _item);
 	void  Set_Item(struct ItemAbility *_abil,struct ItemBag *_item);
-	void  Page_init();
+	
 
 public:
-	static int GET_Count(int itemID);
-	int REMOVE_Item(int itemID,int counter);
+	static void  Page_init();
+	static int GET_Count(int itemID,int SEX = SEX_HUMAN);
+	int REMOVE_Item(int itemID,int counter,int SEX = SEX_HUMAN);
 
 	static int  Set_QUEST(int itemID,int MainQuest);//해당하는 퀘스트가 만약 아이템 수집의뢰라면 아이템ID 와 현재갯수,맥스갯수를 리턴한다
 	static void  AddItemList(struct ItemBag _item);

@@ -119,8 +119,8 @@
         MD	0x1055	MD_IMAGE	0	0	300	15	15	"spiritstone_05"
         MD	0x1056	MD_IMAGE	0	15	300	15	15	"spiritstone_06"
         MD	0x1057	MD_IMAGE	0	0	315	15	15	"questitem"
-        MD	0x1058	MD_IMAGE	0	15	315	15	15
-        MD	0x1059	MD_IMAGE	0	30	315	15	15
+        MD	0x1058	MD_IMAGE	0	15	315	15	15	"potal"
+        MD	0x1059	MD_IMAGE	0	30	315	15	15	"recipe"
     }
 
 ////////////////////////////////////////////////////////////////////////////////
