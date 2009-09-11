@@ -16,6 +16,11 @@
 // #define	HERO_TURN_LEFT	1
 // #define	HERO_TURN_RIGHT	2
 
+//parameter
+#define	SEX_WOMAN	0
+#define	SEX_MAN		1
+#define	SEX_HUMAN	2
+
 
 #define	HERO_WALK_LEFT	10
 #define	HERO_WALK_RIGHT	11
@@ -209,11 +214,6 @@
 #define	JAB_KNIGHT	0
 #define	JAB_GUNNER	1
 #define	JAB_MAGE	2
-
-//parameter
-
-#define	SEX_WOMAN	0
-#define	SEX_MAN		1
 
 #define	TEMP_UP_LIMIT	157
 #define	TEMP_DOWN_LIMIT	255

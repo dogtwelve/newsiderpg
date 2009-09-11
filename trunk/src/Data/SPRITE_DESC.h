@@ -12126,6 +12126,8 @@
 	#define MODULE_ITEM_SPIRITSTONE_05	 85
 	#define MODULE_ITEM_SPIRITSTONE_06	 86
 	#define MODULE_ITEM_QUESTITEM	 87
+	#define MODULE_ITEM_POTAL	 88
+	#define MODULE_ITEM_RECIPE	 89
 
 ///////////////////////////////// LOADING
 // ANIM //
@@ -12174,6 +12176,7 @@
 	#define ANIM_UI_A_FEVER	 12
 	#define ANIM_UI_A_TAG	 13
 	#define ANIM_UI_A_COMBO_FEVER_DEL	 14
+	#define ANIM_UI_A_FORGING	 15
 
 // FRAME //
 	#define FRAME_UI_GAGE_EXP_TEXT	 0

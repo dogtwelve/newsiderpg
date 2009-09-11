@@ -5,9 +5,9 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 352
-    // Frames:  241
-    // Anims:   15
+    // Modules: 358
+    // Frames:  247
+    // Anims:   16
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
@@ -383,6 +383,12 @@
         MD	0x106D	MD_IMAGE	0	0	0	1	1	"m_dummy_sub"
         MD	0x101D	MD_IMAGE	0	0	0	1	1	"m_facebig"
         MD	0x101E	MD_IMAGE	0	0	0	1	1	"m_facesmall"
+        MD	0x1093	MD_IMAGE	0	166	3	32	26
+        MD	0x1094	MD_IMAGE	0	200	4	47	42
+        MD	0x1098	MD_IMAGE	0	172	50	47	45
+        MD	0x1095	MD_IMAGE	0	214	115	17	12
+        MD	0x1096	MD_IMAGE	0	236	114	16	16
+        MD	0x1097	MD_IMAGE	0	213	135	13	13
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1031,7 +1037,7 @@
         FM	0x113C	-85	-92
     }
 
-    FRAME "ui_3_itemmix_2" // Index = 59, FModules = 44
+    FRAME "ui_3_itemmix_2" // Index = 59, FModules = 46
     {
         0x205D
         FM	0x116A	-79	-52
@@ -1078,6 +1084,8 @@
         FM	0x1006	63	-93
         FM	0x1154	-50	-94
         FM	0x1010	-51	-92
+        FM	0x1019	11	67
+        FM	0x1019	-16	67	+FLIP_X
     }
 
     FRAME "ui_3_itemmix_1" // Index = 60, FModules = 26
@@ -3180,7 +3188,7 @@
         FM	0x1009	0	0
     }
 
-    FRAME "BLEND" // Index = 215, FModules = 17
+    FRAME "BLEND" // Index = 215, FModules = 20
     {
         0x206E
         FM	0x1155	2	0
@@ -3200,6 +3208,9 @@
         FM	0x1129	1	24
         FM	0x112A	1	24
         FM	0x112B	1	24
+        FM	0x1093	3	0
+        FM	0x1094	3	0
+        FM	0x1098	3	0
     }
 
     FRAME "combo_gagedel" // Index = 216, FModules = 1
@@ -3374,6 +3385,87 @@
         FM	0x108B	0	17
     }
 
+    FRAME "" // Index = 241, FModules = 8
+    {
+        0x2030
+        FM	0x2080	0	0	+HYPER_FM
+        FM	0x1191	-50	44
+        FM	0x1191	-30	44
+        FM	0x1191	-10	44
+        FM	0x1191	10	44
+        FM	0x1191	30	44
+        FM	0x1096	-44	24
+        FM	0x1097	-36	11
+    }
+
+    FRAME "" // Index = 242, FModules = 8
+    {
+        0x2038
+        FM	0x2080	0	0	+HYPER_FM
+        FM	0x1191	-50	44
+        FM	0x1191	-30	44
+        FM	0x1191	-10	44
+        FM	0x1191	10	44
+        FM	0x1191	30	44
+        FM	0x1096	-44	24
+        FM	0x1097	-35	10
+    }
+
+    FRAME "" // Index = 243, FModules = 9
+    {
+        0x2039
+        FM	0x2080	0	0	+HYPER_FM
+        FM	0x1191	-50	44
+        FM	0x1191	-30	44
+        FM	0x1191	-10	44
+        FM	0x1191	10	44
+        FM	0x1191	30	44
+        FM	0x1096	-44	24
+        FM	0x1095	-40	17
+        FM	0x1093	-50	10
+    }
+
+    FRAME "" // Index = 244, FModules = 9
+    {
+        0x203A
+        FM	0x2080	0	0	+HYPER_FM
+        FM	0x1191	-50	44
+        FM	0x1191	-30	44
+        FM	0x1191	-10	44
+        FM	0x1191	10	44
+        FM	0x1191	30	44
+        FM	0x1096	-44	24
+        FM	0x1095	-40	16
+        FM	0x1094	-57	2
+    }
+
+    FRAME "" // Index = 245, FModules = 9
+    {
+        0x203B
+        FM	0x2080	0	0	+HYPER_FM
+        FM	0x1191	-50	44
+        FM	0x1191	-30	44
+        FM	0x1191	-10	44
+        FM	0x1191	10	44
+        FM	0x1191	30	44
+        FM	0x1096	-44	24
+        FM	0x1095	-40	17
+        FM	0x1098	-59	-1
+    }
+
+    FRAME "" // Index = 246, FModules = 8
+    {
+        0x203C
+        FM	0x2080	0	0	+HYPER_FM
+        FM	0x1191	-50	44
+        FM	0x1191	-30	44
+        FM	0x1191	-10	44
+        FM	0x1191	10	44
+        FM	0x1191	30	44
+        FM	0x1096	-44	24
+        FM	0x1095	-40	17
+    }
+
 ////////////////////////////////////////////////////////////////////////////////
 // Animations...
 // <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
@@ -3493,6 +3585,17 @@
         0x3000
         AF	0x2007	1	0	0
         AF	0x2009	1	0	0
+    }
+
+    ANIM "a_forging" // Index = 15, AFrames = 6
+    {
+        0x300F
+        AF	0x2030	1	0	0
+        AF	0x2038	1	0	0
+        AF	0x2039	1	0	0
+        AF	0x203A	1	0	0
+        AF	0x203B	1	0	0
+        AF	0x203C	1	0	0
     }
 
     SPRITE_END
