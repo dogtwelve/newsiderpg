@@ -238,7 +238,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			MakeMonsterSeed();
 			AddFirstMonSetting();
 
-			if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			if(3 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_BUG);
@@ -263,7 +263,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				(pTmpBossSkelBird->pChildBody[0])->m_pParents = (Monster*)pTmpBossSkelBird;
 				(pTmpBossSkelBird->pChildBody[1])->m_pParents = (Monster*)pTmpBossSkelBird;
 			}
-			else if(3 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			else if(4 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_SLIME);
@@ -278,7 +278,15 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 
 				(pTmpBossFolwer->pChildBody[0])->m_pParents = (Monster*)pTmpBossFolwer;
 			}
+			else if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			{
+				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+				LoadMonsterSprite(MON_IDX_DARK_KNIGHT);
+				SUTIL_ReleaseAspritePack();
 
+				//	소환되는 쫄(중간중간에 소환)
+				AddMonster(1, MON_IDX_DARK_KNIGHT, 0, 0, GRADE_SPECIAL, 160, 162, 160, 162, NOT_REGEN, 0);
+			}
 			break;
 /*
 			switch(m_nNextStage)
@@ -867,12 +875,9 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 		case MON_IDX_SKELBIRD:		{loop2 = SPRITE_MON_BOSS_2;	addcnt = FRAME_BOSS_2_BLEND;	break;}
 		case MON_IDX_FLOWER:		{loop2 = SPRITE_MON_BOSS_3;	addcnt = FRAME_BOSS_3_BLEND;	break;}
 									
-
-
-									
-
-
-
+		case MON_IDX_DARK_KNIGHT:		{loop2 = SPRITE_MON_BOSS_4;	addcnt = FRAME_BOSS_4_BLEND;	break;}
+		case MON_IDX_DARK_KNIGHT_MIRROR:{loop2 = SPRITE_MON_BOSS_4;	addcnt = FRAME_BOSS_4_BLEND;	break;}
+	
 //		case MON_IDX_BARREL:		{loop2 = SPRITE_MON_BARREL;	addcnt = 0;						break;}
 //		case MON_IDX_STONE_BIG:		{loop2 = SPRITE_MON_STONE_BIG;	addcnt = 0;					break;}
 //		case MON_IDX_BOX:			{loop2 = SPRITE_MON_STONE_BIG;	addcnt = 0;					break;}
@@ -1039,7 +1044,9 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 		case MON_IDX_FLOWER:				{tmpMonster = GL_NEW BossFlower();					break;}
 		case MON_IDX_FLOWER_BRAIN:			{tmpMonster = GL_NEW BossFlower_Brain();			break;}
-											
+
+		case MON_IDX_DARK_KNIGHT:			{tmpMonster = GL_NEW DarkKnight();					break;}
+		case MON_IDX_DARK_KNIGHT_MIRROR:	{tmpMonster = GL_NEW DarkKnight_Mirror();			break;}
 	}
 
 	if(tmpMonster)
@@ -3645,6 +3652,33 @@ void GFieldBattle::Analysis_Mon_Message()
 
 						//	프로세서를 한번 돌려준다.
 						GetData(pMonList)->Process(m_CharInfo);
+						break;
+					}
+					case MON_IDX_DARK_KNIGHT:
+					//-----------------------------------------------------------------
+					{
+						AddMonster(1, MON_IDX_DARK_KNIGHT_MIRROR, 0, 0, GRADE_NORMAL,
+							GetData(pMonMsgList)->param[0]-30, GetData(pMonMsgList)->param[1],
+							GetData(pMonMsgList)->param[0]-30, GetData(pMonMsgList)->param[1],
+							NOT_REGEN);
+
+						//	방향을 정해준다.
+						GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+						//	프로세서를 한번 돌려준다.
+						GetData(pMonList)->Process(m_CharInfo);
+
+						AddMonster(1, MON_IDX_DARK_KNIGHT_MIRROR, 0, 0, GRADE_NORMAL,
+							GetData(pMonMsgList)->param[0]+30, GetData(pMonMsgList)->param[1],
+							GetData(pMonMsgList)->param[0]+30, GetData(pMonMsgList)->param[1],
+							NOT_REGEN);
+
+						//	방향을 정해준다.
+						GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+						//	프로세서를 한번 돌려준다.
+						GetData(pMonList)->Process(m_CharInfo);
+
 						break;
 					}
 

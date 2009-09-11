@@ -277,7 +277,10 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 #define	MON_IDX_FLOWER					76
 #define	MON_IDX_FLOWER_BRAIN			77
 
-#define	MON_IDX_COUNT_BOSS				18
+#define	MON_IDX_DARK_KNIGHT				78
+#define	MON_IDX_DARK_KNIGHT_MIRROR		79
+
+#define	MON_IDX_COUNT_BOSS				20
 //------------------------------------------------------
 
 
@@ -474,6 +477,13 @@ static const int MonPtn[][STET_MAX] =
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_WORM
 
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_SKELBIRD
+
+	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_FLOWER
+
+	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT
+
+	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
+
 //	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON2
 //	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON3
 };
@@ -1392,6 +1402,56 @@ public:
 private:
 };
 
+
+//--------------------------------------------------------------------------------
+//#define	BOSS_FLOWER_MAX_CHILD_COUNT	1
+
+class DarkKnight : public Monster
+{
+public:
+
+	//void ResvBoss_AllAction(int changeState, int dummy);
+	//Monster* pChildBody[BOSS_FLOWER_MAX_CHILD_COUNT];
+
+	DarkKnight();
+	~DarkKnight();
+	bool ExtSetAction();
+	bool ExtProcess();
+	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+//	void RCV_Damage(int heroDamage);
+	void SetAttack();
+private:
+	int	 m_nStartPosX;
+	int	 m_nEndPosX;
+	int	 m_nStartPosY;
+	int	 m_nEndPosY;
+
+};
+
+//--------------------------------------------------------------------------------
+class DarkKnight_Mirror : public Monster
+{
+public:
+
+	//void ResvBoss_AllAction(int changeState, int dummy);
+	//Monster* pChildBody[BOSS_FLOWER_MAX_CHILD_COUNT];
+
+	DarkKnight_Mirror();
+	~DarkKnight_Mirror();
+	bool ExtSetAction();
+	bool ExtProcess();
+	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+//	void RCV_Damage(int heroDamage);
+	void SetAttack();
+private:
+	int	 m_nStartPosX;
+	int	 m_nEndPosX;
+	int	 m_nStartPosY;
+	int	 m_nEndPosY;
+
+};
 
 //--------------------------------------------------------------------------------
 class Barrel : public Monster

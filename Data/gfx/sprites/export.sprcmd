@@ -286,7 +286,7 @@ Load("monster\mon19.sprite")	ExportBSpriteEx("mon19.bsprite", GLOBAL|BS_FRAME_RE
 Load("monster\boss_1.sprite")	ExportBSpriteEx("boss_1.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
 Load("monster\boss_2.sprite")	ExportBSpriteEx("boss_2.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
 Load("monster\boss_3.sprite")	ExportBSpriteEx("boss_3.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
-//Load("monster\boss_4.sprite")	ExportBSpriteEx("boss_4.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
+Load("monster\boss_4.sprite")	ExportBSpriteEx("boss_4.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
 Load("monster\boss_5.sprite")	ExportBSpriteEx("boss_5.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
 Load("monster\boss_6.sprite")	ExportBSpriteEx("boss_6.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
 Load("monster\boss_7.sprite")	ExportBSpriteEx("boss_7.bsprite", GLOBAL|BS_FRAME_RECTS, I256RLE, _1555)
