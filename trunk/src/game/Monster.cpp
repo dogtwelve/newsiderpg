@@ -115,8 +115,8 @@ void Monster::RegistUsingBaseData(List2< struct S_MONSKILL* > *pMonSkillList,
 		FRAME_MON06_BLEND, FRAME_MON07_BLEND, FRAME_MON08_BLEND, FRAME_MON09_BLEND, FRAME_MON10_BLEND,
 		FRAME_MON11_BLEND, FRAME_MON12_BLEND, FRAME_MON13_BLEND, FRAME_MON14_BLEND, FRAME_MON15_BLEND,
 		FRAME_MON16_BLEND, FRAME_MON17_BLEND, FRAME_MON18_BLEND, FRAME_MON19_BLEND, FRAME_BOSS_1_BLEND,
-		FRAME_BOSS_2_BLEND,	FRAME_BOSS_3_BLEND, FRAME_BOSS_5_BLEND, FRAME_BOSS_6_BLEND, FRAME_BOSS_7_BLEND,
-		FRAME_MON_BARREL_BLEND
+		FRAME_BOSS_2_BLEND,	FRAME_BOSS_3_BLEND, FRAME_BOSS_4_BLEND, FRAME_BOSS_5_BLEND, FRAME_BOSS_6_BLEND,
+		FRAME_BOSS_7_BLEND,	FRAME_MON_BARREL_BLEND
 	};
 
 	if(0 != blendnum[m_nSpriteIdx])	{TmpAsprite->SetBlendFrame(blendnum[m_nSpriteIdx]);}
@@ -1190,23 +1190,28 @@ bool Monster::BaseSetAction()
 	switch(m_ActState)
 	{
 		default:									{return false;}
-		case MON_AC_READY:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns, m_nUsingImgIdx[m_ActState]);
+//		case MON_AC_READY:
+//		//-----------------------------------------------------------
+//		{
+//			SUTIL_SetTypeAniAsprite(pMonAsIns, m_nUsingImgIdx[m_ActState]);
 //			SUTIL_SetLoopAsprite(pMonAsIns, true);
 
 			//	떨어지는 값을 셋팅해준다.
 //			Position3D Force;
 //			Force.Init(0,0,UP_GRV+15);
 //			m_Physics->setGrForce(Force);
-			break;
-		}
+//			break;
+//		}
 		case MON_AC_STAND:
+		case MON_AC_READY:
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns, m_nUsingImgIdx[m_ActState]);
 //			SUTIL_SetLoopAsprite(pMonAsIns, true);
+
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)	{SetDirection(SDIR_RIGHT);}
+			else											{SetDirection(SDIR_LEFT);}
+
 			break;
 		}
 		case MON_AC_RUN:
@@ -14922,6 +14927,1029 @@ void BossFlower_Brain::RCV_Damage(int heroDamage)
 
 
 
+
+//--------------------------------------------------------------------------------------
+DarkKnight::DarkKnight()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_4;
+	m_nMonIdx = MON_IDX_DARK_KNIGHT;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	m_nAtkMaxCount = 5;
+	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+
+	m_Attack[0].Name = MON_ATK_MELEE1;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 50;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 70;
+	m_Attack[0].CoolTime = 0;
+	m_Attack[0].MaxCoolTime = 0;
+
+	m_Attack[1].Name = MON_ATK_RANGE1;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 200;
+	m_Attack[1].AtkRect.y1 = 0;
+	m_Attack[1].AtkRect.y2 = 200;
+//	m_Attack[1].MinScope = 0;
+//	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].CoolTime = 0;
+	m_Attack[1].MaxCoolTime = 60;
+
+	m_Attack[2].Name = MON_ATK_RANGE2;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 200;
+	m_Attack[2].AtkRect.y1 = -100;
+	m_Attack[2].AtkRect.y2 = 300;
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[2].CoolTime = 0;
+	m_Attack[2].MaxCoolTime = 200;
+
+
+	m_Attack[3].Name = MON_ATK_SPECIAL1;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 300;
+	m_Attack[3].AtkRect.y1 = -100;
+	m_Attack[3].AtkRect.y2 = 300;
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[3].CoolTime = 0;
+	m_Attack[3].MaxCoolTime = 400;
+
+
+	m_Attack[4].Name = MON_ATK_SPECIAL1;
+	m_Attack[4].AtkRect.x1 = 0;
+	m_Attack[4].AtkRect.x2 = 300;
+	m_Attack[4].AtkRect.y1 = -(300);
+	m_Attack[4].AtkRect.y2 = (300);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[4].CoolTime = 0;
+	m_Attack[4].MaxCoolTime = 400;
+
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_4_STAND;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_4_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_4_DOWN;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_4_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_4_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_4_DOWNED;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_4_STAND;
+	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_4_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_4_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_4_WALK_VERTICAL;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 19;
+	m_nAiPtnData[0] = MON_AI_ATTACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[4] = MON_AI_ATTACK;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[7] = MON_AI_ATTACK;
+	m_nAiPtnData[8] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[9] = MON_AI_ATTACK;
+	m_nAiPtnData[10] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[11] = MON_AI_ATTACK;
+	m_nAiPtnData[12] = MON_AI_ATTACK;
+	m_nAiPtnData[13] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[14] = MON_AI_ATTACK;
+	m_nAiPtnData[15] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[16] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[17] = MON_AI_ATTACK;
+	m_nAiPtnData[18] = MON_AI_READY_TO_HIT;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+DarkKnight::~DarkKnight()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+void DarkKnight::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+
+	m_nUseAtkNum = 4;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		//	총 소환이 10을 넘지 않게 한다.
+		if(1 == m_nTotalMonCnt)
+		{
+			//	체력이 아직 많이 남아있으면 소환을 하지 않는다.
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+
+//	m_nUseAtkNum = 3;
+//	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+//	{
+//		if(1 == m_nTotalMonCnt)
+//		{
+//			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+//		}
+//		return;
+//	}
+
+	m_nUseAtkNum = 2;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 1;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 0;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+}
+
+//--------------------------------------------------------------------------------------
+void DarkKnight::Process(S_CHARINFO* _CharInfo)
+//--------------------------------------------------------------------------------------
+{
+	if(m_NextActState)
+	{
+		SetAction(m_NextActState);
+		m_NextActState = 0;
+	}
+
+	//	물리좌표를 갱신받는다.
+	m_nPhysicsPos = m_Physics->process();
+	if(0 == m_nPhysicsPos.Sqr_GetLength() && 0 == pMonAsIns->m_posZ)
+	{
+		//	이동량이 없으므로 모든 값을 초기화시켜준다.
+		m_Physics->initForce();
+	}
+	else
+	{
+		//	이동량에 따라 좌표를 보정시켜준다.
+//		m_nPos = m_nPos + m_nPhysicsPos;
+		pMonAsIns->m_posX += m_nPhysicsPos.x;
+		pMonAsIns->m_posY += m_nPhysicsPos.y;
+		pMonAsIns->m_posZ += m_nPhysicsPos.z;
+		if(0 < pMonAsIns->m_posZ)	{pMonAsIns->m_posZ = 0;}
+
+		//	저항상황이라면 (그라운드라면)
+		if(m_nResistZ == pMonAsIns->m_posZ && 0 == pMonAsIns->m_posZ)
+		{
+			m_Physics->resistGr();
+		}
+		m_nResistZ = pMonAsIns->m_posZ;		
+	}
+
+	//	캐릭터의 좌표를 갱신시켜준다.
+	m_CharInfo = _CharInfo;
+
+	//	자체 타이머를 갖는다.
+	m_nTimer= (m_nTimer+1)%1000;
+
+	//	맞았을시 올라가던 히트 레이트를 올려준다.
+	m_nHitRate++;
+	if(5 < m_nHitRate)
+	{
+		m_nHitRate = 5;
+		m_nAccumulatedHit = 0;
+	}
+
+	//	공격에 대한 쿨타임을 줄여준다.
+	for(int loop = 0; loop < m_nAtkMaxCount; loop++)
+	{
+		m_Attack[loop].CoolTime--;
+		if(0 > m_Attack[loop].CoolTime)	{m_Attack[loop].CoolTime = 0;}
+	}
+
+	//	내부 프로세서를 돌린다.
+//	SUTIL_UpdateTimeAsprite(pChildBody[0]->pMonAsIns);
+
+	if(!ExtProcess())	{BaseProcess();}
+
+	//	보스전용 인공지능
+	AI_PROCESS_BOSS2(this);
+
+
+	//	child의 좌표를 갱신시킨다.
+//	pChildBody[0]->pMonAsIns->m_posX = pMonAsIns->m_posX;
+//	pChildBody[0]->pMonAsIns->m_posY = pMonAsIns->m_posY;
+//	pChildBody[0]->pMonAsIns->m_posZ = pMonAsIns->m_posZ;
+
+}
+
+//--------------------------------------------------------------------------------------
+void DarkKnight::Paint()
+//--------------------------------------------------------------------------------------
+{
+	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
+	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
+
+	//	paint shadow
+	//int tmpx = pMonAsIns->Get_AFrameXZ();
+	//int tmpy = tmpx%100000;
+	//tmpx = tmpx/100000; 
+
+	int tmpXZ[2];
+	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
+	int tmpx = tmpXZ[0];
+	int tmpz = tmpXZ[1];
+
+//	pShaodwAsIns->SetFrame(FRAME_SHADOW_SHADOW_3);
+//
+//	//	그림자
+//	SUTIL_SetXPosAsprite(pShaodwAsIns,	tmpx);
+//	SUTIL_SetYPosAsprite(pShaodwAsIns,	SUTIL_GetYPosAsprite(pMonAsIns)-2);
+//	SUTIL_PaintAsprite(pShaodwAsIns, S_NOT_INCLUDE_SORT);
+//
+	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
+
+	//	paint monster
+	SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+
+	//SUTIL_PaintAsprite(pChildBody[0]->pMonAsIns, S_INCLUDE_SORT);
+
+	//	paint Debuff
+	Paint_Debuff(tmpx , tmpz);
+}
+
+
+//--------------------------------------------------------------------------------------
+bool DarkKnight::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	//	TEST 항시전투
+	m_bIsBattle = true;
+
+	switch(m_ActState)
+	{
+		case MON_ATK_RANGE2:
+		//-----------------------------------------------------------------------
+		{
+			//	좌표를 보정해준다.(점프가 2프레임부터 시작한다.)
+			if(1 < m_nTimer)
+			{
+				//	2일때 최종 캐릭터의 위치를 갱신해준다.
+				if(2 == m_nTimer)	{m_nStartPosX = pMonAsIns->m_posX;}
+
+				pMonAsIns->m_posX = m_nStartPosX + ((m_nEndPosX - m_nStartPosX)*(m_nTimer-2))/8;
+			}
+
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_ATK_RANGE3, 0);
+			}
+			return true;
+		}
+		case MON_ATK_RANGE3:
+		//-----------------------------------------------------------------------
+		{
+			//	1일때 최종 캐릭터의 위치를 갱신해준다.
+			if(1 == m_nTimer)
+			{
+				m_nStartPosX = pMonAsIns->m_posX;
+				m_nStartPosY = pMonAsIns->m_posY;
+			}
+
+			if(5 > m_nTimer)
+			{
+				pMonAsIns->m_posX = m_nStartPosX + ((m_nEndPosX - m_nStartPosX)*(m_nTimer))/5;
+				pMonAsIns->m_posY = m_nStartPosY + ((m_nEndPosY - m_nStartPosY)*(m_nTimer))/5;
+			}
+
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+
+		case MON_ATK_MELEE1:
+		case MON_ATK_RANGE1:
+		case MON_ATK_SPECIAL1:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool DarkKnight::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		case MON_ATK_SPECIAL1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MIRROR_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, m_nMonIdx, 11);
+
+			return true;
+		}
+		case MON_ATK_MELEE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			return true;
+		}
+		case MON_ATK_RANGE1:	//	포 발사
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_RANGE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_4_BULLET_1);
+			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+			SUTIL_SetLoopAsprite(tmpAsIns, true);
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(20*m_nDirection));
+			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+			SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+			tmpMonSkill->type = SKILL_REMOVE;
+			tmpMonSkill->lifeTime = 8;
+			tmpMonSkill->Damage = 10;
+			tmpMonSkill->Delay = 4;
+			tmpMonSkill->who = (void*)this;
+			//tmpMonSkill->skillnum = m_ActState;
+			tmpMonSkill->skillnum = 1;
+			tmpMonSkill->damagetime = 1;
+			MoveTail(m_MonSkillList);
+			m_MonSkillList->Insert_prev(tmpMonSkill);
+			m_nSkillCount++;
+
+			return true;
+		}
+		case MON_ATK_RANGE2:		//	스트리트 파이터 베가 공격1
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_3_1);
+
+			m_nStartPosX = pMonAsIns->m_posX;
+
+			//	오른쪽 벽을 틩긴다.
+			if(pMonAsIns->m_posX > Field::m_nFieldSize_X/2)
+			{
+				m_nEndPosX = Field::m_nFieldSize_X;
+				m_nDirection = SDIR_RIGHT;
+			}
+			//	왼쪽벽을 틩긴다.
+			else								
+			{
+				m_nEndPosX = 0;
+				m_nDirection = SDIR_LEFT;
+			}				
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE3:		//	스트리트 파이터 베가 공격2
+		//-----------------------------------------------------------
+		{
+			//	z값을 강제로 없애준다. 에니에서 처리되어있음
+			pMonAsIns->m_posZ = 0;
+			m_nStartPosX = m_nEndPosX;
+			m_nEndPosX = m_CharInfo->m_nPos.x;
+
+			m_nStartPosY = pMonAsIns->m_posY;
+			m_nEndPosY = m_CharInfo->m_nPos.y;
+
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_3_2);
+
+			if(0 == m_nStartPosX)	{m_nDirection = SDIR_LEFT;}
+			else					{m_nDirection = SDIR_RIGHT;}
+
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+/*
+		case MON_ATK_RANGE3:		//	돌뭉치 떨어뜨림
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_RANGE_2);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns;
+			S_MONSKILL *tmpMonSkill;
+
+			//	beam
+			int addx = 0;
+			if(SDIR_LEFT == m_nDirection)			{addx -= 20;}
+			else									{addx += 20;}
+
+			int seed = 8 + SUTIL_GetRandom()%4;
+			for(int loop = 0; loop < seed; loop++)
+			{
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 170 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 6+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 5;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 200 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 8+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 5;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_3_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 230 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 10+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 5;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+			}
+
+
+			return true;
+		}
+		case MON_ATK_RANGE2:		//	벽 소환
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_3_RANGE_3);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	
+			//0 width, 1 height
+			if(SUTIL_GetRandom()%2)
+			{
+				for(int loop = 0; loop < 6; loop++)
+				{
+					SetMessage(MSG_BOSS3_SUMMON_WALL, (m_CharInfo->m_nPos.x)-10+SUTIL_GetRandom()%20, 180 + loop*20, 0, 0, loop);			
+				}
+			}
+			else
+			{
+				int max = Field::m_nFieldSize_X/26;
+				for(int loop = 0; loop < max; loop++)
+				{
+					SetMessage(MSG_BOSS3_SUMMON_WALL, 15 + loop*26, (m_CharInfo->m_nPos.y)-10+SUTIL_GetRandom()%20, 0, 0, loop);
+				}
+			}
+
+			return true;
+		}
+*/
+	}
+
+	return false;
+}
+
+
+
+//==============================================================================================================
+
+
+
+
+//--------------------------------------------------------------------------------------
+DarkKnight_Mirror::DarkKnight_Mirror()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_4;
+	m_nMonIdx = MON_IDX_DARK_KNIGHT_MIRROR;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	m_nAtkMaxCount = 2;
+	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+
+	m_Attack[0].Name = MON_ATK_MELEE1;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 50;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 70;
+	m_Attack[0].CoolTime = 0;
+	m_Attack[0].MaxCoolTime = 0;
+
+	m_Attack[1].Name = MON_ATK_RANGE2;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 200;
+	m_Attack[1].AtkRect.y1 = 0;
+	m_Attack[1].AtkRect.y2 = 200;
+//	m_Attack[1].MinScope = 0;
+//	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].CoolTime = 0;
+	m_Attack[1].MaxCoolTime = 60;
+/*
+	m_Attack[2].Name = MON_ATK_RANGE2;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 200;
+	m_Attack[2].AtkRect.y1 = -100;
+	m_Attack[2].AtkRect.y2 = 300;
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[2].CoolTime = 0;
+	m_Attack[2].MaxCoolTime = 200;
+
+
+	m_Attack[3].Name = MON_ATK_SPECIAL1;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 300;
+	m_Attack[3].AtkRect.y1 = -100;
+	m_Attack[3].AtkRect.y2 = 300;
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[3].CoolTime = 0;
+	m_Attack[3].MaxCoolTime = 400;
+
+
+	m_Attack[4].Name = MON_ATK_MELEE1;
+	m_Attack[4].AtkRect.x1 = 0;
+	m_Attack[4].AtkRect.x2 = 300;
+	m_Attack[4].AtkRect.y1 = -(300);
+	m_Attack[4].AtkRect.y2 = (300);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 80;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[4].CoolTime = 0;
+	m_Attack[4].MaxCoolTime = 400;
+*/
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_4_STAND;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_4_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_4_DOWN;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_4_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_4_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_4_DOWNED;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_4_MAN_MIRROR_2;
+	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_4_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_4_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_4_WALK_VERTICAL;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 19;
+	m_nAiPtnData[0] = MON_AI_ATTACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[4] = MON_AI_ATTACK;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
+	m_nAiPtnData[6] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[7] = MON_AI_ATTACK;
+	m_nAiPtnData[8] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[9] = MON_AI_ATTACK;
+	m_nAiPtnData[10] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[11] = MON_AI_ATTACK;
+	m_nAiPtnData[12] = MON_AI_ATTACK;
+	m_nAiPtnData[13] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[14] = MON_AI_ATTACK;
+	m_nAiPtnData[15] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[16] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[17] = MON_AI_ATTACK;
+	m_nAiPtnData[18] = MON_AI_READY_TO_HIT;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+DarkKnight_Mirror::~DarkKnight_Mirror()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+void DarkKnight_Mirror::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+/*
+	m_nUseAtkNum = 4;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		//	총 소환이 10을 넘지 않게 한다.
+		if(10 > m_nTotalMonCnt)
+		{
+			//	체력이 아직 많이 남아있으면 소환을 하지 않는다.
+			if(m_Stet.m_MaxHp > (m_Stet.m_Hp*2))
+			{
+				m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+				return;
+			}
+		}
+	}
+
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		if(1 == m_nTotalMonCnt)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		}
+		return;
+	}
+
+	m_nUseAtkNum = 2;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+*/
+	m_nUseAtkNum = 1;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 0;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+}
+
+//--------------------------------------------------------------------------------------
+void DarkKnight_Mirror::Process(S_CHARINFO* _CharInfo)
+//--------------------------------------------------------------------------------------
+{
+	if(m_NextActState)
+	{
+		SetAction(m_NextActState);
+		m_NextActState = 0;
+	}
+
+	//	물리좌표를 갱신받는다.
+	m_nPhysicsPos = m_Physics->process();
+	if(0 == m_nPhysicsPos.Sqr_GetLength() && 0 == pMonAsIns->m_posZ)
+	{
+		//	이동량이 없으므로 모든 값을 초기화시켜준다.
+		m_Physics->initForce();
+	}
+	else
+	{
+		//	이동량에 따라 좌표를 보정시켜준다.
+//		m_nPos = m_nPos + m_nPhysicsPos;
+		pMonAsIns->m_posX += m_nPhysicsPos.x;
+		pMonAsIns->m_posY += m_nPhysicsPos.y;
+		pMonAsIns->m_posZ += m_nPhysicsPos.z;
+		if(0 < pMonAsIns->m_posZ)	{pMonAsIns->m_posZ = 0;}
+
+		//	저항상황이라면 (그라운드라면)
+		if(m_nResistZ == pMonAsIns->m_posZ && 0 == pMonAsIns->m_posZ)
+		{
+			m_Physics->resistGr();
+		}
+		m_nResistZ = pMonAsIns->m_posZ;		
+	}
+
+	//	캐릭터의 좌표를 갱신시켜준다.
+	m_CharInfo = _CharInfo;
+
+	//	자체 타이머를 갖는다.
+	m_nTimer= (m_nTimer+1)%1000;
+
+	//	맞았을시 올라가던 히트 레이트를 올려준다.
+	m_nHitRate++;
+	if(5 < m_nHitRate)
+	{
+		m_nHitRate = 5;
+		m_nAccumulatedHit = 0;
+	}
+
+	//	공격에 대한 쿨타임을 줄여준다.
+	for(int loop = 0; loop < m_nAtkMaxCount; loop++)
+	{
+		m_Attack[loop].CoolTime--;
+		if(0 > m_Attack[loop].CoolTime)	{m_Attack[loop].CoolTime = 0;}
+	}
+
+	//	내부 프로세서를 돌린다.
+//	SUTIL_UpdateTimeAsprite(pChildBody[0]->pMonAsIns);
+
+	if(!ExtProcess())	{BaseProcess();}
+
+	//	보스전용 인공지능
+	AI_PROCESS_BOSS2(this);
+
+
+	//	child의 좌표를 갱신시킨다.
+//	pChildBody[0]->pMonAsIns->m_posX = pMonAsIns->m_posX;
+//	pChildBody[0]->pMonAsIns->m_posY = pMonAsIns->m_posY;
+//	pChildBody[0]->pMonAsIns->m_posZ = pMonAsIns->m_posZ;
+
+}
+
+//--------------------------------------------------------------------------------------
+void DarkKnight_Mirror::Paint()
+//--------------------------------------------------------------------------------------
+{
+	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
+	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
+
+	//	paint shadow
+	//int tmpx = pMonAsIns->Get_AFrameXZ();
+	//int tmpy = tmpx%100000;
+	//tmpx = tmpx/100000; 
+
+	int tmpXZ[2];
+	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
+	int tmpx = tmpXZ[0];
+	int tmpz = tmpXZ[1];
+
+//	pShaodwAsIns->SetFrame(FRAME_SHADOW_SHADOW_3);
+//
+//	//	그림자
+//	SUTIL_SetXPosAsprite(pShaodwAsIns,	tmpx);
+//	SUTIL_SetYPosAsprite(pShaodwAsIns,	SUTIL_GetYPosAsprite(pMonAsIns)-2);
+//	SUTIL_PaintAsprite(pShaodwAsIns, S_NOT_INCLUDE_SORT);
+//
+	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
+
+	//	paint monster
+	SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+
+	//SUTIL_PaintAsprite(pChildBody[0]->pMonAsIns, S_INCLUDE_SORT);
+
+	//	paint Debuff
+	Paint_Debuff(tmpx , tmpz);
+}
+
+
+//--------------------------------------------------------------------------------------
+bool DarkKnight_Mirror::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	//	TEST 항시전투
+	m_bIsBattle = true;
+
+	switch(m_ActState)
+	{
+		case MON_ATK_RANGE2:
+		//-----------------------------------------------------------------------
+		{
+			//	좌표를 보정해준다.(점프가 2프레임부터 시작한다.)
+			if(1 < m_nTimer)
+			{
+				//	2일때 최종 캐릭터의 위치를 갱신해준다.
+				if(2 == m_nTimer)	{m_nStartPosX = pMonAsIns->m_posX;}
+
+				pMonAsIns->m_posX = m_nStartPosX + ((m_nEndPosX - m_nStartPosX)*(m_nTimer-2))/8;
+			}
+
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_ATK_RANGE3, 0);
+			}
+			return true;
+		}
+		case MON_ATK_RANGE3:
+		//-----------------------------------------------------------------------
+		{
+			//	1일때 최종 캐릭터의 위치를 갱신해준다.
+			if(1 == m_nTimer)
+			{
+				m_nStartPosX = pMonAsIns->m_posX;
+				m_nStartPosY = pMonAsIns->m_posY;
+			}
+
+			if(5 > m_nTimer)
+			{
+				pMonAsIns->m_posX = m_nStartPosX + ((m_nEndPosX - m_nStartPosX)*(m_nTimer))/5;
+				pMonAsIns->m_posY = m_nStartPosY + ((m_nEndPosY - m_nStartPosY)*(m_nTimer))/5;
+			}
+
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+
+		case MON_ATK_MELEE1:
+		case MON_ATK_RANGE1:
+		case MON_ATK_SPECIAL1:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool DarkKnight_Mirror::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			return true;
+		}
+		case MON_ATK_RANGE1:	//	포 발사
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_RANGE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_4_BULLET_1);
+			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+			SUTIL_SetLoopAsprite(tmpAsIns, true);
+			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(20*m_nDirection));
+			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+			SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+			tmpMonSkill->type = SKILL_REMOVE;
+			tmpMonSkill->lifeTime = 8;
+			tmpMonSkill->Damage = 10;
+			tmpMonSkill->Delay = 4;
+			tmpMonSkill->who = (void*)this;
+			//tmpMonSkill->skillnum = m_ActState;
+			tmpMonSkill->skillnum = 1;
+			tmpMonSkill->damagetime = 1;
+			MoveTail(m_MonSkillList);
+			m_MonSkillList->Insert_prev(tmpMonSkill);
+			m_nSkillCount++;
+
+			return true;
+		}
+		case MON_ATK_RANGE2:		//	스트리트 파이터 베가 공격1
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_3_1);
+
+			m_nStartPosX = pMonAsIns->m_posX;
+
+			//	오른쪽 벽을 틩긴다.
+			if(pMonAsIns->m_posX > Field::m_nFieldSize_X/2)
+			{
+				m_nEndPosX = Field::m_nFieldSize_X;
+				m_nDirection = SDIR_RIGHT;
+			}
+			//	왼쪽벽을 틩긴다.
+			else								
+			{
+				m_nEndPosX = 0;
+				m_nDirection = SDIR_LEFT;
+			}				
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE3:		//	스트리트 파이터 베가 공격2
+		//-----------------------------------------------------------
+		{
+			//	z값을 강제로 없애준다. 에니에서 처리되어있음
+			pMonAsIns->m_posZ = 0;
+			m_nStartPosX = m_nEndPosX;
+			m_nEndPosX = m_CharInfo->m_nPos.x;
+
+			m_nStartPosY = pMonAsIns->m_posY;
+			m_nEndPosY = m_CharInfo->m_nPos.y;
+
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_3_2);
+
+			if(0 == m_nStartPosX)	{m_nDirection = SDIR_LEFT;}
+			else					{m_nDirection = SDIR_RIGHT;}
+
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+	}
+
+	return false;
+}
 
 /*
 //--------------------------------------------------------------------------------------
