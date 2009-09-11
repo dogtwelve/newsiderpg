@@ -14958,9 +14958,9 @@ DarkKnight::DarkKnight()
 
 	m_Attack[1].Name = MON_ATK_RANGE1;
 	m_Attack[1].AtkRect.x1 = 0;
-	m_Attack[1].AtkRect.x2 = 200;
-	m_Attack[1].AtkRect.y1 = 0;
-	m_Attack[1].AtkRect.y2 = 200;
+	m_Attack[1].AtkRect.x2 = 110;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
 //	m_Attack[1].MinScope = 0;
 //	m_Attack[1].MaxScope = 100;
 //	m_Attack[1].Debuff = DEBUF_STUN;
@@ -14969,8 +14969,8 @@ DarkKnight::DarkKnight()
 
 	m_Attack[2].Name = MON_ATK_RANGE2;
 	m_Attack[2].AtkRect.x1 = 0;
-	m_Attack[2].AtkRect.x2 = 200;
-	m_Attack[2].AtkRect.y1 = -100;
+	m_Attack[2].AtkRect.x2 = 300;
+	m_Attack[2].AtkRect.y1 = -300;
 	m_Attack[2].AtkRect.y2 = 300;
 //	m_Attack[2].MinScope = 0;
 //	m_Attack[2].MaxScope = 80;
@@ -14979,28 +14979,28 @@ DarkKnight::DarkKnight()
 	m_Attack[2].MaxCoolTime = 200;
 
 
-	m_Attack[3].Name = MON_ATK_SPECIAL1;
+	m_Attack[3].Name = MON_ATK_RANGE6;
 	m_Attack[3].AtkRect.x1 = 0;
-	m_Attack[3].AtkRect.x2 = 300;
-	m_Attack[3].AtkRect.y1 = -100;
-	m_Attack[3].AtkRect.y2 = 300;
+	m_Attack[3].AtkRect.x2 = 110;
+	m_Attack[3].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[3].AtkRect.y2 = (m_nBodySize/2);
 //	m_Attack[3].MinScope = 0;
 //	m_Attack[3].MaxScope = 80;
 //	m_Attack[2].Debuff = DEBUF_STUN;
 	m_Attack[3].CoolTime = 0;
-	m_Attack[3].MaxCoolTime = 400;
+	m_Attack[3].MaxCoolTime = 300;
 
 
 	m_Attack[4].Name = MON_ATK_SPECIAL1;
-	m_Attack[4].AtkRect.x1 = 0;
+	m_Attack[4].AtkRect.x1 = 100;
 	m_Attack[4].AtkRect.x2 = 300;
 	m_Attack[4].AtkRect.y1 = -(300);
 	m_Attack[4].AtkRect.y2 = (300);
 //	m_Attack[3].MinScope = 0;
 //	m_Attack[3].MaxScope = 80;
 //	m_Attack[2].Debuff = DEBUF_STUN;
-	m_Attack[4].CoolTime = 0;
-	m_Attack[4].MaxCoolTime = 400;
+	m_Attack[4].CoolTime = 100;
+	m_Attack[4].MaxCoolTime = 500;
 
 	//	사용할 이미지를 설정한다.
 	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_4_STAND;
@@ -15065,15 +15065,15 @@ void DarkKnight::SetAttack()
 		}
 	}
 
-//	m_nUseAtkNum = 3;
-//	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
-//	{
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
 //		if(1 == m_nTotalMonCnt)
 //		{
-//			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
 //		}
-//		return;
-//	}
+		return;
+	}
 
 	m_nUseAtkNum = 2;
 	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
@@ -15213,6 +15213,15 @@ bool DarkKnight::ExtProcess()
 
 	switch(m_ActState)
 	{
+		case MON_ATK_RANGE1:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_ATK_RANGE4, 0);
+			}
+			return true;
+		}
 		case MON_ATK_RANGE2:
 		//-----------------------------------------------------------------------
 		{
@@ -15253,9 +15262,57 @@ bool DarkKnight::ExtProcess()
 			}
 			return true;
 		}
+		case MON_ATK_RANGE4:
+		//-----------------------------------------------------------------------
+		{
+			bool isEndAni = SUTIL_UpdateTimeAsprite(pMonAsIns);
+			//	임시변수로 쓰였음
+			m_nStartPosX = m_nDirection*(m_CharInfo->m_nPos.x - pMonAsIns->m_posX);
 
+			if(0 < m_nStartPosX && 30 >= m_nStartPosX)
+			{
+				if(SQR(m_nBodySize/2) > SQR(pMonAsIns->m_posY - m_CharInfo->m_nPos.y))
+				{
+					pMonAsIns->m_posX = m_CharInfo->m_nPos.x - (m_nDirection*55); //	에니 갱신량이 30이가 때문에 거리+에니갱신량을 해준다.
+					pMonAsIns->m_posY = m_CharInfo->m_nPos.y;
+					ResvAction(MON_ATK_RANGE5, 0);
+					return true;
+				}
+			}
+
+			if(!isEndAni)	{ResvAction(MON_AC_STAND, 0);}
+
+			return true;
+		}
+		case MON_ATK_RANGE6:
+		//-----------------------------------------------------------------------
+		{
+			bool isEndAni = SUTIL_UpdateTimeAsprite(pMonAsIns);
+
+			if(8 < m_nTimer)
+			{
+				//	임시변수로 쓰였음
+				m_nStartPosX = m_nDirection*(m_CharInfo->m_nPos.x - pMonAsIns->m_posX);
+
+				if(0 < m_nStartPosX && 40 >= m_nStartPosX)
+				{
+					if(SQR(m_nBodySize/2) > SQR(pMonAsIns->m_posY - m_CharInfo->m_nPos.y))
+					{
+						pMonAsIns->m_posX = m_CharInfo->m_nPos.x - (m_nDirection*70); //	에니 갱신량이 30이가 때문에 거리+에니갱신량을 해준다.
+						pMonAsIns->m_posY = m_CharInfo->m_nPos.y;
+						ResvAction(MON_ATK_RANGE7, 0);
+						return true;
+					}
+				}
+			}
+
+			if(!isEndAni)	{ResvAction(MON_AC_STAND, 0);}
+
+			return true;
+		}
 		case MON_ATK_MELEE1:
-		case MON_ATK_RANGE1:
+		case MON_ATK_RANGE5:
+		case MON_ATK_RANGE7:
 		case MON_ATK_SPECIAL1:
 		//-----------------------------------------------------------------------
 		{
@@ -15301,7 +15358,7 @@ bool DarkKnight::ExtSetAction()
 
 			return true;
 		}
-		case MON_ATK_RANGE1:	//	포 발사
+		case MON_ATK_RANGE1:	//	포 발사 -> MON_ATK_RANGE4
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_RANGE_1);
@@ -15334,7 +15391,51 @@ bool DarkKnight::ExtSetAction()
 
 			return true;
 		}
-		case MON_ATK_RANGE2:		//	스트리트 파이터 베가 공격1
+		case MON_ATK_RANGE4:	//	포 발사 후 돌진 공격	
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_2_1);
+
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE5:	//	포 발사 후 돌진 후 깨물기 공격	
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_2_2);
+
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE6:	//	난무 공격
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_4_1);
+
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE7:	//	난무 공격 성공
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_4_2);
+
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE2:		//	스트리트 파이터 베가 공격1 -> MON_ATK_RANGE3
 		//-----------------------------------------------------------
 		{
 			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_4_MELEE_3_1);
