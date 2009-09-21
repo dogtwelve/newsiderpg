@@ -6,6 +6,7 @@ ItemList PopupUi::s_ItemList[5];
 PlayMessage PopupUi::s_PlayMessage;
 AreaMessage PopupUi::s_AreaMessage;
 _TEXT_PACK* PopupUi::pCLRPOPUP_Text;
+bool PopupUi::GemOpen;
 bool PopupUi::MixOpen;
 int PopupUi::MixNum;
 Popup_Sharp PopupUi::s_Popup_Sharp;
@@ -110,7 +111,7 @@ PopupUi::PopupUi(void* s__ASpriteSet/*,ASprite* _Hero*/)
 	Character::s_ItemBag[0][22].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
 
 	Character::s_ItemBag[0][23].Data0 = 1509;
-	Character::s_ItemBag[0][23].Data1 = 101022+1000000000;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
+	Character::s_ItemBag[0][23].Data1 = 22+1000000000;	//장착성별(1),소켓3(2),소켓2(2),소켓1(2),접두사(2),등급(1)    -소켓은 뚫린소켓은 1, 2이상은 잼 넘버
 	Character::s_ItemBag[0][23].Data2 = 230710;			//스크롤레벨(3),스탯스크롤(2),강화(2)
 
 	Character::s_ItemBag[0][24].Data0 = 1524;
@@ -244,6 +245,11 @@ bool PopupUi::KeyEvent(int m_keyCode, int m_keyRepeat)
 		return SmithyOpen;
 	}
 
+	if(GemOpen){//대장간호출
+		Key_GEM(m_keyCode, m_keyRepeat);
+		return GemOpen;
+	}
+	
 
 
 
@@ -299,6 +305,13 @@ void PopupUi::Paint()
 
 	if(SmithyOpen){//대장간호출
 		Paint_SMITHY();
+		_SUTIL->g->SetColor(0xff0000);
+		_SUTIL->g->DrawRect(XPOS,YPOS,1,1);
+		return;
+	}
+
+	if(GemOpen){//보석 조합창호출
+		Paint_GEM();
 		_SUTIL->g->SetColor(0xff0000);
 		_SUTIL->g->DrawRect(XPOS,YPOS,1,1);
 		return;
@@ -576,10 +589,20 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 								case ITEM_GLOVE	:
 								case ITEM_NECK	:
 								case ITEM_RING	://3
-									SELECT_INVENTORY_POPUP_KIND = INVENTORY_POPUP_EQUIP;
+									if((Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_SOCKET_1==1 ||
+										Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_SOCKET_2==1 ||
+										Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_SOCKET_3==1) &&
+										Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_EQUIP==0
+										){//빈 슬롯이 있다면 && 장착템이 아니라면 
+										SELECT_INVENTORY_POPUP_KIND = INVENTORY_POPUP_EQUIP2;
+									}else{//만약 빈 슬롯이 없다면
+										SELECT_INVENTORY_POPUP_KIND = INVENTORY_POPUP_EQUIP;
+									}
+									
 									break;
 								case ITEM_MAINQUEST://사용할수없는 일반템용 메세지
 								case ITEM_UP_STONE:
+								case ITEM_GEM_STONE:
 									SELECT_INVENTORY_POPUP_KIND = INVENTORY_POPUP_DEFAULT;
 									break;
 								default://사용할수 있으나 퀵장비 안되는템용 메세지
@@ -635,6 +658,7 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 						}
 						break;
 					case INVENTORY_POPUP_EQUIP:
+					case INVENTORY_POPUP_EQUIP2:
 						if(SELECT_INVENTORY_POPUP_Y==0){//장착
 							int xx;
 							switch(Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_KIND){//아이템 종류별 분화
@@ -656,11 +680,23 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 
 							EQUIP_item(xx,&Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE]);
 							s_Page.Focus = 0;
-						}else if(SELECT_INVENTORY_POPUP_Y==1){//버림
-							DEL_item();
-						}else if(SELECT_INVENTORY_POPUP_Y==2){//이동
-							MOVE_item();
-							s_Page.Focus = 0;
+						}
+						if(SELECT_INVENTORY_POPUP_KIND == INVENTORY_POPUP_EQUIP){
+							if(SELECT_INVENTORY_POPUP_Y==1){//버림
+								DEL_item();
+							}else if(SELECT_INVENTORY_POPUP_Y==2){//이동
+								MOVE_item();
+								s_Page.Focus = 0;
+							}
+						}else{
+							if(SELECT_INVENTORY_POPUP_Y==1){//보석
+								USE_item(&Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE]);
+							}else if(SELECT_INVENTORY_POPUP_Y==2){//버림
+								DEL_item();
+							}else if(SELECT_INVENTORY_POPUP_Y==3){//이동
+								MOVE_item();
+								s_Page.Focus = 0;
+							}
 						}
 						break;
 					case INVENTORY_POPUP_USE:
@@ -693,6 +729,7 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 				switch(SELECT_INVENTORY_POPUP_KIND){//팝업의 종류
 					case INVENTORY_POPUP_QUICK:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=3;break;
 					case INVENTORY_POPUP_EQUIP:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=2;break;
+					case INVENTORY_POPUP_EQUIP2:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=3;break;
 					case INVENTORY_POPUP_USE:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=2;break;
 					case INVENTORY_POPUP_DEFAULT:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=1;break;
 				}
@@ -702,6 +739,7 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 				switch(SELECT_INVENTORY_POPUP_KIND){//팝업의 종류
 					case INVENTORY_POPUP_QUICK:if(SELECT_INVENTORY_POPUP_Y>3)SELECT_INVENTORY_POPUP_Y=0;break;
 					case INVENTORY_POPUP_EQUIP:if(SELECT_INVENTORY_POPUP_Y>2)SELECT_INVENTORY_POPUP_Y=0;break;
+					case INVENTORY_POPUP_EQUIP2:if(SELECT_INVENTORY_POPUP_Y>3)SELECT_INVENTORY_POPUP_Y=0;break;
 					case INVENTORY_POPUP_USE:if(SELECT_INVENTORY_POPUP_Y>2)SELECT_INVENTORY_POPUP_Y=0;break;
 					case INVENTORY_POPUP_DEFAULT:if(SELECT_INVENTORY_POPUP_Y>1)SELECT_INVENTORY_POPUP_Y=0;break;
 				}
@@ -1793,6 +1831,98 @@ void PopupUi::Key_SMITHY(int m_keyCode, int m_keyRepeat)
 
 	}
 }
+void PopupUi::Key_GEM(int m_keyCode, int m_keyRepeat)		
+{
+	if(s_Page.Focus == 0){
+
+		switch(SELECT_GEM_Y){
+			case 0://장비 선택
+				switch(m_keyCode){
+					case MH_KEY_CLEAR:	GemOpen = false;break;
+					case MH_KEY_RIGHT:	SELECT_GEM_Y = 1;break;
+					case MH_KEY_SELECT:	
+						if(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_SOCKET_3==1){//빈슬롯
+							SELECT_GEM_LIST_NOW = 0;
+							s_Page.Focus = 1;
+						}
+						break;
+				}
+				break;
+
+			case 1://강화석 선택
+				switch(m_keyCode){
+					case MH_KEY_CLEAR:	GemOpen = false;break;
+					case MH_KEY_LEFT:	SELECT_GEM_Y = 0;break;
+					case MH_KEY_RIGHT:	SELECT_GEM_Y = 2;break;
+					case MH_KEY_SELECT:
+						if(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_SOCKET_2==1){//빈슬롯
+							SELECT_GEM_LIST_NOW = 0;
+							s_Page.Focus = 1;
+						}
+				}
+				break;
+
+			case 2://대상 아이템 선택
+				switch(m_keyCode){
+					case MH_KEY_CLEAR:	GemOpen = false;break;
+					case MH_KEY_LEFT:	SELECT_GEM_Y = 1;break;
+					case MH_KEY_SELECT:
+						if(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_SOCKET_1==1){//빈슬롯
+							SELECT_GEM_LIST_NOW = 0;
+							s_Page.Focus = 1;
+						}
+				}
+				break;
+
+
+		}
+	}else if(s_Page.Focus == 1){
+		//switch(SELECT_GEM_Y){
+		switch(m_keyCode){ 
+			case MH_KEY_RIGHT:
+				SELECT_GEM_LIST_NOW++;
+				if(SELECT_GEM_LIST_MAX)SELECT_GEM_LIST_NOW %= SELECT_GEM_LIST_MAX;
+				break;
+			case MH_KEY_LEFT:
+				SELECT_GEM_LIST_NOW+=(SELECT_GEM_LIST_MAX-1);
+				if(SELECT_GEM_LIST_MAX)SELECT_GEM_LIST_NOW %= SELECT_GEM_LIST_MAX;
+				break;
+			case MH_KEY_CLEAR:
+				s_Page.Focus = 0;
+				break;
+			case MH_KEY_SELECT://잼스톤 장착 
+				s_Page.Focus = 0;
+
+				int data1 = Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].Data1;
+				int gam_Num =1 + Character::s_ItemBag[SELECT_GEM_USE_STONE_BAG][SELECT_GEM_USE_STONE_SLOT].ITEM_INDEX;
+
+				switch (SELECT_GEM_Y) {
+					case 0:data1 += gam_Num*10000000;break;
+					case 1:data1 += gam_Num*100000;break;
+					case 2:data1 += gam_Num*1000;break;
+				} 
+				Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].Data1 = data1;
+
+				REMOVE_Item(Character::s_ItemBag[SELECT_GEM_USE_STONE_BAG][SELECT_GEM_USE_STONE_SLOT].ITEM_ID,1);	//보석 삭제
+				//아이템 강화
+
+				break;
+
+		}
+
+	}else if(s_Page.Focus == 2){// 팝업 - 상태에 따른 팝업 호출
+		switch(SELECT_GEM_POPUP_KIND){
+			case GEM_POPUP_RESULT	:	
+				switch(m_keyCode){
+					case MH_KEY_SELECT://아이템 조합전에 슬롯이 충분한지 확인한다.
+						s_Page.Focus = 0;
+						break;
+				}
+				break;
+		}
+
+	}
+}
 void PopupUi::Key_MIX(int m_keyCode, int m_keyRepeat)		
 {
 	if(s_Page.Focus == 0){ 
@@ -1985,6 +2115,14 @@ void PopupUi::Paint_STATES()
 	// char exp
 	PaintGage(GAGE_YELLOW, 58,4, XPOS+15, YPOS+2, Character::s_Status[s_Page.Woman_Man].EXP, Character::s_Status[s_Page.Woman_Man].EXP_MAX);
 
+
+	int _STR=0,_DEX=0,_CON=0,_INT=0;
+	for (int slot = 0 ; slot<7 ; slot++){
+		_STR +=Character::s_ItemAbil[s_Page.Woman_Man][slot].STR;
+		_DEX +=Character::s_ItemAbil[s_Page.Woman_Man][slot].DEX;
+		_CON +=Character::s_ItemAbil[s_Page.Woman_Man][slot].CON;
+		_INT +=Character::s_ItemAbil[s_Page.Woman_Man][slot].INT;
+	}
 	for(int xx = 0, ABIL = 0;xx<4;xx++){
 		ABIL = (xx == 0 ? Character::s_Ability[s_Page.Woman_Man].STR :(xx == 1 ? Character::s_Ability[s_Page.Woman_Man].DEX :(xx == 2 ? Character::s_Ability[s_Page.Woman_Man].CON :Character::s_Ability[s_Page.Woman_Man].INT)));
 		_SUTIL->pFont->setColor(0xab9a77);
@@ -1998,6 +2136,7 @@ void PopupUi::Paint_STATES()
 			_SUTIL->pFont->setOutlineColor((xx == (SELECT_STATES_Y-2)? 0xffc708: 0xad0408));//증가된 값이면 아웃라인을 사용
 
 		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_POWER+xx], XPOS-69, YPOS+41 + (13*xx), CGraphics::BOTTOM);//힘//민첩//체력//지력
+		ABIL += (xx == 0 ? _STR :(xx == 1 ? _DEX :(xx == 2 ? _CON :_INT)));//장비증가치 
 		_SUTIL->pFont->DrawText(_SUTIL->g, ABIL, XPOS-12, YPOS+41 + (13*xx), CGraphics::RIGHT|CGraphics::BOTTOM);//힘//민첩//체력//지력
 
 		_SUTIL->pFont->setOutlineColor(-1);//아웃 라인을 사용하지 않음
@@ -2035,13 +2174,9 @@ void PopupUi::Paint_STATES()
 	
 	
 	_SUTIL->pFont->setColor(0xffc000);
-// 	//Att1 
-// 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_ATT1 + s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/], XPOS+6, YPOS+29, 0);
-// 	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/], XPOS+67, YPOS+29, CGraphics::RIGHT);
-	
 	//Att1
 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"ATT", XPOS+6, YPOS+41 + (13*0), CGraphics::BOTTOM);
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man], XPOS+67, YPOS+41 + (13*0), CGraphics::RIGHT|CGraphics::BOTTOM);
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX, XPOS+67, YPOS+41 + (13*0), CGraphics::RIGHT|CGraphics::BOTTOM);
 	//DEF
 	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)"DEF", XPOS+6, YPOS+41 + (13*1), CGraphics::BOTTOM);
 	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].DEFENSE, XPOS+67, YPOS+41 + (13*1), CGraphics::RIGHT|CGraphics::BOTTOM);
@@ -2344,11 +2479,35 @@ void PopupUi::Paint_INVENTORY()
 						_SUTIL->pFont->setColor(0x3a444d);
 
 					}
+					if(Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_EQUIP){//장비중이면
+						_SUTIL->pFont->DrawText(_SUTIL->g, 
+							(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_UNEQUIP:(xx==1?CLRMENU_BAN:CLRMENU_MOVE))], 
+							XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
+					}else{//장비중인 아이템이 아니면
+						_SUTIL->pFont->DrawText(_SUTIL->g, 
+							(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_EQUIP:(xx==1?CLRMENU_BAN:CLRMENU_MOVE))], 
+							XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
+					}
+				}
+				break;
+
+			case INVENTORY_POPUP_EQUIP2://4개
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_2,XPOS+Px,YPOS+Py,0);//4개짜리 팝업창
+
+				for(int xx = 0;xx<4;xx++){
+					if(SELECT_INVENTORY_POPUP_Y == xx){
+						_SUTIL->pFont->setColor(0xcfeef4);
+						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2,XPOS+Px,YPOS+Py+(19*xx),0);//선택커서
+					}else{
+						_SUTIL->pFont->setColor(0x3a444d);
+
+					}
 					_SUTIL->pFont->DrawText(_SUTIL->g, 
-						(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_EQUIP:(xx==1?CLRMENU_BAN:CLRMENU_MOVE))], 
+						(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_EQUIP:(xx==1?CLRMENU_JAMSTONE:(xx==2?CLRMENU_BAN:CLRMENU_MOVE)))], 
 						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
 				}
 				break;
+
 
 			case INVENTORY_POPUP_USE	://3개
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_3,XPOS+Px,YPOS+Py,0);//3개짜리 팝업창
@@ -2726,7 +2885,30 @@ void PopupUi::Paint_HOBBY()
 {
 	SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_5, XPOS,YPOS,0);
 
-	//_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_POWER+xx], XPOS-69, YPOS+41 + (13*xx), CGraphics::BOTTOM);//힘//민첩//체력//지력
+	//메인 
+	_SUTIL->pFont->setColor(0xEEEEEE); 
+	for (int xx = 0;xx<4;xx++){
+		_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_GEM_0+xx], XPOS-68, YPOS-39+xx*12, CGraphics::HCENTER);
+	}
+
+	int SUM_0=0,SUM_1=0,SUM_2=0,SUM_3=0;
+	for (int xx = 0;xx<7;xx++){
+		if(Character::s_ItemAbil[s_Page.Woman_Man][xx].DDANG)_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_ItemAbil[s_Page.Woman_Man][xx].DDANG, XPOS-48+xx*16, YPOS-38   , CGraphics::HCENTER);
+		if(Character::s_ItemAbil[s_Page.Woman_Man][xx].MUL  )_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_ItemAbil[s_Page.Woman_Man][xx].MUL  , XPOS-48+xx*16, YPOS-38+12, CGraphics::HCENTER);
+		if(Character::s_ItemAbil[s_Page.Woman_Man][xx].BUL  )_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_ItemAbil[s_Page.Woman_Man][xx].BUL  , XPOS-48+xx*16, YPOS-38+24, CGraphics::HCENTER);
+		if(Character::s_ItemAbil[s_Page.Woman_Man][xx].BARAM)_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_ItemAbil[s_Page.Woman_Man][xx].BARAM, XPOS-48+xx*16, YPOS-38+36, CGraphics::HCENTER);
+		SUM_0 += Character::s_ItemAbil[s_Page.Woman_Man][xx].DDANG;
+		SUM_1 += Character::s_ItemAbil[s_Page.Woman_Man][xx].MUL  ;
+		SUM_2 += Character::s_ItemAbil[s_Page.Woman_Man][xx].BUL  ;
+		SUM_3 += Character::s_ItemAbil[s_Page.Woman_Man][xx].BARAM;
+	}
+
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_GEM_SUM], XPOS+69, YPOS-54, CGraphics::HCENTER);//합계
+	_SUTIL->pFont->DrawText(_SUTIL->g, SUM_0, XPOS+69, YPOS-38   , CGraphics::HCENTER);
+	_SUTIL->pFont->DrawText(_SUTIL->g, SUM_1, XPOS+69, YPOS-38+12, CGraphics::HCENTER);
+	_SUTIL->pFont->DrawText(_SUTIL->g, SUM_2, XPOS+69, YPOS-38+24, CGraphics::HCENTER);
+	_SUTIL->pFont->DrawText(_SUTIL->g, SUM_3, XPOS+69, YPOS-38+36, CGraphics::HCENTER);
+
 
 }
 
@@ -3303,6 +3485,140 @@ void PopupUi::Paint_SMITHY()
 
 
 }
+void PopupUi::Paint_GEM()		
+{
+SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_UI_3_ADDJEWEL, XPOS,YPOS,0);
+
+	
+
+	int Scroll_x = (SELECT_GEM_LIST_NOW-7 > 0?SELECT_GEM_LIST_NOW-7:0);
+
+	SELECT_GEM_LIST_MAX = 0; 
+
+
+
+	//대상 아이템
+	_SUTIL->pFont->setColor(0xffffff);
+	int head =		Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_HEADTEXT;
+	int upgrade =	Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_UPGRADE;
+	char str[31];//int 최대크기
+	if(upgrade){
+		SPRINTF(str, "%s %s %s%d",
+			(head?(char*)pITEM_Text->nText[(ITEM_SCROLL_0-1)+head]:""),
+			(char*)pITEM_Text->nText[itemNAME(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_KIND,Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_INDEX)],	"+",	upgrade); 	
+	}else{
+		SPRINTF(str, "%s %s",
+			(head?(char*)pITEM_Text->nText[(ITEM_SCROLL_0-1)+head]:""),
+			(char*)pITEM_Text->nText[itemNAME(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_KIND,Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_INDEX)]); 	
+	}
+	_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-37, YPOS-48, 0);//이름
+
+	paint_ICON(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT],XPOS-58, YPOS-51,true);//아이콘
+
+
+
+	for(int xx = 0;xx<3;xx++){//가방을 돌면서 대상이 되는 아이템을 수집한다.
+		int slot;
+		switch(xx){//빈슬롯
+			case 0:slot = Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_SOCKET_3;break;
+			case 1:slot = Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_SOCKET_2;break;
+			case 2:slot = Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT].ITEM_SOCKET_1;break;
+		}
+		switch(slot){//빈슬롯
+			case 0:
+				SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs,MODULE_UI_NO_SOCKET,XPOS + 22 * xx, YPOS-29,0,0);
+				break;
+			case 1:break;
+			default:
+				SUTIL_Paint_Module(s_ASpriteSet->pItemAs,MODULE_ITEM_JEWEL_EARTH_00 + slot -2,XPOS + 22 * xx, YPOS-29,0,0);
+				break;
+
+		}
+	}
+
+	
+
+	for(int xx = 0;xx<4;xx++){//가방을 돌면서 대상이 되는 아이템을 수집한다.
+		for(int yy = 0;yy<32;yy++){
+			if(Character::s_ItemBag[xx][yy].ITEM_KIND == ITEM_GEM_STONE){// 보석 전부검색
+				if((SELECT_GEM_LIST_MAX-Scroll_x)>=0 && (SELECT_GEM_LIST_MAX-Scroll_x)<=7){
+					paint_ICON(Character::s_ItemBag[xx][yy],XPOS-67+((SELECT_GEM_LIST_MAX-Scroll_x)*17), YPOS-5,true);
+				}
+				if((s_Page.Focus == 1) && (SELECT_GEM_LIST_NOW == SELECT_GEM_LIST_MAX)){
+					SELECT_GEM_USE_STONE_BAG = xx;//현재 선택된 아이템의 정보를 저장
+					SELECT_GEM_USE_STONE_SLOT = yy;//현재 선택된 아이템의 정보를 저장
+					//equipTEXT(s_Page.Woman_Man,SELECT_GEM_POS , Character::s_ItemBag[xx][yy]);
+				}
+				SELECT_GEM_LIST_MAX++;
+			}
+		}
+	} 
+
+	if(s_Page.Focus == 0){//커서가 위에 있으면
+		//커서 그리기
+		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3, XPOS + 22*SELECT_GEM_Y, YPOS-29,0);//커서
+		s_Popup_Sharp.posX = XPOS-27;
+		s_Popup_Sharp.posY = YPOS-52;
+		itemTEXT(Character::s_ItemBag[SELECT_GEM_ITEM_BAG][SELECT_GEM_ITEM_SLOT],23,41,53,66);
+
+	}else if(s_Page.Focus >= 1){//커서가 내려와 있으면
+		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI5, XPOS + 22*SELECT_GEM_Y, YPOS-29,0);//비활성 커서
+		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_CURSOR_3,XPOS-67+((SELECT_GEM_LIST_NOW-Scroll_x)*17), YPOS-5,0);//커서
+		s_Popup_Sharp.posX = XPOS-67+((SELECT_GEM_LIST_NOW-Scroll_x)*17);
+		s_Popup_Sharp.posY = YPOS-5;
+		itemTEXT(Character::s_ItemBag[SELECT_GEM_USE_STONE_BAG][SELECT_GEM_USE_STONE_SLOT],23,41,53,66);
+	}
+
+// 	if(SELECT_GEM_ITEM_SLOT)	{//장비 그리기 
+// 		paint_ICON(Character::s_ItemBag[SELECT_GEM_LIST_ITEM_BAG][SELECT_GEM_LIST_ITEM_SLOT],XPOS-27, YPOS-52,false);
+// 	}
+// 	if(SELECT_GEM_STONE_SLOT){//강화석 그리기
+// 		SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,MODULE_ITEM_UPSTONE_00 + Character::s_ItemBag[SELECT_GEM_USE_STONE_BAG][SELECT_GEM_USE_STONE_SLOT].ITEM_INDEX, XPOS+33, YPOS-52,0,0);//아이콘
+// 		PaintNumber(s_ASpriteSet->pFieldUiAs, MODULE_UI_M_SKILL_NUM, SELECT_GEM_USE_STONE_NUM,  XPOS+33+16, YPOS-52+9, -1 , CGraphics::RIGHT);//아이템 갯수
+// 	}
+
+
+
+	_SUTIL->pFont->setColor(0xf8e6cb); 
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[Character::s_HeroTag.SEX].MONEY, XPOS+72, YPOS-70, CGraphics::RIGHT);
+	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_JAMSTONE], XPOS-42, YPOS-28, 0);
+
+
+
+
+
+	if(s_Page.Focus == 2){//팝업이 떠있다면
+		switch(SELECT_GEM_POPUP_KIND){
+			case GEM_POPUP_RESULT	:	
+				_SUTIL->g->blandBlur();
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_1, XPOS,YPOS-30,0);//팝업 프레임 지정
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2, XPOS-20,YPOS+3,0);//팝업 프레임 버튼
+
+				_SUTIL->pFont->setColor(0xf8e6cb);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_Q13+SELECT_GEM_POPUP_TEXT_YESNO], XPOS, YPOS-15, CGraphics::HCENTER);
+				_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_IDENTIFY], XPOS, YPOS+7, CGraphics::HCENTER);
+				break;
+		}
+	}
+
+
+	
+
+	
+
+
+
+
+
+
+	if(s_Popup_Sharp.View && SELECT_GEM_Y > 0){
+// 		if(SELECT_GEM_Y == 1 || (SELECT_GEM_LIST_NOW_BAG == -1&&SELECT_GEM_LIST_NOW_SLOT == -1)){
+// 			PaintPopup_Sharp(Character::s_ItemEquip[s_Page.Woman_Man][SELECT_GEM_POS]);
+// 		}else if(SELECT_GEM_Y == 2){
+// 			PaintPopup_Sharp(Character::s_ItemBag[SELECT_GEM_LIST_NOW_BAG][SELECT_GEM_LIST_NOW_SLOT]);
+// 		}
+	}
+}
 
 void PopupUi::Paint_MIX()		
 {//GET_MAINQUEST_IDX()
@@ -3692,10 +4008,14 @@ void PopupUi::PaintPopup_Sharp(ItemBag _item)
 				if(socket2){
 					SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_SOCKET, posX+START_X, posY+START_Y+Line_Y,0,0);//소켓이미지
 					Line_Y+=17;
+				}else{
+					_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO_SOCKET], posX+START_X, posY+START_Y+Line_Y, 0);
 				}
 				if(socket3){
 					SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_SOCKET, posX+START_X, posY+START_Y+Line_Y,0,0);//소켓이미지
 					Line_Y+=17;
+				}else{
+					_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pCLRPOPUP_Text->nText[CLRMENU_NO_SOCKET], posX+START_X, posY+START_Y+Line_Y, 0);
 				}
 					
 		
@@ -3991,11 +4311,7 @@ void PopupUi::itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)
 {//아이템 이름을 뿌려줄때
 
 
-	int head =		_item.ITEM_HEADTEXT;
-	int upgrade =	_item.ITEM_UPGRADE;
-	int socket1 =	_item.ITEM_SOCKET_1;
-	int socket2 =	_item.ITEM_SOCKET_2;
-	int socket3 =	_item.ITEM_SOCKET_3;
+
 	char str[31];//int 최대크기
 	
 
@@ -4052,6 +4368,18 @@ void PopupUi::itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)
 			//아이템 이름
 			_SUTIL->pFont->setColor(0xffffff);//레벨안되면 빨간색으로 바꿔주기 추후구현
 			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+L1, 0);
+
+			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)" ", XPOS-74 -9, YPOS+L2, 0);
+			if(gem_Table[_item.ITEM_INDEX][G_T_E_DDANG	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_GEM_0			], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_E_DDANG]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_E_DDANG	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_E_MUL	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_GEM_1			], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_E_MUL  ]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_E_MUL	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_E_BUL	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_GEM_2			], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_E_BUL  ]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_E_BUL	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_E_BARAM	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_GEM_3			], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_E_BARAM]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_E_BARAM	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_A_CON	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_STAMINA		], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_A_CON  ]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_A_CON	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_A_INT	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_INTELLIGENCE	], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_A_INT  ]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_A_INT	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_A_STR	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_POWER			], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_A_STR  ]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_A_STR	], 0);}
+			if(gem_Table[_item.ITEM_INDEX][G_T_A_DEX	]){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_AGILE			], 9);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(gem_Table[_item.ITEM_INDEX][G_T_A_DEX  ]>0?"+":""), 3);	_SUTIL->pFont->DrawText(_SUTIL->g, gem_Table[_item.ITEM_INDEX][G_T_A_DEX	], 0);}
+
+
 			break;
 
 		case ITEM_MAINQUEST:
@@ -4059,11 +4387,14 @@ void PopupUi::itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)
 			_SUTIL->pFont->setColor(0xffaaaa);//레벨안되면 빨간색으로 바꿔주기 추후구현
 			_SUTIL->pFont->DrawText(_SUTIL->g, (char*)pITEM_Text->nText[itemNAME(_item.ITEM_KIND,_item.ITEM_INDEX)], XPOS-74, YPOS+L1, 0);
 
-
 			break;
 
-		default://장비류
-
+		default:{//장비류
+			int head =		_item.ITEM_HEADTEXT;
+			int upgrade =	_item.ITEM_UPGRADE;
+			int socket1 =	_item.ITEM_SOCKET_1;
+			int socket2 =	_item.ITEM_SOCKET_2;
+			int socket3 =	_item.ITEM_SOCKET_3;
 
 		//아이템 색상
 			switch(_item.ITEM_GRADE){
@@ -4093,8 +4424,22 @@ void PopupUi::itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)
 			if(socket1 + socket2 + socket3){
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,
 					FRAME_UI_UI_3_1SOCKET + (socket2?(socket3?2:1):0)
-					, XPOS,YPOS+L1-20,0);//가방 선택
+					, XPOS,YPOS+L1-20,0);//소켓이 있다면 그려준다
 			}
+
+			for(int xx = 0;xx<3;xx++){//가방을 돌면서 대상이 되는 아이템을 수집한다.
+				int slot;
+				switch(xx){//빈슬롯
+					case 0:slot = _item.ITEM_SOCKET_3;break;
+					case 1:slot = _item.ITEM_SOCKET_2;break;
+					case 2:slot = _item.ITEM_SOCKET_1;break;
+				}
+				if(slot > 1){
+					SUTIL_Paint_Module(s_ASpriteSet->pItemAs,MODULE_ITEM_JEWEL_EARTH_00 + slot -2,XPOS+30 + 16 * xx, YPOS+L1-3,0,0);
+				}
+			}
+
+
 
 
 		//레벨 제한
@@ -4111,76 +4456,44 @@ void PopupUi::itemTEXT(struct ItemBag _item,int L1,int L2,int L3,int L4)
 
 
 		//ATT DEF
+			ItemAbility Temp_Abil;//착용 아이템의 능력
+			Set_Item(&Temp_Abil,&_item);
 			switch(_item.ITEM_KIND){//아이템 종류별 분화
 				case ITEM_SWORD	:
-					SPRINTF(str, "ATT %d ~ %d",
-						equip_Table[_item.ITEM_INDEX][E_T_SW_MIN],
-						equip_Table[_item.ITEM_INDEX][E_T_SW_MAX]);
-					break;													 
-//				case ITEM_AXE	:											 
-// 					SPRINTF(str, "ATT %d ~ %d",
-// 						equip_Table[_item.ITEM_INDEX][E_T_AX_MIN],
-// 						equip_Table[_item.ITEM_INDEX][E_T_AX_MAX]);
-// 					break;													 
 				case ITEM_GUN	:											 
-					SPRINTF(str, "ATT %d ~ %d",
-						equip_Table[_item.ITEM_INDEX][E_T_GU_MIN],
-						equip_Table[_item.ITEM_INDEX][E_T_GU_MAX]);
-					break;													 
-// 				case ITEM_OEB	:											 
-// 					SPRINTF(str, "ATT %d ~ %d",
-// 						equip_Table[_item.ITEM_INDEX][E_T_OR_MIN],
-// 						equip_Table[_item.ITEM_INDEX][E_T_OR_MAX]);
-// 					break;
-
+					SPRINTF(str, "ATT %d ~ %d",Temp_Abil.ATT_MIN,Temp_Abil.ATT_MAX);
+					break;		
 
 				case ITEM_HEAD	:
-					SPRINTF(str, "DEF %d",equip_Table[_item.ITEM_INDEX][E_T_HE]);
-					break;
 				case ITEM_CHEST	:
-					SPRINTF(str, "DEF %d",equip_Table[_item.ITEM_INDEX][E_T_CH]);
-					break;
 				case ITEM_LEG	:
-					SPRINTF(str, "DEF %d",equip_Table[_item.ITEM_INDEX][E_T_LE]);
-					break;
 				case ITEM_GLOVE	:
-					SPRINTF(str, "DEF %d",equip_Table[_item.ITEM_INDEX][E_T_GL]);
-					break;
-
-
 				case ITEM_NECK	:
-					SPRINTF(str, "DEF %d",deco_Table[_item.ITEM_INDEX][D_T_NE_DE]);
+					SPRINTF(str, "DEF %d",Temp_Abil.DEF);
 					break;
+				
 				case ITEM_RING	:
-					SPRINTF(str, "ATT %d  DEF %d",deco_Table[_item.ITEM_INDEX][D_T_RI_AT],deco_Table[_item.ITEM_INDEX][D_T_RI_DE]);
+					SPRINTF(str, "ATT %d  DEF %d",Temp_Abil.ATT_MAX,Temp_Abil.DEF);
 					break;
 			}
 			_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L3, 0);
 
 		//능력치
-			int scroll_Kind = (_item.Data2/100)%100; //스크롤 종류
-			if(scroll_Kind){
-				int UP = (((_item.Data2/10000) %1000) /3) +1; //스크롤 상승치
-				switch(scroll_Kind){//스크롤 종류
-					case 1:SPRINTF(str, "STR+%d DEX+%d",UP,UP);break;
-					case 2:SPRINTF(str, "STR+%d CON+%d",UP,UP);break;
-					case 3:SPRINTF(str, "STR+%d INT+%d",UP,UP);break;
-					case 4:SPRINTF(str, "DEX+%d CON+%d",UP,UP);break;
-					case 5:SPRINTF(str, "DEX+%d INT+%d",UP,UP);break;
-					case 6:SPRINTF(str, "CON+%d INT+%d",UP,UP);break;
-					case 7:	SPRINTF(str, "STR+%d",UP*4/3+1);break;
-					case 8:	SPRINTF(str, "DEX+%d",UP*4/3+1);break;
-					case 9:	SPRINTF(str, "CON+%d",UP*4/3+1);break;
-					case 10:SPRINTF(str, "INT+%d",UP*4/3+1);break;
-					case 11:SPRINTF(str, "ALL+%d",MAX(1,UP/2));break;
-				}
-				_SUTIL->pFont->DrawText(_SUTIL->g, str, XPOS-74, YPOS+L4, 0);
-			}
+			
+				_SUTIL->pFont->DrawText(_SUTIL->g, "", XPOS-74-9, YPOS+L4, 0);
+				if(Temp_Abil.STR){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_POWER			], 6);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(Temp_Abil.STR>0?"+":""), 0);	_SUTIL->pFont->DrawText(_SUTIL->g, Temp_Abil.STR, 0);}
+				if(Temp_Abil.DEX){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_AGILE			], 6);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(Temp_Abil.DEX>0?"+":""), 0);	_SUTIL->pFont->DrawText(_SUTIL->g, Temp_Abil.DEX, 0);}
+				if(Temp_Abil.CON){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_STAMINA		], 6);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(Temp_Abil.CON>0?"+":""), 0);	_SUTIL->pFont->DrawText(_SUTIL->g, Temp_Abil.CON, 0);}
+				if(Temp_Abil.INT){	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)PopupUi::pCLRPOPUP_Text->nText[CLRMENU_INTELLIGENCE	], 6);	_SUTIL->pFont->DrawText(_SUTIL->g, (char*)(Temp_Abil.INT>0?"+":""), 0);	_SUTIL->pFont->DrawText(_SUTIL->g, Temp_Abil.INT, 0);}
+
+
+			
 
 		//인포
 			//SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_M_INFO, XPOS+44,YPOS+83,0,0);
 
 
+		}
 		break;
 			
 	}
@@ -4254,6 +4567,23 @@ void PopupUi::USE_item(struct ItemBag *_item){//아이템 사용
 					break;
 			}
 			break;
+		case ITEM_SWORD	:
+		case ITEM_GUN	:
+		case ITEM_HEAD	:
+		case ITEM_CHEST	:
+		case ITEM_LEG	:
+		case ITEM_GLOVE	:
+		case ITEM_NECK	:
+		case ITEM_RING	:
+			int xx = SELECT_INVENTORY_BAG;
+			int yy = SELECT_INVENTORY_INSIDE;
+
+			Page_init();
+			GemOpen=true;
+
+			SELECT_GEM_ITEM_BAG = xx;
+			SELECT_GEM_ITEM_SLOT = yy;
+			break;
 	}
 
 }
@@ -4304,53 +4634,46 @@ void PopupUi::QSLOT_find(){//퀵슬롯
 }
 
 void PopupUi::EQUIP_item(int slot,struct ItemBag *_item){
-	if(_item->ITEM_EQUIP){// 이미 장비한 아이템이면 반응하지않는다
-		return;
-	}
 
-	
 	int Sex = _item->ITEM_SEX;
-	if(Character::s_ItemEquip[Sex][slot].ITEM_EQUIP){//장착 해야할 슬롯에 아이템이 이미존재한다면
-		for(int xx = 0;xx<4;xx++){//모든 인벤을 돌면서 기존의 Equip장비를 찾아 풀어준다
-			for(int yy = 0;yy<32;yy++){
-				if(Character::s_ItemEquip[Sex][slot].Data0 ==  Character::s_ItemBag[xx][yy].Data0){//ID가 종일한 아이템중에 - 동일 계열
-					//if(Character::s_ItemEquip[slot].Data1 ==  Character::s_ItemBag[xx][yy].Data1){
+
+	if(_item->ITEM_EQUIP){// 이미 장비한 아이템이면 장비를 해제한다
+		_item->Data0 %= 10000000;//장비해제
+		//기존 장비 기록 삭제
+		Del_Slot(Sex,slot);
+	}else{
+		if(Character::s_ItemEquip[Sex][slot].ITEM_EQUIP){//장착 해야할 슬롯에 아이템이 이미존재한다면
+			for(int xx = 0;xx<4;xx++){//모든 인벤을 돌면서 기존의 Equip장비를 찾아 풀어준다
+				for(int yy = 0;yy<32;yy++){
+					if(Character::s_ItemEquip[Sex][slot].Data0 ==  Character::s_ItemBag[xx][yy].Data0 && Character::s_ItemEquip[Sex][slot].Data1 ==  Character::s_ItemBag[xx][yy].Data1){//ID, 성별이 동일한 아이템중에 - 동일 계열
 						Character::s_ItemBag[xx][yy].Data0 %= 10000000;//장비해제
 						xx = 4;yy = 32;//이탈
 						//기존 장비 기록 삭제
 						Del_Slot(Sex,slot);
-					//}
+						//}
+					}
 				}
 			}
 		}
+		_item->Data0 = (_item->Data0 %= 10000000) + 10000000*(slot+1);
+		Character::s_ItemEquip[Sex][slot] = *_item;
+		Set_Item(&Character::s_ItemAbil[Sex][slot],&Character::s_ItemEquip[Sex][slot]);
 	}
-	
-	//_item->Data1 = (_item->Data1 %= 1000000000) + 1000000000;
-	_item->Data0 = (_item->Data0 %= 10000000) + 10000000*(slot+1);
-	Character::s_ItemEquip[Sex][slot] = *_item;
-	Set_Item(&Character::s_ItemAbil[Sex][slot],&Character::s_ItemEquip[Sex][slot]);
+
 	Character::Set_state_calculate();//변화된 능력치 계산
 
 
+
 	int index = _item->ITEM_INDEX;
-
-	
-	int Axe = 0;
 	int HeadText = 0;
-	int SW_AX = (_item->ITEM_KIND == ITEM_SWORD?C_T_SW:C_T_AX);
-
-// 	if(_item->ITEM_KIND == ITEM_AXE){
-// 		Axe = (SPRITE_COSTUME_HUMAN_0_AXE - SPRITE_COSTUME_HUMAN_0_SWORD);
-// 	}
-	
 	HeadText = head_Table[_item->ITEM_HEADTEXT][H_T_COSUME];
 
 	SUTIL_LoadAspritePack(PACK_SPRITE_COSTUME);//팩열기
 	switch(slot){
-		case 0:Character::ChangeCostume(Character::_spr_Hero_W,PAL_HEAD	,(HeadText?HeadText:costume_Table[index][C_T_HE]),_item->ITEM_GRADE);  break;
-		case 3:Character::ChangeCostume(Character::_spr_Hero_W,PAL_BODY	,(HeadText?HeadText:costume_Table[index][C_T_CH]),_item->ITEM_GRADE);	 break;
-		case 4:Character::ChangeCostume(Character::_spr_Hero_W,PAL_ARM	,(HeadText?HeadText:costume_Table[index][C_T_LE]),_item->ITEM_GRADE);	 break;
-		case 7:Character::ChangeCostume(Character::_spr_Hero_W,PAL_LEG	,(HeadText?HeadText:costume_Table[index][C_T_GL]),_item->ITEM_GRADE);	 break;
+		case 0:Character::ChangeCostume(Character::_spr_Hero_W,PAL_HEAD	,(HeadText?HeadText:costume_Table[index][C_T_HE]),_item->ITEM_GRADE); break;
+		case 3:Character::ChangeCostume(Character::_spr_Hero_W,PAL_BODY	,(HeadText?HeadText:costume_Table[index][C_T_CH]),_item->ITEM_GRADE); break;
+		case 4:Character::ChangeCostume(Character::_spr_Hero_W,PAL_ARM	,(HeadText?HeadText:costume_Table[index][C_T_LE]),_item->ITEM_GRADE); break;
+		case 7:Character::ChangeCostume(Character::_spr_Hero_W,PAL_LEG	,(HeadText?HeadText:costume_Table[index][C_T_GL]),_item->ITEM_GRADE); break;
 
 		//case 5:Character::ChangeCostume(PAL_KNIFE2	,costume_Table[index][SW_AX]/10+Axe,costume_Table[index][SW_AX]%10);break;
 		//case 6:Character::ChangeCostume(PAL_CLAW	,costume_Table[index][SW_AX]/10+Axe,costume_Table[index][SW_AX]%10);break;
@@ -4566,13 +4889,18 @@ void PopupUi::Del_Slot(int sex,int slot){//가방 인벤갯수 리턴
 
 		Character::s_ItemAbil[sex][slot].CRI		= 0; 
 		Character::s_ItemAbil[sex][slot].AGI		= 0; 
-		Character::s_ItemAbil[sex][slot].HP		= 0; 
-		Character::s_ItemAbil[sex][slot].MP		= 0;
+		Character::s_ItemAbil[sex][slot].HP			= 0; 
+		Character::s_ItemAbil[sex][slot].MP			= 0;
 							 
 		Character::s_ItemAbil[sex][slot].STR		= 0;
 		Character::s_ItemAbil[sex][slot].DEX		= 0; 
 		Character::s_ItemAbil[sex][slot].CON		= 0; 
-		Character::s_ItemAbil[sex][slot].INT 	= 0; 
+		Character::s_ItemAbil[sex][slot].INT 		= 0; 
+
+		Character::s_ItemAbil[sex][slot].DDANG		= 0;
+		Character::s_ItemAbil[sex][slot].MUL		= 0; 
+		Character::s_ItemAbil[sex][slot].BUL		= 0; 
+		Character::s_ItemAbil[sex][slot].BARAM		= 0; 
 }
 
 //--------------------------------------------------------------------------
@@ -5201,7 +5529,7 @@ void PopupUi::equipTEXT(int sex,int slot,struct ItemBag _item){//선택 아이템에 �
 	ItemBag TempEquip = Character::s_ItemEquip[sex][slot];
 
 
-	int temp_Amax = Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/];
+	int temp_Amax = Character::s_Status[s_Page.Woman_Man].ATTACK_MAX;
 	int temp_Def  = Character::s_Status[s_Page.Woman_Man].DEFENSE;
 	int temp_Cri  = Character::s_Status[s_Page.Woman_Man].CRITICAL;
 	int temp_Agi  = Character::s_Status[s_Page.Woman_Man].AVOID;
@@ -5225,7 +5553,7 @@ void PopupUi::equipTEXT(int sex,int slot,struct ItemBag _item){//선택 아이템에 �
 
 	_SUTIL->pFont->setColor(0xffcc00);
 
-	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/], XPOS-22, YPOS+37, CGraphics::RIGHT);//Att1
+	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].ATTACK_MAX, XPOS-22, YPOS+37, CGraphics::RIGHT);//Att1
 	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].DEFENSE, XPOS-22, YPOS+53, CGraphics::RIGHT);	//DEF
 	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].CRITICAL, XPOS-22, YPOS+69, CGraphics::RIGHT);	//CRI
 	_SUTIL->pFont->DrawText(_SUTIL->g, Character::s_Status[s_Page.Woman_Man].AVOID, XPOS+57, YPOS+37, CGraphics::RIGHT);		//AGI
@@ -5234,9 +5562,9 @@ void PopupUi::equipTEXT(int sex,int slot,struct ItemBag _item){//선택 아이템에 �
 
 
 //업 다운 아이콘 
-	if(temp_Amax < Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/]){
+	if(temp_Amax < Character::s_Status[s_Page.Woman_Man].ATTACK_MAX){
 		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_UP, XPOS-18,YPOS+35,0,0);//UP아이콘
-	}else if(temp_Amax > Character::s_Status[s_Page.Woman_Man].ATTACK_MAX[s_Page.Woman_Man/*Character::s_Status[s_Page.Woman_Man].ELEMENTAL*/]){
+	}else if(temp_Amax > Character::s_Status[s_Page.Woman_Man].ATTACK_MAX){
 		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_ICON_DOWN, XPOS-18,YPOS+35,0,0);//DOWN아이콘
 	}
 	if(temp_Def  < Character::s_Status[s_Page.Woman_Man].DEFENSE){
@@ -5280,6 +5608,26 @@ void PopupUi::equipTEXT(int sex,int slot,struct ItemBag _item){//선택 아이템에 �
 
 void PopupUi::Set_Item(struct ItemAbility *_abil,struct ItemBag *_item){//가방 인벤갯수 리턴
 
+	_abil->ATT_MIN	= 0;
+	_abil->ATT_MAX	= 0;
+
+	_abil->DEF		= 0;
+	_abil->CRI		= 0;
+	_abil->AGI		= 0;
+	_abil->HP		= 0;
+	_abil->MP		= 0;
+
+	_abil->STR		= 0;
+	_abil->DEX		= 0;
+	_abil->CON		= 0;
+	_abil->INT		= 0;
+
+	_abil->DDANG	= 0;
+	_abil->MUL		= 0;
+	_abil->BUL		= 0;
+	_abil->BARAM	= 0;
+
+
 	
 	int gradePER[5] = {100,110,115,120,130};//등급
 	int grade = gradePER[_item->Data1%10];
@@ -5287,42 +5635,61 @@ void PopupUi::Set_Item(struct ItemAbility *_abil,struct ItemBag *_item){//가방 �
 
 
 //접두사
-	_abil->CRI		= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 1:6)];
-	_abil->AGI		= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 2:7)];
-	_abil->HP		= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 3:8)];
-	_abil->MP		= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 4:9)];
+	_abil->CRI		+= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 1:6)];
+	_abil->AGI		+= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 2:7)];
+	_abil->HP		+= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 3:8)];
+	_abil->MP		+= head_Table[(_item->Data1/10)%100][(_item->ITEM_KIND<ITEM_HEAD? 4:9)];
+
+//잼스톤
+	for(int xx = 0;xx<3;xx++){//슬롯에 박혀있는 보석을 합친다
+		int slot;
+		switch(xx){//빈슬롯
+			case 0:slot = _item->ITEM_SOCKET_3;break;
+			case 1:slot = _item->ITEM_SOCKET_2;break;
+			case 2:slot = _item->ITEM_SOCKET_1;break;
+		}
+		if(slot > 1){
+			_abil->STR		+= gem_Table[slot-2][G_T_A_STR];
+			_abil->DEX		+= gem_Table[slot-2][G_T_A_DEX];
+			_abil->CON		+= gem_Table[slot-2][G_T_A_CON];
+			_abil->INT		+= gem_Table[slot-2][G_T_A_INT];
+
+			_abil->DDANG	+= gem_Table[slot-2][G_T_E_DDANG];
+			_abil->MUL		+= gem_Table[slot-2][G_T_E_MUL	];
+			_abil->BUL		+= gem_Table[slot-2][G_T_E_BUL	];
+			_abil->BARAM	+= gem_Table[slot-2][G_T_E_BARAM];
+		}
+
+	
+	}
+
+
 
 
 //스크롤
-	_abil->STR		= 0; 
-	_abil->DEX		= 0;
-	_abil->CON		= 0;
-	_abil->INT		= 0;
-
 	int scroll_Kind = (_item->Data2/100)%100; //스크롤 종류
 	int UP = (((_item->Data2/10000) %1000) /3) +1; //스크롤 상승치
 
 	switch(scroll_Kind){//스크롤 종류
-		case 1:_abil->STR = _abil->DEX = UP;break;
-		case 2:_abil->STR = _abil->CON = UP;break;
-		case 3:_abil->STR = _abil->INT = UP;break;
-		case 4:_abil->DEX = _abil->CON = UP;break;
-		case 5:_abil->DEX = _abil->INT = UP;break;
-		case 6:_abil->CON = _abil->INT = UP;break;
-		case 7:	_abil->STR = UP*4/3+1;break;
-		case 8:	_abil->DEX = UP*4/3+1;break;
-		case 9:	_abil->CON = UP*4/3+1;break;
-		case 10:_abil->INT = UP*4/3+1;break;
-		case 11:_abil->STR = _abil->DEX = _abil->CON = _abil->INT = MAX(1,UP/2);break;
+		case 1:_abil->STR += UP; _abil->DEX += UP;break;
+		case 2:_abil->STR += UP; _abil->CON += UP;break;
+		case 3:_abil->STR += UP; _abil->INT += UP;break;
+		case 4:_abil->DEX += UP; _abil->CON += UP;break;
+		case 5:_abil->DEX += UP; _abil->INT += UP;break;
+		case 6:_abil->CON += UP; _abil->INT += UP;break;
+		case 7:	_abil->STR += UP*4/3+1;break;
+		case 8:	_abil->DEX += UP*4/3+1;break;
+		case 9:	_abil->CON += UP*4/3+1;break;
+		case 10:_abil->INT += UP*4/3+1;break;
+		case 11:_abil->STR += MAX(1,UP/2); _abil->DEX += MAX(1,UP/2); _abil->CON += MAX(1,UP/2); _abil->INT += MAX(1,UP/2);break;
 	}
 
 	
 
 	switch(_item->ITEM_KIND){//아이템 종류별 분화  
 		case ITEM_SWORD	:
-			_abil->ATT_MIN	= PER(PER(equip_Table[_item->ITEM_INDEX][1],grade),head);
-			_abil->ATT_MAX	= PER(PER(equip_Table[_item->ITEM_INDEX][2],grade),head);
-			_abil->DEF		= 0;
+			_abil->ATT_MIN	+= PER(PER(equip_Table[_item->ITEM_INDEX][1],grade),head);
+			_abil->ATT_MAX	+= PER(PER(equip_Table[_item->ITEM_INDEX][2],grade),head);
 			break;
 // 		case ITEM_AXE	:
 // 			_abil->ATT_MIN	= PER(PER(equip_Table[_item->ITEM_INDEX][3],grade),head);
@@ -5330,9 +5697,8 @@ void PopupUi::Set_Item(struct ItemAbility *_abil,struct ItemBag *_item){//가방 �
 // 			_abil->DEF		= 0;
 // 			break;
 		case ITEM_GUN	:
-			_abil->ATT_MIN	= PER(PER(equip_Table[_item->ITEM_INDEX][5],grade),head);
-			_abil->ATT_MAX	= PER(PER(equip_Table[_item->ITEM_INDEX][6],grade),head);
-			_abil->DEF		= 0;
+			_abil->ATT_MIN	+= PER(PER(equip_Table[_item->ITEM_INDEX][5],grade),head);
+			_abil->ATT_MAX	+= PER(PER(equip_Table[_item->ITEM_INDEX][6],grade),head);
 			break;
 // 		case ITEM_OEB	:
 // 			_abil->ATT_MIN	= PER(PER(equip_Table[_item->ITEM_INDEX][7],grade),head);
@@ -5342,34 +5708,24 @@ void PopupUi::Set_Item(struct ItemAbility *_abil,struct ItemBag *_item){//가방 �
 
 
 		case ITEM_HEAD	:
-			_abil->ATT_MIN	= 0;
-			_abil->ATT_MAX	= 0;
-			_abil->DEF		= PER(PER(equip_Table[_item->ITEM_INDEX][9],grade),head);
+			_abil->DEF		+= PER(PER(equip_Table[_item->ITEM_INDEX][9],grade),head);
 			break;
 		case ITEM_CHEST	:
-			_abil->ATT_MIN	= 0;
-			_abil->ATT_MAX	= 0;
-			_abil->DEF		= PER(PER(equip_Table[_item->ITEM_INDEX][10],grade),head);
+			_abil->DEF		+= PER(PER(equip_Table[_item->ITEM_INDEX][10],grade),head);
 			break;
 		case ITEM_LEG	:
-			_abil->ATT_MIN	= 0;
-			_abil->ATT_MAX	= 0;
-			_abil->DEF		= PER(PER(equip_Table[_item->ITEM_INDEX][11],grade),head);
+			_abil->DEF		+= PER(PER(equip_Table[_item->ITEM_INDEX][11],grade),head);
 			break;
 		case ITEM_GLOVE	:
-			_abil->ATT_MIN	= 0;
-			_abil->ATT_MAX	= 0;
-			_abil->DEF		= PER(PER(equip_Table[_item->ITEM_INDEX][12],grade),head);
+			_abil->DEF		+= PER(PER(equip_Table[_item->ITEM_INDEX][12],grade),head);
 			break;
 		case ITEM_NECK	:
-			_abil->ATT_MIN	= 0;
-			_abil->ATT_MAX	= 0;
-			_abil->DEF		= PER(PER(deco_Table[_item->ITEM_INDEX][1],grade),head);
+			_abil->DEF		+= PER(PER(deco_Table[_item->ITEM_INDEX][1],grade),head);
 			break;
 		case ITEM_RING	:
-			_abil->ATT_MIN	= PER(PER(deco_Table[_item->ITEM_INDEX][2],grade),head);
-			_abil->ATT_MAX	= PER(PER(deco_Table[_item->ITEM_INDEX][2],grade),head);
-			_abil->DEF		= PER(PER(deco_Table[_item->ITEM_INDEX][3],grade),head);
+			_abil->ATT_MIN	+= PER(PER(deco_Table[_item->ITEM_INDEX][2],grade),head);
+			_abil->ATT_MAX	+= PER(PER(deco_Table[_item->ITEM_INDEX][2],grade),head);
+			_abil->DEF		+= PER(PER(deco_Table[_item->ITEM_INDEX][3],grade),head);
 			break;
 	}
 	

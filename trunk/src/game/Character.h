@@ -292,9 +292,8 @@ struct HeroStatus{
 	int EXP_MAX;			//마나 0 이 되면 스킬을 못쓴다.
 	int LEVEL;			//마나 0 이 되면 스킬을 못쓴다.
 
-	int ATTACK_MAX[3];		//칼,검,마 공격력
-	int ATTACK_MIN[3];		//칼,검,마 공격력
-	int DAMAGE;			//공식에 의해 상대에게 직접적인 타격을 주는 수치
+	int ATTACK_MAX;		//최대 공격력
+	int ATTACK_MIN;		//최소 공격력
 	int DEBUFF;			//공격1회마다 디버프가 계산되어 적용된다
 	int DEFENSE;		//방어구에 의해 방어율 계산에 적용 대는 수치(주인공만 있음/이것을 디스 플레이함)
 	int DEFENSE_PER;	//방어력으로 자동 계산 대는 데미지 상쇄 % (유저에겐 보여주지 않음)
@@ -367,13 +366,18 @@ struct ItemAbility{
 
 		int CRI;
 		int AGI;
-		int HP;
-		int MP;
+		int HP;//증가 퍼센트
+		int MP;//증가 퍼센트
 
 		int STR;
 		int DEX; 
 		int CON; 
 		int INT; 
+
+		int DDANG;
+		int MUL; 
+		int BUL; 
+		int BARAM; 
 };
 struct MustAction{
 	int must_X;	//이동해야할 X
@@ -395,8 +399,8 @@ public:
 
 
 	//팝업 UI를 위한 참조변수
-	static HeroAbility s_Ability[2];
-	static HeroStatus s_Status[2];
+	static HeroAbility s_Ability[2]; //초기스탯수치
+	static HeroStatus s_Status[2]; //장비 및 인챈,세트효과의 환산이 끝난 최종 수치
 	static HeroTag s_HeroTag;//히어로의 태그시 사용되는 각종 변수
 
 	

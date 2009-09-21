@@ -159,16 +159,22 @@ public:
 
 	//Master DrawString 메소드 - 각종 설정은 모두 Dry 메소드에서 처리한다 
 	int DrawText(CGraphics* g, char* argStr, int posX, int posY, int argAnchor, char* N0 = NULL, char* N1 = NULL, char* N2 = NULL);
+	// 이전에 출력한 문자열의 바로 뒤에 이어서 문자열을 출력한다.
+	int DrawText(CGraphics* g, char* argStr, int Space, char* N0 = NULL, char* N1 = NULL, char* N2 = NULL)
+	{
+		return DrawText(g, argStr, nextX+Space, nextY, 0, N0, N1, N2);
+	}
+
 	//입력 형태가 숫자일때 처리하기위한 부분
 	int DrawText(CGraphics* g, int numberTemp, int posX, int posY, int argAnchor, char* N0 = NULL, char* N1 = NULL, char* N2 = NULL){
 		char str[11];//int 최대크기
 		SPRINTF(str, "%d", numberTemp); 
 		return DrawText(g, str, posX, posY, argAnchor, N0, N1, N2);
 	}
-	// 이전에 출력한 문자열의 바로 뒤에 이어서 문자열을 출력한다.
-	int DrawText(CGraphics* g, char* argStr, int Space, char* N0 = NULL, char* N1 = NULL, char* N2 = NULL)
-	{
-		return DrawText(g, argStr, nextX+Space, nextY, 0, N0, N1, N2);
+	int DrawText(CGraphics* g, int numberTemp, int Space, char* N0 = NULL, char* N1 = NULL, char* N2 = NULL){
+		char str[11];//int 최대크기
+		SPRINTF(str, "%d", numberTemp); 
+		return DrawText(g, str,  nextX+Space, nextY, 0, N0, N1, N2);
 	}
 
 	//아래의 옵션들은 DrawText 확장옵션들이다 DrawText가 한번 실행이 되고나면 모든 옵션은 초기화 된다

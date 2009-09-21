@@ -2369,6 +2369,9 @@
 		//s_Ability[s_HeroTag.SEX]._FAM = 0;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 
 		for (int xx = 0;xx<2;xx++){//남케 여케
+			int add_ATT_MAX = 0;
+			int add_ATT_MIN = 0;
+
 			int add_DEF = 0;
 
 			int add_CRI = 0;
@@ -2376,12 +2379,16 @@
 			int add_HP = 0;
 			int add_MP = 0;
 
-			int add_STR = 0;
-			int add_DEX = 0; 
-			int add_CON = 0; 
-			int add_INT = 0; 
+			int add_STR = s_Ability[xx].STR;//오리지널값을 가져오기
+			int add_DEX = s_Ability[xx].DEX;//오리지널값을 가져오기 
+			int add_CON = s_Ability[xx].CON;//오리지널값을 가져오기
+			int add_INT = s_Ability[xx].INT;//오리지널값을 가져오기
 
 			for (int slot = 0 ; slot<7 ; slot++){
+
+				add_ATT_MAX	+=s_ItemAbil[xx][slot].ATT_MAX;
+				add_ATT_MIN	+=s_ItemAbil[xx][slot].ATT_MIN;
+
 				add_DEF +=s_ItemAbil[xx][slot].DEF;
 
 				add_CRI +=s_ItemAbil[xx][slot].CRI;
@@ -2397,26 +2404,29 @@
 
 
 
-			s_Status[xx].LIFE_MAX		= (s_Ability[xx].CON+add_CON) * 15 + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
+			s_Status[xx].LIFE_MAX		= add_CON * 15 + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
 			s_Status[xx].LIFE_MAX=PER(s_Status[xx].LIFE_MAX,(100+add_HP));
 			if(s_Status[xx].LIFE>s_Status[xx].LIFE_MAX)s_Status[xx].LIFE = s_Status[xx].LIFE_MAX;
 
-			s_Status[xx].MANA_MAX		= (s_Ability[xx].INT+add_INT) * 5;//마나 0 이 되면 스킬을 못쓴다.
+			s_Status[xx].MANA_MAX		= add_INT * 5;//마나 0 이 되면 스킬을 못쓴다.
 			s_Status[xx].MANA_MAX=PER(s_Status[xx].MANA_MAX,(100+add_MP + Get_Skill(SKILL_P_G_manaUp)));//패시브
 			if(s_Status[xx].MANA>s_Status[xx].MANA_MAX)s_Status[xx].MANA = s_Status[xx].MANA_MAX;
 
-			s_Status[xx].DAMAGE;		//공식에 의해 상대에게 직접적인 타격을 주는 수치
-			s_Status[xx].DEFENSE = (s_Ability[xx].CON+add_CON)/3+(s_Ability[xx].STR+add_STR) + add_DEF;		//방어구에 의해 방어율 계산에 적용 되는 수치(주인공만 있음/이것을 디스 플레이함)
-			s_Status[xx].CRITICAL = (s_Ability[xx].DEX+add_DEX)/6 + add_CRI;		//크리티컬 데미지 들어갈 확률
-			s_Status[xx].AVOID = (s_Ability[xx].DEX+add_DEX)/8 + add_AGI;			//적의 공격을 피할 확률
+			
+
+			s_Status[xx].DEFENSE = add_CON/3+add_STR + add_DEF;		//방어구에 의해 방어율 계산에 적용 되는 수치(주인공만 있음/이것을 디스 플레이함)
+			s_Status[xx].CRITICAL = add_DEX/6 + add_CRI;		//크리티컬 데미지 들어갈 확률
+			s_Status[xx].AVOID = add_DEX/8 + add_AGI;			//적의 공격을 피할 확률
 			s_Status[xx].EXP_MAX = 18*((s_Status[xx].LEVEL+1)*(s_Status[xx].LEVEL-1)+10);
 
-			s_Status[xx].ATTACK_MAX[0]=s_Status[xx].ATTACK_MIN[0]=(s_Ability[xx].STR*2 + s_Ability[xx].DEX);		//칼 공격력 (힘*2+민첩)
-			s_Status[xx].ATTACK_MAX[1]=s_Status[xx].ATTACK_MIN[1]=(s_Ability[xx].DEX*3 + s_Ability[xx].STR);		//총 공격력(민첩*3+힘)
-			s_Status[xx].ATTACK_MAX[2]=s_Status[xx].ATTACK_MIN[2]=(s_Ability[xx].INT*2);		//마법 공격력(지능*2)
-
-			s_Status[xx].ATTACK_MAX[0] += s_ItemAbil[xx][6].ATT_MAX + s_ItemAbil[xx][5].ATT_MAX;
-			s_Status[xx].ATTACK_MIN[0] += s_ItemAbil[xx][6].ATT_MIN + s_ItemAbil[xx][5].ATT_MIN;
+			
+			if(xx == 0){//활
+				s_Status[xx].ATTACK_MAX = add_ATT_MAX + (add_DEX*3 + add_STR);
+				s_Status[xx].ATTACK_MIN = add_ATT_MIN + (add_DEX*3 + add_STR);
+			}else{//크로우
+				s_Status[xx].ATTACK_MAX = add_ATT_MAX + (add_STR*2 + add_DEX);
+				s_Status[xx].ATTACK_MIN = add_ATT_MIN + (add_STR*2 + add_DEX);
+			}
 // 			s_Status[xx].ATTACK_MAX[1] += s_ItemAbil[xx][2].ATT_MAX + s_ItemAbil[xx][8].ATT_MAX;
 // 			s_Status[xx].ATTACK_MIN[1] += s_ItemAbil[xx][2].ATT_MIN + s_ItemAbil[xx][8].ATT_MIN;
 // 			s_Status[xx].ATTACK_MAX[2] += s_ItemAbil[xx][2].ATT_MAX + (s_ItemAbil[xx][9].ATT_MAX / 2);
@@ -2428,7 +2438,6 @@
 			s_Status[xx].DEFENSE_PER = s_Status[xx].DEFENSE/30;	//방어력/30 = N 방어력으로 자동 계산 되는 데미지 상쇄 % (유저에겐 보여주지 않음)
 			s_Status[xx].LIFE_RECOVERY;	//체력이 회복 되는 수치
 			s_Status[xx].MANA_RECOVERY;	//마나가 회복 되는 수치
-			s_Status[xx].DAMAGE;			//공식에 의해 상대에게 직접적인 타격을 주는 수치
 
 		}
 		
@@ -2591,7 +2600,7 @@
 	}
 	int Character::SND_Damage(int monLevel, int monElemental , int monDefense , int D_index){
 
-		int ATT = RND(s_Status[s_HeroTag.SEX].ATTACK_MIN[_b_JabNum],s_Status[s_HeroTag.SEX].ATTACK_MAX[_b_JabNum]);
+		int ATT = RND(s_Status[s_HeroTag.SEX].ATTACK_MIN,s_Status[s_HeroTag.SEX].ATTACK_MAX);
 		int percent = 100;
 		int cri_Num = s_Status[s_HeroTag.SEX].CRITICAL;
 
