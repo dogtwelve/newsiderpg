@@ -53,6 +53,8 @@
 #define DEBUF_MANABURN		(1 << 10)			//마나연소
 #define DEBUF_SILENCE		(1 << 11)			//침묵
 
+#define DEBUF_KEY_SEAL		(1 << 15)			//키입력불가 디버프
+
 #define LIST__START(ListName)			MoveHead(ListName);MoveNext(ListName);while(NotEndList(ListName)){
 #define LIST____END(ListName)			MoveNext(ListName);}
 

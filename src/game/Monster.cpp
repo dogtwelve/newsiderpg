@@ -1486,6 +1486,22 @@ void Monster::Paint_Debuff(int drawX,int drawZ)
 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
 						}
 						break;
+
+					case DEBUF_KEY_SEAL://키입력불가 디버프
+						if(xx == 0 ){// 0번째(최신) 디버프이며
+							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_EMPTY){// 디버프 타이머가 지금 시작 되었다면
+								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_EMPTY);
+								_ins_Debuff->m_bLoop = true;
+							}
+							pMonAsIns->SetBlendCustom(false,false,0,0);
+							_ins_Debuff->m_posZ -= HERO_HEIGHT;//머리에서 그려준다
+						}
+						if(s_Debuff.stack[xx][1] > 2){//디버프가 종료 되었다면
+							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
+							s_Debuff.stack[xx][0] = 0;
+							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
+						}
+						break;
 			}
 			s_Debuff.stack[xx][1]++;
 		}

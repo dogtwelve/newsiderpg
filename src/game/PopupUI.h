@@ -65,8 +65,9 @@
 
 #define INVENTORY_POPUP_QUICK		0
 #define INVENTORY_POPUP_EQUIP		1
-#define INVENTORY_POPUP_USE			2
-#define INVENTORY_POPUP_DEFAULT		3
+#define INVENTORY_POPUP_EQUIP2		2
+#define INVENTORY_POPUP_USE			3
+#define INVENTORY_POPUP_DEFAULT		4
 
 #define INVENTORY_POPUP_BAGCHANGE	10
 
@@ -95,6 +96,8 @@
 #define SMITHY_POPUP_RESULT				4
 #define SMITHY_UP_COST				    1
 
+
+#define GEM_POPUP_RESULT				4
 
 
 
@@ -318,6 +321,22 @@ public:
 
 
 
+#define SELECT_GEM_Y					(s_Page.Ly1_sel)
+
+#define SELECT_GEM_ITEM_BAG			(s_Page.Ly3_sel)
+#define SELECT_GEM_ITEM_SLOT		(s_Page.Ly4_sel)
+
+#define SELECT_GEM_LIST_MAX			(s_Page.Ly5_sel)
+#define SELECT_GEM_LIST_NOW			(s_Page.Ly6_sel)
+#define SELECT_GEM_LIST_ITEM_BAG			(s_Page.Ly7_sel)
+#define SELECT_GEM_LIST_ITEM_SLOT			(s_Page.Ly8_sel)
+#define SELECT_GEM_USE_STONE_BAG				(s_Page.Ly9_sel)
+#define SELECT_GEM_USE_STONE_SLOT					(s_Page.Ly10_sel)
+#define SELECT_GEM_USE_STONE_NUM					(s_Page.Ly2_sel)
+#define SELECT_GEM_POPUP_KIND		(s_Page.Ly11_sel)
+#define SELECT_GEM_POPUP_TEXT_YESNO	(s_Page.Ly12_sel)
+
+
     static Popup_Sharp s_Popup_Sharp;
 
 	
@@ -340,6 +359,7 @@ public:
 	bool ShopOpen;//상점이 열렸을때 샵이 활성화된다
 	bool SmithyOpen;//대장간이 열렸을때 활성화된다
 	int ShopLevel;//상점이 열렸을때 나올 아이템 수준을 참조
+	static bool GemOpen;//보석 조합창이 활성화된다
 	static bool MixOpen;//조합 창이 활성화된다
 	static int MixNum;//조합 창이 활성화된다
 
@@ -365,6 +385,7 @@ public:
 	void Key_GAMEOVER(int m_keyCode, int m_keyRepeat)		;//취소키를 누르면 호출되는 팝업	
 	void Key_ITEMSHOP(int m_keyCode, int m_keyRepeat)		;//마을상점 키 이벤트
 	void Key_SMITHY(int m_keyCode, int m_keyRepeat)			;//마을대장간 키 이벤트
+	void Key_GEM(int m_keyCode, int m_keyRepeat)			;//보석 장착 페이지 키 이벤트
 	void Key_MIX(int m_keyCode, int m_keyRepeat)			;//조합서 키 이벤트
 
 
@@ -378,6 +399,7 @@ public:
 	void Paint_GAMEOVER()		;//주인공이 죽으면 호출되는 팝업
 	void Paint_ITEMSHOP()		;//마을NPC와의 대화로 열수있는 아이템 구입페이지
 	void Paint_SMITHY()			;//마을NPC와의 대화로 열수있는 아이템 강화페이지
+	void Paint_GEM()			;//보석 장착 페이지
 	void Paint_MIX()			;//조합서를 사용하면 뜨는 인벤토리 서브페이지
 
 
