@@ -52,7 +52,6 @@ SRC_FILES =	Device.cpp \
 	LzmaDecode.cpp \
 	Memory.cpp \
 	MemoryPool.cpp \
-	Random.cpp \
 	ResFile.cpp \
 	ResourceManager.cpp \
 	RecordStore.cpp \

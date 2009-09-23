@@ -47,11 +47,12 @@
 #define DEBUF_STUN			(1 << 4)			//½ºÅÏ
 #define DEBUF_STONE			(1 << 5)			//¼®È­
 #define DEBUF_POISON		(1 << 6)			//µ¶
-#define DEBUF_CONFUSE		(1 << 7)			//È¥¶õ
+	//#define DEBUF_CONFUSE		(1 << 7)			//È¥¶õ
 #define DEBUF_VAMPIRE		(1 << 8)			//ÈíÇ÷A
 #define DEBUF_DE_VAMPIRE	(1 << 9)			//ÈíÇ÷B
-#define DEBUF_MANABURN		(1 << 10)			//¸¶³ª¿¬¼Ò
+	//#define DEBUF_MANABURN	(1 << 10)			//¸¶³ª¿¬¼Ò
 #define DEBUF_SILENCE		(1 << 11)			//Ä§¹¬
+#define DEBUF_HEAL			(1 << 12)			//Èú
 
 #define DEBUF_KEY_SEAL		(1 << 15)			//Å°ÀÔ·ÂºÒ°¡ µð¹öÇÁ
 

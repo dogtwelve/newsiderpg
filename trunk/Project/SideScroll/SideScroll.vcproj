@@ -202,14 +202,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\Random.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\common\Random.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\common\ResFile.cpp"
 				>
 			</File>
