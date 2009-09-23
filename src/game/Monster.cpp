@@ -630,10 +630,10 @@ int Monster::SND_Debuff(int Attack_Type)
 		if(NULL != (DEBUF_STUN & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_STUN;}
 		if(NULL != (DEBUF_STONE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_STONE;}
 		if(NULL != (DEBUF_POISON & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_POISON;}
-		if(NULL != (DEBUF_CONFUSE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_CONFUSE;}
+//		if(NULL != (DEBUF_CONFUSE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_CONFUSE;}
 		if(NULL != (DEBUF_VAMPIRE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_VAMPIRE;}
 		if(NULL != (DEBUF_DE_VAMPIRE & m_Attack[m_nUseAtkNum].Debuff))	{return DEBUF_DE_VAMPIRE;}
-		if(NULL != (DEBUF_MANABURN & m_Attack[m_nUseAtkNum].Debuff))	{return DEBUF_MANABURN;}
+//		if(NULL != (DEBUF_MANABURN & m_Attack[m_nUseAtkNum].Debuff))	{return DEBUF_MANABURN;}
 		if(NULL != (DEBUF_SILENCE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_SILENCE;}
 	}
 
@@ -1408,24 +1408,24 @@ void Monster::Paint_Debuff(int drawX,int drawZ)
 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
 						}
 						break;
-					case DEBUF_CONFUSE://혼란
-						if(xx == 0 ){// 0번째(최신) 디버프이며
-							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_CHAOS){// 디버프 타이머가 지금 시작 되었다면
-								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_CHAOS);
-								_ins_Debuff->m_bLoop = true;
-							}
-							int pxx = 16;//31 이 넘으면 안됨
-							s_Debuff.color = (s_Debuff.color+1)%pxx;
-							int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<12)+(s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<12)+((pxx-s_Debuff.color)<<1));  
-							pMonAsIns->SetBlendCustom(true,false,7,pyy);
-							_ins_Debuff->m_posZ -= HERO_HEIGHT;//머리에서 그려준다
-						}
-						if(s_Debuff.stack[xx][1] > 100){//디버프가 종료 되었다면
-							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
-							s_Debuff.stack[xx][0] = 0;
-							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
-						}
-						break;
+// 					case DEBUF_CONFUSE://혼란
+// 						if(xx == 0 ){// 0번째(최신) 디버프이며
+// 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_CHAOS){// 디버프 타이머가 지금 시작 되었다면
+// 								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_CHAOS);
+// 								_ins_Debuff->m_bLoop = true;
+// 							}
+// 							int pxx = 16;//31 이 넘으면 안됨
+// 							s_Debuff.color = (s_Debuff.color+1)%pxx;
+// 							int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<12)+(s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<12)+((pxx-s_Debuff.color)<<1));  
+// 							pMonAsIns->SetBlendCustom(true,false,7,pyy);
+// 							_ins_Debuff->m_posZ -= HERO_HEIGHT;//머리에서 그려준다
+// 						}
+// 						if(s_Debuff.stack[xx][1] > 100){//디버프가 종료 되었다면
+// 							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
+// 							s_Debuff.stack[xx][0] = 0;
+// 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
+// 						}
+// 						break;
 					case DEBUF_VAMPIRE://흡혈 A
 						if(xx == 0 ){// 0번째(최신) 디버프이며
 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_EMPTY){// 디버프 타이머가 지금 시작 되었다면
@@ -1457,20 +1457,20 @@ void Monster::Paint_Debuff(int drawX,int drawZ)
 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
 						}
 						break;
-					case DEBUF_MANABURN://마나연소
-						if(xx == 0 ){// 0번째(최신) 디버프이며
-							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_MANABURN){// 디버프 타이머가 지금 시작 되었다면
-								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_MANABURN);
-								_ins_Debuff->m_bLoop = true;
-							}
-							pMonAsIns->SetBlendCustom(false,false,0,0);
-						}
-						if(s_Debuff.stack[xx][1] > 50){//디버프가 종료 되었다면
-							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
-							s_Debuff.stack[xx][0] = 0;
-							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
-						}
-						break;
+// 					case DEBUF_MANABURN://마나연소
+// 						if(xx == 0 ){// 0번째(최신) 디버프이며
+// 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_MANABURN){// 디버프 타이머가 지금 시작 되었다면
+// 								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_MANABURN);
+// 								_ins_Debuff->m_bLoop = true;
+// 							}
+// 							pMonAsIns->SetBlendCustom(false,false,0,0);
+// 						}
+// 						if(s_Debuff.stack[xx][1] > 50){//디버프가 종료 되었다면
+// 							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
+// 							s_Debuff.stack[xx][0] = 0;
+// 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
+// 						}
+// 						break;
 					case DEBUF_SILENCE://침묵
 						if(xx == 0 ){// 0번째(최신) 디버프이며
 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_SILENCE){// 디버프 타이머가 지금 시작 되었다면

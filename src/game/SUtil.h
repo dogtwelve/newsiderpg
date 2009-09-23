@@ -132,13 +132,12 @@ public:
 	//--------------------------------------------------------------
 	//	ABOUT RANDOM
 	//--------------------------------------------------------------
-	long	m_Seed;
+	long	m_Seed;//지속적으로 변경되는 난수변수
 
-	int		next(int bits);
+
+	void 	initSeed();//난수 초기화 - 속도를 위해서 최초 한번만 실행한다
 	int		nextInt();
-	int		nextInt(int n);
-	void 	setSeed(long lSeed);
-	long 	nextLong();
+	int		next(int bits);
 
 
 	//--------------------------------------------------------------
