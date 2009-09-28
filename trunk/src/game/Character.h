@@ -229,10 +229,10 @@
 #define	HIGH_PITCH	5	//체공으로 처리해줄 Z +-절대값
 
 //속성
-#define	ELEMENTAL_STONE 0 
-#define	ELEMENTAL_SNIPS 1
-#define	ELEMENTAL_PAPER 2
-#define	ELEMENTAL_NON	3
+#define	ELEMENTAL_WOMAN		0   //	여성
+#define	ELEMENTAL_MAN		1	//	남성
+#define	ELEMENTAL_NEUTRAL	2	//	중성
+#define	ELEMENTAL_NON		3	//  무성
 
 //struct Skill_Set{
 //	int Num;//스킬번호 (0,1,2,3,4) - 슬롯번호

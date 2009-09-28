@@ -1164,6 +1164,64 @@ void FieldUi::PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxM
 }
 
 
+#define LEVEL_1_TIME	 70
+#define LEVEL_2_TIME	 90
+#define LEVEL_3_TIME	110
+#define LEVEL_4_TIME	130
+#define LEVEL_5_TIME	170
+//--------------------------------------------------------------------------
+void FieldUi::PaintComboGage(int Combo)
+//--------------------------------------------------------------------------
+{
+	if(m_nSaveComboMax >= 80 && m_nBuffComboLevel < 5){
+		m_nBuffComboLevel = 5;
+		m_nBuffComboTimer = LEVEL_5_TIME;
+	}else if(m_nSaveComboMax >= 60 && m_nBuffComboLevel < 4){
+		m_nBuffComboLevel = 4;
+		m_nBuffComboTimer = LEVEL_4_TIME;
+	}else if(m_nSaveComboMax >= 40 && m_nBuffComboLevel < 3){
+		m_nBuffComboLevel = 3;
+		m_nBuffComboTimer = LEVEL_3_TIME;
+	}else if(m_nSaveComboMax >= 30 && m_nBuffComboLevel < 2){
+		m_nBuffComboLevel = 2;
+		m_nBuffComboTimer = LEVEL_2_TIME;
+	}else if(m_nSaveComboMax >= 15 && m_nBuffComboLevel < 1){
+		m_nBuffComboLevel = 1;
+		m_nBuffComboTimer = LEVEL_1_TIME;
+	}
+	
+	switch(m_nBuffComboLevel){ 
+		case 1:
+			_SUTIL->g->SetClip(CHARINFO_POS_X+10, CHARINFO_POS_Y+29,(6*1*LEVEL_1_TIME)/LEVEL_1_TIME,9);
+			break;													   
+		case 2:														   
+			_SUTIL->g->SetClip(CHARINFO_POS_X+10, CHARINFO_POS_Y+29,(6*2*LEVEL_2_TIME)/LEVEL_2_TIME,9);
+			break;													   
+		case 3:														   
+			_SUTIL->g->SetClip(CHARINFO_POS_X+10, CHARINFO_POS_Y+29,(6*3*LEVEL_3_TIME)/LEVEL_3_TIME,9);
+			break;													   
+		case 4:														   
+			_SUTIL->g->SetClip(CHARINFO_POS_X+10, CHARINFO_POS_Y+29,(6*4*LEVEL_4_TIME)/LEVEL_4_TIME,9);
+			break;													   
+		case 5:														   
+			_SUTIL->g->SetClip(CHARINFO_POS_X+10, CHARINFO_POS_Y+29,(6*5*m_nBuffComboTimer)/LEVEL_5_TIME,9);
+			break;
+	}
+
+	if(m_nBuffComboLevel){
+		SUTIL_Paint_Module(s_ASpriteSet->pFieldUiAs ,MODULE_UI_M_COMBO,CHARINFO_POS_X+10, CHARINFO_POS_Y+29,0,0);
+		_SUTIL->g->ResetClip();
+		m_nBuffComboTimer--;
+		if(m_nBuffComboTimer <= 0){//콤보 버프종료
+			m_nBuffComboLevel = 0;
+		}
+
+	}
+	
+}
+
+
+
 #define MONINFO_POS_X			(SCREEN_WIDTH-90)
 #define MONINFO_POS_Y			(3)
 #define MONSTER_HP_GAGE_SIZE	(51)
@@ -1413,7 +1471,7 @@ void FieldUi::AddCombo(int comboCnt)
 void FieldUi::ProcessCombo()
 //--------------------------------------------------------------------------
 {
-	if(m_nSaveCombo < m_nSaveComboMax)	{m_nSaveCombo++;}
+	if(m_nSaveCombo < m_nSaveComboMax)	{m_nSaveCombo++;}//상호 - 콤보의 증가를 보여주기위한 부분으로 추측,,,,
 	else if(m_nSaveCombo == m_nSaveComboMax)
 	{
 		m_nSaveComboTimer++;

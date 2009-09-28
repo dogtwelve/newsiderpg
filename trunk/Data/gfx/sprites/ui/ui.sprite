@@ -5,8 +5,8 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 358
-    // Frames:  247
+    // Modules: 351
+    // Frames:  238
     // Anims:   16
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,15 +56,8 @@
         MD	0x104E	MD_IMAGE	0	365	68	6	4
         MD	0x104F	MD_IMAGE	0	371	66	5	4
         MD	0x1050	MD_IMAGE	0	376	63	5	4
-        MD	0x106F	MD_IMAGE	0	386	58	7	3
-        MD	0x1070	MD_IMAGE	0	393	58	7	3
-        MD	0x1071	MD_IMAGE	0	400	58	7	3
-        MD	0x1072	MD_IMAGE	0	407	56	7	5
-        MD	0x1089	MD_IMAGE	0	414	52	6	5
-        MD	0x108A	MD_IMAGE	0	386	69	7	3
-        MD	0x108C	MD_IMAGE	0	400	69	7	3
-        MD	0x108D	MD_IMAGE	0	407	67	7	5
-        MD	0x108E	MD_IMAGE	0	414	63	6	5
+        MD	0x106F	MD_IMAGE	0	386	52	30	9	"m_combo"
+        MD	0x108A	MD_IMAGE	0	386	63	30	9	"m_fever"
         MD	0x116C	MD_IMAGE	0	273	37	21	13
         MD	0x1199	MD_IMAGE	0	299	37	18	12
         MD	0x116F	MD_IMAGE	0	273	53	21	11
@@ -237,11 +230,11 @@
         MD	0x114F	MD_IMAGE	0	168	340	24	26	"m_face_small_w"
         MD	0x1052	MD_IMAGE	0	39	208	26	30	"m_face_big_m"
         MD	0x1065	MD_IMAGE	0	72	208	26	30	"m_face_big_w"
-        MD	0x1023	MD_IMAGE	0	94	158	14	14	"ELEMENTAL_00"
-        MD	0x1024	MD_IMAGE	0	114	158	12	14	"ELEMENTAL_01"
+        MD	0x1023	MD_IMAGE	0	95	161	14	15	"ELEMENTAL_00"
+        MD	0x1024	MD_IMAGE	0	117	159	14	15	"ELEMENTAL_01"
         MD	0x1030	MD_IMAGE	0	134	158	14	14	"ELEMENTAL_02"
-        MD	0x1031	MD_IMAGE	0	154	158	16	16	"ELEMENTAL_03"
-        MD	0x1147	MD_IMAGE	0	152	219	16	16
+        MD	0x1031	MD_IMAGE	0	154	158	14	15	"ELEMENTAL_03"
+        MD	0x1147	MD_IMAGE	0	152	219	14	15
         MD	0x10CF	MD_IMAGE	0	35	182	15	15	"socket"
         MD	0x10F0	MD_IMAGE	0	51	182	15	15	"no_socket"
         MD	0x1102	MD_IMAGE	0	71	190	20	5
@@ -308,20 +301,20 @@
         MD	0x1198	MD_FILL_RECT	0x001A1A1A	93	46
         MD	0x1197	MD_FILL_RECT	0x00443329	77	56
         MD	0x10A8	MD_IMAGE	0	17	283	1	1
-        MD	0x10C8	MD_IMAGE	0	0	801	13	13
-        MD	0x10C9	MD_IMAGE	0	13	801	13	13
-        MD	0x10CA	MD_IMAGE	0	26	801	13	13
-        MD	0x10CB	MD_IMAGE	0	39	801	13	13
-        MD	0x10CC	MD_IMAGE	0	52	801	13	13
-        MD	0x10CD	MD_IMAGE	0	65	801	13	13
-        MD	0x10CE	MD_IMAGE	0	78	801	13	13
-        MD	0x10D0	MD_IMAGE	0	0	814	13	13
-        MD	0x10D1	MD_IMAGE	0	13	814	13	13
-        MD	0x10D2	MD_IMAGE	0	26	814	13	13
-        MD	0x10D3	MD_IMAGE	0	39	814	13	13
-        MD	0x10D4	MD_IMAGE	0	52	814	13	13
-        MD	0x10D5	MD_IMAGE	0	65	814	13	13
-        MD	0x10D6	MD_IMAGE	0	78	814	13	13
+        MD	0x10C8	MD_IMAGE	0	104	791	15	15
+        MD	0x10C9	MD_IMAGE	0	119	791	15	15
+        MD	0x10CA	MD_IMAGE	0	134	791	15	15
+        MD	0x10CB	MD_IMAGE	0	149	791	15	15
+        MD	0x10CC	MD_IMAGE	0	164	791	15	15
+        MD	0x10CD	MD_IMAGE	0	179	791	15	15
+        MD	0x10CE	MD_IMAGE	0	194	791	15	15
+        MD	0x10D0	MD_IMAGE	0	104	806	15	15
+        MD	0x10D1	MD_IMAGE	0	119	806	15	15
+        MD	0x10D2	MD_IMAGE	0	134	806	15	15
+        MD	0x10D3	MD_IMAGE	0	149	806	15	15
+        MD	0x10D4	MD_IMAGE	0	164	806	15	15
+        MD	0x10D5	MD_IMAGE	0	179	806	15	15
+        MD	0x10D6	MD_IMAGE	0	194	806	15	15
         MD	0x10D7	MD_IMAGE	0	0	827	13	13
         MD	0x10D8	MD_IMAGE	0	13	827	13	13
         MD	0x10D9	MD_IMAGE	0	26	827	13	13
@@ -2588,14 +2581,14 @@
     FRAME "mon_ele1" // Index = 128, FModules = 2
     {
         0x206A
-        FM	0x1023	10	5
+        FM	0x1023	11	4
         FM	0x118F	33	18
     }
 
     FRAME "mon_ele2" // Index = 129, FModules = 2
     {
         0x206B
-        FM	0x1024	10	5
+        FM	0x1024	11	4
         FM	0x118F	33	18
     }
 
@@ -2609,7 +2602,7 @@
     FRAME "mon_ele4" // Index = 131, FModules = 2
     {
         0x206D
-        FM	0x1031	9	4
+        FM	0x1031	11	4
         FM	0x118F	33	18
     }
 
@@ -3297,77 +3290,7 @@
         FM	0x1050	35	29
     }
 
-    FRAME "combo_gage" // Index = 230, FModules = 1
-    {
-        0x2020
-        FM	0x106F	10	35
-    }
-
-    FRAME "combo_gage_01" // Index = 231, FModules = 2
-    {
-        0x2021
-        FM	0x106F	10	35
-        FM	0x1070	17	35
-    }
-
-    FRAME "combo_gage_02" // Index = 232, FModules = 3
-    {
-        0x2022
-        FM	0x1071	24	35
-        FM	0x106F	10	35
-        FM	0x1070	17	35
-    }
-
-    FRAME "combo_gage_03" // Index = 233, FModules = 4
-    {
-        0x2023
-        FM	0x1071	24	35
-        FM	0x106F	10	35
-        FM	0x1070	17	35
-        FM	0x1072	30	33
-    }
-
-    FRAME "fever_gage" // Index = 234, FModules = 5
-    {
-        0x2029
-        FM	0x108A	10	35
-        FM	0x108A	17	35
-        FM	0x108C	24	35
-        FM	0x108D	30	33
-        FM	0x108E	34	29
-    }
-
-    FRAME "fever_gage_01" // Index = 235, FModules = 4
-    {
-        0x2028
-        FM	0x108A	10	35
-        FM	0x108A	17	35
-        FM	0x108C	24	35
-        FM	0x108D	30	33
-    }
-
-    FRAME "fever_gage_02" // Index = 236, FModules = 3
-    {
-        0x2027
-        FM	0x108A	10	35
-        FM	0x108A	17	35
-        FM	0x108C	24	35
-    }
-
-    FRAME "fever_gage_03" // Index = 237, FModules = 2
-    {
-        0x2026
-        FM	0x108A	10	35
-        FM	0x108A	17	35
-    }
-
-    FRAME "fever_gage_04" // Index = 238, FModules = 1
-    {
-        0x2025
-        FM	0x108A	10	35
-    }
-
-    FRAME "" // Index = 239, FModules = 4
+    FRAME "" // Index = 230, FModules = 4
     {
         0x2024
         FM	0x1053	15	0
@@ -3376,7 +3299,7 @@
         FM	0x1090	0	2
     }
 
-    FRAME "" // Index = 240, FModules = 4
+    FRAME "" // Index = 231, FModules = 4
     {
         0x202D
         FM	0x108F	0	0
@@ -3385,7 +3308,7 @@
         FM	0x108B	0	17
     }
 
-    FRAME "" // Index = 241, FModules = 8
+    FRAME "" // Index = 232, FModules = 8
     {
         0x2030
         FM	0x2080	0	0	+HYPER_FM
@@ -3398,7 +3321,7 @@
         FM	0x1097	-36	11
     }
 
-    FRAME "" // Index = 242, FModules = 8
+    FRAME "" // Index = 233, FModules = 8
     {
         0x2038
         FM	0x2080	0	0	+HYPER_FM
@@ -3411,7 +3334,7 @@
         FM	0x1097	-35	10
     }
 
-    FRAME "" // Index = 243, FModules = 9
+    FRAME "" // Index = 234, FModules = 9
     {
         0x2039
         FM	0x2080	0	0	+HYPER_FM
@@ -3425,7 +3348,7 @@
         FM	0x1093	-50	10
     }
 
-    FRAME "" // Index = 244, FModules = 9
+    FRAME "" // Index = 235, FModules = 9
     {
         0x203A
         FM	0x2080	0	0	+HYPER_FM
@@ -3439,7 +3362,7 @@
         FM	0x1094	-57	2
     }
 
-    FRAME "" // Index = 245, FModules = 9
+    FRAME "" // Index = 236, FModules = 9
     {
         0x203B
         FM	0x2080	0	0	+HYPER_FM
@@ -3453,7 +3376,7 @@
         FM	0x1098	-59	-1
     }
 
-    FRAME "" // Index = 246, FModules = 8
+    FRAME "" // Index = 237, FModules = 8
     {
         0x203C
         FM	0x2080	0	0	+HYPER_FM

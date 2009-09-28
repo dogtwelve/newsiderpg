@@ -162,6 +162,7 @@ public:
 
 
 	void PaintCharInfo(int level, int NowHp, int MaxHp, int NowMp, int MaxMp, int elemental);
+	void PaintComboGage(int Combo);
 	void PaintMonsterInfo(int MonName, int level, int NowHp, int MaxHp, int elemental);
 	void PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,int* needmana);//스킬 고유 ID , 쿨타임 Max , 쿨타임 
 	void PaintExpInfo(int NowExp, int MaxExp);
@@ -183,6 +184,8 @@ private:
 	int m_nSaveCombo;
 	int m_nSaveComboMax;
 	int m_nSaveComboTimer;
+	int m_nBuffComboLevel;
+	int m_nBuffComboTimer;
 	
 	//void PaintLevel(int x, int y, int level);
 	void PaintNumber(ASprite* pAsIns, int numImgIdx, int value, int x, int y, int gap , int position);
