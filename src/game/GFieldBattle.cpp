@@ -1915,6 +1915,9 @@ void GFieldBattle::Paint()
 		hero->s_Status[hero->s_HeroTag.SEX].MANA_MAX,
 		hero->s_HeroTag.SEX /*hero->s_Status[hero->s_HeroTag.SEX].ELEMENTAL*/ );
 
+	pFieldUi->PaintComboGage(5);//콤보게이지
+	
+
 	//	미니맵 임시
 	PaintMiniMap();
 
@@ -1970,7 +1973,7 @@ void GFieldBattle::PaintDebug()
 	///////////////////각종 게임 상태 출력부//////////////////////
 	///////////////////각종 게임 상태 출력부//////////////////////
 #define X_POSITION 150
-#define Y_POSITION 29
+#define Y_POSITION 60
 
 #ifdef LOOK_USE_MEMORY
 	char str[30] ; 

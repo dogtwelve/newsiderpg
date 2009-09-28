@@ -284,10 +284,10 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 //------------------------------------------------------
 
 
-#define	MON_ELEMENTAL_STONE				0	//	¹ÙÀ§
-#define	MON_ELEMENTAL_SNIPS				1	//	°¡À§
-#define	MON_ELEMENTAL_PAPER				2	//	º¸
-#define	MON_ELEMENTAL_NON				3
+#define	MON_ELEMENTAL_WOMAN				0	//	¿©¼º
+#define	MON_ELEMENTAL_MAN				1	//	³²¼º
+#define	MON_ELEMENTAL_NEUTRAL 			2	//	Áß¼º
+#define	MON_ELEMENTAL_NON				3   //  ¹«¼º
 
 
 
@@ -1650,75 +1650,75 @@ private:
 static const int MonBaseStet[][STET_MAX] = 
 {
 		//½ºÇÁ¶óÀÌÆ® ÀÎµ¦½º,		º£ÀÌ½º,					ÀÌ¸§,	¼Ó¼º,					ÄÃ·¯,	°ø°Ý1,	°ø°Ý2,	°ø°Ý3,	¹æ¾îÀ²,	Ã¼·Â,	Å©¸®À², È¸ÇÇÀ², Ãß°¡°æÇèÄ¡
-{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			0,		MON_ELEMENTAL_SNIPS,	0,		100,	110,	  0,	  0,	 80,	  3,	  0,	100},		//	Á©¸®Çª
-{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			1,		MON_ELEMENTAL_STONE,	1,		120,	110,	  0,	  0,	100,	  4,	  0,	100},		//	Á©¸®Æ÷¿ì
-{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			2,		MON_ELEMENTAL_PAPER,	2,		140,	140,	  0,	 15,	 80,	  5,	  0,	100},		//	Á©¸®Å·
-{ SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			3,		MON_ELEMENTAL_SNIPS,	0,		150,	100,	200,	 50,	 80,	  0,	  0,	100},		//	°ñ·½
-{ SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			4,		MON_ELEMENTAL_STONE,	1,		150,	150,	300,	 25,	250,	  5,	  0,	100},		//	¶ô°ñ·½
-{ SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			5,		MON_ELEMENTAL_PAPER,	2,		200,	300,	250,	 30,	300,	 20,	  0,	100},		//	Çï°ñ·½
-{ SPRITE_MON_TREE,			MON_IDX_TREE,	6,		MON_ELEMENTAL_SNIPS,	0,		120,	200,	  0,	 10,	200,	 30,	  0,	100},		//	³úÁ¶
-{ SPRITE_MON_TREE,			MON_IDX_TREE,	7,		MON_ELEMENTAL_STONE,	1,		150,	250,	  0,	 15,	300,	 40,	  0,	100},		//	Ç³Á¶
-{ SPRITE_MON_TREE,			MON_IDX_TREE,	8,		MON_ELEMENTAL_PAPER,	2,		170,	300,	  0,	  0,	400,	 50,	  0,	100},		//	ºÒ»çÁ¶
-{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			9,		MON_ELEMENTAL_SNIPS,	0,		100,	170,	  0,	  5,	120,	  6,	  0,	100},		//	ÄÚº¼Æ®
-{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			10,		MON_ELEMENTAL_STONE,	1,		100,	200,	  0,	  7,	150,	  7,	  0,	100},		//	È©°íºí¸°
-{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			11,		MON_ELEMENTAL_PAPER,	2,		100,	230,	  0,	 10,	200,	 12,	  0,	100},		//	ÄÚº¼Æ®Å·
-{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			12,		MON_ELEMENTAL_SNIPS,	0,		120,	200,	  0,	  0,	150,	 20,	  0,	100},		//	·¦ÅÍ
-{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			13,		MON_ELEMENTAL_STONE,	1,		130,	220,	  0,	  7,	170,	 25,	  0,	100},		//	Åé´Ï·¦ÅÍ
-{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			14,		MON_ELEMENTAL_PAPER,	2,		140,	240,	  0,	 10,	220,	 30,	  0,	100},		//	Ä®¹ß·¦ÅÍ
-{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BEE,		MON_IDX_BEE,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_BEE,		MON_IDX_BEE,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_BEE,		MON_IDX_BEE,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_ELF,			MON_IDX_ELF,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_ELF,			MON_IDX_ELF,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_ELF,			MON_IDX_ELF,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_EYE,		MON_IDX_EYE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_EYE,		MON_IDX_EYE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_EYE,		MON_IDX_EYE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_CRAB,			MON_IDX_CRAB,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_CRAB,			MON_IDX_CRAB,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_CRAB,			MON_IDX_CRAB,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BUG,			MON_IDX_BUG,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
-{ SPRITE_MON_BUG,			MON_IDX_BUG,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_BUG,			MON_IDX_BUG,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_2,		MON_IDX_BOSS2_1,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	 20,	600,	 15,	  0,   1000},		//	¿îµð³×
-{ SPRITE_MON_BUG,			MON_IDX_BUG,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	 30,		  0,	  0,	  0},		//	¹°Á¤·É
-{ SPRITE_MON_BOSS_3,		MON_IDX_BOSS3_1,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
-{ SPRITE_MON_BOSS_3,		MON_IDX_BOSS3_2,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_1,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_2,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_3,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_4,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_5,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BOSS_6,		MON_IDX_BOSS6_1,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_BARREL,		MON_IDX_BARREL,			17,		MON_ELEMENTAL_PAPER,	0,		240,	200,	  0,	 15,	10,		  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
-{ SPRITE_MON_STONE_BIG,		MON_IDX_STONE_BIG,		17,		MON_ELEMENTAL_PAPER,	0,		240,	200,	  0,	 15,	999,	  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			0,		MON_ELEMENTAL_MAN,	0,		100,	110,	  0,	  0,	 80,	  3,	  0,	100},		//	Á©¸®Çª
+{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			1,		MON_ELEMENTAL_WOMAN,	1,		120,	110,	  0,	  0,	100,	  4,	  0,	100},		//	Á©¸®Æ÷¿ì
+{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			2,		MON_ELEMENTAL_NEUTRAL ,	2,		140,	140,	  0,	 15,	 80,	  5,	  0,	100},		//	Á©¸®Å·
+{ SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			3,		MON_ELEMENTAL_MAN,	0,		150,	100,	200,	 50,	 80,	  0,	  0,	100},		//	°ñ·½
+{ SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			4,		MON_ELEMENTAL_WOMAN,	1,		150,	150,	300,	 25,	250,	  5,	  0,	100},		//	¶ô°ñ·½
+{ SPRITE_MON_GOLEM,			MON_IDX_GOLEM,			5,		MON_ELEMENTAL_NEUTRAL ,	2,		200,	300,	250,	 30,	300,	 20,	  0,	100},		//	Çï°ñ·½
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	6,		MON_ELEMENTAL_MAN,	0,		120,	200,	  0,	 10,	200,	 30,	  0,	100},		//	³úÁ¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	7,		MON_ELEMENTAL_WOMAN,	1,		150,	250,	  0,	 15,	300,	 40,	  0,	100},		//	Ç³Á¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	8,		MON_ELEMENTAL_NEUTRAL ,	2,		170,	300,	  0,	  0,	400,	 50,	  0,	100},		//	ºÒ»çÁ¶
+{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			9,		MON_ELEMENTAL_MAN,	0,		100,	170,	  0,	  5,	120,	  6,	  0,	100},		//	ÄÚº¼Æ®
+{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			10,		MON_ELEMENTAL_WOMAN,	1,		100,	200,	  0,	  7,	150,	  7,	  0,	100},		//	È©°íºí¸°
+{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			11,		MON_ELEMENTAL_NEUTRAL ,	2,		100,	230,	  0,	 10,	200,	 12,	  0,	100},		//	ÄÚº¼Æ®Å·
+{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			12,		MON_ELEMENTAL_MAN,	0,		120,	200,	  0,	  0,	150,	 20,	  0,	100},		//	·¦ÅÍ
+{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			13,		MON_ELEMENTAL_WOMAN,	1,		130,	220,	  0,	  7,	170,	 25,	  0,	100},		//	Åé´Ï·¦ÅÍ
+{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			14,		MON_ELEMENTAL_NEUTRAL ,	2,		140,	240,	  0,	 10,	220,	 30,	  0,	100},		//	Ä®¹ß·¦ÅÍ
+{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_ELF,			MON_IDX_ELF,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_ELF,			MON_IDX_ELF,			16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_ELF,			MON_IDX_ELF,			17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_FLYTRAP,		MON_IDX_FLYTRAP,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_CRAB,			MON_IDX_CRAB,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_CRAB,			MON_IDX_CRAB,			16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_CRAB,			MON_IDX_CRAB,			17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_2,		MON_IDX_BOSS2_1,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	 20,	600,	 15,	  0,   1000},		//	¿îµð³×
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			15,		MON_ELEMENTAL_MAN,	0,		200,	160,	  0,	  0,	 30,		  0,	  0,	  0},		//	¹°Á¤·É
+{ SPRITE_MON_BOSS_3,		MON_IDX_BOSS3_1,		16,		MON_ELEMENTAL_WOMAN,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BOSS_3,		MON_IDX_BOSS3_2,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_1,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_2,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_3,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_4,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_5,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_6,		MON_IDX_BOSS6_1,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BARREL,		MON_IDX_BARREL,			17,		MON_ELEMENTAL_NEUTRAL ,	0,		240,	200,	  0,	 15,	10,		  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_STONE_BIG,		MON_IDX_STONE_BIG,		17,		MON_ELEMENTAL_NEUTRAL ,	0,		240,	200,	  0,	 15,	999,	  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
 
 
 

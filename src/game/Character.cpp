@@ -2693,27 +2693,25 @@
 		if(s_Status[s_HeroTag.SEX].LEVEL < monLevel - 4)ATT=PER(ATT, 70);//본스터보다 5랩 낮으면
 
 
-		switch(_b_JabNum){//상성
-			case JAB_KNIGHT:
+		switch(s_HeroTag.SEX){//상성.
+			case SEX_WOMAN:
 				switch(monElemental){
-					case ELEMENTAL_SNIPS:ATT=PER(ATT,130);	break;
-					case ELEMENTAL_PAPER:ATT=PER(ATT, 40);	break;
+					case ELEMENTAL_WOMAN:	ATT=PER(ATT,100);	break;//동성
+					case ELEMENTAL_MAN:		ATT=PER(ATT, 50);	break;//이성
+					case ELEMENTAL_NEUTRAL:	ATT=PER(ATT, 80);	break;//중성
+					case ELEMENTAL_NON:		ATT=PER(ATT,100);	break;//무성
 				}
 				ATT = PER(ATT,100+Get_Skill(SKILL_P_S_swordMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
+				
 				break;
-			case JAB_GUNNER:
+			case SEX_MAN:
 				switch(monElemental){
-					case ELEMENTAL_STONE:ATT=PER(ATT, 40);	break;
-					case ELEMENTAL_PAPER:ATT=PER(ATT,130);	break;
+					case ELEMENTAL_WOMAN:	ATT=PER(ATT, 50);	break;//동성
+					case ELEMENTAL_MAN:		ATT=PER(ATT,100);	break;//이성
+					case ELEMENTAL_NEUTRAL:	ATT=PER(ATT, 80);	break;//중성
+					case ELEMENTAL_NON:		ATT=PER(ATT,100);	break;//무성
 				}
-				ATT = PER(ATT,100+Get_Skill(SKILL_P_G_gunMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
-				break;
-			case JAB_MAGE:
-				switch(monElemental){
-					case ELEMENTAL_STONE:ATT=PER(ATT,130);	break;
-					case ELEMENTAL_SNIPS:ATT=PER(ATT, 40);	break;
-				}
-				ATT = PER(ATT,100+Get_Skill(SKILL_P_O_orbMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
+				ATT = PER(ATT,100+Get_Skill(SKILL_P_S_swordMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
 				break;
 		}
 

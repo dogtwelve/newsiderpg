@@ -541,32 +541,34 @@ int Monster::SND_Damage(int heroLevel, int heroElemental, int heroDefense, int D
 	if(tmpLevelDis < -5)		{tmpAtk = (tmpAtk * 30) / 100;}
 	else if(tmpLevelDis > 5)	{tmpAtk = (tmpAtk * 140) / 100;}
 
-	//	속성에 따른 데미지 보정이 필요함
 
-	switch(m_nElementIdx)
-	{
-		case MON_ELEMENTAL_STONE:
-			switch(heroElemental)
-			{
-				case MON_ELEMENTAL_SNIPS:	tmpAtk = (tmpAtk * 130/100);	break;
-				case MON_ELEMENTAL_PAPER:	tmpAtk = (tmpAtk * 40/100);		break;
-			}
-			break;
-		case MON_ELEMENTAL_SNIPS:
-			switch(heroElemental)
-			{
-				case MON_ELEMENTAL_STONE:	tmpAtk = (tmpAtk * 40/100);		break;
-				case MON_ELEMENTAL_PAPER:	tmpAtk = (tmpAtk * 130/100);	break;
-			}
-			break;
-		case MON_ELEMENTAL_PAPER:
-			switch(heroElemental)
-			{
-				case MON_ELEMENTAL_STONE:	tmpAtk = (tmpAtk * 130/100);	break;
-				case MON_ELEMENTAL_SNIPS:	tmpAtk = (tmpAtk * 40/100);		break;
-			}
-			break;
-	}
+//몬스터가 히어로를 때릴때는 데미지 보정이 없다
+
+//	//	속성에 따른 데미지 보정이 필요함
+// 	switch(m_nElementIdx)
+// 	{
+// 		case MON_ELEMENTAL_WOMAN:
+// 			switch(heroElemental)
+// 			{
+// 				case MON_ELEMENTAL_MAN:	tmpAtk = (tmpAtk * 130/100);	break;
+// 				case MON_ELEMENTAL_NEUTRAL :	tmpAtk = (tmpAtk * 40/100);		break;
+// 			}
+// 			break;
+// 		case MON_ELEMENTAL_MAN:
+// 			switch(heroElemental)
+// 			{
+// 				case MON_ELEMENTAL_WOMAN:	tmpAtk = (tmpAtk * 40/100);		break;
+// 				case MON_ELEMENTAL_NEUTRAL :	tmpAtk = (tmpAtk * 130/100);	break;
+// 			}
+// 			break;
+// 		case MON_ELEMENTAL_NEUTRAL :
+// 			switch(heroElemental)
+// 			{
+// 				case MON_ELEMENTAL_WOMAN:	tmpAtk = (tmpAtk * 130/100);	break;
+// 				case MON_ELEMENTAL_MAN:	tmpAtk = (tmpAtk * 40/100);		break;
+// 			}
+// 			break;
+// 	}
 
 	return tmpAtk;
 }
