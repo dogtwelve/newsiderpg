@@ -43,6 +43,7 @@
 #define C_T_CH			5
 #define C_T_LE			6
 #define C_T_GL			7
+
 static const short costume_Table[25][8]={//코스튬 넘버 지정
 	{	00,	00,	00,	00,	0,	1,	2,	3	},
 	{	10,	10,	10,	10,	0,	2,	1,	3	},

@@ -23,6 +23,69 @@ cMinimap::~cMinimap()
 void cMinimap::LoadMiniMap()
 //--------------------------------------------------------------------------
 {
+	int loop = 0;
+
+	m_nCurZoneIdx = m_nNextZone;
+
+	SUTIL_Data_init(PACK_DATA_MAPINFO);
+	SUTIL_Data_open(m_nCurZoneIdx-1);
+
+	MoveHead(m_pMiniMapList);
+
+//	int a = SUTIL_s_data_curOffset;
+//	int b = SUTIL_s_s_data_sizes[m_nCurZoneIdx-1];
+
+	int length = 0;
+	while( length < SUTIL_s_s_data_sizes[m_nCurZoneIdx-1] )
+	{
+		MiniMapData* tmpMapData = GL_NEW MiniMapData();
+		tmpMapData->m_nXPos = (int)SUTIL_Data_readU16();	length+=2;
+		tmpMapData->m_nYPos = (int)SUTIL_Data_readU16();	length+=2;
+
+		tmpMapData->m_nSectorIdx = (int)SUTIL_Data_readU16();	length+=2;
+		tmpMapData->m_nResType = (int)SUTIL_Data_readU16();	length+=2;
+		tmpMapData->m_nBackType = (int)SUTIL_Data_readU16();	length+=2;
+
+		tmpMapData->m_nCellCount = (int)SUTIL_Data_readU16();	length+=2;
+
+		for(loop = 0; loop < MI_INFO_MAX; loop++)
+		{
+			tmpMapData->m_MonsterInfo[loop] = (int)SUTIL_Data_readU16();	length+=2;
+		}
+
+		tmpMapData->m_sMapCellData = GL_NEW MiniMapCellData[tmpMapData->m_nCellCount];
+		for(loop = 0; loop < tmpMapData->m_nCellCount; loop++)
+		{
+			tmpMapData->m_sMapCellData[loop].m_PtnObject = (int)SUTIL_Data_readU16();	length+=2;
+			tmpMapData->m_sMapCellData[loop].m_PtnFrontGround = (int)SUTIL_Data_readU16();	length+=2;
+			tmpMapData->m_sMapCellData[loop].m_nPtnType = (int)SUTIL_Data_readU16();	length+=2;
+		}
+
+		//	TEST
+//		/////////////////////////////////////////////////////////
+//		int MONINFO[MI_INFO_MAX] = 
+//		{
+//			//200,1,1,		                    0, 0, 0,			     18, 3, 0, 1,  		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU
+//			200,1,1,		                    0, 0, 0,			     18, 3, 0, 0,  		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU
+//		};
+//		 
+//		//	임시 몬스터 데이타 복사
+//		for(int loop = 0; loop < MI_INFO_MAX; loop++)
+//		{
+//			tmpMapData->m_MonsterInfo[loop] = MONINFO[loop];
+//		}
+//		/////////////////////////////////////////////////////////
+
+		m_pMiniMapList->Insert_next(tmpMapData);
+	}
+
+	SUTIL_Data_free();
+
+
+
+
+
+/*
 	//	TEST
 
 	int MONINFO[MI_INFO_MAX] = 
@@ -149,6 +212,7 @@ void cMinimap::LoadMiniMap()
 	tmpMapData->m_sMapCellData[1].m_nPtnType = MNC_NO_LINK;
 
 	m_pMiniMapList->Insert_next(tmpMapData);
+*/
 }
 
 //--------------------------------------------------------------------------
@@ -378,8 +442,17 @@ bool cMinimap::ResvNextSector(int charx, int chary, int aaa)
 //					
 //				}
 
-				// 이동을 예약한다.
-				ResvNextSector(m_nCurZoneIdx, GetData(m_pMiniMapList)->m_nSectorIdx);
+				//	지역이 바뀐다.
+				if(100 <= GetData(m_pMiniMapList)->m_nSectorIdx)
+				{
+					// 이동을 예약한다.
+					ResvNextSector(GetData(m_pMiniMapList)->m_nResType, GetData(m_pMiniMapList)->m_nBackType);
+				}
+				else
+				{
+					// 이동을 예약한다.
+					ResvNextSector(m_nCurZoneIdx, GetData(m_pMiniMapList)->m_nSectorIdx);
+				}
 				return true;
 			}
 		}
@@ -406,8 +479,52 @@ MiniMapData* cMinimap::SetResvSector()
 	//	이미 로드가 되었다면 로드하지 않는다.
 	if(m_nCurZoneIdx != m_nNextZone)
 	{
+		ReleaseMiniMap();
 		LoadMiniMap();
 	}
+
+/////////////////////////////////////////////
+	//	입구
+	if(100 <= m_nNextSector)
+	{
+		for(InitList(m_pMiniMapList);NotEndList(m_pMiniMapList);MoveNext(m_pMiniMapList))
+		{
+			//int a = GetData(m_pMiniMapList)->m_nSectorIdx;
+			if(m_nNextSector == GetData(m_pMiniMapList)->m_nSectorIdx)
+			{
+				m_CurMapSector = GetData(m_pMiniMapList);
+				break;
+			}
+		}
+
+		int charx = SECTOR_SIZE/2;
+		int chary = (MAP_MOVE_UP_Y+MAP_MOVE_DOWN_Y)/2;
+
+		if(MNC_RIGHT_LINK & GetData(m_pMiniMapList)->m_sMapCellData[0].m_nPtnType)
+		{
+			charx = SECTOR_SIZE-1;
+		}
+
+		if(MNC_LEFT_LINK & GetData(m_pMiniMapList)->m_sMapCellData[0].m_nPtnType)
+		{
+			charx = 1;
+		}
+
+		if(MNC_UP_LINK & GetData(m_pMiniMapList)->m_sMapCellData[0].m_nPtnType)
+		{
+			chary = MAP_MOVE_UP_Y-1;
+		}
+
+		if(MNC_DOWN_LINK & GetData(m_pMiniMapList)->m_sMapCellData[0].m_nPtnType)
+		{
+			chary = MAP_MOVE_DOWN_Y+1;
+		}
+
+		
+		ResvNextSector(charx, chary, 0);
+	}
+/////////////////////////////////////////////
+
 
 	for(InitList(m_pMiniMapList);NotEndList(m_pMiniMapList);MoveNext(m_pMiniMapList))
 	{
@@ -421,8 +538,6 @@ MiniMapData* cMinimap::SetResvSector()
 
 	return NULL;
 }
-
-
 
 
 /*

@@ -7,7 +7,7 @@
 #include "cGame.h"
 
 //Add by SangHo - 충돌 체크 영역을 보고싶을때
-//#define VIEW_CONTECT_CHECK 
+#define VIEW_CONTECT_CHECK 
 
 #define BLEND_CUSTOM_NOT 0
 #define BLEND_CUSTOM_ZERO 1

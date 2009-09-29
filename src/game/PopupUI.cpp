@@ -4909,7 +4909,7 @@ ItemBag PopupUi::MakeItem(int nMontype, int nMonLevel, int nHeroSex, int mapIdx)
 {
 	ItemBag tmpBag;
 	tmpBag.Data0 = 0;
-
+/*
 	//	Äù½ºÆ® Ã³¸®
 	if(MAIN_QUEST_openDoor == GET_MAINQUEST_IDX())
 	{
@@ -4962,6 +4962,7 @@ ItemBag PopupUi::MakeItem(int nMontype, int nMonLevel, int nHeroSex, int mapIdx)
 //			}
 //		}
 	}
+*/
 
 	//switch(tableidx_b)
 	//{

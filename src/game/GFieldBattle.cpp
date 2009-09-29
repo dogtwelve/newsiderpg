@@ -238,7 +238,32 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			MakeMonsterSeed();
 			AddFirstMonSetting();
 
-			if(3 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			if(26 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			{
+				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+				LoadMonsterSprite(MON_IDX_THUNDERCLOUD);
+				LoadMonsterSprite(MON_IDX_LASTBOSS);
+				SUTIL_ReleaseAspritePack();
+
+				//	¼ÒÈ¯µÇ´Â ÂÌ(Áß°£Áß°£¿¡ ¼ÒÈ¯)
+				AddMonster(1, MON_IDX_LASTBOSS, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+
+				//AddMonster(1, MON_IDX_THUNDERCLOUD, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+			}
+
+
+			if(22 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			{
+				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
+				LoadMonsterSprite(MON_IDX_TURTLE);
+				LoadMonsterSprite(MON_IDX_BIGTURTLE);
+				SUTIL_ReleaseAspritePack();
+
+				//	¼ÒÈ¯µÇ´Â ÂÌ(Áß°£Áß°£¿¡ ¼ÒÈ¯)
+				AddMonster(1, MON_IDX_BIGTURTLE, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
+			}
+
+			if(21 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_BUG);
@@ -248,7 +273,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				//	¼ÒÈ¯µÇ´Â ÂÌ(Áß°£Áß°£¿¡ ¼ÒÈ¯)
 				AddMonster(1, MON_IDX_WORM, 0, 0, GRADE_SPECIAL, 300, 180, 300, 180, NOT_REGEN, 0);
 			}
-			else if(2 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			else if(23 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_SKELBIRD);
@@ -263,7 +288,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				(pTmpBossSkelBird->pChildBody[0])->m_pParents = (Monster*)pTmpBossSkelBird;
 				(pTmpBossSkelBird->pChildBody[1])->m_pParents = (Monster*)pTmpBossSkelBird;
 			}
-			else if(4 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			else if(24 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_SLIME);
@@ -278,7 +303,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 
 				(pTmpBossFolwer->pChildBody[0])->m_pParents = (Monster*)pTmpBossFolwer;
 			}
-			else if(1 == pMinimap->m_CurMapSector->m_nSectorIdx)
+			else if(25 == pMinimap->m_CurMapSector->m_nSectorIdx)
 			{
 				SUTIL_LoadAspritePack(PACK_SPRITE_MON);
 				LoadMonsterSprite(MON_IDX_DARK_KNIGHT);
@@ -287,6 +312,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 				//	¼ÒÈ¯µÇ´Â ÂÌ(Áß°£Áß°£¿¡ ¼ÒÈ¯)
 				AddMonster(1, MON_IDX_DARK_KNIGHT, 0, 0, GRADE_SPECIAL, 160, 162, 160, 162, NOT_REGEN, 0);
 			}
+
 			break;
 /*
 			switch(m_nNextStage)
@@ -589,13 +615,12 @@ void GFieldBattle::MakeMonsterSeed()
 //
 //	if(NU == FIELD_MONSTER_INFO[nRealFieldNum][0])	{return;}
 
-	if(0 == pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_COUNT])	{return;}
-
-
 	m_nMonLevel = pMinimap->m_CurMapSector->m_MonsterInfo[MI_LEVEL];
 	m_nMonLevelRnd = pMinimap->m_CurMapSector->m_MonsterInfo[MI_ADD_RND_LEVEL]+1;
 
 	pField->m_nRegenDistance = pMinimap->m_CurMapSector->m_MonsterInfo[MI_DISTANCE];
+
+	if(0 == pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_COUNT])	{return;}
 
 	//	¸ó½ºÅÍ µî±Þ ¼³Á¤
 	nMonGradeCnt[GRADE_RARE]	= pMinimap->m_CurMapSector->m_MonsterInfo[MI_RARE_GRADE];
@@ -829,7 +854,7 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 	switch(monidx)
 	{
 		case MON_IDX_GHOST:			{loop2 = SPRITE_MON_GHOST;	addcnt = FRAME_MON01_BLEND;		break;}
-		case MON_IDX_GOLEM:			{loop2 = SPRITE_MON_GOLEM;	addcnt = FRAME_MON02_BLEND;		break;}
+		case MON_IDX_SUNFLOWER:		{loop2 = SPRITE_MON_SUNFLOWER;	addcnt = FRAME_MON02_BLEND;		break;}
 		case MON_IDX_SLIME:			{loop2 = SPRITE_MON_SLIME;	addcnt = FRAME_MON03_BLEND;		break;}
 		case MON_IDX_CROWN_BOMB:	{loop2 = SPRITE_MON_CROWNBOMB;	addcnt = FRAME_MON04_BLEND;	break;}
 		case MON_IDX_BEAR:			{loop2 = SPRITE_MON_BEAR;	addcnt = FRAME_MON05_BLEND;		break;}
@@ -847,23 +872,14 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 		case MON_IDX_SPEAR:			{loop2 = SPRITE_MON_SPEAR;	addcnt = FRAME_MON14_BLEND;		break;}
 		case MON_IDX_HUMAN_MELEE:	{loop2 = SPRITE_MON_HUMAN;	addcnt = FRAME_MON15_BLEND;		break;}
 		case MON_IDX_HUMAN_RANGE:	{loop2 = SPRITE_MON_HUMAN;	addcnt = FRAME_MON15_BLEND;		break;}
-		case MON_IDX_FLYTRAP:		{loop2 = SPRITE_MON_FLYTRAP;	addcnt = FRAME_MON16_BLEND;	break;}
-		case MON_IDX_CRAB:			{loop2 = SPRITE_MON_CRAB;	addcnt = FRAME_MON17_BLEND;		break;}
+		case MON_IDX_LIZARD:		{loop2 = SPRITE_MON_LIZARD;	addcnt = FRAME_MON16_BLEND;	break;}
+		case MON_IDX_TURTLE:		{loop2 = SPRITE_MON_TURTLE;	addcnt = FRAME_MON17_BLEND;		break;}
 		case MON_IDX_BUG:			{loop2 = SPRITE_MON_BUG;	addcnt = FRAME_MON18_BLEND;		break;}
 		case MON_IDX_DRILL:			{loop2 = SPRITE_MON_DIRLL;	addcnt = FRAME_MON19_BLEND;		break;}
+		case MON_IDX_THUNDERCLOUD:	{loop2 = SPRITE_MON_THUNDER;	addcnt = FRAME_MON20_BLEND;		break;}
 									
 
 		case MON_IDX_HOROS:			{loop2 = SPRITE_MON_BOSS_2;	addcnt = FRAME_BOSS_2_BLEND;	break;}
-		case MON_IDX_BIGDOG1:
-		case MON_IDX_BIGDOG2:
-		case MON_IDX_BIGDOG3:
-		case MON_IDX_BIGDOG4:
-		case MON_IDX_BIGDOG5:		{loop2 = SPRITE_MON_BOSS_5;	addcnt = FRAME_BOSS_5_BLEND;	break;}
-		case MON_IDX_BIGDOG6:
-		case MON_IDX_BIGDOG7:
-		case MON_IDX_BIGDOG8:
-		case MON_IDX_BIGDOG9:
-		case MON_IDX_BIGDOG10:		{loop2 = SPRITE_MON_BOSS_6;	addcnt = FRAME_BOSS_6_BLEND;	break;}
 
 		case MON_IDX_DEVIJOHNS:		{loop2 = SPRITE_MON_BOSS_7;	addcnt = FRAME_BOSS_7_BLEND;	break;}
 
@@ -878,6 +894,10 @@ void GFieldBattle::LoadMonsterSprite(int monidx)
 		case MON_IDX_DARK_KNIGHT:		{loop2 = SPRITE_MON_BOSS_4;	addcnt = FRAME_BOSS_4_BLEND;	break;}
 		case MON_IDX_DARK_KNIGHT_MIRROR:{loop2 = SPRITE_MON_BOSS_4;	addcnt = FRAME_BOSS_4_BLEND;	break;}
 	
+		case MON_IDX_BIGTURTLE:		{loop2 = SPRITE_MON_BOSS_5;	addcnt = FRAME_BOSS_5_BLEND;	break;}
+		case MON_IDX_LASTBOSS:		{loop2 = SPRITE_MON_BOSS_6;	addcnt = FRAME_BOSS_6_BLEND;	break;}
+
+
 //		case MON_IDX_BARREL:		{loop2 = SPRITE_MON_BARREL;	addcnt = 0;						break;}
 //		case MON_IDX_STONE_BIG:		{loop2 = SPRITE_MON_STONE_BIG;	addcnt = 0;					break;}
 //		case MON_IDX_BOX:			{loop2 = SPRITE_MON_STONE_BIG;	addcnt = 0;					break;}
@@ -908,7 +928,7 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 	switch(monidx)
 	{
 		case MON_IDX_GHOST:			{tmpMonster = GL_NEW Mon_GHOST();		break;}
-		case MON_IDX_GOLEM:			{tmpMonster = GL_NEW Mon_GOLEM();		break;}
+		case MON_IDX_SUNFLOWER:		{tmpMonster = GL_NEW Mon_SUNFLOWER();		break;}
 		case MON_IDX_SLIME:			{tmpMonster = GL_NEW Mon_SLIME();		break;}
 		case MON_IDX_CROWN_BOMB:	{tmpMonster = GL_NEW Mon_CROWN_BOMB();	break;}
 		case MON_IDX_BEAR:			{tmpMonster = GL_NEW Mon_BEAR();		break;}
@@ -925,8 +945,9 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 		case MON_IDX_SPEAR:			{tmpMonster = GL_NEW Mon_SPEAR();		break;}
 		case MON_IDX_HUMAN_MELEE:	{tmpMonster = GL_NEW Mon_HUMAN_MELEE();	break;}
 		case MON_IDX_HUMAN_RANGE:	{tmpMonster = GL_NEW Mon_HUMAN_RANGE();	break;}
-		case MON_IDX_FLYTRAP:		{tmpMonster = GL_NEW Mon_FLYTRAP();		break;}
-		case MON_IDX_CRAB:			{tmpMonster = GL_NEW Mon_CRAB();		break;}
+		case MON_IDX_LIZARD:		{tmpMonster = GL_NEW Mon_LIZARD();		break;}
+		case MON_IDX_TURTLE:		{tmpMonster = GL_NEW Mon_TURTLE();		break;}
+		case MON_IDX_THUNDERCLOUD:	{tmpMonster = GL_NEW Mon_THUNDERCLOUD();		break;}
 		default:					{										break;}
 	}
 
@@ -979,8 +1000,7 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 		case MON_IDX_BUG:					{tmpMonster = GL_NEW Mon_BUG();					break;}
 		case MON_IDX_DRILL:					{tmpMonster = GL_NEW Mon_DRILL();				break;}
 		case MON_IDX_BOSS5_DEVIL:			{tmpMonster = GL_NEW Mon_BOSS5_DEVIL();			break;}
-
-											
+										
 	}
 
 	if(tmpMonster)
@@ -1019,17 +1039,6 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 	switch(monidx)
 	{
 		case MON_IDX_HOROS:					{tmpMonster = GL_NEW BossMon2_1();					break;}
-		case MON_IDX_BIGDOG1:				{tmpMonster = GL_NEW BossMon5_1();					break;}
-		case MON_IDX_BIGDOG2:				{tmpMonster = GL_NEW BossMon5_2();					break;}
-		case MON_IDX_BIGDOG3:				{tmpMonster = GL_NEW BossMon5_3();					break;}
-		case MON_IDX_BIGDOG4:				{tmpMonster = GL_NEW BossMon5_4();					break;}
-		case MON_IDX_BIGDOG5:				{tmpMonster = GL_NEW BossMon5_5();					break;}
-		case MON_IDX_BIGDOG6:				{tmpMonster = GL_NEW BossMon5_6();					break;}
-
-		case MON_IDX_BIGDOG7:				{tmpMonster = GL_NEW BossMon5_7();					break;}
-		case MON_IDX_BIGDOG8:				{tmpMonster = GL_NEW BossMon5_8();					break;}
-		case MON_IDX_BIGDOG9:				{tmpMonster = GL_NEW BossMon5_9();					break;}
-		case MON_IDX_BIGDOG10:				{tmpMonster = GL_NEW BossMon5_10();					break;}
 
 		case MON_IDX_DEVIJOHNS:				{tmpMonster = GL_NEW Mon_DEVIJOHNS();				break;}
 
@@ -1047,6 +1056,11 @@ Monster* GFieldBattle::AddMonster(int addType, int monidx, int nameidx, int ptnI
 
 		case MON_IDX_DARK_KNIGHT:			{tmpMonster = GL_NEW DarkKnight();					break;}
 		case MON_IDX_DARK_KNIGHT_MIRROR:	{tmpMonster = GL_NEW DarkKnight_Mirror();			break;}
+
+		case MON_IDX_BIGTURTLE:				{tmpMonster = GL_NEW BigTurtle();					break;}
+
+		case MON_IDX_LASTBOSS:				{tmpMonster = GL_NEW LastBoss();					break;}
+											
 	}
 
 	if(tmpMonster)
@@ -1369,10 +1383,8 @@ void GFieldBattle::Process()
 //			MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState)
 		if(!(GetData(pMonList)->m_nFeature & FE_DONT_TOUCH))
 		{
-			if(Contact_Check(hero->_ins_Hero, GetData(pMonList)->pMonAsIns,NULL,20))
+			if(Contact_Check(hero->_ins_Hero, GetData(pMonList)->pMonAsIns,NULL,GetData(pMonList)->m_nBodySize))
 			{
-
-				pFieldUi->AddCombo();	//	nams
 				DamageSand_Hero(hero, GetData(pMonList));//ÁÖÀÎ°ø ÆòÅ¸
 			}
 
@@ -1380,7 +1392,6 @@ void GFieldBattle::Process()
 			{
 				if(Contact_Check(hero->_ins_Skill[hero->s_HeroTag.SEX][hero->s_Skill_Set.Num][0], GetData(pMonList)->pMonAsIns,NULL, GetData(pMonList)->m_nBodySize))
 				{
-					pFieldUi->AddCombo();	//	nams
 					DamageSand_Hero(hero, GetData(pMonList));//ÁÖÀÎ°ø ½ºÅ³
 				}
 			}
@@ -1389,7 +1400,6 @@ void GFieldBattle::Process()
 				if(hero->s_Knife_Eff[i].act && hero->s_Knife_Eff[i].LVup_Eff_Ins)
 					if(Contact_Check(hero->s_Knife_Eff[i].LVup_Eff_Ins, GetData(pMonList)->pMonAsIns,NULL,GetData(pMonList)->m_nBodySize))//Ãæ®G!!
 					{
-						pFieldUi->AddCombo();	//	nams
 						DamageSand_Hero(hero, GetData(pMonList));//Ä® ¹öÇÁ Ã¼Å©
 					}
 			}
@@ -1399,7 +1409,6 @@ void GFieldBattle::Process()
 				{
 					if(Contact_Check(hero->s_Bullet_Eff[i].LVup_Eff_Ins, GetData(pMonList)->pMonAsIns,NULL,GetData(pMonList)->m_nBodySize))//Ãæ®G!!
 					{
-						pFieldUi->AddCombo();	//	nams
 						DamageSand_Hero(hero, GetData(pMonList));//ÀåÇ³ Ã¼Å©
 						switch (i){
 							case 0:case 1:case 2:case 3:case 4:
@@ -1838,10 +1847,10 @@ void GFieldBattle::Paint()
 	//	¹è°æ
 	pField->Paint();
 
-	if(BOSS_STAND_FACESIDE != BossMon5_1::m_nBossStep)
-	{
+//	if(BOSS_STAND_FACESIDE != BossMon5_1::m_nBossStep)
+//	{
 		pField->MiddlePaint();
-	}
+//	}
 
 
 	//	ÇÊµåÀÇ ÀÛÀº ¸ÊÈ­¸éÀÌ¶ó¸é ¸®ÅÏ½ÃÅ²´Ù.
@@ -1889,10 +1898,10 @@ void GFieldBattle::Paint()
 	}
 
 	//	ÇÊµå¸¦ ³ª´©¾î¼­ ºÎ¸¥´Ù.(boss5 ¿¹¿ÜÃ³¸®)
-	if(BOSS_STAND_FACESIDE == BossMon5_1::m_nBossStep)
-	{
-		pField->MiddlePaint();
-	}
+//	if(BOSS_STAND_FACESIDE == BossMon5_1::m_nBossStep)
+//	{
+//		pField->MiddlePaint();
+//	}
 	
 
 	//±×¸®±â °»½Å
@@ -2022,7 +2031,7 @@ void GFieldBattle::PaintDebug()
 	_SUTIL->pFont->DrawText(_SUTIL->g, str,X_POSITION+ 0, Y_POSITION+20, 0);
 
 	MEMSET(str, 0x00, 30);
-	SPRINTF(str, "stage : %d", pField->m_nSaveStageNum); 
+	SPRINTF(str, "stage : %d", pMinimap->m_CurMapSector->m_nSectorIdx); 
 	_SUTIL->pFont->DrawText(_SUTIL->g, str,X_POSITION+ 0, Y_POSITION+30, 0);
 
 	MEMSET(str, 0x00, 30);
@@ -3631,21 +3640,6 @@ void GFieldBattle::Analysis_Mon_Message()
 					case MON_IDX_FLOWER:
 					//-----------------------------------------------------------------
 					{
-						//TEST
-						if(15 < GetNodeCount(pMonList))	{break;}
-
-		//				int posx[] = {100,  -100,  50,  50, -50, -50};
-		//				int posy[] = {  0,     0, -30,  30, -30,  30};
-		//
-		//				for(int loop = 0; loop < 6; loop++)
-		//				{
-		//					AddMonster(1, MON_IDX_BUG, 0, 0, GRADE_NORMAL,
-		//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
-		//						GetData(pMonMsgList)->param[0]+posx[loop], GetData(pMonMsgList)->param[1]+posy[loop],
-		//						NOT_REGEN);
-		//					GetData(pMonList)->Process(m_CharInfo);
-		//				}
-
 						AddMonster(1, MON_IDX_SLIME, 0, 0, GRADE_NORMAL,
 							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1]+20,
 							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1]+20,
@@ -3685,7 +3679,36 @@ void GFieldBattle::Analysis_Mon_Message()
 
 						break;
 					}
+					case MON_IDX_BIGTURTLE:
+					//-----------------------------------------------------------------
+					{
+						AddMonster(1, MON_IDX_TURTLE, 0, 0, GRADE_NORMAL,
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+							NOT_REGEN);
 
+						//	¹æÇâÀ» Á¤ÇØÁØ´Ù.
+						GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+						//	ÇÁ·Î¼¼¼­¸¦ ÇÑ¹ø µ¹·ÁÁØ´Ù.
+						GetData(pMonList)->Process(m_CharInfo);
+						break;
+					}
+					case MON_IDX_LASTBOSS:
+					//-----------------------------------------------------------------
+					{
+						AddMonster(1, MON_IDX_THUNDERCLOUD, 0, 0, GRADE_NORMAL,
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+							GetData(pMonMsgList)->param[0], GetData(pMonMsgList)->param[1],
+							NOT_REGEN);
+
+						//	¹æÇâÀ» Á¤ÇØÁØ´Ù.
+						GetData(pMonList)->m_nDirection = GetData(pMonMsgList)->param[2];
+
+						//	ÇÁ·Î¼¼¼­¸¦ ÇÑ¹ø µ¹·ÁÁØ´Ù.
+						GetData(pMonList)->Process(m_CharInfo);
+						break;
+					}
 				}
 
 				//	¼ÒÈ¯ÇÏ´Ù¸»¾ÒÀ½
@@ -3949,36 +3972,49 @@ void GFieldBattle::DamageSand_Hero(Character* hero, Monster* mon)
 //--------------------------------------------------------------------------
 {
 	int tmp = 0;
+	
 	power.Init(s_Contact.x,s_Contact.y,s_Contact.z);
 
-	if(mon->ReceiveAttack(power))
+	//	È¸ÇÇ Ã³¸®
+	if(SUTIL_GetRandom()%(100) < mon->m_Stet.m_nAvoid)
 	{
-		tmp = hero->SND_Damage(mon->m_nLevel,
-			mon->m_nElementIdx,   
-			mon->m_Stet.m_Defance,
-			s_Contact.D_index);
-		//CRITICAL_HERO
-			if(hero->Critical && !CRI_SHINING)CRI_SHINING=3;
-		mon->RCV_Damage(tmp);
-		if(tmp){
-			pFieldUi->InsertdamageNum(s_Contact.crash_x , mon->pMonAsIns->m_posY-mon->m_Stet.m_Height , mon->pMonAsIns->m_posZ, tmp, (hero->Critical?MON_CRI_NUM:MON_NUM));
-			pFieldUi->Insert_CrashEffect(s_Contact.crash_x, mon->pMonAsIns->m_posY, s_Contact.crash_z, (hero->Critical?ANIM_WEFFECT_A_CRITICAL_1:ANIM_WEFFECT_A_EFF_HIT1));
-			mon->RCV_Debuff( hero->SND_Debuff(0) );
+		pFieldUi->InsertdamageNum(s_Contact.crash_x , mon->pMonAsIns->m_posY-mon->m_Stet.m_Height , mon->pMonAsIns->m_posZ, 0, MON_NUM);
+	}
+	else
+	{
+		if(mon->ReceiveAttack(power))
+		{
+			tmp = hero->SND_Damage(mon->m_nLevel,
+				mon->m_nElementIdx,   
+				mon->m_Stet.m_Defance,
+				s_Contact.D_index);
+			//CRITICAL_HERO
+			if(hero->Critical && !CRI_SHINING)
+			{
+				CRI_SHINING=3;
+			}
+
+			mon->RCV_Damage(tmp);
+
+			if(tmp)
+			{
+				pFieldUi->InsertdamageNum(s_Contact.crash_x , mon->pMonAsIns->m_posY-mon->m_Stet.m_Height , mon->pMonAsIns->m_posZ, tmp, (hero->Critical?MON_CRI_NUM:MON_NUM));
+				pFieldUi->Insert_CrashEffect(s_Contact.crash_x, mon->pMonAsIns->m_posY, s_Contact.crash_z, (hero->Critical?ANIM_WEFFECT_A_CRITICAL_1:ANIM_WEFFECT_A_EFF_HIT1));
+				mon->RCV_Debuff( hero->SND_Debuff(0) );
+			}
+
+			pFieldUi->InsertMonsterInfo(mon->m_nUniqueIdx,
+				mon->m_nMonName,
+				mon->m_nLevel,
+				mon->m_Stet.m_Hp,
+				mon->m_Stet.m_MaxHp,
+				mon->m_nElementIdx);
 		}
 
-
-		//	Ãß°¡ µ¥¹ÌÁö°¡ ÀÖ´ÂÁö È®ÀÎÇÏ°í °°ÀÌ °¨»êÇØ¼­ ³Ñ±ä´Ù.
-		//	ÀÌÀ¯´Â ÀÌºÎºÐÀÇ °»½ÅÀÇ ½ÇÁ¦ µ¥¹ÌÁöº¸´Ù ºü¸£±â¶§¹®¿¡ ±×·¸°Ô ÇÔ
-//		int temphp = mon->m_Stet.m_Hp-Monster::m_nExtraDamage;
-//		if(0 > temphp)	{temphp = 0;}
-
-		pFieldUi->InsertMonsterInfo(mon->m_nUniqueIdx,
-			mon->m_nMonName,
-			mon->m_nLevel,
-			mon->m_Stet.m_Hp,
-			mon->m_Stet.m_MaxHp,
-			mon->m_nElementIdx);
+		pFieldUi->AddCombo();	//	nams
 	}
+
+
 }
 
 //--------------------------------------------------------------------------

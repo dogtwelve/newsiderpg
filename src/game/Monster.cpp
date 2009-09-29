@@ -3,32 +3,6 @@
 
 int Monster::m_nTotalMonCnt = 0;
 int Monster::UniqueIdx = 0;
-int BossMon5_1::m_nNowDownCool = 0;
-int BossMon5_1::m_nBossStep = 0;		//	stand, down, sit, 
-
-int BossMon5_1::m_nMaxLegHp = 0;
-int BossMon5_1::m_nNowLegHp = 0;
-//int Monster::m_nExtraDamage = 0;
-
-int BossMon5_1::m_nCoreHp = 0;
-int BossMon5_1::m_nMaxCoreHp = 0;
-
-int BossMon5_1::m_nMaxFaceLeftArmHp = 0;
-int BossMon5_1::m_nMaxFaceRightArmHp = 0;
-int BossMon5_1::m_nFaceLeftArmHp = 0;
-int BossMon5_1::m_nFaceRightArmHp = 0;
-
-bool BossMon5_1::isJumpChar = false;
-//int BossMon5_1::m_nPassbleJumpTimer = 0;
-
-int BossMon5_1::m_nspikeTimer = 0;
-
-int BossMon5_1::m_nFaintHp = 0;
-int BossMon5_1::m_nMaxFaintHp = 0;
-
-int	BossMon5_1::m_nMoveValue = 0;
-
-
 
 
 //--------------------------------------------------------------------------------------
@@ -77,6 +51,7 @@ Monster::Monster()
 	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_MON01_WALK_VERTICAL_1;
 	
 	m_Stet.m_Cri = 10;
+	m_Stet.m_nAvoid = 0;
 }
 
 
@@ -114,9 +89,9 @@ void Monster::RegistUsingBaseData(List2< struct S_MONSKILL* > *pMonSkillList,
 		FRAME_MON01_BLEND, FRAME_MON02_BLEND, FRAME_MON03_BLEND, FRAME_MON04_BLEND,	FRAME_MON05_BLEND,
 		FRAME_MON06_BLEND, FRAME_MON07_BLEND, FRAME_MON08_BLEND, FRAME_MON09_BLEND, FRAME_MON10_BLEND,
 		FRAME_MON11_BLEND, FRAME_MON12_BLEND, FRAME_MON13_BLEND, FRAME_MON14_BLEND, FRAME_MON15_BLEND,
-		FRAME_MON16_BLEND, FRAME_MON17_BLEND, FRAME_MON18_BLEND, FRAME_MON19_BLEND, FRAME_BOSS_1_BLEND,
-		FRAME_BOSS_2_BLEND,	FRAME_BOSS_3_BLEND, FRAME_BOSS_4_BLEND, FRAME_BOSS_5_BLEND, FRAME_BOSS_6_BLEND,
-		FRAME_BOSS_7_BLEND,	FRAME_MON_BARREL_BLEND
+		FRAME_MON16_BLEND, FRAME_MON17_BLEND, FRAME_MON18_BLEND, FRAME_MON19_BLEND, FRAME_MON20_BLEND,
+		FRAME_BOSS_1_BLEND,	FRAME_BOSS_2_BLEND,	FRAME_BOSS_3_BLEND, FRAME_BOSS_4_BLEND, FRAME_BOSS_5_BLEND,
+		FRAME_BOSS_6_BLEND,	FRAME_BOSS_7_BLEND,	FRAME_MON_BARREL_BLEND
 	};
 
 	if(0 != blendnum[m_nSpriteIdx])	{TmpAsprite->SetBlendFrame(blendnum[m_nSpriteIdx]);}
@@ -222,22 +197,22 @@ void Monster::SetMonData(int color, int element, int nameidx, int ptnidx, int gr
 
 	m_Stet.m_Atk = ((8+(m_nLevel-1)*3)*15)/8;
 
-	if(MON_IDX_BIGDOG1 == m_nMonIdx)
-	{
-		BossMon5_1::m_nMaxLegHp = m_Stet.m_Hp/20;
-		BossMon5_1::m_nNowLegHp = BossMon5_1::m_nMaxLegHp;
-		BossMon5_1::m_nMaxCoreHp = m_Stet.m_Hp/20;
-		BossMon5_1::m_nCoreHp = BossMon5_1::m_nMaxCoreHp;
-
-		BossMon5_1::m_nMaxFaceLeftArmHp = m_Stet.m_Hp/20;
-		BossMon5_1::m_nMaxFaceRightArmHp = m_Stet.m_Hp/20;
-
-		BossMon5_1::m_nFaceLeftArmHp = BossMon5_1::m_nMaxFaceLeftArmHp;
-		BossMon5_1::m_nFaceRightArmHp = BossMon5_1::m_nMaxFaceRightArmHp;
-
-		BossMon5_1::m_nMaxFaintHp = m_Stet.m_Hp/20;
-		BossMon5_1::m_nFaintHp = BossMon5_1::m_nMaxFaintHp;
-	}
+//	if(MON_IDX_BIGDOG1 == m_nMonIdx)
+//	{
+//		BossMon5_1::m_nMaxLegHp = m_Stet.m_Hp/20;
+//		BossMon5_1::m_nNowLegHp = BossMon5_1::m_nMaxLegHp;
+//		BossMon5_1::m_nMaxCoreHp = m_Stet.m_Hp/20;
+//		BossMon5_1::m_nCoreHp = BossMon5_1::m_nMaxCoreHp;
+//
+//		BossMon5_1::m_nMaxFaceLeftArmHp = m_Stet.m_Hp/20;
+//		BossMon5_1::m_nMaxFaceRightArmHp = m_Stet.m_Hp/20;
+//
+//		BossMon5_1::m_nFaceLeftArmHp = BossMon5_1::m_nMaxFaceLeftArmHp;
+//		BossMon5_1::m_nFaceRightArmHp = BossMon5_1::m_nMaxFaceRightArmHp;
+//
+//		BossMon5_1::m_nMaxFaintHp = m_Stet.m_Hp/20;
+//		BossMon5_1::m_nFaintHp = BossMon5_1::m_nMaxFaintHp;
+//	}
 
 	m_nElementIdx = element;
 }
@@ -580,6 +555,9 @@ void Monster::RCV_Debuff(int Debuff_Type)
 	if(Debuff_Type == 0)//디버프가 없으면 리턴
 		return;
 
+	//	이뮴상태라면 디버프를 받지 않는다.
+	if((m_nFeature & FE_EMUM))	{return;}
+
 	s_Debuff.All |=  Debuff_Type;//디버프를 계속 추가해 준다
 	s_Debuff.color = 0;//디버프 컬러 초기화
 	bool novice = true;
@@ -620,12 +598,12 @@ int Monster::SND_Debuff(int Attack_Type)
 	//	if value have no attack, normaly return zero.
 	if(!m_Attack)	{return 0;}
 
-	if(m_nSpriteIdx == SPRITE_MON_BOSS_5 || m_nSpriteIdx == SPRITE_MON_BOSS_6)
-	{
-
-	}
-	else
-	{
+//	if(m_nSpriteIdx == SPRITE_MON_BOSS_5 || m_nSpriteIdx == SPRITE_MON_BOSS_6)
+//	{
+//
+//	}
+//	else
+//	{
 		if(NULL != (DEBUF_WEAK & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_WEAK;}
 		if(NULL != (DEBUF_ICE & m_Attack[m_nUseAtkNum].Debuff))			{return DEBUF_ICE;}
 		if(NULL != (DEBUF_FREEZE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_FREEZE;}
@@ -637,7 +615,7 @@ int Monster::SND_Debuff(int Attack_Type)
 		if(NULL != (DEBUF_DE_VAMPIRE & m_Attack[m_nUseAtkNum].Debuff))	{return DEBUF_DE_VAMPIRE;}
 //		if(NULL != (DEBUF_MANABURN & m_Attack[m_nUseAtkNum].Debuff))	{return DEBUF_MANABURN;}
 		if(NULL != (DEBUF_SILENCE & m_Attack[m_nUseAtkNum].Debuff))		{return DEBUF_SILENCE;}
-	}
+//	}
 
 	return 0;
 }
@@ -1681,20 +1659,20 @@ bool Mon_GHOST::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_GOLEM::Mon_GOLEM()
+Mon_SUNFLOWER::Mon_SUNFLOWER()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 24;	
 
-	m_nSpriteIdx = SPRITE_MON_GOLEM;
-	m_nMonIdx = MON_IDX_GOLEM;
+	m_nSpriteIdx = SPRITE_MON_SUNFLOWER;
+	m_nMonIdx = MON_IDX_SUNFLOWER;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_3;
 
 	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
 
-	m_nAtkMaxCount = 3;
+	m_nAtkMaxCount = 2;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
@@ -1707,24 +1685,14 @@ Mon_GOLEM::Mon_GOLEM()
 	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
 
 
-	m_Attack[1].Name = MON_ATK_THROWSTONE;
+	m_Attack[1].Name = MON_ATK_MELEE2;
 //	m_Attack[1].MinScope = 70;
 //	m_Attack[1].MaxScope = 110;
 
-	m_Attack[1].AtkRect.x1 = 70;
-	m_Attack[1].AtkRect.x2 = 110;
+	m_Attack[1].AtkRect.x1 = 40;
+	m_Attack[1].AtkRect.x2 = 120;
 	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
 	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
-
-
-	m_Attack[2].Name = MON_ATK_LASERBEAM;
-//	m_Attack[2].MinScope = 70;
-//	m_Attack[2].MaxScope = 180;
-
-	m_Attack[2].AtkRect.x1 = 70;
-	m_Attack[2].AtkRect.x2 = 180;
-	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
-	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
 
 
 //	m_nStrollScope = 60;
@@ -1733,12 +1701,21 @@ Mon_GOLEM::Mon_GOLEM()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 6;
+	m_nAiPtnData[0] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_MOVE_BACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_ATTACK;
 }
 
 
 
 //--------------------------------------------------------------------------------------
-Mon_GOLEM::~Mon_GOLEM()
+Mon_SUNFLOWER::~Mon_SUNFLOWER()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -1746,18 +1723,14 @@ Mon_GOLEM::~Mon_GOLEM()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_GOLEM::ExtProcess()
+bool Mon_SUNFLOWER::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
-	//	레이져 빔일 경우 스킬리스트에서 제외시켜준다.
-	RemoveSkillList(MON_ATK_LASERBEAM, 2, (void*)this);
-
 	switch(m_ActState)
 	{
 		default:	{return false;}
 		case MON_ATK_MELEE1:
-		case MON_ATK_THROWSTONE:
-		case MON_ATK_LASERBEAM:
+		case MON_ATK_MELEE2:
 		//-----------------------------------------------------------------------
 		{
 			break;
@@ -1769,8 +1742,7 @@ bool Mon_GOLEM::ExtProcess()
 		switch(m_ActState)
 		{
 			case MON_ATK_MELEE1:
-			case MON_ATK_THROWSTONE:
-			case MON_ATK_LASERBEAM:
+			case MON_ATK_MELEE2:
 			//-----------------------------------------------------------------------
 			{
 				ResvAction(MON_AC_STAND, 0);
@@ -1787,7 +1759,7 @@ bool Mon_GOLEM::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_GOLEM::ExtSetAction()
+bool Mon_SUNFLOWER::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -1802,77 +1774,14 @@ bool Mon_GOLEM::ExtSetAction()
 			m_Physics->initForce();
 			return true;
 		}
-		case MON_ATK_THROWSTONE:
+		case MON_ATK_MELEE2:
 		//-----------------------------------------------------------
 		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON02_RANGE_1);
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON02_MELEE_2);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			SUTIL_SetLoopAsprite(pMonAsIns, false);
 			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON02_BULLET_1);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(65*m_nDirection));
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns)+0);
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 12;
-			tmpMonSkill->who = (void*)this;
-			//tmpMonSkill->skillnum = m_ActState;
-			tmpMonSkill->skillnum = 1;
-			tmpMonSkill->damagetime = 1;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-			return true;
-		}
-		case MON_ATK_LASERBEAM:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON02_RANGE_2);
-
-			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
-			else										{m_nDirection = SDIR_LEFT;}
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-
-			SUTIL_SetLoopAsprite(pMonAsIns, false);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL * tmpMonSkill;
-			for(int loop = 0; loop < MON2_LASERBEAM_COUNT; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON02_BEAM_1);
-				SUTIL_SetLoopAsprite(tmpAsIns, false);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(19*m_nDirection)
-													+(MON2_LASERBEAM_SIZE*loop*m_nDirection));
-				SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 6;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 14;
-				tmpMonSkill->who = (void*)this;
-				//tmpMonSkill->skillnum = m_ActState;
-				tmpMonSkill->skillnum = 2;
-				tmpMonSkill->damagetime = 6;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
 			return true;
 		}
 	}
@@ -4378,20 +4287,20 @@ bool Mon_HUMAN_RANGE::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_FLYTRAP::Mon_FLYTRAP()
+Mon_LIZARD::Mon_LIZARD()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 24;
 
-	m_nSpriteIdx = SPRITE_MON_FLYTRAP;
-	m_nMonIdx = MON_IDX_FLYTRAP;
+	m_nSpriteIdx = SPRITE_MON_LIZARD;
+	m_nMonIdx = MON_IDX_LIZARD;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
 
 	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
 
-	m_nAtkMaxCount = 1;
+	m_nAtkMaxCount = 2;
 	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
@@ -4402,7 +4311,16 @@ Mon_FLYTRAP::Mon_FLYTRAP()
 //	m_Attack[0].MinScope = 0;
 //	m_Attack[0].MaxScope = 45;
 
-//	m_Attack[1].Name = MON_ATK_RANGE1;
+	m_Attack[1].Name = MON_ATK_RANGE1;
+	m_Attack[1].AtkRect.x1 = 50;
+	m_Attack[1].AtkRect.x2 = 180;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 45;
+
+
+	//	m_Attack[1].Name = MON_ATK_RANGE1;
 //	m_Attack[1].MinScope = 70;
 //	m_Attack[1].MaxScope = 110;
 
@@ -4427,7 +4345,7 @@ Mon_FLYTRAP::Mon_FLYTRAP()
 
 
 //--------------------------------------------------------------------------------------
-Mon_FLYTRAP::~Mon_FLYTRAP()
+Mon_LIZARD::~Mon_LIZARD()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -4435,13 +4353,14 @@ Mon_FLYTRAP::~Mon_FLYTRAP()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_FLYTRAP::ExtProcess()
+bool Mon_LIZARD::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
 	{
 		default:	{return false;}
 		case MON_ATK_MELEE1:
+		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------------------
 		{
 			break;
@@ -4453,6 +4372,7 @@ bool Mon_FLYTRAP::ExtProcess()
 		switch(m_ActState)
 		{
 			case MON_ATK_MELEE1:
+			case MON_ATK_RANGE1:
 			//-----------------------------------------------------------------------
 			{
 				ResvAction(MON_AC_STAND, 0);
@@ -4469,7 +4389,7 @@ bool Mon_FLYTRAP::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_FLYTRAP::ExtSetAction()
+bool Mon_LIZARD::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -4477,18 +4397,18 @@ bool Mon_FLYTRAP::ExtSetAction()
 		case MON_ATK_MELEE1:
 		//-----------------------------------------------------------
 		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON07_MELEE_1);
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON16_MELEE_1);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
 			return true;
 		}
-/*
+
 		case MON_ATK_RANGE1:
 		//-----------------------------------------------------------
 		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON07_RANGE_1);
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON16_RANGE_1);
 			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
 			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
@@ -4496,7 +4416,7 @@ bool Mon_FLYTRAP::ExtSetAction()
 			m_Physics->initForce();
 
 			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON07_BULLET);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_MON16_BULLET_1);
 			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
 			SUTIL_SetLoopAsprite(tmpAsIns, true);
 			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+(5*m_nDirection));
@@ -4508,7 +4428,7 @@ bool Mon_FLYTRAP::ExtSetAction()
 			tmpMonSkill->type = SKILL_REMOVE;
 			tmpMonSkill->lifeTime = 10;
 			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 5;
+			tmpMonSkill->Delay = 4;
 			tmpMonSkill->who = (void*)this;
 			//tmpMonSkill->skillnum = m_ActState;
 			tmpMonSkill->skillnum = 1;
@@ -4518,7 +4438,7 @@ bool Mon_FLYTRAP::ExtSetAction()
 			m_nSkillCount++;
 			return true;
 		}
-*/
+
 	}
 
 	return false;
@@ -4532,13 +4452,13 @@ bool Mon_FLYTRAP::ExtSetAction()
 
 
 //--------------------------------------------------------------------------------------
-Mon_CRAB::Mon_CRAB()
+Mon_TURTLE::Mon_TURTLE()
 //--------------------------------------------------------------------------------------
 {
 	m_nBodySize = 14;
 
-	m_nSpriteIdx = SPRITE_MON_CRAB;
-	m_nMonIdx = MON_IDX_CRAB;
+	m_nSpriteIdx = SPRITE_MON_TURTLE;
+	m_nMonIdx = MON_IDX_TURTLE;
 	m_nFeature = FE_NORMAL_MONSTER;
 
 	m_nShadowIdx = FRAME_SHADOW_SHADOW_1;
@@ -4550,15 +4470,15 @@ Mon_CRAB::Mon_CRAB()
 
 	m_Attack[0].Name = MON_ATK_MELEE1;
 	m_Attack[0].AtkRect.x1 = 0;
-	m_Attack[0].AtkRect.x2 = 45;
+	m_Attack[0].AtkRect.x2 = 90;
 	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
 	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
 //	m_Attack[0].MinScope = 0;
 //	m_Attack[0].MaxScope = 45;
 
 	m_Attack[1].Name = MON_ATK_MELEE2;
-	m_Attack[1].AtkRect.x1 = 70;
-	m_Attack[1].AtkRect.x2 = 110;
+	m_Attack[1].AtkRect.x1 = 0;
+	m_Attack[1].AtkRect.x2 = 50;
 	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
 	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
 //	m_Attack[1].MinScope = 70;
@@ -4570,6 +4490,8 @@ Mon_CRAB::Mon_CRAB()
 //	m_nEscapeMaxTick = 100;
 //	m_nResvNextAtk = MON_NOT_ATTACK;
 //	m_nIsBattle = 0;
+
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_MON17_START;
 
 	m_nAiPtnProcess = 0;
 	m_nAiPtnTotCnt = 7;
@@ -4585,7 +4507,7 @@ Mon_CRAB::Mon_CRAB()
 
 
 //--------------------------------------------------------------------------------------
-Mon_CRAB::~Mon_CRAB()
+Mon_TURTLE::~Mon_TURTLE()
 //--------------------------------------------------------------------------------------
 {
 	SAFE_DELETE(m_Attack);
@@ -4593,7 +4515,7 @@ Mon_CRAB::~Mon_CRAB()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_CRAB::ExtProcess()
+bool Mon_TURTLE::ExtProcess()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -4629,7 +4551,7 @@ bool Mon_CRAB::ExtProcess()
 
 
 //--------------------------------------------------------------------------------------
-bool Mon_CRAB::ExtSetAction()
+bool Mon_TURTLE::ExtSetAction()
 //--------------------------------------------------------------------------------------
 {
 	switch(m_ActState)
@@ -5085,8 +5007,187 @@ bool Mon_BOSS5_DEVIL::ExtSetAction()
 
 	return false;
 }
+//==============================================================================================================
+
+
+
+
+//--------------------------------------------------------------------------------------
+Mon_THUNDERCLOUD::Mon_THUNDERCLOUD()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 14;
+
+	m_nSpriteIdx = SPRITE_MON_THUNDER;
+	m_nMonIdx = MON_IDX_THUNDERCLOUD;
+	m_nFeature = FE_NORMAL_MONSTER | FE_DONT_HAVE_DOWN | FE_DONT_GIVE_EXP | FE_DONT_HAVE_ITEM;
+
+	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
+
+//	ResvAction(MON_ATK_MELEE1, 0);
+
+//	m_nAtkMaxCount = 1;
+//	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+//
+//	m_Attack[0].Name = MON_ATK_MELEE1;
+//	m_Attack[0].AtkRect.x1 = 0;
+//	m_Attack[0].AtkRect.x2 = 10;
+//	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+//	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_4;
+//	m_bIsCheckBody = false;
+
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_MON20_STAND;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_MON20_START;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_MON20_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_MON20_END;
+	m_nUsingImgIdx[MON_AC_HIDE]				= ANIM_MON20_END;
+//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_MON19_DAMAGE;
+//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON20_DAMAGE;
+//	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_MON19_END;
+//	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_MON19_END;
+
+	m_nLifeTimer = CLOUD_LIFETIME;
+//	m_nStrollScope = 60;
+//	m_nSearchScope = 90;
+//	m_nEscapeCurTick = 0;
+//	m_nEscapeMaxTick = 100;
+//	m_nResvNextAtk = MON_NOT_ATTACK;
+//	m_nIsBattle = 0;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 1;
+	m_nAiPtnData[0] = MON_AI_READY_TO_HIT;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+Mon_THUNDERCLOUD::~Mon_THUNDERCLOUD()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+bool Mon_THUNDERCLOUD::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	// TEST
+//	m_bIsBattle = true;
+
+	switch(m_ActState)
+	{
+		default:	{return false;}
+//		case MON_AC_READY:
+		case MON_AC_STAND:
+		//-----------------------------------------------------------------------
+		{
+			m_nLifeTimer--;
+			pMonAsIns->m_posX -= (5);
+			pMonAsIns->m_posY -= (5);
+
+			pMonAsIns->m_posX += (SUTIL_GetRandom()%11);
+			pMonAsIns->m_posY += (SUTIL_GetRandom()%11);
+
+			if( 0 > pMonAsIns->m_posX)	{pMonAsIns->m_posX = 0;}
+			if( MAP_MOVE_UP_Y > pMonAsIns->m_posY)	{pMonAsIns->m_posY = MAP_MOVE_UP_Y;}
+			if( Field::m_nFieldSize_X < pMonAsIns->m_posX)	{pMonAsIns->m_posX = Field::m_nFieldSize_X;}
+			if( MAP_MOVE_DOWN_Y < pMonAsIns->m_posY)	{pMonAsIns->m_posY = MAP_MOVE_DOWN_Y;}
+
+			break;
+		}
+//		case MON_ATK_MELEE1:
+		case MON_AC_HIDE:
+		//-----------------------------------------------------------------------
+		{
+			break;
+		}
+	}
+
+	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+	{
+		switch(m_ActState)
+		{
+//			case MON_AC_READY:
+			case MON_AC_STAND:
+			//-----------------------------------------------------------------------
+			{
+				if(1 > m_Stet.m_Hp || 1 > m_nLifeTimer)
+				{
+					ResvAction(MON_AC_HIDE, 0);
+				}
+				else
+				{
+					ResvAction(MON_AC_STAND, 0);
+				}
+				break;
+			}
+//			case MON_ATK_MELEE1:
+//			//-----------------------------------------------------------------------
+//			{
+//				if(1 > m_Stet.m_Hp || 1 > m_nLifeTimer)
+//				{
+//					ResvAction(MON_AC_HIDE, 0);
+//				}
+//				else
+//				{
+//					ResvAction(MON_AC_STAND, 0);
+//				}
+//				break;
+//			}
+			case MON_AC_HIDE:
+			//-----------------------------------------------------------------------
+			{
+				ResvAction(MON_AC_DIE_AFTER, 0);
+				break;
+			}
+			default:	{break;}
+		}
+	}
+
+	//AI_PROCESS(this);
+
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool Mon_THUNDERCLOUD::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+//		case MON_ATK_MELEE1:
+//		//-----------------------------------------------------------
+//		{
+//			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON20_WALK_VERTICAL);
+//			m_nDirection = SDIR_RIGHT;
+//			SUTIL_SetDirAsprite(pMonAsIns, SDIR_RIGHT);
+//			m_Physics->initForce();
+//			return true;
+//		}
+		case MON_AC_HIDE:
+		case MON_AC_DIE_AFTER:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_MON20_END);
+			m_nDirection = SDIR_RIGHT;
+			SUTIL_SetDirAsprite(pMonAsIns, SDIR_RIGHT);
+			m_Physics->initForce();
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 //========================================================================================
+
+
 
 //--------------------------------------------------------------------------------------
 Barrel::Barrel()
@@ -6216,5854 +6317,6 @@ bool BossMon2_1::ExtSetAction()
 
 	return false;
 }
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_1::BossMon5_1()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nMoveTimer = 0;
-	m_nMoveLocatex = 0;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_5;
-	m_nMonIdx = MON_IDX_BIGDOG1;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	isFirstTouch = true;
-	isJumpChar = false;
-	m_nPassbleJumpTimer = 0;
-	m_nNowDownCool = DOWNTIME_MAX;
-
-	m_nBossStep = BOSS_STAND;
-
-	m_ActState = MON_AC_NULL;
-	ResvAction(MON_AC_STAND, 0);
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-	m_nAtkMaxCount = 33;
-	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
-/*
-	m_Attack[0].Name = MON_ATK_MELEE1;			m_Attack[0].MinScope = 0;	m_Attack[0].MaxScope = 1000;	m_Attack[0].MaxCoolTime = 0;		m_Attack[0].CoolTime = 0;
-	m_Attack[1].Name = MON_ATK_MELEE2;			m_Attack[1].MinScope = 0;	m_Attack[1].MaxScope = 300;		m_Attack[1].MaxCoolTime = 1000;		m_Attack[1].CoolTime = 0;
-	m_Attack[2].Name = MON_ATK_MELEE3;			m_Attack[2].MinScope = 0;	m_Attack[2].MaxScope = 1000;	m_Attack[2].MaxCoolTime = 0;		m_Attack[2].CoolTime = 0;
-	m_Attack[3].Name = MON_ATK_MELEE4;			m_Attack[3].MinScope = 0;	m_Attack[3].MaxScope = 1000;	m_Attack[3].MaxCoolTime = 0;		m_Attack[3].CoolTime = 0;
-	m_Attack[4].Name = MON_ATK_RANGE1_READY;	m_Attack[4].MinScope = 0;	m_Attack[4].MaxScope = 1000;	m_Attack[4].MaxCoolTime = 1000;		m_Attack[4].CoolTime = 0;
-	m_Attack[5].Name = MON_ATK_RANGE2_READY;	m_Attack[5].MinScope = 0;	m_Attack[5].MaxScope = 1000;	m_Attack[5].MaxCoolTime = 0;		m_Attack[5].CoolTime = 0;
-	m_Attack[6].Name = MON_ATK_RANGE3_READY;	m_Attack[6].MinScope = 0;	m_Attack[6].MaxScope = 1000;	m_Attack[6].MaxCoolTime = 0;		m_Attack[6].CoolTime = 0;
-	m_Attack[7].Name = MON_ATK_RANGE4_READY;	m_Attack[7].MinScope = 0;	m_Attack[7].MaxScope = 1000;	m_Attack[7].MaxCoolTime = 0;		m_Attack[7].CoolTime = 0;
-	m_Attack[8].Name = MON_ATK_RANGE5;			m_Attack[8].MinScope = 0;	m_Attack[8].MaxScope = 1000;	m_Attack[8].MaxCoolTime = 0;		m_Attack[8].CoolTime = 0;
-	m_Attack[9].Name = MON_ATK_RANGE6;			m_Attack[9].MinScope = 0;	m_Attack[9].MaxScope = 1000;	m_Attack[9].MaxCoolTime = 0;		m_Attack[9].CoolTime = 0;
-	m_Attack[10].Name = MON_ATK_RANGE7;			m_Attack[10].MinScope = 0;	m_Attack[10].MaxScope = 1000;	m_Attack[10].MaxCoolTime = 0;		m_Attack[10].CoolTime = 0;
-	m_Attack[11].Name = MON_ATK_RANGE8;			m_Attack[11].MinScope = 0;	m_Attack[11].MaxScope = 1000;	m_Attack[11].MaxCoolTime = 0;		m_Attack[11].CoolTime = 0;
-	m_Attack[12].Name = MON_ATK_RANGE9;			m_Attack[12].MinScope = 0;	m_Attack[12].MaxScope = 1000;	m_Attack[12].MaxCoolTime = 0;		m_Attack[12].CoolTime = 0;
-	m_Attack[13].Name = MON_ATK_RANGE10;		m_Attack[13].MinScope = 0;	m_Attack[13].MaxScope = 1000;	m_Attack[13].MaxCoolTime = 0;		m_Attack[13].CoolTime = 0;
-	m_Attack[14].Name = MON_ATK_RANGE11;		m_Attack[14].MinScope = 0;	m_Attack[14].MaxScope = 1000;	m_Attack[14].MaxCoolTime = 0;		m_Attack[14].CoolTime = 0;
-	m_Attack[15].Name = MON_ATK_MELEE5;			m_Attack[15].MinScope = 0;	m_Attack[15].MaxScope = 1000;	m_Attack[15].MaxCoolTime = 0;		m_Attack[15].CoolTime = 0;
-	m_Attack[16].Name = MON_ATK_RANGE1;			m_Attack[16].MinScope = 0;	m_Attack[16].MaxScope = 1000;	m_Attack[16].MaxCoolTime = 0;		m_Attack[16].CoolTime = 0;
-	m_Attack[17].Name = MON_ATK_RANGE2;			m_Attack[17].MinScope = 0;	m_Attack[17].MaxScope = 1000;	m_Attack[17].MaxCoolTime = 0;		m_Attack[17].CoolTime = 0;
-	m_Attack[18].Name = MON_ATK_RANGE3;			m_Attack[18].MinScope = 0;	m_Attack[18].MaxScope = 1000;	m_Attack[18].MaxCoolTime = 0;		m_Attack[18].CoolTime = 0;
-	m_Attack[19].Name = MON_ATK_RANGE4;			m_Attack[19].MinScope = 0;	m_Attack[19].MaxScope = 1000;	m_Attack[19].MaxCoolTime = 0;		m_Attack[19].CoolTime = 0;
-	m_Attack[20].Name = MON_ATK_BOSS5_METEO;	m_Attack[20].MinScope = 0;	m_Attack[20].MaxScope = 1000;	m_Attack[20].MaxCoolTime = 0;		m_Attack[20].CoolTime = 0;
-	m_Attack[21].Name = MON_ATK_BOSS5_FACE_LEFT_HOOK;		m_Attack[21].MinScope = 0;	m_Attack[21].MaxScope = 1000;	m_Attack[21].MaxCoolTime = 0;		m_Attack[21].CoolTime = 0;
-	m_Attack[22].Name = MON_ATK_BOSS5_FACE_RIGHT_HOOK;		m_Attack[22].MinScope = 0;	m_Attack[22].MaxScope = 1000;	m_Attack[22].MaxCoolTime = 0;		m_Attack[22].CoolTime = 0;
-	m_Attack[23].Name = MON_ATK_BOSS5_FACE_SHOULDER;		m_Attack[23].MinScope = 0;	m_Attack[23].MaxScope = 1000;	m_Attack[23].MaxCoolTime = 0;		m_Attack[23].CoolTime = 0;
-	m_Attack[24].Name = MON_ATK_BOSS5_FACE_METEO;			m_Attack[24].MinScope = 0;	m_Attack[24].MaxScope = 1000;	m_Attack[24].MaxCoolTime = 0;		m_Attack[24].CoolTime = 0;
-	m_Attack[25].Name = MON_ATK_BOSS5_FACE_SHOULER_L_BEAM;	m_Attack[25].MinScope = 0;	m_Attack[25].MaxScope = 1000;	m_Attack[25].MaxCoolTime = 0;		m_Attack[25].CoolTime = 0;
-	m_Attack[26].Name = MON_ATK_BOSS5_FACE_SHOULER_R_BEAM;	m_Attack[26].MinScope = 0;	m_Attack[26].MaxScope = 1000;	m_Attack[26].MaxCoolTime = 0;		m_Attack[26].CoolTime = 0;
-	m_Attack[27].Name = MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM;	m_Attack[27].MinScope = 0;	m_Attack[27].MaxScope = 1000;	m_Attack[27].MaxCoolTime = 0;		m_Attack[27].CoolTime = 0;
-	m_Attack[28].Name = MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM;	m_Attack[28].MinScope = 0;	m_Attack[28].MaxScope = 1000;	m_Attack[28].MaxCoolTime = 0;		m_Attack[28].CoolTime = 0;
-	m_Attack[29].Name = MON_ATK_BOSS5_FACE_BEAM;			m_Attack[29].MinScope = 0;	m_Attack[29].MaxScope = 1000;	m_Attack[29].MaxCoolTime = 0;		m_Attack[29].CoolTime = 0;
-	m_Attack[30].Name = MON_ATK_BOSS5_FACE_WALL;			m_Attack[30].MinScope = 0;	m_Attack[30].MaxScope = 1000;	m_Attack[30].MaxCoolTime = 0;		m_Attack[30].CoolTime = 0;
-	m_Attack[31].Name = MON_ATK_BOSS5_FACE_SUMMON;			m_Attack[31].MinScope = 0;	m_Attack[31].MaxScope = 1000;	m_Attack[31].MaxCoolTime = 0;		m_Attack[31].CoolTime = 0;
-*/
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_LEG_1_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_5_LEG_1_DOWN;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_5_LEG_1_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-
-	
-
-
-
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_1::~BossMon5_1()
-//--------------------------------------------------------------------------------------
-{
-	m_nBossStep = BOSS_NOT_USE;
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_1::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-	m_nHitRate++;
-	if(5 < m_nHitRate)
-	{
-		m_nHitRate = 5;
-		m_nAccumulatedHit = 0;
-	}
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	공격에 대한 쿨타임을 줄여준다.
-	for(int loop = 0; loop < m_nAtkMaxCount; loop++)
-	{
-		m_Attack[loop].CoolTime--;
-		if(0 > m_Attack[loop].CoolTime)	{m_Attack[loop].CoolTime = 0;}
-	}
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	특이케이스
-	if(BOSS_SIT == m_nBossStep )
-	{
-		if(true == isJumpChar)
-		{
-			m_nspikeTimer++;
-
-			if(100 < m_nspikeTimer)
-			{
-				m_nspikeTimer = 0;
-
-				ASpriteInstance* tmpAsIns = NULL;
-				S_MONSKILL * tmpMonSkill = NULL;
-				int seed = SUTIL_GetRandom()%5;
-				for(int loop = 0; loop < 2; loop++)
-				{
-					tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-					SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_SPIKE_ATTACK);
-					SUTIL_SetLoopAsprite(tmpAsIns, true);
-					SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+14+(18*((seed+loop)%5)) );
-					SUTIL_SetYPosAsprite(tmpAsIns, 109);
-					SUTIL_SetZPosAsprite(tmpAsIns, 0);
-					SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-					tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-					tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-					tmpMonSkill->type = SKILL_REMAIN;
-					tmpMonSkill->lifeTime = 5;
-					tmpMonSkill->Damage = 10;
-					tmpMonSkill->Delay = 1+loop;
-					tmpMonSkill->who = (void*)this;
-					tmpMonSkill->skillnum = 4;
-					tmpMonSkill->damagetime = 5;
-					MoveTail(m_MonSkillList);
-					m_MonSkillList->Insert_prev(tmpMonSkill);
-					m_nSkillCount++;
-				}
-
-				seed = SUTIL_GetRandom()%5;
-				for(int loop = 0; loop < 2; loop++)
-				{
-					tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-					SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_SPIKE_ATTACK);
-					SUTIL_SetLoopAsprite(tmpAsIns, true);
-					SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+14+(18*((seed+loop)%5)) );
-					SUTIL_SetYPosAsprite(tmpAsIns, 109);
-					SUTIL_SetZPosAsprite(tmpAsIns, 0);
-					SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-					tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-					tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-					tmpMonSkill->type = SKILL_REMAIN;
-					tmpMonSkill->lifeTime = 5;
-					tmpMonSkill->Damage = 10;
-					tmpMonSkill->Delay = 25+loop;
-					tmpMonSkill->who = (void*)this;
-					tmpMonSkill->skillnum = 4;
-					tmpMonSkill->damagetime = 5;
-					MoveTail(m_MonSkillList);
-					m_MonSkillList->Insert_prev(tmpMonSkill);
-					m_nSkillCount++;
-				}
-
-			}
-		}
-		else
-		{
-			if(false == isJumpChar)
-			{
-				m_nGroundspikeTimer++;
-
-				if(10 < m_nGroundspikeTimer)
-				{
-					m_nGroundspikeTimer = 0;
-
-					ASpriteInstance* tmpAsIns = NULL;
-					S_MONSKILL * tmpMonSkill = NULL;
-					int seed = SUTIL_GetRandom()%5;
-					for(int loop = 0; loop < 1; loop++)
-					{
-						tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-						SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_GROUND_ATTACK);
-						SUTIL_SetLoopAsprite(tmpAsIns, true);
-						SUTIL_SetXPosAsprite(tmpAsIns, m_CharInfo->m_nPos.x );
-						SUTIL_SetYPosAsprite(tmpAsIns, m_CharInfo->m_nPos.y);
-						SUTIL_SetZPosAsprite(tmpAsIns, 0);
-						SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-						tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-						tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-						tmpMonSkill->type = SKILL_REMAIN;
-						tmpMonSkill->lifeTime = 11;
-						tmpMonSkill->Damage = 10;
-						tmpMonSkill->Delay = 6+loop;
-						tmpMonSkill->who = (void*)this;
-						tmpMonSkill->skillnum = 4;
-						tmpMonSkill->damagetime = 5;
-						MoveTail(m_MonSkillList);
-						m_MonSkillList->Insert_prev(tmpMonSkill);
-						m_nSkillCount++;
-					}
-				}
-			}
-		}
-	}
-
-	//	보스전용 인공지능
-	AI_PROCESS_BOSS5(this);
-
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_1::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-//	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	if(true == isJumpChar)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-	else
-	{
-		if(40 > m_nPassbleJumpTimer && BOSS_SIT == m_nBossStep)
-		{
-			SUTIL_Paint_Frame(pMonAsIns->m_sprite , FRAME_BOSS_5_GATE+(m_nPassbleJumpTimer%8) , 111 + pMonAsIns->CameraX, 210 ,0);
-			//SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-		}
-		//	paint monster
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_1::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_DIE:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-		case MON_AC_FAINTING:
-		//-----------------------------------------------------------------------
-		{
-			m_nStandTime--;
-			break;
-		}
-		case MON_AC_REST:
-		//-----------------------------------------------------------------------
-		{
-			m_nRestTime--;
-			break;
-		}
-		case MON_AC_FACE_REST:
-		case MON_AC_STAND_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			if(MON_AC_FACE_REST == m_ActState)		{m_nRestTime--;	}
-
-			m_nMoveTimer = (m_nMoveTimer+1)%100;
-
-			if(50 > m_nMoveTimer)
-			{
-				if( 7 > ABS(pChildBody[4]->pMonAsIns->m_posX - m_nMoveLocatex) )
-				{
-					m_nMoveLocatex = 50 + SUTIL_GetRandom()%(Field::m_nFieldSize_X-100);
-				}
-
-				m_nMoveValue = (m_nMoveLocatex - pChildBody[4]->pMonAsIns->m_posX)/7;
-			}
-			break;
-		}
-	}
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_AC_DIE:
-			//-----------------------------------------------------------------------
-			{
-				ResvBoss5_AllAction(MON_AC_DIE_AFTER, 0);
-				break;
-			}
-			case MON_AC_REST:
-			//-----------------------------------------------------------------------
-			{
-				if(1 > m_nRestTime)
-				{
-					ResvBoss5_AllAction(MON_AC_STAND, 0);
-				}
-				break;
-			}
-			case MON_AC_FACE_REST:
-			//-----------------------------------------------------------------------
-			{
-				if(1 > m_nRestTime)
-				{
-					ResvBoss5_AllAction(MON_AC_STAND_FRONTSIDE, 0);
-				}
-				break;
-			}
-			case MON_AC_FAINTING:
-			//-----------------------------------------------------------------------
-			{
-				if(1 > m_nStandTime)
-				{
-					//	다리의 피를 돌려준다.
-					m_nNowLegHp = m_nMaxLegHp;
-					ResvBoss5_AllAction(MON_AC_AWAK, 0);
-				}
-				break;
-			}
-			case MON_AC_DOWNED:
-			//-----------------------------------------------------------------------
-			{
-				//if(1 > m_Stet.m_Hp && 1 > m_nExtraDamage)
-				if(1 > m_Stet.m_Hp)
-				{
-					ResvBoss5_AllAction(MON_AC_DIE, 0);
-				}
-				break;
-			}
-			case MON_AC_ING_DOWN:
-			//-----------------------------------------------------------------------
-			{
-				ResvBoss5_AllAction(MON_AC_DOWNED, 0);
-				break;
-			}
-			case MON_AC_AWAK:
-			case MON_AC_SIT_STAND:
-			case MON_AC_FALL:
-			//-----------------------------------------------------------------------
-			{
-				ResvBoss5_AllAction(MON_AC_STAND, 0);
-				break;
-			}
-			case MON_ATK_MELEE1:
-			case MON_ATK_MELEE2:
-			case MON_ATK_RANGE5:
-			case MON_ATK_RANGE6:
-			case MON_ATK_BOSS5_METEO:
-			//-----------------------------------------------------------------------
-			{
-				ResvBoss5_AllAction(MON_AC_REST, 0);
-				break;
-			}
-			case MON_ATK_RANGE1:
-			case MON_ATK_RANGE4:
-			//-----------------------------------------------------------------------
-			{
-				if(BOSS_STAND == m_nBossStep)		{ResvBoss5_AllAction(MON_AC_AWAK, 0);}
-				else if(BOSS_SIT == m_nBossStep)	{ResvBoss5_AllAction(MON_AC_SIT, 0);}
-				
-				break;
-			}
-			case MON_ATK_RANGE9:
-			case MON_ATK_RANGE7:
-			case MON_ATK_MELEE5:
-			case MON_ATK_RANGE11:
-			//-----------------------------------------------------------------------
-			{
-				if(BOSS_STAND == m_nBossStep)		{ResvBoss5_AllAction(MON_AC_STAND, 0);}
-				else if(BOSS_SIT == m_nBossStep)	{ResvBoss5_AllAction(MON_AC_SIT, 0);}
-				
-				break;
-			}
-			case MON_AC_SIT:
-			//-----------------------------------------------------------------------
-			{
-//				ResvAction(MON_AC_SIT, 0);
-				break;
-			}
-			case MON_ATK_MELEE3:		{ResvBoss5_AllAction(MON_ATK_MELEE2, 0);		break;}
-			case MON_ATK_MELEE4:		{ResvBoss5_AllAction(MON_ATK_MELEE1, 0);		break;}
-			case MON_ATK_RANGE1_READY:	{ResvBoss5_AllAction(MON_ATK_RANGE1, 0);		break;}
-			case MON_ATK_RANGE2_READY:	{ResvBoss5_AllAction(MON_ATK_RANGE2, 0);		break;}
-			case MON_ATK_RANGE3_READY:	{ResvBoss5_AllAction(MON_ATK_RANGE3, 0);		break;}
-			case MON_ATK_RANGE4_READY:	{ResvBoss5_AllAction(MON_ATK_RANGE4, 0);		break;}
-			case MON_ATK_RANGE2:		{ResvBoss5_AllAction(MON_ATK_RANGE4, 0);		break;}
-			case MON_ATK_RANGE3:		{ResvBoss5_AllAction(MON_ATK_RANGE1, 0);		break;}
-			case MON_ATK_RANGE8:		{ResvBoss5_AllAction(MON_ATK_RANGE9, 0);		break;}
-			case MON_ATK_RANGE10:		{ResvBoss5_AllAction(MON_ATK_RANGE7, 0);		break;}
-			case MON_AC_ING_SIT:		{ResvBoss5_AllAction(MON_AC_SIT, 0);			break;}
-			case MON_AC_HIDE:			{ResvBoss5_AllAction(MON_AC_FACE_FRONTSIDE, 0);	break;}
-			case MON_AC_FACE_FRONTSIDE:
-			{
-				if(m_nTimer > 5)		{ResvBoss5_AllAction(MON_AC_STAND_FRONTSIDE, 0);}
-				break;
-			}
-			case MON_AC_HIDE_FRONTSIDE:
-			{
-				if(m_nTimer > 5)		{ResvBoss5_AllAction(MON_AC_FALL, 0);}
-				break;
-			}
-			case MON_ATK_BOSS5_FACE_LEFT_HOOK:			{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_RIGHT_HOOK:			{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_SHOULDER:			{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:		{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:		{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:	{ResvBoss5_AllAction(MON_ATK_BOSS5_FACE_SHOULER_R_BEAM, 0);	break;}
-			case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:	{ResvBoss5_AllAction(MON_ATK_BOSS5_FACE_SHOULER_L_BEAM, 0);	break;}
-			case MON_ATK_BOSS5_FACE_BEAM:				{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_SUMMON:				{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_METEO:				{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_ATK_BOSS5_FACE_WALL:				{ResvBoss5_AllAction(MON_AC_FACE_REST, 0);	break;}
-			case MON_AC_REGEN_L_ARM_FRONTSIDE:			{ResvBoss5_AllAction(MON_AC_STAND_FRONTSIDE, 0);	break;}
-			case MON_AC_REGEN_R_ARM_FRONTSIDE:			{ResvBoss5_AllAction(MON_AC_STAND_FRONTSIDE, 0);	break;}
-			case MON_AC_FACE_LOST_LEFTHAND:				{ResvBoss5_AllAction(MON_AC_STAND_FRONTSIDE, 0);	break;}
-			case MON_AC_FACE_LOST_RIGHTHAND:			{ResvBoss5_AllAction(MON_AC_STAND_FRONTSIDE, 0);	break;}
-			default:	{break;}
-		}
-	}
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_1::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE5);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			m_nMoveLocatex = pMonAsIns->m_posX;
-//			break;		//흘러내려가야되므로 break가 없다.
-		}
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			m_nRestTime = RESTTIME_MAX;
-//			break;		//흘러내려가야되므로 break가 없다.
-		}
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			m_nBossStep = BOSS_STAND_FACESIDE;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_STAND_WALK_MELEE12_RANGE6);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_MELEE3);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE123);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE4_SUMMON);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_REGEN);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REST:
-		//-----------------------------------------------------------------------
-		{
-			m_nRestTime = RESTTIME_MAX;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_STAND);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_HIDE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FALL:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX = 230;
-			m_nBossStep = BOSS_STAND;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_FALL);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_RANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = NULL;
-			S_MONSKILL * tmpMonSkill = NULL;
-			int seed = 2 + SUTIL_GetRandom()%2;
-
-			for(int loop = 0; loop < seed; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BULLET_2);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%100 );
-				SUTIL_SetYPosAsprite(tmpAsIns, 170 + SUTIL_GetRandom()%30);
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 11;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 6+loop;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 4;
-				tmpMonSkill->damagetime = 5;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BULLET_2);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%100 );
-				SUTIL_SetYPosAsprite(tmpAsIns, 200 + SUTIL_GetRandom()%30);
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 11;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 8+loop;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 4;
-				tmpMonSkill->damagetime = 5;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BULLET_2);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%100 );
-				SUTIL_SetYPosAsprite(tmpAsIns, 230 + SUTIL_GetRandom()%30);
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 11;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 10+loop;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 4;
-				tmpMonSkill->damagetime = 5;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-
-			return true;
-		}
-		case MON_AC_DOWNED:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_DOWNED);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_DOWN:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_DOWN);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FAINTING:
-		//-----------------------------------------------------------------------
-		{
-			m_nStandTime = STANDTIME_MAX;
-			m_nFaintHp = m_nMaxFaintHp;
-			m_nBossStep = BOSS_DOWN;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_DOWN);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_AWAK:
-		//-----------------------------------------------------------------------
-		{
-			m_nBossStep = BOSS_STAND;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_AWAKE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT_STAND:
-		//-----------------------------------------------------------------------
-		{
-			m_nPassbleJumpTimer = 80;
-			isJumpChar = false;
-			m_nNowDownCool = DOWNTIME_MAX;
-
-			m_nBossStep = BOSS_STAND;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_DAMAGE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_SIT:
-		//-----------------------------------------------------------------------
-		{
-			m_nBossStep = BOSS_SIT;
-			m_nPassbleJumpTimer = 0;
-
-			m_nCoreHp = m_nMaxCoreHp;
-			m_nspikeTimer = 50+SUTIL_GetRandom()%40;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITFORATTACK);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_MELEE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_MELEE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SIT);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITRANGE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITRANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE5:	//	어깨 양포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_RANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_IN_RANGE_2);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
-			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)-20);
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 1;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 4;
-			tmpMonSkill->damagetime = 10;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_MELEE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_IN_MELEE_3);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
-			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)-20);
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 24;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 1;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 1;
-			tmpMonSkill->damagetime = 24;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITRANGE_4);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITRANGE_5);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITRANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = NULL;
-			S_MONSKILL * tmpMonSkill = NULL;
-
-			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BULLET_1);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+90);
-//			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns));
-//			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns)-121);
-			SUTIL_SetYPosAsprite(tmpAsIns, 109);
-			SUTIL_SetZPosAsprite(tmpAsIns, -34);
-
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 20;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 1;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 4;
-			tmpMonSkill->damagetime = 2;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-
-			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BULLET_1);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+110);
-//			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns));
-//			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns)-117);
-			SUTIL_SetYPosAsprite(tmpAsIns, 109);
-			SUTIL_SetZPosAsprite(tmpAsIns, -30);
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMOVE;
-			tmpMonSkill->lifeTime = 20;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 1;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 4;
-			tmpMonSkill->damagetime = 2;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-			return true;
-		}
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_1_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//--------------------------------------------------------------------------------------
-int BossMon5_1::CheckPassableAttack()
-//--------------------------------------------------------------------------------------
-{
-	//상태 : 주인공이 어느 위치에 있는지 확인
-	// 다운상태라면 공격을 못한다.
-	
-	int loop = 0;
-	int truecount = 0;
-	bool index[MON_ATK_MAX-MON_EXT_BASE];
-	for(loop = 0; loop < MON_ATK_MAX-MON_EXT_BASE; loop++)	{index[loop] = false;}
-
-	if(true == isJumpChar)
-	{
-		index[MON_ATK_RANGE7-MON_EXT_BASE] = true;	truecount++;
-		index[MON_ATK_RANGE8-MON_EXT_BASE] = true;	truecount++;
-		index[MON_ATK_RANGE9-MON_EXT_BASE] = true;	truecount++;
-		index[MON_ATK_RANGE10-MON_EXT_BASE] = true;	truecount++;
-		//	올라가있을때 빔 가능	MON_ATK_RANGE7	MON_ATK_RANGE8 MON_ATK_RANGE9	MON_ATK_RANGE10
-		//	눈알빔 가능	MON_ATK_RANGE11
-	}
-	else
-	{
-		if(BOSS_STAND_FACESIDE == m_nBossStep)
-		{
-
-			 //	손 휘두르기
-			if(200 > m_CharInfo->m_nPos.y)
-			{
-				if(0 < m_nFaceLeftArmHp)
-				{
-					if(-120 < (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x) && -50 > (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x))
-					{
-						index[MON_ATK_BOSS5_FACE_LEFT_HOOK-MON_EXT_BASE] = true;		truecount++;
-					}
-				}
-
-				if(0 < m_nFaceRightArmHp)
-				{
-					if(120 > (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x) && 50 < (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x))
-					{
-						index[MON_ATK_BOSS5_FACE_RIGHT_HOOK-MON_EXT_BASE] = true;		truecount++;
-					}
-				}
-			}
-
-			if( 30 > ABS(pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x) )
-			{
-				index[MON_ATK_BOSS5_FACE_BEAM-MON_EXT_BASE] = true;					truecount++;
-			}
-
-			if( -80 < (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x) && -30 > (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x))
-			{
-				index[MON_ATK_BOSS5_FACE_SHOULDER-MON_EXT_BASE] = true;					truecount++;
-			}
-
-			if( 30 < (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x) && 80 > (pChildBody[4]->pMonAsIns->m_posX - m_CharInfo->m_nPos.x))
-			{
-				index[MON_ATK_BOSS5_FACE_SHOULDER-MON_EXT_BASE] = true;					truecount++;
-			}
-
-//			index[MON_ATK_BOSS5_FACE_LEFT_HOOK-MON_EXT_BASE] = true;		truecount++;
-//			index[MON_ATK_BOSS5_FACE_RIGHT_HOOK-MON_EXT_BASE] = true;		truecount++;
-//			index[MON_ATK_BOSS5_FACE_SHOULDER-MON_EXT_BASE] = true;			truecount++;
-//			index[MON_ATK_BOSS5_FACE_SHOULER_L_BEAM-MON_EXT_BASE] = true;	truecount++;
-//			index[MON_ATK_BOSS5_FACE_SHOULER_R_BEAM-MON_EXT_BASE] = true;	truecount++;
-//			index[MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM-MON_EXT_BASE] = true;	truecount++;
-//			index[MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM-MON_EXT_BASE] = true;	truecount++;
-//			index[MON_ATK_BOSS5_FACE_BEAM-MON_EXT_BASE] = true;				truecount++;
-//			index[MON_ATK_BOSS5_FACE_METEO-MON_EXT_BASE] = true;			truecount++;
-//			index[MON_ATK_BOSS5_FACE_WALL-MON_EXT_BASE] = true;				truecount++;
-//			index[MON_ATK_BOSS5_FACE_SUMMON-MON_EXT_BASE] = true;			truecount++;
-		}
-		else
-		{
-			 //	얼굴 빔포
-			 if(100 > m_CharInfo->m_nPos.x)
-			 {
-				if(200 < m_CharInfo->m_nPos.y && 220 > m_CharInfo->m_nPos.y)
-				{
-					if(BOSS_SIT == m_nBossStep)		//	윗쪽 빔포 가능	MON_ATK_RANGE1_READY	MON_ATK_RANGE2_READY
-					{
-						index[MON_ATK_RANGE1_READY-MON_EXT_BASE] = true;	truecount++;
-						index[MON_ATK_RANGE2_READY-MON_EXT_BASE] = true;	truecount++;
-					}
-					else
-					{
-						index[MON_ATK_RANGE1-MON_EXT_BASE] = true;	truecount++;
-						index[MON_ATK_RANGE2-MON_EXT_BASE] = true;	truecount++;
-					}
-				}
-				if(220 < m_CharInfo->m_nPos.y && 240 > m_CharInfo->m_nPos.y)
-				{
-					if(BOSS_SIT == m_nBossStep)
-					{
-						index[MON_ATK_RANGE3_READY-MON_EXT_BASE] = true;	truecount++;
-						index[MON_ATK_RANGE4_READY-MON_EXT_BASE] = true;	truecount++;
-					}//	아랫쪽 빔포 가능	MON_ATK_RANGE3_READY	MON_ATK_RANGE4_READY
-					else
-					{
-						index[MON_ATK_RANGE3-MON_EXT_BASE] = true;	truecount++;
-						index[MON_ATK_RANGE4-MON_EXT_BASE] = true;	truecount++;
-					}//						MON_ATK_RANGE3			MON_ATK_RANGE4
-				}
-			 }
-
-			 if(BOSS_STAND == m_nBossStep)
-			 {
-	 			 //	밟기
-				 if(100 < m_CharInfo->m_nPos.x && 200 > m_CharInfo->m_nPos.x)
-				 {
-					if(195 < m_CharInfo->m_nPos.y && 235 > m_CharInfo->m_nPos.y)	//	윗쪽 발 가능		MON_ATK_MELEE1 MON_ATK_MELEE3
-					{
-						index[MON_ATK_MELEE1-MON_EXT_BASE] = true;	truecount++;
-						index[MON_ATK_MELEE3-MON_EXT_BASE] = true;	truecount++;
-					}
-				 }		
-
-				 if(120 < m_CharInfo->m_nPos.x && 220 > m_CharInfo->m_nPos.x)
-				 {
-					if(215 < m_CharInfo->m_nPos.y && 255 > m_CharInfo->m_nPos.y)	//	아랫쪽 발 가능		MON_ATK_MELEE2	MON_ATK_MELEE4
-					{
-						index[MON_ATK_MELEE2-MON_EXT_BASE] = true;	truecount++;
-						index[MON_ATK_MELEE4-MON_EXT_BASE] = true;	truecount++;
-					}
-				 }		
-
-				 //	토하기(100 ~200)
-				 if(120 < m_CharInfo->m_nPos.x && 250 > m_CharInfo->m_nPos.x)	//	토하기 가능 MON_ATK_RANGE6
-				 {
-					 index[MON_ATK_RANGE6-MON_EXT_BASE] = true;	truecount++;
-				 }
-
-				 //	사이드 레이저 빔
-				 if(120 < m_CharInfo->m_nPos.x)
-				 {
-					if(190 > m_CharInfo->m_nPos.y || 240 < m_CharInfo->m_nPos.y)
-					{
-						index[MON_ATK_RANGE5-MON_EXT_BASE] = true;	truecount++;
-					}//	윗쪽 레이져빔 가능	MON_ATK_RANGE5
-				 }
-
-				 //	메테오
- 				 if(100 > m_CharInfo->m_nPos.x)
-				 {
-					index[MON_ATK_BOSS5_METEO-MON_EXT_BASE] = true;	truecount++;
-				 }
-			 }
-		}
-
-
-	}
-
-	int rnd = SUTIL_GetRandom()%(MON_ATK_MAX-MON_EXT_BASE);
-	int rnd2 = 0;
-
-	if(truecount)
-	{
-		rnd2 = SUTIL_GetRandom()%(truecount);
-	}
-
-	for(loop = 0; loop < (MON_ATK_MAX-MON_EXT_BASE); loop++)
-	{
-		if(true == index[(rnd+loop)%(MON_ATK_MAX-MON_EXT_BASE)])
-		{
-			// 어택카운트에서 찾는다.
-			for(int loop2 = 0; loop2 < m_nAtkMaxCount; loop2++)
-			{
-				if(m_Attack[loop2].Name-MON_EXT_BASE == ((rnd+loop)%(MON_ATK_MAX-MON_EXT_BASE)) )
-				{
-					if(0 < rnd2)	{rnd2--;}
-					else
-					{
-						//	가지고 있는 어택의 쿨타임을 체크해서 false로 만들어준다.
-						if(0 < m_Attack[loop2].CoolTime)
-						{
-							index[(rnd+loop)%(MON_ATK_MAX-MON_EXT_BASE)] = false;
-						}
-						else
-						{
-							m_Attack[loop2].CoolTime = m_Attack[loop2].MaxCoolTime;
-							return loop2;
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	//	아무것도 없을시는 지정해준다.
-	 if(BOSS_STAND == m_nBossStep)
-	 {
-		 switch( SUTIL_GetRandom()%(6) )
-		 {
-			case 0:	return 9;
-			case 1:	return 4;
-			case 2:	return 5;
-			case 3:	return 6;
-			case 4:	return 7;
-			case 5:	return 20;//메테오
-		 }
-	 }
-	 else if(BOSS_STAND_FACESIDE == m_nBossStep)
-	 {
-		 switch( SUTIL_GetRandom()%(7) )
-		 {
-			case 0:	return 24;
-			case 1:	return 25;
-			case 2:	return 26;
-			case 3:	return 27;
-			case 4:	return 28;
-			case 5:	return 30;
-			case 6:	return 31;
-		 }
-	 }
-	 else
-	 {
-		 switch( SUTIL_GetRandom()%(4) )
-		 {
-			case 0:	return 16;
-			case 1:	return 17;
-			case 2:	return 18;
-			case 3:	return 19;
-		 }
-	 }
-	
-
-	return 1;	 
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_1::ResvBoss5_AllAction(int changeState, int dummy)
-//--------------------------------------------------------------------------------------
-{
-	//	보스1번이 모든 보스의 몸통을 제어한다.
-	ResvAction(changeState, 0);
-
-	for(int loop = 0; loop < BOSS5_MAX_BODY_COUNT; loop++)
-	{
-		SetMessage(MSG_BOSS_CHANGESTATE, pChildBody[loop]->m_nUniqueIdx, changeState);
-	}
-}
-
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_2::BossMon5_2()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_5;
-	m_nMonIdx = MON_IDX_BIGDOG2;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_HEAD_1_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_5_HEAD_1_DOWN;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_5_HEAD_1_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_2::~BossMon5_2()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_2::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_2::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	if(true == BossMon5_1::isJumpChar)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-	else
-	{
-		//	paint monster
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_2::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_DIE:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_AC_REST:
-		case MON_AC_FACE_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-	}
-
-	//	보스1에서 제어한다.
-	SUTIL_UpdateTimeAsprite(pMonAsIns);
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_2::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE5);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_STAND_WALK_MELEE12_RANGE6);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_MELEE3);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE123);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE4_SUMMON);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_REGEN);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_STAND);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_HIDE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FALL:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX = 230;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_FALL);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_RANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_DOWNED:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_DOWNED);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_DOWN);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_AWAK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_AWAKE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT_STAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_DAMAGE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITFORATTACK);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_MELEE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_MELEE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SIT);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITRANGE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = NULL;
-			S_MONSKILL * tmpMonSkill = NULL;
-			for(int loop = 0; loop < 2; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BEAM_1);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)-238-(140*loop));
-				SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)+20);
-				SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 10;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 1;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 4;
-				tmpMonSkill->damagetime = 10;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-
-			return true;
-		}
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITRANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_RANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_MELEE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITRANGE_4);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITRANGE_5);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITRANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_1_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = NULL;
-			S_MONSKILL * tmpMonSkill = NULL;
-			int seed = SUTIL_GetRandom()%5;
-			for(int loop = 0; loop < 3; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_SPIKE_ATTACK);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)+14+(18*((seed+loop)%5)) );
-				SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns));
-				SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns)-96);
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 5;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 1+loop;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 4;
-				tmpMonSkill->damagetime = 5;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_3::BossMon5_3()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_5;
-	m_nMonIdx = MON_IDX_BIGDOG3;
-	m_nFeature = FE_BOSS;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_HEAD_2_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_5_HEAD_1_DOWN;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_5_HEAD_1_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_3::~BossMon5_3()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_3::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_3::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	if(true == BossMon5_1::isJumpChar)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-	else
-	{
-		//	paint monster
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_3::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_DIE:
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_AC_REST:
-		case MON_AC_FACE_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-	}
-
-	SUTIL_UpdateTimeAsprite(pMonAsIns);
-
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_3::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE5);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_STAND_WALK_MELEE12_RANGE6);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_MELEE3);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE123);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE4_SUMMON);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_REGEN);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_STAND);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_HIDE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FALL:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX = 230;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_FALL);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_RANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_DOWNED:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_DOWNED);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_DOWN);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_AWAK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_AWAKE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT_STAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_DAMAGE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITFORATTACK);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_MELEE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_MELEE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SIT);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITRANGE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITRANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = NULL;
-			S_MONSKILL * tmpMonSkill = NULL;
-			for(int loop = 0; loop < 2; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_BEAM_1);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns)-258-(loop*140));
-				SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)-20);
-				SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-				SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 10;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 1;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 4;
-				tmpMonSkill->damagetime = 10;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-			return true;
-		}
-
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_RANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_MELEE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITRANGE_4);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITRANGE_5);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITRANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_HEAD_2_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//--------------------------------------------------------------------------------------
-BossMon5_4::BossMon5_4()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_5;
-	m_nMonIdx = MON_IDX_BIGDOG4;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_LEG_2_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_5_LEG_2_DOWN;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_5_LEG_2_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_4::~BossMon5_4()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_4::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_4::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	if(true == BossMon5_1::isJumpChar)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-	else
-	{
-		//	paint monster
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_4::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_DIE:
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_AC_REST:
-		case MON_AC_FACE_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-	}
-
-	SUTIL_UpdateTimeAsprite(pMonAsIns);
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_4::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE5);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_STAND_WALK_MELEE12_RANGE6);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_MELEE3);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE123);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE4_SUMMON);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_REGEN);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_STAND);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_HIDE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FALL:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX = 230;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_FALL);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_RANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_DOWNED:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_DOWNED);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FAINTING:
-		case MON_AC_ING_DOWN:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_DOWN);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_AWAK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_AWAKE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT_STAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_DAMAGE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_SIT:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITFORATTACK);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_MELEE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_MELEE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SIT);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITRANGE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITRANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_RANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_OUT_RANGE_2);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
-			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)+10);
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 10;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 1;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 4;
-			tmpMonSkill->damagetime = 10;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-			return true;
-		}
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_MELEE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_OUT_MELEE_3);
-			SUTIL_SetLoopAsprite(tmpAsIns, true);
-			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
-			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)+20);
-			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 24;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 1;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 6;
-			tmpMonSkill->damagetime = 24;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-
-			return true;
-		}
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITRANGE_4);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITRANGE_5);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITRANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_LEG_2_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_5::BossMon5_5()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_5;
-	m_nMonIdx = MON_IDX_BIGDOG5;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_JEWEL_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_5_JEWEL_DOWN;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_5_EMPTY_RANGE4_SUMMON;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_5_JEWEL_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_5::~BossMon5_5()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_5::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_5::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	if(true == BossMon5_1::isJumpChar)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-	else
-	{
-		//	paint monster
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_5::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_DIE:
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_AC_REST:
-		case MON_AC_FACE_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-	}
-
-	SUTIL_UpdateTimeAsprite(pMonAsIns);
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_5::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE5);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_STAND_WALK_MELEE12_RANGE6);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_MELEE3);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE123);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_RANGE4_SUMMON);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_EMPTY_REGEN);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REST:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_STAND);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_HIDE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FALL:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX = 230;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_FALL);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_RANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_DOWNED:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_DOWNED);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_DOWN);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_AWAK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_AWAKE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT_STAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_DAMAGE);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_ING_SIT:
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITFORATTACK);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_SIT:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_MELEE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_MELEE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SIT);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITRANGE_1);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITRANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_RANGE_2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_MELEE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITRANGE_4);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITRANGE_5);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITRANGE_3);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_JEWEL_SITTING);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_6::BossMon5_6()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_6;
-	m_nMonIdx = MON_IDX_BIGDOG6;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_6_DOWN_ARM;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_6_DOWN_ARM;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_6::~BossMon5_6()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_6::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_6::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-//	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-//	if(true == BossMon5_1::isJumpChar)
-//	{
-	//	등장 / 퇴장신에는 정렬이 안되게 한다.
-	if(isPossibleAction)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-	else
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-
-		
-//	}
-//	else
-//	{
-		//	paint monster
-//		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-//	}
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_6::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY += FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY -= FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_DIE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-		case MON_AC_FACE_REST:
-		case MON_AC_STAND_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX += BossMon5_1::m_nMoveValue;
-			break;
-		}
-
-	}
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_AC_FACE_LOST_LEFTHAND:
-			//-----------------------------------------------------------------------
-			{
-				pMonAsIns->m_posZ += BOSS6_FACE_NOT_VIEW_ARM;
-				break;
-			}
-		}
-	}
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_6::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_DOWN_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			break;
-		}
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_5_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			//	METEO
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL *tmpMonSkill;
-
-//			int max = Field::m_nFieldSize_X/26;
-
-			int maxloop = 8+SUTIL_GetRandom()%6;
-			for(int loop = 0; loop < maxloop; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_5);
-				SUTIL_SetLoopAsprite(tmpAsIns, false);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%Field::m_nFieldSize_X );
-				SUTIL_SetYPosAsprite(tmpAsIns, 180 + SUTIL_GetRandom()%100);
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-				//SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMOVE;
-				tmpMonSkill->lifeTime = 11;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = loop;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 9;
-				tmpMonSkill->damagetime = 2;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-
-
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_5);
-				SUTIL_SetLoopAsprite(tmpAsIns, false);
-				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%Field::m_nFieldSize_X );
-				SUTIL_SetYPosAsprite(tmpAsIns, 180 + SUTIL_GetRandom()%100);
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-				//SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMOVE;
-				tmpMonSkill->lifeTime = 11;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = loop;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 9;
-				tmpMonSkill->damagetime = 2;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_1_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_2_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-//
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_6_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			//0 width, 1 height
-			if(SUTIL_GetRandom()%2)
-			{
-				for(int loop = 0; loop < 6; loop++)
-				{
-					SetMessage(MSG_BOSS3_SUMMON_WALL, (m_CharInfo->m_nPos.x)-10+SUTIL_GetRandom()%20, 180 + loop*20, 0, 0, loop);			
-				}
-			}
-			else
-			{
-				int max = Field::m_nFieldSize_X/26;
-				for(int loop = 0; loop < max; loop++)
-				{
-					SetMessage(MSG_BOSS3_SUMMON_WALL, 15 + loop*26, (m_CharInfo->m_nPos.y)-10+SUTIL_GetRandom()%20, 0, 0, loop);
-				}
-			}
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_3_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL *tmpMonSkill;
-
-			//	add bones
-			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_MELEE_3_BONE);
-			SUTIL_SetLoopAsprite(tmpAsIns, false);
-			SUTIL_SetXPosAsprite(tmpAsIns, pMonAsIns->m_posX);
-			SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY);
-			SUTIL_SetZPosAsprite(tmpAsIns, 0);
-			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 2;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 3;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 9;
-			tmpMonSkill->damagetime = 2;
-			tmpMonSkill->Movey = 47;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_MELEE_3_BONE2);
-			SUTIL_SetLoopAsprite(tmpAsIns, false);
-			SUTIL_SetXPosAsprite(tmpAsIns, pMonAsIns->m_posX);
-			SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY);
-			SUTIL_SetZPosAsprite(tmpAsIns, 0);
-//			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 14;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 0;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 9;
-			tmpMonSkill->damagetime = 5;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_2_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL *tmpMonSkill;
-			for(int loop = 0; loop < 2; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetDirAsprite(tmpAsIns, SDIR_LEFT);
-
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_2);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, Field::m_nFieldSize_X+100);
-				SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY+30+(loop*60));
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-	//			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 40;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 10+(loop);
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 9;
-				tmpMonSkill->damagetime = 2;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-
-
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_3_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL *tmpMonSkill;
-			for(int loop = 0; loop < 2; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetDirAsprite(tmpAsIns, SDIR_RIGHT);
-
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_2);
-				SUTIL_SetLoopAsprite(tmpAsIns, true);
-				SUTIL_SetXPosAsprite(tmpAsIns, -100);
-				SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY+60+(loop*60));
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-	//			SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 40;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 10+(loop);
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 9;
-				tmpMonSkill->damagetime = 2;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_4_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL *tmpMonSkill;
-
-			//	beam
-			for(int loop = 0; loop < 10; loop++)
-			{
-				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_RANGE_4_ICE);
-				SUTIL_SetLoopAsprite(tmpAsIns, false);
-				SUTIL_SetXPosAsprite(tmpAsIns, pMonAsIns->m_posX);
-				SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY+(loop*20));
-				SUTIL_SetZPosAsprite(tmpAsIns, 0);
-				//SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-				tmpMonSkill->type = SKILL_REMAIN;
-				tmpMonSkill->lifeTime = 16;
-				tmpMonSkill->Damage = 10;
-				tmpMonSkill->Delay = 0;
-				tmpMonSkill->who = (void*)this;
-				tmpMonSkill->skillnum = 9;
-				tmpMonSkill->damagetime = 3;
-				MoveTail(m_MonSkillList);
-				m_MonSkillList->Insert_prev(tmpMonSkill);
-				m_nSkillCount++;
-			}
-
-			//after icetree
-			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_RANGE_4_ICE_BACK);
-			SUTIL_SetLoopAsprite(tmpAsIns, false);
-			SUTIL_SetXPosAsprite(tmpAsIns, pMonAsIns->m_posX);
-			SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY+(10));
-			SUTIL_SetZPosAsprite(tmpAsIns, 0);
-			//SUTIL_UpdateTimeAsprite(tmpAsIns);
-
-			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 56;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 8;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 9;
-			tmpMonSkill->damagetime = 3;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-
-
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_SUMMON_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-
-			//	소환 에니메이션
-			//after icetree
-			ASpriteInstance* tmpAsIns;
-			S_MONSKILL *tmpMonSkill;
-
-			tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
-			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_SUMMON_MONSTER);
-			SUTIL_SetLoopAsprite(tmpAsIns, false);
-			SUTIL_SetXPosAsprite(tmpAsIns, pMonAsIns->m_posX);
-			SUTIL_SetYPosAsprite(tmpAsIns, pMonAsIns->m_posY);
-			SUTIL_SetZPosAsprite(tmpAsIns, 0);
-
-			tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
-			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
-			tmpMonSkill->type = SKILL_REMAIN;
-			tmpMonSkill->lifeTime = 16;
-			tmpMonSkill->Damage = 10;
-			tmpMonSkill->Delay = 0;
-			tmpMonSkill->who = (void*)this;
-			tmpMonSkill->skillnum = 9;
-			tmpMonSkill->damagetime = 0;
-			MoveTail(m_MonSkillList);
-			m_MonSkillList->Insert_prev(tmpMonSkill);
-			m_nSkillCount++;
-
-
-			//	악마 소환
-			SetMessage(MSG_BOSS5_SUMMON_DEVIL, (pMonAsIns->m_posX-50), 200, 0, 0, 14);			
-			SetMessage(MSG_BOSS5_SUMMON_DEVIL, (pMonAsIns->m_posX+50), 200, 0, 0, 14);
-
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posZ -= BOSS6_FACE_NOT_VIEW_ARM;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENL_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			BossMon5_1::m_nFaceRightArmHp = BossMon5_1::m_nMaxFaceRightArmHp;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENR_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_LEFTHAND:
-		//-----------------------------------------------------------------------
-		{
-			BossMon5_1::m_nFaceLeftArmHp = 0;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARML_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			BossMon5_1::m_nFaceRightArmHp = 0;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARMR_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			pMonAsIns->m_posX = 175;
-			pMonAsIns->m_posY = BOSS6_FACE_YPOS;
-			pMonAsIns->m_posZ = 0;
-
-			//	팔의 에너지를 초기화시켜준다.
-			BossMon5_1::m_nFaceLeftArmHp = BossMon5_1::m_nMaxFaceLeftArmHp;
-			BossMon5_1::m_nFaceRightArmHp = BossMon5_1::m_nMaxFaceRightArmHp;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REST:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY = 1000;
-			pMonAsIns->m_posZ = 0;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_7::BossMon5_7()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_6;
-	m_nMonIdx = MON_IDX_BIGDOG7;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_6_DOWN_ARM2;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_6_DOWN_ARM2;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_7::~BossMon5_7()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_7::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_7::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-//	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	//	등장 / 퇴장신에는 정렬이 안되게 한다.
-	if(isPossibleAction)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-	else
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_7::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY += FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY -= FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_DIE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-
-		case MON_AC_FACE_REST:
-		case MON_AC_STAND_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX += BossMon5_1::m_nMoveValue;
-			break;
-		}
-	}
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_AC_FACE_LOST_RIGHTHAND:
-			//-----------------------------------------------------------------------
-			{
-				pMonAsIns->m_posZ += BOSS6_FACE_NOT_VIEW_ARM;
-				break;
-			}
-		}
-	}
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_7::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_DOWN_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			break;
-		}
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_5_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_1_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_2_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-//
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_6_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_3_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_2_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_3_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_4_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_SUMMON_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENL_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posZ -= BOSS6_FACE_NOT_VIEW_ARM;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENR_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_LEFTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARML_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARMR_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			pMonAsIns->m_posX = 175;
-			pMonAsIns->m_posY = BOSS6_FACE_YPOS;
-			pMonAsIns->m_posZ = 0;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REST:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY = 1000;
-			pMonAsIns->m_posZ = 0;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_ARM2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_8::BossMon5_8()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_6;
-	m_nMonIdx = MON_IDX_BIGDOG8;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_6_DOWN_BODY;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_6_DOWN_BODY;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_8::~BossMon5_8()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_8::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_8::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-//	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	//	등장 / 퇴장신에는 정렬이 안되게 한다.
-	if(isPossibleAction)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-	else
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_8::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY += FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY -= FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_DIE:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-		case MON_AC_FACE_REST:
-		case MON_AC_STAND_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX += BossMon5_1::m_nMoveValue;
-			break;
-		}
-	}
-
-	SUTIL_UpdateTimeAsprite(pMonAsIns);
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_8::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_DOWN_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			break;
-		}
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_5_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_1_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_2_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-//
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_6_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_3_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_2_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_3_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_4_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_SUMMON_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENL_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENR_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_LEFTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARML_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARMR_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			// 몸통은 정렬을 하지 않는다.
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			pMonAsIns->m_posX = 175;
-			pMonAsIns->m_posY = BOSS6_FACE_YPOS;
-			pMonAsIns->m_posZ = 0;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_BODY);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REST:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY = 1000;
-			pMonAsIns->m_posZ = 0;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_BODY);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//--------------------------------------------------------------------------------------
-BossMon5_9::BossMon5_9()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_6;
-	m_nMonIdx = MON_IDX_BIGDOG9;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_6_DOWN_HAND;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_6_DOWN_HAND;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_9::~BossMon5_9()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_9::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_9::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-//	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	//	등장 / 퇴장신에는 정렬이 안되게 한다.
-	if(isPossibleAction)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-	else
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_9::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY += FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY -= FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_DIE:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-		case MON_AC_FACE_REST:
-		case MON_AC_STAND_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX += BossMon5_1::m_nMoveValue;
-			break;
-		}
-	}
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_AC_FACE_LOST_LEFTHAND:
-			//-----------------------------------------------------------------------
-			{
-				pMonAsIns->m_posZ += BOSS6_FACE_NOT_VIEW_ARM;
-				break;
-			}
-		}
-	}
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_9::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_DOWN_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			break;
-		}
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_5_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_1_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_2_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-//
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_6_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_3_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_2_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_3_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_4_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_SUMMON_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posZ -= BOSS6_FACE_NOT_VIEW_ARM;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENL_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENR_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_LEFTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARML_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARMR_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = true;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			pMonAsIns->m_posX = 175;
-			pMonAsIns->m_posY = BOSS6_FACE_YPOS;
-			pMonAsIns->m_posZ = 0;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REST:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY = 1000;
-			pMonAsIns->m_posZ = 0;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_10::BossMon5_10()
-//--------------------------------------------------------------------------------------
-{
-	m_nBodySize = 24;
-
-	m_nSpriteIdx = SPRITE_MON_BOSS_6;
-	m_nMonIdx = MON_IDX_BIGDOG10;
-	m_nFeature = FE_BOSS | FE_DONT_DRAW_MAP|FE_DONT_AREA_CHECK;
-
-	m_Physics = GL_NEW Physics(LIGHT_WEIGHT);
-
-	//	사용할 이미지를 설정한다.
-	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_2_WALK_VERTICAL;
-//	m_nUsingImgIdx[MON_AC_AWAK]				= ANIM_MON01_AWAKE;
-	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_ING_AIRDOWN]		= ANIM_MON01_FLY_1;
-//	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_2_DOWNED;
-//	m_nUsingImgIdx[MON_AC_RCV_GROUND_ATTACK]= ANIM_MON01_DAMAGE_1;
-//	m_nUsingImgIdx[MON_AC_RCV_DOWN_ATTACK]	= ANIM_MON01_DOWN_DAMAGE;
-//	m_nUsingImgIdx[MON_AC_RCV_AIR_ATTACK]	= ANIM_MON01_AIR_DAMAGE;
-	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_6_DOWN_HAND2;
-	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_6_DOWN_HAND2;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING]		= ANIM_MON01_CATCH_1;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_SKY]	= ANIM_MON01_CATCH_3;
-//	m_nUsingImgIdx[MON_AC_RCV_HOLDING_DOWN]	= ANIM_MON01_CATCH_2;
-	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
-//	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_MON01_WALK_VERTICAL_2;
-}
-
-
-
-//--------------------------------------------------------------------------------------
-BossMon5_10::~BossMon5_10()
-//--------------------------------------------------------------------------------------
-{
-	SAFE_DELETE(m_Attack);
-}
-
-
-//--------------------------------------------------------------------------------------
-void BossMon5_10::Process(S_CHARINFO* _CharInfo)
-//--------------------------------------------------------------------------------------
-{
-	if(m_NextActState)
-	{
-		SetAction(m_NextActState);
-		m_NextActState = 0;
-	}
-
-	//	자체 타이머를 갖는다.
-	m_nTimer= (m_nTimer+1)%1000;
-
-	//	캐릭터의 좌표를 갱신시켜준다.
-	m_CharInfo = _CharInfo;
-
-	//	맞았을시 올라가던 히트 레이트를 올려준다.
-//	m_nHitRate++;
-//	if(5 < m_nHitRate)
-//	{
-//		m_nHitRate = 5;
-//		m_nAccumulatedHit = 0;
-//	}
-
-	//	내부 프로세서를 돌린다.
-	if(!ExtProcess())	{BaseProcess();}
-
-	//	보스전용 인공지능
-	//AI_PROCESS_BOSS5_DUMMY(this);
-
-	//	보스5는 데미지를 따로 통합해서 관리해서 1번이 가지고 있는다.
-	//	초기화는 5번에서 관리한다.
-//	if(0 < Monster::m_nExtraDamage)
-//	{
-//		m_Stet.m_Hp -= Monster::m_nExtraDamage;
-//		if(0 > m_Stet.m_Hp)	{m_Stet.m_Hp = 0;}
-//		Monster::m_nExtraDamage = 0;
-//	}
-}
-
-//--------------------------------------------------------------------------------------
-void BossMon5_10::Paint()
-//--------------------------------------------------------------------------------------
-{
-	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
-//	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
-
-	int tmpXZ[2];
-	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
-	int tmpx = tmpXZ[0];
-	int tmpz = tmpXZ[1];
-
-//	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
-
-	//	등장 / 퇴장신에는 정렬이 안되게 한다.
-	if(isPossibleAction)
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
-	}
-	else
-	{
-		SUTIL_PaintAsprite(pMonAsIns, S_NOT_INCLUDE_SORT);
-	}
-
-
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
-}
-
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_10::ExtProcess()
-//--------------------------------------------------------------------------------------
-{
-	//	TEST 항시전투
-	m_bIsBattle = true;
-
-	switch(m_ActState)
-	{
-		default:
-		//-----------------------------------------------------------------------
-		{
-			return false;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY += FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY -= FACE_BOSS5_POS[m_nTimer];
-			break;
-		}
-		case MON_AC_DIE:
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		case MON_AC_FACE_LOST_LEFTHAND:
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		case MON_ATK_BOSS5_FACE_BEAM:
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		case MON_ATK_BOSS5_FACE_METEO:
-		case MON_ATK_BOSS5_FACE_WALL:
-		case MON_AC_REST:
-		case MON_AC_FAINTING:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:
-		case MON_ATK_MELEE2:
-		case MON_ATK_MELEE3:
-		case MON_ATK_MELEE4:
-		case MON_ATK_MELEE5:
-		case MON_ATK_RANGE1:
-		case MON_ATK_RANGE2:
-		case MON_ATK_RANGE3:
-		case MON_ATK_RANGE4:
-		case MON_ATK_RANGE5:
-		case MON_ATK_RANGE6:
-		case MON_ATK_RANGE7:
-		case MON_ATK_RANGE8:
-		case MON_ATK_RANGE9:
-		case MON_ATK_RANGE10:
-		case MON_ATK_RANGE11:
-		case MON_ATK_RANGE1_READY:
-		case MON_ATK_RANGE2_READY:
-		case MON_ATK_RANGE3_READY:
-		case MON_ATK_RANGE4_READY:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		//-----------------------------------------------------------------------
-		{
-			break;
-		}
-		case MON_AC_FACE_REST:
-		case MON_AC_STAND_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posX += BossMon5_1::m_nMoveValue;
-
-			//	마지막이라 없애준다.
-			BossMon5_1::m_nMoveValue = 0;
-			break;
-		}
-	}
-
-	if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
-	{
-		switch(m_ActState)
-		{
-			case MON_AC_FACE_LOST_RIGHTHAND:
-			//-----------------------------------------------------------------------
-			{
-				pMonAsIns->m_posZ += BOSS6_FACE_NOT_VIEW_ARM;
-				break;
-			}
-		}
-	}
-
-	return true;
-}
-
-
-//--------------------------------------------------------------------------------------
-bool BossMon5_10::ExtSetAction()
-//--------------------------------------------------------------------------------------
-{
-	// 타이머를 초기화시켜준다.
-	m_nTimer = 0;	
-
-	switch(m_ActState)
-	{
-		case MON_AC_DIE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_DOWN_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			break;
-		}
-		case MON_ATK_BOSS5_FACE_METEO:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_5_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_LEFT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_1_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_RIGHT_HOOK:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_2_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-//
-		case MON_ATK_BOSS5_FACE_WALL:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_6_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULDER:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_3_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_L_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_LR_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_2_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SHOULER_R_BEAM:
-		case MON_ATK_BOSS5_FACE_SHOULER_RL_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_3_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_BEAM:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_4_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_ATK_BOSS5_FACE_SUMMON:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_SUMMON_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-
-		case MON_AC_REGEN_L_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENL_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REGEN_R_ARM_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posZ -= BOSS6_FACE_NOT_VIEW_ARM;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_ARMREGENR_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_LEFTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARML_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_LOST_RIGHTHAND:
-		//-----------------------------------------------------------------------
-		{
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_LOSTARMR_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_STAND_FRONTSIDE:
-		case MON_AC_FACE_REST:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = true;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_FACE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			pMonAsIns->m_posX = 175;
-			pMonAsIns->m_posY = BOSS6_FACE_YPOS;
-			pMonAsIns->m_posZ = 0;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_HIDE_FRONTSIDE:
-		//-----------------------------------------------------------------------
-		{
-			isPossibleAction = false;
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND2);
-			SUTIL_SetLoopAsprite(pMonAsIns, true);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-		case MON_AC_REST:
-		case MON_AC_HIDE:
-		case MON_AC_FALL:
-		case MON_ATK_BOSS5_METEO:
-		case MON_AC_DOWNED:
-		case MON_AC_ING_DOWN:
-		case MON_AC_FAINTING:
-		case MON_AC_AWAK:
-		case MON_AC_SIT_STAND:
-		case MON_AC_ING_SIT:
-		case MON_AC_SIT:
-		case MON_ATK_MELEE1:	//	왼발 쿵
-		case MON_ATK_MELEE3:	//	왼발-오른발 쿵
-		case MON_ATK_MELEE2:	//	오른발 쿵
-		case MON_ATK_MELEE4:	//	오른발-왼발 쿵
-		case MON_ATK_RANGE1_READY:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2_READY:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3_READY:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4_READY:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE1:	//	앉아서 왼쪽 머리포
-		case MON_ATK_RANGE2:	//	앉아서 왼쪽-오른쪽 머리포
-		case MON_ATK_RANGE3:	//	앉아서 오른쪽 머리포
-		case MON_ATK_RANGE4:	//	앉아서 오른쪽-왼쪽 머리포
-		case MON_ATK_RANGE5:	//	앉아서 어깨 양포
-		case MON_ATK_RANGE6:	//	얼굴 불쏘기
-		case MON_ATK_RANGE7:	//	왼쪽 어깨 빔
-		case MON_ATK_RANGE8:	//	왼쪽-오른쪽 어깨 빔
-		case MON_ATK_RANGE9:	//	오른쪽 어깨 빔
-		case MON_ATK_RANGE10:	//	오른쪽-왼쪽 어깨 빔
-		case MON_ATK_RANGE11:	//	동그란 덩어리 날리기
-		case MON_ATK_MELEE5:	//	등 까시
-		//-----------------------------------------------------------------------
-		{
-			pMonAsIns->m_posY = 1000;
-			pMonAsIns->m_posZ = 0;
-
-			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_STAND_HAND2);
-			m_nDirection = SDIR_RIGHT;
-			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
-			m_Physics->initForce();
-			return true;
-		}
-	}
-
-	return false;
-}
-
 
 
 //==============================================================================================================
@@ -16061,6 +10314,1097 @@ bool DarkKnight_Mirror::ExtSetAction()
 			if(0 == m_nStartPosX)	{m_nDirection = SDIR_LEFT;}
 			else					{m_nDirection = SDIR_RIGHT;}
 
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+//==============================================================================================================
+
+//--------------------------------------------------------------------------------------
+BigTurtle::BigTurtle()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_5;
+	m_nMonIdx = MON_IDX_BIGTURTLE;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	m_nAtkMaxCount = 4;
+	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+
+	m_Attack[0].Name = MON_ATK_MELEE1;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 60;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 60;
+	m_Attack[0].MaxCoolTime = 0;
+	m_Attack[0].CoolTime = 0;
+
+
+	m_Attack[1].Name = MON_ATK_MELEE2;
+	m_Attack[1].AtkRect.x1 = 60;
+	m_Attack[1].AtkRect.x2 = 100;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 60;
+//	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].MaxCoolTime = 0;
+	m_Attack[1].CoolTime = 0;
+
+
+	m_Attack[2].Name = MON_ATK_MELEE3;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 60;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 60;
+//	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[2].MaxCoolTime = 100;
+	m_Attack[2].CoolTime = 50;
+
+
+	m_Attack[3].Name = MON_ATK_SUMMON_BUG;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 60;
+	m_Attack[3].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[3].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 60;
+//	m_Attack[3].Debuff = DEBUF_STUN;
+	m_Attack[3].MaxCoolTime = 300;
+	m_Attack[3].CoolTime = 200;
+
+
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_5_STAND;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_5_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_5_DOWN;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_5_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_5_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_5_DOWNED;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_5_STAND;
+	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_5_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_5_WALK_VERTICAL;
+//	m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_1_WALK_VERTICAL;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 6;
+	m_nAiPtnData[0] = MON_AI_ATTACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_ATTACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_MOVE_BACK;
+
+
+}
+
+
+
+//--------------------------------------------------------------------------------------
+BigTurtle::~BigTurtle()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+void BigTurtle::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+
+	//MON_ATK_SUMMON_BUG
+
+
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		//	총 소환이 10을 넘지 않게 한다.
+		if(10 > m_nTotalMonCnt)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+/*
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+*/
+	m_nUseAtkNum = 2;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 1;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+
+	m_nUseAtkNum = 0;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+		return;
+	}
+}
+
+//--------------------------------------------------------------------------------------
+void BigTurtle::Process(S_CHARINFO* _CharInfo)
+//--------------------------------------------------------------------------------------
+{
+	if(m_NextActState)
+	{
+		SetAction(m_NextActState);
+		m_NextActState = 0;
+	}
+
+	//	물리좌표를 갱신받는다.
+	m_nPhysicsPos = m_Physics->process();
+	if(0 == m_nPhysicsPos.Sqr_GetLength() && 0 == pMonAsIns->m_posZ)
+	{
+		//	이동량이 없으므로 모든 값을 초기화시켜준다.
+		m_Physics->initForce();
+	}
+	else
+	{
+		//	이동량에 따라 좌표를 보정시켜준다.
+//		m_nPos = m_nPos + m_nPhysicsPos;
+		pMonAsIns->m_posX += m_nPhysicsPos.x;
+		pMonAsIns->m_posY += m_nPhysicsPos.y;
+		pMonAsIns->m_posZ += m_nPhysicsPos.z;
+
+
+		if(0 < pMonAsIns->m_posZ)	{pMonAsIns->m_posZ = 0;}
+
+		//	저항상황이라면 (그라운드라면)
+		if(m_nResistZ == pMonAsIns->m_posZ && 0 == pMonAsIns->m_posZ)
+		{
+			m_Physics->resistGr();
+		}
+		m_nResistZ = pMonAsIns->m_posZ;		
+	}
+
+	//	캐릭터의 좌표를 갱신시켜준다.
+	m_CharInfo = _CharInfo;
+
+	//	자체 타이머를 갖는다.
+	m_nTimer= (m_nTimer+1)%1000;
+
+	//	맞았을시 올라가던 히트 레이트를 올려준다.
+	m_nHitRate++;
+	if(5 < m_nHitRate)
+	{
+		m_nHitRate = 5;
+		m_nAccumulatedHit = 0;
+	}
+
+	//	공격에 대한 쿨타임을 줄여준다.
+	for(int loop = 0; loop < m_nAtkMaxCount; loop++)
+	{
+		m_Attack[loop].CoolTime--;
+		if(0 > m_Attack[loop].CoolTime)	{m_Attack[loop].CoolTime = 0;}
+	}
+
+	//	내부 프로세서를 돌린다.
+	if(!ExtProcess())	{BaseProcess();}
+
+	//	보스전용 인공지능
+	AI_PROCESS_BOSS2(this);
+}
+
+//--------------------------------------------------------------------------------------
+bool BigTurtle::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	//	TEST 항시전투
+	m_bIsBattle = true;
+
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		case MON_ATK_MELEE2:
+		case MON_ATK_MELEE3:
+		case MON_ATK_SUMMON_BUG:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool BigTurtle::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_MELEE2:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_MELEE_2);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_MELEE3:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_MELEE_3);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_5_MELEE_3_E);
+			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+			SUTIL_SetLoopAsprite(tmpAsIns, true);
+//			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
+			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)-2);		//	충격파가 캐릭터 밑으로 가게 해준다.
+//			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+			SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+			tmpMonSkill->type = SKILL_REMOVE;
+			tmpMonSkill->lifeTime = 9;
+			tmpMonSkill->Damage = 10;
+			tmpMonSkill->Delay = 3;
+			tmpMonSkill->who = (void*)this;
+			//tmpMonSkill->skillnum = m_ActState;
+			tmpMonSkill->skillnum = 1;
+			tmpMonSkill->damagetime = 1;
+			MoveTail(m_MonSkillList);
+			m_MonSkillList->Insert_prev(tmpMonSkill);
+			m_nSkillCount++;
+
+			return true;
+		}
+		case MON_ATK_SUMMON_BUG:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_5_SUMMON);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			//	벌레 소환
+			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, m_nMonIdx, 3);
+			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, m_nMonIdx, 6);
+			SetMessage(MSG_SUMMONE_BUGS, pMonAsIns->m_posX, pMonAsIns->m_posY, m_nDirection, m_nMonIdx, 9);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//==============================================================================================================
+
+//--------------------------------------------------------------------------------------
+LastBoss::LastBoss()
+//--------------------------------------------------------------------------------------
+{
+	m_nBodySize = 24;
+
+	m_nSpriteIdx = SPRITE_MON_BOSS_6;
+	m_nMonIdx = MON_IDX_LASTBOSS;
+	m_nFeature =  FE_BOSS;	//FE_BOSS | FE_DONT_AREA_CHECK;
+
+
+	m_nShadowIdx = FRAME_SHADOW_SHADOW_2;
+
+	m_Physics = GL_NEW Physics(HEAVY_WEIGHT);
+
+	m_nAtkMaxCount = 9;
+	m_Attack = (S_MONATK*)MALLOC(sizeof(S_MONATK)*m_nAtkMaxCount);
+
+	m_Attack[0].Name = MON_ATK_MELEE1;
+	m_Attack[0].AtkRect.x1 = 0;
+	m_Attack[0].AtkRect.x2 = 60;
+	m_Attack[0].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[0].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[0].MinScope = 0;
+//	m_Attack[0].MaxScope = 60;
+	m_Attack[0].MaxCoolTime = 0;
+	m_Attack[0].CoolTime = 0;
+
+
+	m_Attack[1].Name = MON_ATK_MELEE2;
+	m_Attack[1].AtkRect.x1 = 110;
+	m_Attack[1].AtkRect.x2 = 180;
+	m_Attack[1].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[1].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[1].MinScope = 60;
+//	m_Attack[1].MaxScope = 100;
+//	m_Attack[1].Debuff = DEBUF_STUN;
+	m_Attack[1].MaxCoolTime = 100;
+	m_Attack[1].CoolTime = 50;
+
+
+	m_Attack[2].Name = MON_ATK_MELEE3;
+	m_Attack[2].AtkRect.x1 = 0;
+	m_Attack[2].AtkRect.x2 = 90;
+	m_Attack[2].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[2].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[2].MinScope = 0;
+//	m_Attack[2].MaxScope = 60;
+	m_Attack[2].Debuff = DEBUF_STUN;
+	m_Attack[2].MaxCoolTime = 200;
+	m_Attack[2].CoolTime = 100;
+
+
+	m_Attack[3].Name = MON_ATK_RANGE1;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 0;
+	m_Attack[3].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[3].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 60;
+//	m_Attack[3].Debuff = DEBUF_STUN;
+	m_Attack[3].MaxCoolTime = 300;
+	m_Attack[3].CoolTime = 150;
+
+	m_Attack[4].Name = MON_ATK_RANGE2;
+	m_Attack[4].AtkRect.x1 = 0;
+	m_Attack[4].AtkRect.x2 = 200;
+	m_Attack[4].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[4].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[4].MinScope = 0;
+//	m_Attack[4].MaxScope = 60;
+//	m_Attack[4].Debuff = DEBUF_STUN;
+	m_Attack[4].MaxCoolTime = 0;
+	m_Attack[4].CoolTime = 0;
+
+	m_Attack[5].Name = MON_ATK_MELEE4;
+	m_Attack[5].AtkRect.x1 = 80;
+	m_Attack[5].AtkRect.x2 = 300;
+	m_Attack[5].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[5].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[5].MinScope = 0;
+//	m_Attack[5].MaxScope = 60;
+//	m_Attack[5].Debuff = DEBUF_STUN;
+	m_Attack[5].MaxCoolTime = 0;
+	m_Attack[5].CoolTime = 0;
+
+	m_Attack[6].Name = MON_ATK_RANGE3;
+	m_Attack[6].AtkRect.x1 = 0;
+	m_Attack[6].AtkRect.x2 = 150;
+	m_Attack[6].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[6].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[6].MinScope = 0;
+//	m_Attack[6].MaxScope = 60;
+//	m_Attack[6].Debuff = DEBUF_STUN;
+	m_Attack[6].MaxCoolTime = 0;
+	m_Attack[6].CoolTime = 0;
+
+	m_Attack[7].Name = MON_ATK_RANGE4;
+	m_Attack[7].AtkRect.x1 = 0;
+	m_Attack[7].AtkRect.x2 = 150;
+	m_Attack[7].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[7].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[7].MinScope = 0;
+//	m_Attack[7].MaxScope = 60;
+//	m_Attack[7].Debuff = DEBUF_STUN;
+	m_Attack[7].MaxCoolTime = 0;
+	m_Attack[7].CoolTime = 0;
+
+	m_Attack[8].Name = MON_ATK_SPECIAL1;
+	m_Attack[8].AtkRect.x1 = 0;
+	m_Attack[8].AtkRect.x2 = 1000;
+	m_Attack[8].AtkRect.y1 = -1000;
+	m_Attack[8].AtkRect.y2 = 1000;
+//	m_Attack[8].MinScope = 0;
+//	m_Attack[8].MaxScope = 60;
+//	m_Attack[8].Debuff = DEBUF_STUN;
+	m_Attack[8].MaxCoolTime = 0;
+	m_Attack[8].CoolTime = 0;
+
+/*
+	m_Attack[3].Name = MON_ATK_SUMMON_BUG;
+	m_Attack[3].AtkRect.x1 = 0;
+	m_Attack[3].AtkRect.x2 = 60;
+	m_Attack[3].AtkRect.y1 = -(m_nBodySize/2);
+	m_Attack[3].AtkRect.y2 = (m_nBodySize/2);
+//	m_Attack[3].MinScope = 0;
+//	m_Attack[3].MaxScope = 60;
+//	m_Attack[3].Debuff = DEBUF_STUN;
+	m_Attack[3].MaxCoolTime = 300;
+	m_Attack[3].CoolTime = 200;
+
+*/
+	//	사용할 이미지를 설정한다.
+	m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
+	m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_6_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_ING_DOWN]			= ANIM_BOSS_6_DOWN;
+	m_nUsingImgIdx[MON_AC_DOWNED]			= ANIM_BOSS_6_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE]				= ANIM_BOSS_6_DOWNED;
+	m_nUsingImgIdx[MON_AC_DIE_AFTER]		= ANIM_BOSS_6_DOWNED;
+	m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
+	m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_6_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_6_WALK_VERTICAL;
+	m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_6_WALK_VERTICAL;
+
+	m_nAiPtnProcess = 0;
+	m_nAiPtnTotCnt = 6;
+	m_nAiPtnData[0] = MON_AI_ATTACK;
+	m_nAiPtnData[1] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[2] = MON_AI_ATTACK;
+	m_nAiPtnData[3] = MON_AI_ATTACK;
+	m_nAiPtnData[4] = MON_AI_READY_TO_HIT;
+	m_nAiPtnData[5] = MON_AI_MOVE_BACK;
+
+	m_nFlyTimer = FLY_MAXTIME;
+	m_nIsFly = 0;
+
+	m_nInit = false;
+}
+
+
+
+//--------------------------------------------------------------------------------------
+LastBoss::~LastBoss()
+//--------------------------------------------------------------------------------------
+{
+	SAFE_DELETE(m_Attack);
+}
+
+
+//--------------------------------------------------------------------------------------
+void LastBoss::SetAttack()
+//--------------------------------------------------------------------------------------
+{
+	m_bIsSuccessAttack = false;
+
+	//MON_ATK_SUMMON_BUG
+
+/*
+	m_nUseAtkNum = 3;
+	if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+	{
+		//	총 소환이 10을 넘지 않게 한다.
+		if(10 > m_nTotalMonCnt)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+*/
+	
+
+	if(m_nHealState != m_Stet.m_Hp/m_nHealDevide)
+	{
+		m_nHealState = m_Stet.m_Hp/m_nHealDevide;
+
+		if(0 < m_nHealCount && 9 > m_nHealState)
+		{
+			m_nHealCount--;
+			m_nUseAtkNum = 8;
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+
+	if(1 == m_nIsFly)
+	{
+		m_nUseAtkNum = 7;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+
+		m_nUseAtkNum = 6;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+
+		m_nUseAtkNum = 5;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+
+		m_nUseAtkNum = 4;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+	else
+	{
+		m_nUseAtkNum = 3;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+
+		m_nUseAtkNum = 2;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+
+		m_nUseAtkNum = 1;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+
+		m_nUseAtkNum = 0;
+		if(0 == m_Attack[m_nUseAtkNum].CoolTime)
+		{
+			m_Attack[m_nUseAtkNum].CoolTime = m_Attack[m_nUseAtkNum].MaxCoolTime;
+			return;
+		}
+	}
+
+}
+/*
+//--------------------------------------------------------------------------------------
+void LastBoss::Paint()
+//--------------------------------------------------------------------------------------
+{
+	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
+	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
+
+	//	paint shadow
+	//int tmpx = pMonAsIns->Get_AFrameXZ();
+	//int tmpy = tmpx%100000;
+	//tmpx = tmpx/100000; 
+
+	int tmpXZ[2];
+	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
+	int tmpx = tmpXZ[0];
+	int tmpz = tmpXZ[1];
+
+	//	그림자
+	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
+
+	//	paint monster
+	SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+
+	//	paint Debuff
+	Paint_Debuff(tmpx , tmpz);
+}
+*/
+//--------------------------------------------------------------------------------------
+void LastBoss::Process(S_CHARINFO* _CharInfo)
+//--------------------------------------------------------------------------------------
+{
+	if(m_NextActState)
+	{
+		SetAction(m_NextActState);
+		m_NextActState = 0;
+	}
+
+	//	물리좌표를 갱신받는다.
+	m_nPhysicsPos = m_Physics->process();
+	if(0 == m_nPhysicsPos.Sqr_GetLength() && 0 == pMonAsIns->m_posZ)
+	{
+		//	이동량이 없으므로 모든 값을 초기화시켜준다.
+		m_Physics->initForce();
+	}
+	else
+	{
+		//	이동량에 따라 좌표를 보정시켜준다.
+//		m_nPos = m_nPos + m_nPhysicsPos;
+		pMonAsIns->m_posX += m_nPhysicsPos.x;
+		pMonAsIns->m_posY += m_nPhysicsPos.y;
+		pMonAsIns->m_posZ += m_nPhysicsPos.z;
+
+
+		if(0 < pMonAsIns->m_posZ)	{pMonAsIns->m_posZ = 0;}
+
+		//	저항상황이라면 (그라운드라면)
+		if(m_nResistZ == pMonAsIns->m_posZ && 0 == pMonAsIns->m_posZ)
+		{
+			m_Physics->resistGr();
+		}
+		m_nResistZ = pMonAsIns->m_posZ;		
+	}
+
+	//	캐릭터의 좌표를 갱신시켜준다.
+	m_CharInfo = _CharInfo;
+
+	//	자체 타이머를 갖는다.
+	m_nTimer= (m_nTimer+1)%1000;
+
+	//	맞았을시 올라가던 히트 레이트를 올려준다.
+	m_nHitRate++;
+	if(5 < m_nHitRate)
+	{
+		m_nHitRate = 5;
+		m_nAccumulatedHit = 0;
+	}
+
+	//	공격에 대한 쿨타임을 줄여준다.
+	for(int loop = 0; loop < m_nAtkMaxCount; loop++)
+	{
+		m_Attack[loop].CoolTime--;
+		if(0 > m_Attack[loop].CoolTime)	{m_Attack[loop].CoolTime = 0;}
+	}
+
+	//	내부 프로세서를 돌린다.
+	if(!ExtProcess())	{BaseProcess();}
+
+	//	보스전용 인공지능
+	AI_PROCESS_BOSS2(this);
+}
+
+//--------------------------------------------------------------------------------------
+bool LastBoss::ExtProcess()
+//--------------------------------------------------------------------------------------
+{
+	//	TEST 항시전투
+	m_bIsBattle = true;
+
+	//	초기화
+	if(false == m_nInit)
+	{
+		m_nOriPower = m_Stet.m_Atk;
+		m_nInit = true;
+		m_nHealCount = 7;
+		m_nHealState = 10;
+		m_nHealDevide = m_Stet.m_MaxHp/10;
+		m_bPowerMode = false;
+	}
+
+	//	추가 상태변화
+	//	밀리4는 번개 쓸고 지나가는 액션이다.
+	if(MON_ATK_MELEE4 != m_ActState)
+	{
+		m_nFlyTimer--;
+	}
+	
+	//	플라이 모드
+	if(0 > m_nFlyTimer)
+	{
+		m_nFlyTimer = FLY_MAXTIME;
+		m_nIsFly = (m_nIsFly+1)%2;
+
+		if(0 == m_nIsFly)
+		{
+			m_Stet.m_Atk = m_nOriPower;
+
+			m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_STAND;
+			m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_6_WALK_VERTICAL;
+			m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_STAND;
+			m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_6_WALK_VERTICAL;
+			m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_6_WALK_VERTICAL;
+			m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_6_WALK_VERTICAL;			
+		}
+		else
+		{
+			m_Stet.m_Atk = (m_nOriPower*13)/10;			
+
+			m_nUsingImgIdx[MON_AC_STAND]			= ANIM_BOSS_6_FLY_STAND;
+			m_nUsingImgIdx[MON_AC_MOVE]				= ANIM_BOSS_6_FLY_WALK_VERTICAL;
+			m_nUsingImgIdx[MON_AC_READY]			= ANIM_BOSS_6_FLY_STAND;
+			m_nUsingImgIdx[MON_AC_RUN]				= ANIM_BOSS_6_FLY_WALK_VERTICAL;
+			m_nUsingImgIdx[MON_AC_BEHOLD]			= ANIM_BOSS_6_FLY_WALK_VERTICAL;
+			m_nUsingImgIdx[MON_AC_RUN_BEHOLD]		= ANIM_BOSS_6_FLY_WALK_VERTICAL;
+		}
+	}
+
+	//	파워모드
+	if(m_bPowerMode)
+	{
+		int pxx = 16;//31 이 넘으면 안됨
+		s_Debuff.color = (s_Debuff.color+1)%pxx;
+		int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<12)+(s_Debuff.color<<7) : ((pxx-s_Debuff.color)<<12)+((pxx-s_Debuff.color)<<7)); 
+		pMonAsIns->SetBlendCustom(true,false,7,pyy);
+	}
+	else
+	{
+		if(m_Stet.m_Hp < m_nHealDevide*2)
+		{
+			
+			m_bPowerMode = true;
+
+			//	방어력을 올려준다.
+			m_Stet.m_Defance = (m_Stet.m_Defance * 13)/10;
+
+			//	이뮴상태로 만든다.
+			m_nFeature |= FE_EMUM;
+		}
+	}
+
+	//	속성 변환
+	switch(m_Stet.m_Hp/(m_nHealDevide*2))
+	{
+		case 0:	case 1:			{m_nElementIdx = MON_ELEMENTAL_NEUTRAL;	break;}
+		case 3:					{m_nElementIdx = MON_ELEMENTAL_WOMAN;	break;}
+		case 2:	case 4:	case 5:	{m_nElementIdx = MON_ELEMENTAL_MAN;		break;}
+	}
+
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		case MON_ATK_MELEE2:
+		case MON_ATK_MELEE3:
+		case MON_ATK_RANGE1:
+
+		case MON_ATK_RANGE2:
+		case MON_ATK_RANGE3:
+		case MON_ATK_RANGE4:
+		//case MON_ATK_SUMMON_BUG:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			return true;
+		}
+		case MON_ATK_MELEE4:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				ResvAction(MON_ATK_MELEE5, 0);
+			}
+		}
+		case MON_ATK_MELEE5:
+		//-----------------------------------------------------------
+		{
+			//	캐릭터의 위치를 이동시켜준다.
+			pMonAsIns->m_posX += m_nBeamAdd;
+
+			if(SQR(2) < SQR(pMonAsIns->m_posY - m_CharInfo->m_nPos.y))
+			{
+				if(pMonAsIns->m_posY < m_CharInfo->m_nPos.y)				{pMonAsIns->m_posY += 2;}
+				else if(pMonAsIns->m_posY > m_CharInfo->m_nPos.y)			{pMonAsIns->m_posY -= 2;}
+			}
+			
+			SUTIL_UpdateTimeAsprite(pMonAsIns);
+
+			m_nBeamTimer--;
+
+			if(0 > m_nBeamTimer)
+			{
+				ResvAction(MON_AC_STAND, 0);
+			}
+			break;
+		}
+		case MON_ATK_SPECIAL1:
+		//-----------------------------------------------------------------------
+		{
+			if(!SUTIL_UpdateTimeAsprite(pMonAsIns))
+			{
+				//	에너지를 채워준다.
+				m_Stet.m_Hp = m_Stet.m_Hp + (m_nHealDevide/2);
+
+				//	다시 힐 상태를 초기화시켜준다.
+				m_nHealState = m_Stet.m_Hp/m_nHealDevide;
+				ResvAction(MON_AC_STAND, 0);
+			}
+		}
+	}
+
+	return false;
+}
+
+
+//--------------------------------------------------------------------------------------
+bool LastBoss::ExtSetAction()
+//--------------------------------------------------------------------------------------
+{
+	switch(m_ActState)
+	{
+		case MON_ATK_MELEE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_MELEE2:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_2);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_MELEE3:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_MELEE_3);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			return true;
+		}
+		case MON_ATK_RANGE1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_RANGE_0);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns = NULL;
+			S_MONSKILL * tmpMonSkill = NULL;
+			for(int loop = 0; loop < 4; loop++)
+			{
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_0);
+				//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, (SUTIL_GetRandom()%(Field::m_nFieldSize_X) ));
+				SUTIL_SetYPosAsprite(tmpAsIns, MAP_MOVE_UP_Y + (SUTIL_GetRandom()%(MAP_MOVE_DOWN_Y-MAP_MOVE_UP_Y) ));
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMOVE;
+				tmpMonSkill->lifeTime = 63;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = loop*2;
+				tmpMonSkill->who = (void*)this;
+				//tmpMonSkill->skillnum = m_ActState;
+				tmpMonSkill->skillnum = 1;
+				tmpMonSkill->damagetime = 1;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+			}
+
+			return true;
+		}
+		case MON_ATK_RANGE2:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_FLY_RANGE_1);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+			SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_1);
+			//SUTIL_UpdateTempXYAsprite(tmpAsIns, APPLY_X);	
+			SUTIL_SetLoopAsprite(tmpAsIns, true);
+//			SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetXPosAsprite(tmpAsIns));
+			SUTIL_SetYPosAsprite(tmpAsIns, SUTIL_GetYPosAsprite(tmpAsIns)-2);		//	충격파가 캐릭터 밑으로 가게 해준다.
+//			SUTIL_SetZPosAsprite(tmpAsIns, SUTIL_GetZPosAsprite(tmpAsIns));
+			SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+			S_MONSKILL * tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+			tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+			tmpMonSkill->type = SKILL_REMOVE;
+			tmpMonSkill->lifeTime = 9;
+			tmpMonSkill->Damage = 10;
+			tmpMonSkill->Delay = 6;
+			tmpMonSkill->who = (void*)this;
+			//tmpMonSkill->skillnum = m_ActState;
+			tmpMonSkill->skillnum = 1;
+			tmpMonSkill->damagetime = 1;
+			MoveTail(m_MonSkillList);
+			m_MonSkillList->Insert_prev(tmpMonSkill);
+			m_nSkillCount++;
+
+			return true;
+		}
+		case MON_ATK_MELEE4:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_FLY_MELEE_2);
+			//SUTIL_SetLoopAsprite(pMonAsIns, true);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			m_nBeamTimer = ABS((m_CharInfo->m_nPos.x - pMonAsIns->m_posX)/BEAM_MOVE_X) + 6;
+//			m_nBeamTimer = BEAM_MAXTIME;
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)				{m_nBeamAdd = BEAM_MOVE_X;}
+			else if(pMonAsIns->m_posX > m_CharInfo->m_nPos.x)			{m_nBeamAdd = -BEAM_MOVE_X;}
+
+			return true;
+		}
+		case MON_ATK_MELEE5:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_FLY_MELEE_WALK_VERTICAL);
+			SUTIL_SetLoopAsprite(pMonAsIns, true);
+//			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+//			else										{m_nDirection = SDIR_LEFT;}
+//			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+			return true;
+		}
+		case MON_ATK_RANGE3:		//	돌뭉치 떨어뜨림
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_FLY_RANGE_2);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else													{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			ASpriteInstance* tmpAsIns;
+			S_MONSKILL *tmpMonSkill;
+
+			int seed = 8 + SUTIL_GetRandom()%4;
+			for(int loop = 0; loop < seed; loop++)
+			{
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 170 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 6+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 5;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 200 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 8+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 5;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+
+				tmpAsIns = GL_NEW ASpriteInstance(pMonAsIns);
+				SUTIL_SetTypeAniAsprite(tmpAsIns,ANIM_BOSS_6_BULLET_2);
+				SUTIL_SetLoopAsprite(tmpAsIns, true);
+				SUTIL_SetXPosAsprite(tmpAsIns, SUTIL_GetRandom()%320 );
+				SUTIL_SetYPosAsprite(tmpAsIns, 230 + SUTIL_GetRandom()%30);
+				SUTIL_SetZPosAsprite(tmpAsIns, 0);
+				SUTIL_UpdateTimeAsprite(tmpAsIns);
+
+				tmpMonSkill = (S_MONSKILL*)MALLOC(sizeof(S_MONSKILL));
+				tmpMonSkill->pMonSkillAsIns = tmpAsIns;
+				tmpMonSkill->type = SKILL_REMAIN;
+				tmpMonSkill->lifeTime = 7;
+				tmpMonSkill->Damage = 10;
+				tmpMonSkill->Delay = 10+loop;
+				tmpMonSkill->who = (void*)this;
+				tmpMonSkill->skillnum = 4;
+				tmpMonSkill->damagetime = 5;
+				MoveTail(m_MonSkillList);
+				m_MonSkillList->Insert_prev(tmpMonSkill);
+				m_nSkillCount++;
+			}
+
+			return true;
+		}
+
+		case MON_ATK_RANGE4:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_FLY_RANGE_3);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
+			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
+			m_Physics->initForce();
+
+			for(int loop = 0; loop < 2; loop++)
+			{
+				SetMessage(MSG_SUMMONE_BUGS, SUTIL_GetRandom()%(Field::m_nFieldSize_X),
+					MAP_MOVE_UP_Y + (SUTIL_GetRandom()%(MAP_MOVE_DOWN_Y-MAP_MOVE_UP_Y) ),
+					m_nDirection, m_nMonIdx, 0);
+			}
+
+			return true;
+		}
+		case MON_ATK_SPECIAL1:
+		//-----------------------------------------------------------
+		{
+			SUTIL_SetTypeAniAsprite(pMonAsIns,ANIM_BOSS_6_HEAL);
+//			SUTIL_SetLoopAsprite(pMonAsIns, true);
+			if(pMonAsIns->m_posX < m_CharInfo->m_nPos.x)			{m_nDirection = SDIR_RIGHT;}
+			else										{m_nDirection = SDIR_LEFT;}
 			SUTIL_SetDirAsprite(pMonAsIns, m_nDirection);
 			m_Physics->initForce();
 			return true;
