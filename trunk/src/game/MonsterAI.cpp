@@ -304,6 +304,9 @@ int MonsterAI::Process(Monster* pMonster)
 
 	if(1 > pMonster->m_Stet.m_Hp)	{return 1;}
 
+	//	ready면 넘어간다.
+	if(MON_AC_READY == pMonster->m_ActState)	{return 1;}
+
 	//범위를 체크해서 전투상태로 만들어준다.
 	if(false == pMonster->m_bIsBattle)
 	{
@@ -446,6 +449,7 @@ int MonsterAI::Process_BOSS2(Monster* pMonster)
 int MonsterAI::Process_BOSS5(Monster* _pM)
 //--------------------------------------------------------------------------
 {
+/*
 	BossMon5_1* pMonster = (BossMon5_1*)_pM;
 
 	//	타이머 셋팅
@@ -701,7 +705,7 @@ int MonsterAI::Process_BOSS5(Monster* _pM)
 			break;
 		}
 	}
-
+*/
 	return 1;
 }
 

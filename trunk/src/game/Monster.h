@@ -114,10 +114,11 @@
 #define MON_ATK_BOSS1_HEAD_MELEE2			(MON_EXT_BASE+46)
 
 #define MON_ATK_SPECIAL1					(MON_EXT_BASE+47)
+#define MON_ATK_SPECIAL2					(MON_EXT_BASE+48)
 
 
 
-#define MON_ATK_MAX							(MON_EXT_BASE+48)
+#define MON_ATK_MAX							(MON_EXT_BASE+49)
 
 
 #define MON_NOT_ATTACK						9999
@@ -213,7 +214,7 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 
 //	ABOUT MONSTER STET_DATA //////////////////////////////////////////////////
 #define	MON_IDX_GHOST					0 
-#define	MON_IDX_GOLEM					1 
+#define	MON_IDX_SUNFLOWER				1 
 #define	MON_IDX_SLIME					2 
 #define	MON_IDX_CROWN_BOMB				3 
 #define	MON_IDX_BEAR					4 
@@ -229,11 +230,12 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 #define	MON_IDX_SPEAR					14
 #define	MON_IDX_HUMAN_MELEE				15
 #define	MON_IDX_HUMAN_RANGE				16
-#define	MON_IDX_FLYTRAP					17
-#define	MON_IDX_CRAB					18
+#define	MON_IDX_LIZARD					17
+#define	MON_IDX_TURTLE					18
+#define	MON_IDX_THUNDERCLOUD			19
 
 
-#define	MON_IDX_COUNT_NORMAL_MON		19
+#define	MON_IDX_COUNT_NORMAL_MON		20
 //------------------------------------------------------
 
 #define	MON_IDX_BARREL					40
@@ -254,33 +256,25 @@ static const int MonBaseGradeStet[][GRADE_MAX] =
 
 #define	MON_IDX_HOROS					60
 
-#define	MON_IDX_BIGDOG1					61
-#define	MON_IDX_BIGDOG2					62
-#define	MON_IDX_BIGDOG3					63
-#define	MON_IDX_BIGDOG4					64
-#define	MON_IDX_BIGDOG5					65
+#define	MON_IDX_DEVIJOHNS				61
 
-#define	MON_IDX_BIGDOG6					66
-#define	MON_IDX_BIGDOG7					67
-#define	MON_IDX_BIGDOG8					68
-#define	MON_IDX_BIGDOG9					69
-#define	MON_IDX_BIGDOG10				70
+#define	MON_IDX_WORM					62
 
-#define	MON_IDX_DEVIJOHNS				71
+#define	MON_IDX_SKELBIRD				63
+#define	MON_IDX_SKELBIRD_L_ARM			64
+#define	MON_IDX_SKELBIRD_R_ARM			65
 
-#define	MON_IDX_WORM					72
+#define	MON_IDX_FLOWER					66
+#define	MON_IDX_FLOWER_BRAIN			67
 
-#define	MON_IDX_SKELBIRD				73
-#define	MON_IDX_SKELBIRD_L_ARM			74
-#define	MON_IDX_SKELBIRD_R_ARM			75
+#define	MON_IDX_DARK_KNIGHT				68
+#define	MON_IDX_DARK_KNIGHT_MIRROR		69
 
-#define	MON_IDX_FLOWER					76
-#define	MON_IDX_FLOWER_BRAIN			77
+#define	MON_IDX_BIGTURTLE				70
 
-#define	MON_IDX_DARK_KNIGHT				78
-#define	MON_IDX_DARK_KNIGHT_MIRROR		79
+#define	MON_IDX_LASTBOSS				71
 
-#define	MON_IDX_COUNT_BOSS				20
+#define	MON_IDX_COUNT_BOSS				12
 //------------------------------------------------------
 
 
@@ -322,6 +316,7 @@ struct S_MON_STET
 	int			m_Cri;
 	int			m_Height;
 	int			m_Width;
+	int			m_nAvoid;
 };
 
 
@@ -433,7 +428,9 @@ static const int MonPtn[][STET_MAX] =
 	//¸ÞÄ«Å©·¦
   {15, 80, 5, 0, 100, 140, 140, 140, 140},
   {15, 80, 5, 0, 100, 140, 140, 140, 140},
-
+	//½ã´õº¼
+  {15, 80, 5, 0, 100, 140, 140, 140, 140},
+  {15, 80, 5, 0, 100, 140, 140, 140, 140},
 
 //-------------------------------------------------------------------
   //¿ÀºêÁ§Æ®
@@ -459,29 +456,16 @@ static const int MonPtn[][STET_MAX] =
 //-------------------------------------------------------------------
 	//º¸½º
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-	{15, 400, 5, 0, 100, 140, 140, 140, 140},
-
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DEVIJOHNS
-
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_WORM
-
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_SKELBIRD
-
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_FLOWER
-
 	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT
-
+	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
+	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
+	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
+	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
+	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
 	{15, 80, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_DARK_KNIGHT_MIRROR
 
 //	{15, 400, 5, 0, 100, 140, 140, 140, 140},		//	MON_IDX_BIG_DRAGON2
@@ -493,6 +477,7 @@ static const int MonPtn[][STET_MAX] =
 
 
 //¸ó½ºÅÍ Æ¯Â¡ : m_nFeature
+/*
 #define FE_DONT_TOUCH		(0x00000001)
 #define FE_DONT_DRAW_MAP	(0x00000010)
 #define FE_ONLY_HAVE_AI		(0x00000100)
@@ -501,6 +486,21 @@ static const int MonPtn[][STET_MAX] =
 #define FE_HAVE_ONLY_DAMAGE	(0x00100000)
 #define FE_DONT_HAVE_ITEM	(0x01000000)
 #define FE_DONT_AREA_CHECK	(0x10000000)
+#define FE_DONT_AREA_CHECK	(0x10000000)
+
+*/
+
+#define FE_DONT_TOUCH		(1 << 1)
+#define FE_DONT_DRAW_MAP	(1 << 2)
+#define FE_ONLY_HAVE_AI		(1 << 3)
+#define FE_DONT_GIVE_EXP	(1 << 4)
+#define FE_DONT_HAVE_DOWN	(1 << 5)
+#define FE_HAVE_ONLY_DAMAGE	(1 << 6)
+#define FE_DONT_HAVE_ITEM	(1 << 7)
+#define FE_DONT_AREA_CHECK	(1 << 8)
+#define FE_EMUM				(1 << 9)
+
+
 
 #define FE_NORMAL_MONSTER	(0)
 #define FE_BOSS				(FE_HAVE_ONLY_DAMAGE | FE_DONT_HAVE_DOWN )
@@ -508,7 +508,7 @@ static const int MonPtn[][STET_MAX] =
 #define FE_ONLY_BACKOBJECT	(FE_DONT_DRAW_MAP|FE_ONLY_HAVE_AI|FE_DONT_GIVE_EXP|FE_DONT_TOUCH|FE_DONT_HAVE_DOWN|FE_DONT_AREA_CHECK)
 
 
-static const int FACE_BOSS5_POS[6] = {0, -100, -60, -22,	3, -1};
+//static const int FACE_BOSS5_POS[6] = {0, -100, -60, -22,	3, -1};
 
 
 
@@ -682,13 +682,12 @@ private:
 };
 
 //--------------------------------------------------------------------------------
-#define MON2_LASERBEAM_COUNT					(4)
-#define MON2_LASERBEAM_SIZE						(120)
-class Mon_GOLEM : public Monster
+
+class Mon_SUNFLOWER : public Monster
 {
 public:
-	Mon_GOLEM();
-	~Mon_GOLEM();
+	Mon_SUNFLOWER();
+	~Mon_SUNFLOWER();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -897,11 +896,11 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_FLYTRAP : public Monster
+class Mon_LIZARD : public Monster
 {
 public:
-	Mon_FLYTRAP();
-	~Mon_FLYTRAP();
+	Mon_LIZARD();
+	~Mon_LIZARD();
 	bool ExtSetAction();
 	bool ExtProcess();
 
@@ -910,18 +909,30 @@ private:
 
 
 //--------------------------------------------------------------------------------
-class Mon_CRAB : public Monster
+class Mon_TURTLE : public Monster
 {
 public:
-	Mon_CRAB();
-	~Mon_CRAB();
+	Mon_TURTLE();
+	~Mon_TURTLE();
 	bool ExtSetAction();
 	bool ExtProcess();
 
 private:
 };
 
+//--------------------------------------------------------------------------------
+#define CLOUD_LIFETIME		300
+class Mon_THUNDERCLOUD : public Monster
+{
+public:
+	Mon_THUNDERCLOUD();
+	~Mon_THUNDERCLOUD();
+	bool ExtSetAction();
+	bool ExtProcess();
 
+private:
+	int  m_nLifeTimer;
+};
 
 
 //--------------------------------------------------------------------------------
@@ -961,6 +972,7 @@ public:
 private:
 	int  m_nLifeTimer;
 };
+
 
 //--------------------------------------------------------------------------------
 class BossMon2_1 : public Monster
@@ -1002,7 +1014,7 @@ private:
 
 #define	BOSS6_FACE_YPOS		((BOSS6_FACE_VIEW_ARM)+180)		//	180 move value
 
-
+/*
 class BossMon5_1 : public Monster
 {
 public:
@@ -1217,7 +1229,7 @@ public:
 private:
 	bool isPossibleAction;
 };
-
+*/
 
 //--------------------------------------------------------------------------------
 class Mon_DEVIJOHNS : public Monster
@@ -1454,6 +1466,61 @@ private:
 };
 
 //--------------------------------------------------------------------------------
+class BigTurtle : public Monster
+{
+public:
+
+//	void ResvBossDragon_AllAction(int changeState, int dummy);
+//	Monster* pChildBody[BOSS_DRAGON_MAX_BODY_COUNT];
+
+	BigTurtle();
+	~BigTurtle();
+	bool ExtSetAction();
+	bool ExtProcess();
+//	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+	void SetAttack();
+private:
+
+};
+
+//--------------------------------------------------------------------------------
+#define FLY_MAXTIME		300
+#define BEAM_MAXTIME	30
+#define BEAM_MOVE_X		10
+class LastBoss : public Monster
+{
+public:
+
+//	void ResvBossDragon_AllAction(int changeState, int dummy);
+//	Monster* pChildBody[BOSS_DRAGON_MAX_BODY_COUNT];
+
+	LastBoss();
+	~LastBoss();
+	bool ExtSetAction();
+	bool ExtProcess();
+//	void Paint();
+	void Process(S_CHARINFO* _CharInfo);
+	void SetAttack();
+private:
+
+	int	 m_nFlyTimer;
+	int  m_nIsFly;
+	int  m_nOriPower;
+
+	int  m_nBeamTimer;
+	int  m_nBeamAdd;
+
+	int  m_nHealState;
+	int  m_nHealDevide;
+	int  m_nHealCount;
+
+	bool m_nInit;
+//	int  m_nExtendDef;
+	bool m_bPowerMode;
+};
+
+//--------------------------------------------------------------------------------
 class Barrel : public Monster
 {
 public:
@@ -1650,6 +1717,77 @@ private:
 static const int MonBaseStet[][STET_MAX] = 
 {
 		//½ºÇÁ¶óÀÌÆ® ÀÎµ¦½º,		º£ÀÌ½º,					ÀÌ¸§,	¼Ó¼º,					ÄÃ·¯,	°ø°Ý1,	°ø°Ý2,	°ø°Ý3,	¹æ¾îÀ²,	Ã¼·Â,	Å©¸®À², È¸ÇÇÀ², Ãß°¡°æÇèÄ¡
+<<<<<<< .mine
+{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			0,		MON_ELEMENTAL_SNIPS,	0,		100,	110,	  0,	  0,	 80,	  3,	  0,	100},		//	Á©¸®Çª
+{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			1,		MON_ELEMENTAL_STONE,	1,		120,	110,	  0,	  0,	100,	  4,	  0,	100},		//	Á©¸®Æ÷¿ì
+{ SPRITE_MON_SLIME,			MON_IDX_SLIME,			2,		MON_ELEMENTAL_PAPER,	2,		140,	140,	  0,	 15,	 80,	  5,	  0,	100},		//	Á©¸®Å·
+{ SPRITE_MON_FLOWER,			MON_IDX_FLOWER,			3,		MON_ELEMENTAL_SNIPS,	0,		150,	100,	200,	 50,	 80,	  0,	  0,	100},		//	°ñ·½
+{ SPRITE_MON_FLOWER,			MON_IDX_FLOWER,			4,		MON_ELEMENTAL_STONE,	1,		150,	150,	300,	 25,	250,	  5,	  0,	100},		//	¶ô°ñ·½
+{ SPRITE_MON_FLOWER,			MON_IDX_FLOWER,			5,		MON_ELEMENTAL_PAPER,	2,		200,	300,	250,	 30,	300,	 20,	  0,	100},		//	Çï°ñ·½
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	6,		MON_ELEMENTAL_SNIPS,	0,		120,	200,	  0,	 10,	200,	 30,	  0,	100},		//	³úÁ¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	7,		MON_ELEMENTAL_STONE,	1,		150,	250,	  0,	 15,	300,	 40,	  0,	100},		//	Ç³Á¶
+{ SPRITE_MON_TREE,			MON_IDX_TREE,	8,		MON_ELEMENTAL_PAPER,	2,		170,	300,	  0,	  0,	400,	 50,	  0,	100},		//	ºÒ»çÁ¶
+{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			9,		MON_ELEMENTAL_SNIPS,	0,		100,	170,	  0,	  5,	120,	  6,	  0,	100},		//	ÄÚº¼Æ®
+{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			10,		MON_ELEMENTAL_STONE,	1,		100,	200,	  0,	  7,	150,	  7,	  0,	100},		//	È©°íºí¸°
+{ SPRITE_MON_COBOLT,		MON_IDX_COBOLT,			11,		MON_ELEMENTAL_PAPER,	2,		100,	230,	  0,	 10,	200,	 12,	  0,	100},		//	ÄÚº¼Æ®Å·
+{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			12,		MON_ELEMENTAL_SNIPS,	0,		120,	200,	  0,	  0,	150,	 20,	  0,	100},		//	·¦ÅÍ
+{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			13,		MON_ELEMENTAL_STONE,	1,		130,	220,	  0,	  7,	170,	 25,	  0,	100},		//	Åé´Ï·¦ÅÍ
+{ SPRITE_MON_T_REX,			MON_IDX_RAPTER,			14,		MON_ELEMENTAL_PAPER,	2,		140,	240,	  0,	 10,	220,	 30,	  0,	100},		//	Ä®¹ß·¦ÅÍ
+{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_ELEMENT,		MON_IDX_WATER_ELE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_SHREK,			Mon_IDX_SHREK,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_GOLLUM,		MON_IDX_GOLLUM,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_SHRIMP,		MON_IDX_SHRIMP,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BEE,		MON_IDX_BEE,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_ELF,			MON_IDX_ELF,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_ELF,			MON_IDX_ELF,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_ELF,			MON_IDX_ELF,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_FIRE,	MON_IDX_FIRE,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_EYE,		MON_IDX_EYE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_KNIGHT,			MON_IDX_KNIGHT,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_MELEE,	17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_HUMAN,			MON_IDX_HUMAN_RANGE,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_LIZARD,		MON_IDX_LIZARD,		15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_LIZARD,		MON_IDX_LIZARD,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_LIZARD,		MON_IDX_LIZARD,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_TURTLE,			MON_IDX_TURTLE,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_TURTLE,			MON_IDX_TURTLE,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_TURTLE,			MON_IDX_TURTLE,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	100,	  0,	  0,	100},		//	¹°Á¤·É
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_2,		MON_IDX_BOSS2_1,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	 20,	600,	 15,	  0,   1000},		//	¿îµð³×
+{ SPRITE_MON_BUG,			MON_IDX_BUG,			15,		MON_ELEMENTAL_SNIPS,	0,		200,	160,	  0,	  0,	 30,		  0,	  0,	  0},		//	¹°Á¤·É
+{ SPRITE_MON_BOSS_3,		MON_IDX_BOSS3_1,		16,		MON_ELEMENTAL_STONE,	1,		220,	180,	  0,	  0,	120,	  4,	  0,	100},		//	¿îµð³×
+{ SPRITE_MON_BOSS_3,		MON_IDX_BOSS3_2,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_1,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_2,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_3,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_4,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_5,		MON_IDX_BOSS5_5,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BOSS_6,		MON_IDX_BOSS6_1,		17,		MON_ELEMENTAL_PAPER,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_BARREL,		MON_IDX_BARREL,			17,		MON_ELEMENTAL_PAPER,	0,		240,	200,	  0,	 15,	10,		  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
+{ SPRITE_MON_STONE_BIG,		MON_IDX_STONE_BIG,		17,		MON_ELEMENTAL_PAPER,	0,		240,	200,	  0,	 15,	999,	  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
+=======
 { SPRITE_MON_SLIME,			MON_IDX_SLIME,			0,		MON_ELEMENTAL_MAN,	0,		100,	110,	  0,	  0,	 80,	  3,	  0,	100},		//	Á©¸®Çª
 { SPRITE_MON_SLIME,			MON_IDX_SLIME,			1,		MON_ELEMENTAL_WOMAN,	1,		120,	110,	  0,	  0,	100,	  4,	  0,	100},		//	Á©¸®Æ÷¿ì
 { SPRITE_MON_SLIME,			MON_IDX_SLIME,			2,		MON_ELEMENTAL_NEUTRAL ,	2,		140,	140,	  0,	 15,	 80,	  5,	  0,	100},		//	Á©¸®Å·
@@ -1719,6 +1857,7 @@ static const int MonBaseStet[][STET_MAX] =
 { SPRITE_MON_BOSS_6,		MON_IDX_BOSS6_1,		17,		MON_ELEMENTAL_NEUTRAL ,	2,		240,	200,	  0,	 15,	140,	  8,	  0,	100},		//	¿öÅÍÆÒÅÒ
 { SPRITE_MON_BARREL,		MON_IDX_BARREL,			17,		MON_ELEMENTAL_NEUTRAL ,	0,		240,	200,	  0,	 15,	10,		  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
 { SPRITE_MON_STONE_BIG,		MON_IDX_STONE_BIG,		17,		MON_ELEMENTAL_NEUTRAL ,	0,		240,	200,	  0,	 15,	999,	  8,	  0,	0},			//	¿öÅÍÆÒÅÒ
+>>>>>>> .r40
 
 
 

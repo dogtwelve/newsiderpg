@@ -24,7 +24,14 @@
 #define DATA_CINEMA_MAX 			 17 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_MAP_CAVE 			"/1"
+#define PACK_DATA_MAPINFO 			"/1"
+
+#define DATA_MAPINFO_ZONE0 			 0 
+#define DATA_MAPINFO_ZONE1 			 1 
+#define DATA_MAPINFO_MAX 			 2 
+
+//------------------------------------------------------------------------------
+#define PACK_DATA_MAP_CAVE 			"/2"
 
 #define DATA_MAP_CAVE_FIELD 			 0 
 #define DATA_MAP_CAVE_FRONT 			 1 
@@ -71,7 +78,7 @@
 #define DATA_MAP_CAVE_MAX 			 42 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_MAP_FOREST 			"/2"
+#define PACK_DATA_MAP_FOREST 			"/3"
 
 #define DATA_MAP_FOREST_BACKOUT1 			 0 
 #define DATA_MAP_FOREST_BACKOUT2 			 1 
@@ -112,7 +119,7 @@
 #define DATA_MAP_FOREST_MAX 			 36 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_MAP_VILLAGE 			"/3"
+#define PACK_DATA_MAP_VILLAGE 			"/4"
 
 #define DATA_MAP_VILLAGE_SKY_NORMAL 			 0 
 #define DATA_MAP_VILLAGE_FIELD_NORMAL01 			 1 
@@ -135,7 +142,7 @@
 #define DATA_MAP_VILLAGE_MAX 			 18 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_MAP_TEMPLE 			"/4"
+#define PACK_DATA_MAP_TEMPLE 			"/5"
 
 #define DATA_MAP_TEMPLE_FIELDOUT 			 0 
 #define DATA_MAP_TEMPLE_BACKOUT1 			 1 
@@ -184,7 +191,7 @@
 #define DATA_MAP_TEMPLE_MAX 			 44 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_MAP_DEVILZONE 			"/5"
+#define PACK_DATA_MAP_DEVILZONE 			"/6"
 
 #define DATA_MAP_DEVILZONE_BACKSKYIN 			 0 
 #define DATA_MAP_DEVILZONE_BACKIN_OB 			 1 
@@ -208,7 +215,7 @@
 #define DATA_MAP_DEVILZONE_MAX 			 19 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_TEXT 			"/6"
+#define PACK_DATA_TEXT 			"/7"
 
 #define DATA_TEXT_MON_TEXT 			 0 
 #define DATA_TEXT_CLRMENU_TEXT 			 1 
@@ -219,7 +226,7 @@
 #define DATA_TEXT_MAX 			 6 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_TALK 			"/7"
+#define PACK_DATA_TALK 			"/8"
 
 #define DATA_TALK_FACE_NAME 			 0 
 #define DATA_TALK_NPC_NAME 			 1 
@@ -236,13 +243,13 @@
 #define DATA_TALK_MAX 			 12 
 
 //------------------------------------------------------------------------------
-#define PACK_DATA_LOADING 			"/8"
+#define PACK_DATA_LOADING 			"/9"
 
 #define DATA_LOADING_TEXT_LOADING 			 0 
 #define DATA_LOADING_MAX 			 1 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_MAINMENU 			"/9"
+#define PACK_SPRITE_MAINMENU 			"/10"
 
 #define SPRITE_MAINMENU_GAMELOFT 			 0 
 #define SPRITE_MAINMENU_TITLE 			 1 
@@ -252,7 +259,7 @@
 #define SPRITE_MAINMENU_MAX 			 5 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_FACE 			"/10"
+#define PACK_SPRITE_FACE 			"/11"
 
 #define SPRITE_FACE_FACE_00 			 0 
 #define SPRITE_FACE_FACE_01 			 1 
@@ -260,7 +267,7 @@
 #define SPRITE_FACE_MAX 			 3 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_MAP 			"/11"
+#define PACK_SPRITE_MAP 			"/12"
 
 #define SPRITE_MAP_MAP_0 			 0 
 #define SPRITE_MAP_MAP_1 			 1 
@@ -302,7 +309,7 @@
 #define SPRITE_MAP_MAX 			 37 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_WORLDMAP 			"/12"
+#define PACK_SPRITE_WORLDMAP 			"/13"
 
 #define SPRITE_WORLDMAP_WORLDMAP_WEST_UI 			 0 
 #define SPRITE_WORLDMAP_WORLDMAP_EAST_UI 			 1 
@@ -310,7 +317,7 @@
 #define SPRITE_WORLDMAP_MAX 			 3 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_UI 			"/13"
+#define PACK_SPRITE_UI 			"/14"
 
 #define SPRITE_UI_FIELD_UI 			 0 
 #define SPRITE_UI_TALK_UI 			 1 
@@ -322,7 +329,7 @@
 #define SPRITE_UI_MAX 			 7 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_COSTUME 			"/14"
+#define PACK_SPRITE_COSTUME 			"/15"
 
 #define SPRITE_COSTUME_MAN_0_HEAD 			 0 
 #define SPRITE_COSTUME_MAN_1_HEAD 			 1 
@@ -387,7 +394,7 @@
 #define SPRITE_COSTUME_MAX 			 60 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE 			"/15"
+#define PACK_SPRITE 			"/16"
 
 #define SPRITE_WOMAN_BODY 			 0 
 #define SPRITE_MAN_BODY 			 1 
@@ -415,10 +422,10 @@
 #define SPRITE_MAX 			 23 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_MON 			"/16"
+#define PACK_SPRITE_MON 			"/17"
 
 #define SPRITE_MON_GHOST 			 0 
-#define SPRITE_MON_GOLEM 			 1 
+#define SPRITE_MON_SUNFLOWER 			 1 
 #define SPRITE_MON_SLIME 			 2 
 #define SPRITE_MON_CROWNBOMB 			 3 
 #define SPRITE_MON_BEAR 			 4 
@@ -432,28 +439,29 @@
 #define SPRITE_MON_EYE 			 12 
 #define SPRITE_MON_SPEAR 			 13 
 #define SPRITE_MON_HUMAN 			 14 
-#define SPRITE_MON_FLYTRAP 			 15 
-#define SPRITE_MON_CRAB 			 16 
+#define SPRITE_MON_LIZARD 			 15 
+#define SPRITE_MON_TURTLE 			 16 
 #define SPRITE_MON_BUG 			 17 
 #define SPRITE_MON_DIRLL 			 18 
-#define SPRITE_MON_BOSS_1 			 19 
-#define SPRITE_MON_BOSS_2 			 20 
-#define SPRITE_MON_BOSS_3 			 21 
-#define SPRITE_MON_BOSS_4 			 22 
-#define SPRITE_MON_BOSS_5 			 23 
-#define SPRITE_MON_BOSS_6 			 24 
-#define SPRITE_MON_BOSS_7 			 25 
-#define SPRITE_MON_BARREL 			 26 
-#define SPRITE_MON_STONE_BIG 			 27 
-#define SPRITE_MON_BOX 			 28 
-#define SPRITE_MON_KNIGHT 			 29 
-#define SPRITE_MON_TMP_CROCK 			 30 
-#define SPRITE_MON_TMP_STONEBOX 			 31 
-#define SPRITE_MON_FACTORY_BOX 			 32 
-#define SPRITE_MON_MAX 			 33 
+#define SPRITE_MON_THUNDER 			 19 
+#define SPRITE_MON_BOSS_1 			 20 
+#define SPRITE_MON_BOSS_2 			 21 
+#define SPRITE_MON_BOSS_3 			 22 
+#define SPRITE_MON_BOSS_4 			 23 
+#define SPRITE_MON_BOSS_5 			 24 
+#define SPRITE_MON_BOSS_6 			 25 
+#define SPRITE_MON_BOSS_7 			 26 
+#define SPRITE_MON_BARREL 			 27 
+#define SPRITE_MON_STONE_BIG 			 28 
+#define SPRITE_MON_BOX 			 29 
+#define SPRITE_MON_KNIGHT 			 30 
+#define SPRITE_MON_TMP_CROCK 			 31 
+#define SPRITE_MON_TMP_STONEBOX 			 32 
+#define SPRITE_MON_FACTORY_BOX 			 33 
+#define SPRITE_MON_MAX 			 34 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_NPC 			"/17"
+#define PACK_SPRITE_NPC 			"/18"
 
 #define SPRITE_NPC_NPC1 			 0 
 #define SPRITE_NPC_NPC2 			 1 
@@ -478,13 +486,13 @@
 #define SPRITE_NPC_MAX 			 20 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_LOADING 			"/18"
+#define PACK_SPRITE_LOADING 			"/19"
 
 #define SPRITE_LOADING_LODING 			 0 
 #define SPRITE_LOADING_MAX 			 1 
 
 //------------------------------------------------------------------------------
-#define PACK_SPRITE_CINEMA 			"/19"
+#define PACK_SPRITE_CINEMA 			"/20"
 
 #define SPRITE_CINEMA_BLACKOUT 			 0 
 #define SPRITE_CINEMA_EMOTION_ETC 			 1 

@@ -256,6 +256,9 @@ public:
 #define SUTIL_s_data_offset					(_SUTIL->pGame->s_data_offset)
 #define SUTIL_s_s_data_sizes				(_SUTIL->pGame->s_data_sizes)
 #define SUTIL_Data_free()					(_SUTIL->pGame->Data_free())
+#define SUTIL_s_data_curOffset				(_SUTIL->pGame->s_data_curOffset)
+
+
 
 
 
