@@ -1237,12 +1237,12 @@ void PopupUi::Key_SYSTEM(int m_keyCode, int m_keyRepeat)
 			case MH_KEY_UP:Character::s_Status[Character::s_HeroTag.SEX].LIFE=99999999;break;//수정요
 			case MH_KEY_3:Character::s_Status[Character::s_HeroTag.SEX].MANA=99999999;break;
 			case MH_KEY_LEFT:
-				Character::s_Skill_Set.Cool_TimeMax[Character::s_HeroTag.SEX][0]=0;Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][0]=0;
-				Character::s_Skill_Set.Cool_TimeMax[Character::s_HeroTag.SEX][1]=0;Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][1]=0;
-				Character::s_Skill_Set.Cool_TimeMax[Character::s_HeroTag.SEX][2]=0;Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][2]=0;
-				Character::s_Skill_Set.Cool_TimeMax[Character::s_HeroTag.SEX][3]=0;Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][3]=0;
-				Character::s_Skill_Set.Cool_TimeMax[Character::s_HeroTag.SEX][4]=0;Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][4]=0;
-				Character::s_Skill_Set.Cool_TimeMax[Character::s_HeroTag.SEX][5]=0;Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][5]=0;
+				Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeMax[0]=0;Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[0]=0;
+				Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeMax[1]=0;Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[1]=0;
+				Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeMax[2]=0;Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[2]=0;
+				Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeMax[3]=0;Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[3]=0;
+				Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeMax[4]=0;Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[4]=0;
+				Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeMax[5]=0;Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[5]=0;
 				break;//수정요																						 
 			case MH_KEY_CLEAR:s_Page.Focus=0;break;
 			case MH_KEY_SELECT:
@@ -1278,7 +1278,7 @@ void PopupUi::Key_GAMEOVER(int m_keyCode, int m_keyRepeat)
 				GameOver = false;
 				Character::s_Status[Character::s_HeroTag.SEX].LIFE = Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX;
 				Character::s_Status[Character::s_HeroTag.SEX].MANA = Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX;
-				for(int xx =0 ;xx<3;xx++)Character::s_Skill_Set.Cool_TimeNow[Character::s_HeroTag.SEX][xx]=0;
+				for(int xx =0 ;xx<3;xx++)Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[xx]=0;
 			}
 			break;
 	}

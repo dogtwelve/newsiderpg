@@ -323,6 +323,7 @@ struct HeroTag{
 	bool act;			//SangHo - 태그중이라면
 	int	SEX;		//0: 남자, 1:여자
 	int FocusHero;		//현재 컨트롤 대상 히어로를 지정한다
+
 	bool OVER_SkillEffect;
 	bool DOWN_SkillEffect;
 	bool _b_ActionEnd;
@@ -338,13 +339,13 @@ struct Skill{
 };
 struct Skill_Set{
 	bool act;	//SangHo - 스킬이 시전되면
-	int Num;//스킬번호 (0,1,2,3,4) - 슬롯번호
+	int Num;//스킬번호 (0,1,2) - 슬롯번호
 	int Input_Key;	//SangHo - 주인공의 잡기가 가능하다면
-	int Skill_ID[2][3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
-	int Skill_LEVEL[2][3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
-	int Need_Mana[2][3];//스킬의 소비마나 수치
-	int Cool_TimeMax[2][5];//스킬의 쿨타임을 기록
-	int Cool_TimeNow[2][5];//스킬의 현재 쿨타임
+	int Skill_ID[3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
+	int Skill_LEVEL[3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
+	int Need_Mana[3];//스킬의 소비마나 수치
+	int Cool_TimeMax[5];//스킬의 쿨타임을 기록
+	int Cool_TimeNow[5];//스킬의 현재 쿨타임
 	bool OVER_SkillEffect;		//SangHo - 주인공의 스킬이 발동하면 True 이다
 	bool DOWN_SkillEffect;		//SangHo - 주인공의 스킬이 발동하면 True 이다
 };
@@ -405,7 +406,7 @@ public:
 
 	
 	static Skill s_Skill;
-	static Skill_Set s_Skill_Set;
+	static Skill_Set s_Skill_Set[2];//현재 시전 스킬 정보
 
 	static ItemBag s_ItemEquip[2][7];//착용 아이템
 	static ItemAbility s_ItemAbil[2][7];//착용 아이템의 능력
@@ -591,6 +592,7 @@ private:
 	//Process
 	void	Recovery();														//매 프레임마다 자동적으로 취해지는 연산
 	int		SetDamageDecide(ASpriteInstance*	_ins_Hero,Damage& s_Damage);													//SangHo - 물리값에 의한 이벤트 처리 
+
 	void	SetActionDecide(int m_actNum);
 
 	//Paint

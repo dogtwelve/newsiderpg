@@ -1305,24 +1305,24 @@ void Monster::Paint_Debuff(int drawX,int drawZ)
 						}
 
 						break;
-					case DEBUF_ICE://아이스
-						if(xx == 0 ){// 0번째(최신) 디버프이며
-							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_COLD){// 디버프 타이머가 지금 시작 되었다면
-								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_COLD);
-								_ins_Debuff->m_bLoop = true;
-							}
-							int pxx = 31;//31 이 넘으면 안됨
-							s_Debuff.color = (s_Debuff.color+2)%pxx;
-							int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<1)); 
-							//int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<11)+(s_Debuff.color<<6)+(s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<11)+((pxx-s_Debuff.color)<<6)+((pxx-s_Debuff.color)<<1)); 
-							pMonAsIns->SetBlendCustom(true,false,7,pyy);
-						}
-						if(s_Debuff.stack[xx][1] > 30){//디버프가 종료 되었다면
-							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
-							s_Debuff.stack[xx][0] = 0;
-							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
-						}
-						break;
+// 					case DEBUF_ICE://아이스
+// 						if(xx == 0 ){// 0번째(최신) 디버프이며
+// 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_COLD){// 디버프 타이머가 지금 시작 되었다면
+// 								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_COLD);
+// 								_ins_Debuff->m_bLoop = true;
+// 							}
+// 							int pxx = 31;//31 이 넘으면 안됨
+// 							s_Debuff.color = (s_Debuff.color+2)%pxx;
+// 							int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<1)); 
+// 							//int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<11)+(s_Debuff.color<<6)+(s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<11)+((pxx-s_Debuff.color)<<6)+((pxx-s_Debuff.color)<<1)); 
+// 							pMonAsIns->SetBlendCustom(true,false,7,pyy);
+// 						}
+// 						if(s_Debuff.stack[xx][1] > 30){//디버프가 종료 되었다면
+// 							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
+// 							s_Debuff.stack[xx][0] = 0;
+// 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
+// 						}
+// 						break;
 					case DEBUF_FREEZE://동결
 						if(xx == 0 ){// 0번째(최신) 디버프이며
 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_FREEZ_1 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_FREEZ_3){// 디버프 타이머가 지금 시작 되었다면

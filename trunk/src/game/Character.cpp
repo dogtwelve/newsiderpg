@@ -10,7 +10,7 @@
 	HeroStatus Character::s_Status[2];
 	HeroTag Character::s_HeroTag;
 	Skill Character::s_Skill;
-	Skill_Set Character::s_Skill_Set;
+	Skill_Set Character::s_Skill_Set[2];
 
 
 	ItemBag Character::s_ItemEquip[2][7];
@@ -98,8 +98,8 @@
 // 			s_Ability[s_HeroTag.SEX].JAB_GUN	=true;	//총사 - 직업 선택 가능하다면 true
 // 			//s_Ability[s_HeroTag.SEX].JAB_MAGIC	=false;	//술사 - 직업 선택 가능하다면 true
 
-			s_Status[0].LEVEL =  1;
-			s_Status[1].LEVEL =  1;
+			s_Status[0].LEVEL =  31;
+			s_Status[1].LEVEL =  31;
 
 
 // 			switch(SAVELOAD_sex){ // 0 : 여자 1 : 남자
@@ -119,22 +119,22 @@
 			//s_Ability[s_HeroTag.SEX].JAB_KNIFE	=true;	//검사 - 직업 선택 가능하다면 true
 
 			
-			s_Ability[0].STR = 7  + (s_Status[0].LEVEL-1)*2;
-			s_Ability[0].DEX = 0  + (s_Status[0].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
-			s_Ability[0].CON = 10 + (s_Status[0].LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-			s_Ability[0].INT = 3  + (s_Status[0].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-			s_Ability[0].FAM = 0  + (s_Status[0].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+			s_Ability[0].STR = 3  + (s_Status[0].LEVEL-1)*1;
+			s_Ability[0].DEX = 5  + (s_Status[0].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+			s_Ability[0].CON = 6  + (s_Status[0].LEVEL-1)*1;	//체력-생명력, 방어력(30%),생명력 회복률
+			s_Ability[0].INT = 5  + (s_Status[0].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
+			s_Ability[0].FAM = 0  + (s_Status[0].LEVEL-1)*5;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 
 
 			s_Ability[1].STR = 7  + (s_Status[1].LEVEL-1)*2;
-			s_Ability[1].DEX = 0  + (s_Status[1].LEVEL-1)*2;	//민첩-건너 공격력(100%) , 회피,크리
+			s_Ability[1].DEX = 0  + (s_Status[1].LEVEL-1)*1;	//민첩-건너 공격력(100%) , 회피,크리
 			s_Ability[1].CON = 10 + (s_Status[1].LEVEL-1)*2;	//체력-생명력, 방어력(30%),생명력 회복률
-			s_Ability[1].INT = 3  + (s_Status[1].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
-			s_Ability[1].FAM = 0  + (s_Status[1].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
+			s_Ability[1].INT = 3  + (s_Status[1].LEVEL-1)*1;	//지능-마법사 공격력(건너의 130%) , 마나
+			s_Ability[1].FAM = 0  + (s_Status[1].LEVEL-1)*5;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 
 
 
-			s_Skill_Set.Cool_TimeMax[SAVELOAD_sex][4] = 20;
+			s_Skill_Set[SAVELOAD_sex].Cool_TimeMax[4] = 20;
 
 
 // 					break;
@@ -149,7 +149,7 @@
 // 					s_Ability[s_HeroTag.SEX].INT = 5 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//지능-마법사 공격력(건너의 130%) , 마나
 // 					s_Ability[s_HeroTag.SEX].FAM = 0 + (s_Status[s_HeroTag.SEX].LEVEL-1)*2;	//명성-별도 스탯 , 퀘스트 습득 및 마을 사람과의 대화 필요
 // 
-// 					s_Skill_Set.Cool_TimeMax[SAVELOAD_sex][4] = 20;
+// 					s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[SAVELOAD_sex][4] = 20;
 // 					break;
 // 				//case 2:
 // 				//	s_Skill.Equip_A[0] = 14;
@@ -280,7 +280,31 @@
 		_move_Order = SetDamageDecide(_ins_Hero, s_Damage);//SangHo - 물리값에 의한 이벤트 처리 
 
 		if(s_HeroTag.act){ 
-			/*_move_Order = */SetDamageDecide(_ins_Hero_clone, s_HeroTag.s_Damage);//SangHo - 물리값에 의한 이벤트 처리
+			SetDamageDecide(_ins_Hero_clone, s_HeroTag.s_Damage);//SangHo - 물리값에 의한 이벤트 처리
+
+			if(s_Skill_Set[!s_HeroTag.SEX].act){
+				switch( s_Skill_Set[!s_HeroTag.SEX].Skill_ID[s_Skill_Set[!s_HeroTag.SEX].Num] ){//예외적인 스킬들
+					case 0://5연발샷 
+						if(_ins_Hero_clone->m_nCrtFrame == 8)s_Bullet_Eff[0].act = true;//발사
+						if(_ins_Hero_clone->m_nCrtFrame == 12)s_Bullet_Eff[1].act = true;//발사
+						if(_ins_Hero_clone->m_nCrtFrame == 15)s_Bullet_Eff[2].act = true;//발사
+						if(_ins_Hero_clone->m_nCrtFrame == 18)s_Bullet_Eff[3].act = true;//발사
+						if(_ins_Hero_clone->m_nCrtFrame == 21)s_Bullet_Eff[4].act = true;//발사
+						break;
+					case 1://프로즌 샤워
+						if(_ins_Hero_clone->m_nCrtFrame == 8)s_Bullet_Eff[5].act = true;//발사
+						break;
+					case 5://토네이도
+						if(_ins_Hero_clone->m_nCrtFrame == 5)s_Bullet_Eff[6].act = true;//발사
+						break;
+					case 6://마인 3샷
+						if(_ins_Hero_clone->m_nCrtFrame == 9)s_Bullet_Eff[7].act = true;//발사
+						if(_ins_Hero_clone->m_nCrtFrame == 9)s_Bullet_Eff[8].act = true;//발사
+						if(_ins_Hero_clone->m_nCrtFrame == 9)s_Bullet_Eff[9].act = true;//발사
+						break;
+				}
+			}
+			
 		}
 
 
@@ -312,12 +336,12 @@
 		Paint_Knife();
 
 		//	paint DOWN skill
-		if(s_Skill_Set.DOWN_SkillEffect)
+		if(s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect)
 		{
-			//_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-			//_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-			SUTIL_SetDirAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1], _b_LookRight);
-			SUTIL_PaintAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1],S_INCLUDE_SORT);
+			//_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+			//_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+			SUTIL_SetDirAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1], _b_LookRight);
+			SUTIL_PaintAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1],S_INCLUDE_SORT);
 		}
 
 		//	paint character
@@ -327,12 +351,12 @@
 		Paint_Debuff(tmpx , tmpz);
 
 		//	paint OVER skill
-		if(s_Skill_Set.OVER_SkillEffect)
+		if(s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect)
 		{
-			//_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-			//_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-			SUTIL_SetDirAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0], _b_LookRight);
-			SUTIL_PaintAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0],S_INCLUDE_SORT);
+			//_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+			//_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+			SUTIL_SetDirAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0], _b_LookRight);
+			SUTIL_PaintAsprite(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0],S_INCLUDE_SORT);
 		}
 		
 
@@ -347,8 +371,8 @@
 		
 		//if(_b_Effect).
 		//{
-		//	SUTIL_SetDirAsprite(_ins_Skill[s_Skill_Set.Num], _b_LookRight);
-		//	SUTIL_PaintAsprite(_ins_Skill[s_Skill_Set.Num],S_INCLUDE_SORT);
+		//	SUTIL_SetDirAsprite(_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num], _b_LookRight);
+		//	SUTIL_PaintAsprite(_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num],S_INCLUDE_SORT);
 		//}
 	}
 ///////////////////////////////////////////////////////////////////
@@ -357,7 +381,7 @@
 	/******************************************  KeyEvent  ***************************************/
 	int Character::Event_command(){
 
-		if(s_Skill_Set.act)return false;//★스킬중에는 커맨드를 입력은 받지만 동작은 하지않도록 한다.
+		if(s_Skill_Set[s_HeroTag.SEX].act)return false;//★스킬중에는 커맨드를 입력은 받지만 동작은 하지않도록 한다.
 
 		for(int xx = 0, length = sizeof(s_C_Skill)/(sizeof(short)*cSkill_length) ; xx < length ; xx++){
 			if(s_KeyQueue.count >= s_C_Skill[xx].count)
@@ -430,31 +454,31 @@
 			case MH_KEY_1:
 				if(m_keyRepeat || Check_skill_impossible(0))return 0;//스킬을 쓸 수 없는 상황이다
 				
-				s_Skill_Set.Input_Key=MH_KEY_1;
+				s_Skill_Set[s_HeroTag.SEX].Input_Key=MH_KEY_1;
 				return HERO_SKILL_0;
 
 			case MH_KEY_3:
 				if(m_keyRepeat || Check_skill_impossible(1))return 0;//스킬을 쓸 수 없는 상황이다
 
-				s_Skill_Set.Input_Key=MH_KEY_3;
+				s_Skill_Set[s_HeroTag.SEX].Input_Key=MH_KEY_3;
 				return HERO_SKILL_1;
 
 			case MH_KEY_7:
 				if(m_keyRepeat || Check_skill_impossible(2))return 0;//스킬을 쓸 수 없는 상황이다
 
-				s_Skill_Set.Input_Key=MH_KEY_7;
+				s_Skill_Set[s_HeroTag.SEX].Input_Key=MH_KEY_7;
 				return HERO_SKILL_2;
 
 			case MH_KEY_9:
 				if(m_keyRepeat || Check_skill_impossible(3))return 0;//스킬을 쓸 수 없는 상황이다
 
-				s_Skill_Set.Input_Key=MH_KEY_9;
+				s_Skill_Set[s_HeroTag.SEX].Input_Key=MH_KEY_9;
 				return HERO_SKILL_3;
 
 			case MH_KEY_0:
 				if(m_keyRepeat || Check_skill_impossible(4))return 0;//스킬을 쓸 수 없는 상황이다
 
-				s_Skill_Set.Input_Key=MH_KEY_0;
+				s_Skill_Set[s_HeroTag.SEX].Input_Key=MH_KEY_0;
 				return HERO_SKILL_4;
 
 
@@ -503,7 +527,7 @@
 
 	}
 	int Character::Event_skill(int m_keyCode,int m_keyRepeat,int m_actNum){
-
+		int  Skill_Num = s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num];
 		switch(m_actNum){
 				case HERO_STOP:
 					break;
@@ -565,7 +589,7 @@
 				case HERO_SKILL_2:
 				case HERO_SKILL_3:
 				case HERO_SKILL_4:
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 0://5연발샷 
 							{
 								if(_ins_Hero->m_nCrtFrame == 8)s_Bullet_Eff[0].act = true;//발사
@@ -576,34 +600,31 @@
 								if(_b_ActionEnd){
 									return 0;
 								}
-							}break;
+							}return m_actNum;
 						case 1://프로즌 샤워
 							{ 
 								if(_ins_Hero->m_nCrtFrame == 8)s_Bullet_Eff[5].act = true;//발사
 								if(_b_ActionEnd){
 									return 0;
 								}
-							}break;
+							}return m_actNum;
 						case 2://바운딩 콤보
-							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-							break;
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set[s_HeroTag.SEX].Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 						case 3://스카이샷
-							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-							break;
-
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set[s_HeroTag.SEX].Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 						case 4://유도파이어볼
 							{
 								if(_b_ActionEnd){
 									return 0;
 								}
-							}break;
+							}return m_actNum;
 						case 5://토네이도
 							{ 
 								if(_ins_Hero->m_nCrtFrame == 5)s_Bullet_Eff[6].act = true;//발사
 								if(_b_ActionEnd){
 									return 0;
 								}
-							}break;
+							}return m_actNum;
 						case 6://마인 3샷
 							{
 								if(_ins_Hero->m_nCrtFrame == 9)s_Bullet_Eff[7].act = true;//발사
@@ -612,91 +633,35 @@
 								if(_b_ActionEnd){
 									return 0;
 								}
-							}break;
-
-
-
-						case 9://연계3타
-							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-							break;
+							}return m_actNum;
+// 						case 9://연계3타
+// 							return Set_skill_chain(0, m_keyCode, s_Skill_Set[s_HeroTag.SEX].Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 						case 10://콤보잡기
-							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-							break;
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set[s_HeroTag.SEX].Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 						case 12://바위내리찍기
-							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-							break;
-						//case 0://5연발샷
-						//	if(_b_ActionEnd){
-						//		_b_Knife_SetNum = s_Skill_Set.Num; //이스킬을 사용중에 다른스킬을 쓰면 Num값이 바뀌므로 저장필요
-						//		s_Knife_Eff[3].act = true;
-						//		return 0;
-						//	}
-						//	return m_actNum;
-						//	break;
-						//case 1://프로즌 샤워
-						//	if(_b_ActionEnd){
-						//		s_Throw.ThrowPossible = true;//잡기
-						//		s_Throw.ThrowNum = 2;//잡기
-						//		return HERO_SKILL_E1;
-						//	}
-						//	return m_actNum;
-						//	break;
-
-						//case 6://칼 공중 잡기스킬
-						//	return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-						//	break;
-
-						//case 13://이퀄리브리엄
-						//	return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
-						//	break;
-
-						//
-						//case 14:
-						//	if(_ins_Hero->m_nCrtFrame == 1)s_Bullet_Eff[0].act = true;//발사
-						//	if(_ins_Hero->m_nCrtFrame == 4)s_Bullet_Eff[1].act = true;//발사
-						//	if(_b_ActionEnd){
-						//		return 0;
-						//	}
-						//	break;
-
-						//case 15:
-						//	if(_b_ActionEnd){
-						//		s_Bullet_Eff[3].act = true;//발사
-						//		return 0;
-
-						//	}
-						//	break;
-
-						//case 20:
-						//	if(_ins_Hero->m_nCrtFrame == 10)s_Bullet_Eff[2].act = true;//발사
-						//	if(_b_ActionEnd){
-						//		return 0;
-						//	}
-						//	break;
-							
-
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set[s_HeroTag.SEX].Input_Key, m_actNum, HERO_SKILL_C2, HERO_SKILL_E1);
 						default:
 							if(_b_ActionEnd){
 								return 0;
 							}
 							return m_actNum;
-							break;
 					}
+					
 					break;
 				case HERO_SKILL_C2:
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 2://바운딩 콤보
 							if(_b_ActionEnd){return 0;}
 							break;
 						case 3://스카이샷
 							if(_b_ActionEnd){return 0;}
 							break;
-						case 9://연계3타
-							if(_b_ActionEnd){return 0;}
-							break;
+// 						case 9://연계3타
+// 							if(_b_ActionEnd){return 0;}
+// 							break;
 						case 10://콤보잡기
 							if(_b_ActionEnd){
-								if(s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] == 10){
+								if(Skill_Num == 10){
 									s_Throw.ThrowPossible = true;//잡기
 									s_Throw.ThrowNum = 2;//잡기
 								}
@@ -709,14 +674,14 @@
 					}
 					break;
 				case HERO_SKILL_C3:
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 10://콤보잡기
-							return Set_skill_chain(0, m_keyCode, s_Skill_Set.Input_Key, m_actNum, HERO_SKILL_C4, 0);
+							return Set_skill_chain(0, m_keyCode, s_Skill_Set[s_HeroTag.SEX].Input_Key, m_actNum, HERO_SKILL_C4, 0);
 					}
 					break;
 				case HERO_SKILL_C4:
 					if(_b_ActionEnd){
-						if(s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] == 10){
+						if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 10){
 							s_Throw.ThrowPossible = true;//잡기
 							s_Throw.ThrowNum = 1;//잡기
 						}
@@ -1006,7 +971,7 @@
 			_b_Key_Nullity = false;
 			_b_Key_Protect=false;
 			_b_Hero_Protect = false;
-			s_Skill_Set.act = false;
+			s_Skill_Set[s_HeroTag.SEX].act = false;
 			
 		}
 
@@ -1016,8 +981,9 @@
 			//_ins_Hero->UpdateTempXZ(APPLY_X|APPLY_Z);//SangHo - 이전 Ani 의 최종 X좌표를 원점에 반영, 높이(APPLY_Z) 존재시 높이수치반영
 			_ins_Hero->m_bLoop = true;
 
-			s_Skill_Set.OVER_SkillEffect = false;
-			s_Skill_Set.DOWN_SkillEffect = false;
+			s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = false;
+			s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect = false;
+			int  Skill_Num = s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num];
 			switch(m_actNum){
 				case HERO_STOP:
 					_ins_Hero->m_posZ = 0;
@@ -1094,64 +1060,68 @@
 				case HERO_SKILL_3:
 				case HERO_SKILL_4:
 
-					s_Skill_Set.act = true;
+					s_Skill_Set[s_HeroTag.SEX].act = true;
 					_ins_Hero->m_bLoop = false;
 
-					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_bLoop = false;
-					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 3 ]);
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]->m_bLoop = false;
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+					_ins_Hero->SetAnim(s__ins_Skill[Skill_Num][ 3 ]);
 					
-					s_Skill_Set.OVER_SkillEffect = false;
-					s_Skill_Set.DOWN_SkillEffect = false;
-					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 4 ]>=0){
-						s_Skill_Set.OVER_SkillEffect = true;
-						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 4 ]);
-						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_posZ = 0;
+					s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = false;
+					s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect = false;
+					if(s__ins_Skill[Skill_Num][ 4 ]>=0){
+						s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(s__ins_Skill[Skill_Num][ 4 ]);
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posZ = 0;
 					}
-					if(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 5 ]>=0){
-						s_Skill_Set.DOWN_SkillEffect = true;
-						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ][ 5 ]);
-						_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_posZ = 0;
+					if(s__ins_Skill[Skill_Num][ 5 ]>=0){
+						s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect = true;
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]->SetAnim(s__ins_Skill[Skill_Num][ 5 ]);
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posZ = 0;
 					}
-					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-					_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+					_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					
 
+					if(Skill_Num == 9 && s_Skill.Level_A[Skill_Num] > -1){//예외스킬 - 일정 레벨 이상일땐 변화한다
+						_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_3_2);
+						_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_MAN_S3_A_S_SKILL_3_2E);
+					}
 					
 					break;
 				/*case HERO_SKILL_1:
-					s_Skill_Set.Num = 1;
+					s_Skill_Set[s_HeroTag.SEX].Num = 1;
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[1] ][ 3 ]);
+					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set[s_HeroTag.SEX].Skill_ID[1] ][ 3 ]);
 					_ins_Skill[1][1]->m_bLoop = false;
 					_ins_Skill[1][1]->SetAnim(0);
-					s_Skill_Set.OVER_SkillEffect = true;
+					s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;
 					break;
 				case HERO_SKILL_2:
-					s_Skill_Set.Num = 2;
+					s_Skill_Set[s_HeroTag.SEX].Num = 2;
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[2] ][ 3 ]);
+					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set[s_HeroTag.SEX].Skill_ID[2] ][ 3 ]);
 					_ins_Skill[2][1]->m_bLoop = false;
 					_ins_Skill[2][1]->SetAnim(0);
-					s_Skill_Set.OVER_SkillEffect = true;
+					s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;
 					break;
 				case HERO_SKILL_3:
-					s_Skill_Set.Num = 3;
+					s_Skill_Set[s_HeroTag.SEX].Num = 3;
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[3] ][ 3 ]);
+					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set[s_HeroTag.SEX].Skill_ID[3] ][ 3 ]);
 					_ins_Skill[3][1]->m_bLoop = false;
 					_ins_Skill[3][1]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_1_E);
-					s_Skill_Set.OVER_SkillEffect = true;
+					s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;
 					break;
 				case HERO_SKILL_4:
-					s_Skill_Set.Num = 4;
+					s_Skill_Set[s_HeroTag.SEX].Num = 4;
 					_ins_Hero->m_bLoop = false;
-					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set.Skill_ID[4] ][ 3 ]);
+					_ins_Hero->SetAnim(s__ins_Skill[ s_Skill_Set[s_HeroTag.SEX].Skill_ID[4] ][ 3 ]);
 					_ins_Skill[4][1]->m_bLoop = false;
 					_ins_Skill[4][1]->SetAnim(0);
-					s_Skill_Set.OVER_SkillEffect = true;
+					s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;
 					break;*/
 
 
@@ -1159,7 +1129,7 @@
 				case HERO_SKILL_E1: //연타스킬의 예외처리
 					//익셉션 스위치 코드, 삽입
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 2://바운딩 콤보
 							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL3_1AFTER);
 							break;
@@ -1167,121 +1137,121 @@
 					break;
 				case HERO_SKILL_C2: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 2://바운딩 콤보
 							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL3_2);
-							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S3_A_B_SKILL3_2_E);
+							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S3_A_B_SKILL3_2_E);
 							break;
 						case 3://스카이샷
 							_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL4_2);
-							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
 							break;
-						case 9://연계3타
-							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_3_2);
-							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S3_A_S_SKILL_3_2E);
-							break;
+// 						case 9://연계3타
+// 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_3_2);
+// 							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_MAN_S3_A_S_SKILL_3_2E);
+// 							break;
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_2);
-// 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+// 							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
 							break;
 						case 12://바위내리찍기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_6_2);
-							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S6_A_S_SKILL_6_2_E);
+							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_MAN_S6_A_S_SKILL_6_2_E);
 							break;
 					}
-// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 1 ){//보드 타는 스킬
+// 					if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 1 ){//보드 타는 스킬
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL2_2);
-// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S2_A_S_SKILL2_2_E);
-// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 						s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S2_A_S_SKILL2_2_E);
+// 					}else if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 6 ){//칼 공중 잡기스킬
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2);
-// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_2_E);
-// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
+// 						s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_2_E);
+// 					}else if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 13){//이퀄리브리엄
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2);
-// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_2_E);
+// 						s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_2_E);
 // 					} 
-// 					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-// 					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-// 					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-// 					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					break;
 				case HERO_SKILL_E2: //연타스킬의 예외처리
  					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_2AFTER);
 							break;
 					}
-// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 					if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 6 ){//칼 공중 잡기스킬
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2AFTER);
-// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
+// 					}else if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 13){//이퀄리브리엄
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_2AFTER);
 // 					} 
 					break;
 				case HERO_SKILL_C3: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_3);
-							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_3_E);
+							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_3_E);
 							break;
 					}
-// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 					if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 6 ){//칼 공중 잡기스킬
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3);
-// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_3_E);
-// 					}else if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 13){//이퀄리브리엄
+// 						s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S7_A_S_SKILL7_3_E);
+// 					}else if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 13){//이퀄리브리엄
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3);
-// 						s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 						_ins_Skill[s_Skill_Set.Num][0]->m_bLoop = false;
-// 						_ins_Skill[s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_E);
-// 						s_Skill_Set.DOWN_SkillEffect = true;//스킬이펙트를 출력한다.
-// 						_ins_Skill[s_Skill_Set.Num][1]->m_bLoop = false;
-// 						_ins_Skill[s_Skill_Set.Num][1]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_EBACK);
+// 						s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_E);
+// 						s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect = true;//스킬이펙트를 출력한다.
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_bLoop = false;
+// 						_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->SetAnim(ANIM_WOMAN_S_G7_A_G_SKILL7_3_EBACK);
 // 					}
-// 					_ins_Skill[s_Skill_Set.Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-// 					_ins_Skill[s_Skill_Set.Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
-// 					_ins_Skill[s_Skill_Set.Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
-// 					_ins_Skill[s_Skill_Set.Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][1]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posX = _ins_Hero->m_posX;//스킬좌표에 케릭터 좌표를 반영한다
+// 					_ins_Skill[s_Skill_Set[s_HeroTag.SEX].Num][0]->m_posY = _ins_Hero->m_posY;//스킬좌표에 케릭터 좌표를 반영한다
 					break;
 				case HERO_SKILL_E3: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-// 					if(s_Skill_Set.Skill_ID[s_Skill_Set.Num] == 6 ){//칼 공중 잡기스킬
+// 					if(s_Skill_Set[s_HeroTag.SEX].Skill_ID[s_Skill_Set[s_HeroTag.SEX].Num] == 6 ){//칼 공중 잡기스킬
 // 						_ins_Hero->SetAnim(ANIM_WOMAN_BODY_A_S_SKILL7_3AFTER);
 // 					} 
 					break;
 				case HERO_SKILL_C4:
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_4);
-// 							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
+// 							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+// 							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_WOMAN_S4_A_S_SKILL4_2_E);
 							break;
 					}
 					break; 
 				case HERO_SKILL_E4: //연타스킬의 예외처리
  					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_4AFTER);
 							break;
@@ -1289,12 +1259,12 @@
 					break;
 				case HERO_SKILL_C5: //연타스킬의 예외처리
 					_ins_Hero->m_bLoop = false;
-					switch( s_Skill_Set.Skill_ID[s_HeroTag.SEX][s_Skill_Set.Num] ){//예외적인 스킬들
+					switch(Skill_Num){//예외적인 스킬들
 						case 10://콤보잡기
 							_ins_Hero->SetAnim(ANIM_MAN_BODY_A_S_SKILL_4_5);
-							s_Skill_Set.OVER_SkillEffect = true;//스킬이펙트를 출력한다.
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->m_bLoop = false;
-							_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_5_E);
+							s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = true;//스킬이펙트를 출력한다.
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->m_bLoop = false;
+							_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->SetAnim(ANIM_MAN_S4_A_S_SKILL_4_5_E);
 							break;
 					}
 					break;
@@ -1467,10 +1437,6 @@
 
 
 		if(s_HeroTag.act){ 
-			s_HeroTag._b_ActionEnd = !_ins_Hero_clone->UpdateSpriteAnim();//케릭터 에니메이션 업데이트 실행
-			if(s_HeroTag.OVER_SkillEffect) _ins_Skill_clone[0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
-			if(s_HeroTag.DOWN_SkillEffect) _ins_Skill_clone[1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
-
 			if(s_HeroTag._b_ActionEnd){//현재 진행중이던 동작이 종료되었다
 				if(s_HeroTag.TAG_OUT){
 					s_HeroTag.act = false;
@@ -1478,12 +1444,16 @@
 					s_HeroTag.TAG_OUT = true;
 					_ins_Hero_clone->SetAnim(Check_sex(ANIM_MAN_BODY_A_TAG_OUT,ANIM_WOMAN_BODY_A_TAG_OUT));//이미 성별이 바뀐상태이므로 거꾸로적용한다
 				}
-				
+
 			}
+
+			s_HeroTag._b_ActionEnd = !_ins_Hero_clone->UpdateSpriteAnim();//케릭터 에니메이션 업데이트 실행
+			if(s_HeroTag.OVER_SkillEffect) _ins_Skill_clone[0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+			if(s_HeroTag.DOWN_SkillEffect) _ins_Skill_clone[1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
 		}
 
-		if(s_Skill_Set.OVER_SkillEffect) _ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
-		if(s_Skill_Set.DOWN_SkillEffect) _ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+		if(s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect) _ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
+		if(s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect) _ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]->UpdateSpriteAnim();//스킬 에니메이션 업데이트 실행
 
 
 
@@ -1622,24 +1592,24 @@
 						}
 
 						break;
-					case DEBUF_ICE://아이스
-						if(xx == 0 ){// 0번째(최신) 디버프이며
-							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_COLD){// 디버프 타이머가 지금 시작 되었다면
-								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_COLD);
-								_ins_Debuff->m_bLoop = true;
-							}
-							int pxx = 31;//31 이 넘으면 안됨
-							s_Debuff.color = (s_Debuff.color+2)%pxx;
-							int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<1)); 
-							//int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<11)+(s_Debuff.color<<6)+(s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<11)+((pxx-s_Debuff.color)<<6)+((pxx-s_Debuff.color)<<1)); 
-							_ins_Hero->m_sprite->SetBlendCustom(true,false,7,pyy);
-						}
-						if(s_Debuff.stack[xx][1] > 30){//디버프가 종료 되었다면
-							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
-							s_Debuff.stack[xx][0] = 0;
-							if(xx == 0 )_ins_Hero->m_sprite->SetBlendCustom(false,false,0,0);
-						}
-						break;
+// 					case DEBUF_ICE://아이스
+// 						if(xx == 0 ){// 0번째(최신) 디버프이며
+// 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_COLD){// 디버프 타이머가 지금 시작 되었다면
+// 								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_COLD);
+// 								_ins_Debuff->m_bLoop = true;
+// 							}
+// 							int pxx = 31;//31 이 넘으면 안됨
+// 							s_Debuff.color = (s_Debuff.color+2)%pxx;
+// 							int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<1)); 
+// 							//int pyy = (s_Debuff.color <= (pxx/2) ? (s_Debuff.color<<11)+(s_Debuff.color<<6)+(s_Debuff.color<<1) : ((pxx-s_Debuff.color)<<11)+((pxx-s_Debuff.color)<<6)+((pxx-s_Debuff.color)<<1)); 
+// 							_ins_Hero->m_sprite->SetBlendCustom(true,false,7,pyy);
+// 						}
+// 						if(s_Debuff.stack[xx][1] > 30){//디버프가 종료 되었다면
+// 							s_Debuff.All -= s_Debuff.stack[xx][0];//디버프 해제
+// 							s_Debuff.stack[xx][0] = 0;
+// 							if(xx == 0 )_ins_Hero->m_sprite->SetBlendCustom(false,false,0,0);
+// 						}
+// 						break;
 					case DEBUF_FREEZE://동결
 						if(xx == 0 ){// 0번째(최신) 디버프이며
 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_FREEZ_1 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_FREEZ_3){// 디버프 타이머가 지금 시작 되었다면
@@ -1804,11 +1774,11 @@
 				SUTIL_FreeSpriteInstance(s_LV_Eff.LVup_Eff_Ins);
 			}else{
 				if(s_LV_Eff.LVupEff_Num==0){
-					s_LV_Eff.LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Hero_W, 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+					s_LV_Eff.LVup_Eff_Ins = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 
 					s_LV_Eff.LVup_Eff_Ins->m_bLoop = false;
 					s_LV_Eff.LVup_Eff_Ins->SetAniMoveLock(true);
-					s_LV_Eff.LVup_Eff_Ins->SetAnim(ANIM_WOMAN_BODY_A_LEVELUP);
+					s_LV_Eff.LVup_Eff_Ins->SetAnim(ANIM_WEFFECT_A_LEVELUP);
 				}
 
 				s_LV_Eff.LVup_Eff_Ins->m_posX = _ins_Hero->m_posX;
@@ -2009,6 +1979,9 @@
 
 	void Character::Paint_Bollet()
 	{// 발사형 이펙트를 그릴때 총 3가지의 경우가 있다
+
+		class ASpriteInstance*	_ins_Temp;
+
 		for(int i =0;i<BULLET_MAX;i++){
 			if(s_Bullet_Eff[i].act){
 				if(s_Bullet_Eff[i].LVup_ActionEnd){
@@ -2020,7 +1993,22 @@
 				}else{
 					if(s_Bullet_Eff[i].LVupEff_Num==0){//초기할당
 						
-						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[s_HeroTag.SEX][s_Skill_Set.Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
+						int m_Sex = 0;//모든 불렛은 여자 케릭터가 다 가지고있다
+						switch(i){//애니메이션 결정
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+							case 5:
+							case 6:
+							case 7:
+							case 8:
+							case 9:
+								_ins_Temp = (s_HeroTag.SEX ? _ins_Hero_clone: _ins_Hero);
+								break;
+						}
+						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[m_Sex][s_Skill_Set[m_Sex].Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 
 						s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = true;
 
@@ -2047,35 +2035,35 @@
 							case 2:
 							case 3:
 							case 4:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX +(_ins_Hero->m_flags? -26:+26);
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX +(_ins_Temp->m_flags? -26:+26);
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;
 								break;
 
 							case 5:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -100:+100);
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -100:+100);
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = 200;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;
 								break;
 
 
 							case 6:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -26:+26) ;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -26:+26) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
 
 							case 7:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -40:+40) ;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -40:+40) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
 							case 8:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -80:+80) ;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -80:+80) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
 							case 9:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Hero->m_posX+(_ins_Hero->m_flags? -120:+120) ;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Hero->m_posY;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Hero->m_flags;	break;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -120:+120) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
 						}
 
 						
@@ -2193,17 +2181,17 @@
 			return true;//플라잉 데미지시 에는 기술 사용을 막는다
 	
 		if(m_skillnum == 5){//물약
-			if(s_Skill_Set.Cool_TimeNow[m_skillnum]){
+			if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum]){
 				return true;//쿨타임이 남아있거나 마나가 부족하면 스킬은 나가지 않는다
 			}else{
-				s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][m_skillnum];
+				s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[m_skillnum];
 			}
 		}else{
-			if(s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][m_skillnum]  ||  s_Status[s_HeroTag.SEX].MANA < s_Skill_Set.Need_Mana[s_HeroTag.SEX][m_skillnum] || (s_Skill.Equip_A[s_HeroTag.SEX*3 + m_skillnum] == -1)){
+			if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum]  ||  s_Status[s_HeroTag.SEX].MANA < s_Skill_Set[s_HeroTag.SEX].Need_Mana[m_skillnum] || (s_Skill.Equip_A[s_HeroTag.SEX*3 + m_skillnum] == -1)){
 				return true;//쿨타임이 남아있거나 마나가 부족하거나 슬롯이 비었으면 스킬은 나가지 않는다
 			}else{
-				s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][m_skillnum] = s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][m_skillnum];
-				s_Status[s_HeroTag.SEX].MANA -= s_Skill_Set.Need_Mana[s_HeroTag.SEX][m_skillnum];
+				s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[m_skillnum];
+				s_Status[s_HeroTag.SEX].MANA -= s_Skill_Set[s_HeroTag.SEX].Need_Mana[m_skillnum];
 			}
 		}
 		
@@ -2211,7 +2199,7 @@
 		
 		_b_Hero_Protect=true;
 		_b_Key_Protect=true;
-		s_Skill_Set.Num = m_skillnum;
+		s_Skill_Set[s_HeroTag.SEX].Num = m_skillnum;
 		return false;
 	}
 	//int Character::Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi)
@@ -2398,7 +2386,7 @@
 
 
 
-			s_Status[xx].LIFE_MAX		= add_CON * 15 + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
+			s_Status[xx].LIFE_MAX		= add_CON * 15  + (s_HeroTag.SEX==SEX_WOMAN? 0: 50) + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
 			s_Status[xx].LIFE_MAX=PER(s_Status[xx].LIFE_MAX,(100+add_HP));
 			if(s_Status[xx].LIFE>s_Status[xx].LIFE_MAX)s_Status[xx].LIFE = s_Status[xx].LIFE_MAX;
 
@@ -2408,18 +2396,18 @@
 
 			
 
-			s_Status[xx].DEFENSE = add_CON/3+add_STR + add_DEF;		//방어구에 의해 방어율 계산에 적용 되는 수치(주인공만 있음/이것을 디스 플레이함)
-			s_Status[xx].CRITICAL = add_DEX/6 + add_CRI;		//크리티컬 데미지 들어갈 확률
-			s_Status[xx].AVOID = add_DEX/8 + add_AGI;			//적의 공격을 피할 확률
+			s_Status[xx].DEFENSE = add_CON/3+add_STR + add_DEF + (s_HeroTag.SEX==SEX_WOMAN? 0: 5);		//방어구에 의해 방어율 계산에 적용 되는 수치(주인공만 있음/이것을 디스 플레이함)
+			s_Status[xx].CRITICAL = add_DEX/11 + add_CRI + (s_HeroTag.SEX==SEX_WOMAN? 5: 0);		//크리티컬 데미지 들어갈 확률
+			s_Status[xx].AVOID = add_DEX/15 + add_STR/35 + add_AGI + (s_HeroTag.SEX==SEX_WOMAN? 5: 0);			//적의 공격을 피할 확률
 			s_Status[xx].EXP_MAX = 18*((s_Status[xx].LEVEL+1)*(s_Status[xx].LEVEL-1)+10);
 
 			
 			if(xx == 0){//활
-				s_Status[xx].ATTACK_MAX = add_ATT_MAX + (add_DEX*3 + add_STR);
-				s_Status[xx].ATTACK_MIN = add_ATT_MIN + (add_DEX*3 + add_STR);
+				s_Status[xx].ATTACK_MAX = add_ATT_MAX + (add_DEX*2 + add_STR);
+				s_Status[xx].ATTACK_MIN = add_ATT_MIN + (add_DEX*2 + add_STR);
 			}else{//크로우
-				s_Status[xx].ATTACK_MAX = add_ATT_MAX + (add_STR*2 + add_DEX);
-				s_Status[xx].ATTACK_MIN = add_ATT_MIN + (add_STR*2 + add_DEX);
+				s_Status[xx].ATTACK_MAX = add_ATT_MAX + (add_STR*3 + add_DEX);
+				s_Status[xx].ATTACK_MIN = add_ATT_MIN + (add_STR*3 + add_DEX);
 			}
 // 			s_Status[xx].ATTACK_MAX[1] += s_ItemAbil[xx][2].ATT_MAX + s_ItemAbil[xx][8].ATT_MAX;
 // 			s_Status[xx].ATTACK_MIN[1] += s_ItemAbil[xx][2].ATT_MIN + s_ItemAbil[xx][8].ATT_MIN;
@@ -2440,14 +2428,14 @@
 		if(Get_Skill(SKILL_P_O_coolTimeDown)){//패시브
 			for(int xx = 0;xx<6;xx++){
 				if(s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]>=0){
-					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_HeroTag.SEX][xx]][2];//스킬 쿨타임
+					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][2];//스킬 쿨타임
 					if(need_frm >= 100){
-						s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+						s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}else{
-						s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = need_frm;
+						s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = need_frm;
 					}
-					if(s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][xx]>s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx]){
-						s_Skill_Set.Cool_TimeNow[s_HeroTag.SEX][xx]=s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx];
+					if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[xx]>s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx]){
+						s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[xx]=s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx];
 					}
 				}
 			}
@@ -2479,22 +2467,22 @@
 					_ins_Skill[sex][xx][0]->m_sprite->SetBlendFrame(s__ins_Skill[s_Skill.Equip_A[sex*3 + xx]][2]);//블랜딩
 
 	//여기까지
-					s_Skill_Set.Skill_LEVEL[sex][xx] = s_Skill.Level_A[s_Skill.Equip_A[sex*3 + xx]];//스킬 레벨
+					s_Skill_Set[sex].Skill_LEVEL[xx] = s_Skill.Level_A[s_Skill.Equip_A[sex*3 + xx]];//스킬 레벨
 					
-					s_Skill_Set.Skill_ID[sex][xx] = s__ins_Skill[s_Skill.Equip_A[sex*3 + xx]][0];//스킬 고유ID
+					s_Skill_Set[sex].Skill_ID[xx] = s__ins_Skill[s_Skill.Equip_A[sex*3 + xx]][0];//스킬 고유ID
 
 					//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
 
 					
 
-					s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_HeroTag.SEX][xx]][2];//스킬 쿨타임
-					if(s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] >= 100){
-						s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] = s_Skill_Set.Cool_TimeMax[s_HeroTag.SEX][xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+					s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][2];//스킬 쿨타임
+					if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] >= 100){
+						s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
 					}
 
-					s_Skill_Set.Need_Mana[s_HeroTag.SEX][xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set.Skill_LEVEL[s_HeroTag.SEX][xx]][4];//필요마나
+					s_Skill_Set[s_HeroTag.SEX].Need_Mana[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][4];//필요마나
 				}else{//빈소캣
-					s_Skill_Set.Skill_ID[s_HeroTag.SEX][xx] = -1;
+					s_Skill_Set[s_HeroTag.SEX].Skill_ID[xx] = -1;
 				}
 			}
 		}
@@ -2687,6 +2675,13 @@
 
 		}
 
+		int add_INT = s_Ability[s_HeroTag.SEX].INT;//오리지널값을 가져오기
+		for (int slot = 0 ; slot<7 ; slot++){
+			add_INT +=s_ItemAbil[s_HeroTag.SEX][slot].INT;
+		}
+
+		ATT = PER(ATT,100+add_INT/8);//인트 가중 퍼센트 적용
+
 		ATT = PER(ATT,percent);//데미지 퍼센트 적용
 
 		if(s_Status[s_HeroTag.SEX].LEVEL > monLevel + 4)ATT=PER(ATT,140);//본스터보다 5랩 높으면
@@ -2833,18 +2828,18 @@
 		//인스턴스 카피
 			SUTIL_FreeSpriteInstance(_ins_Hero_clone);
 		_ins_Hero_clone = GL_NEW ASpriteInstance(_ins_Hero);
-		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][0]);
-		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set.Num][1]);
+		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]);
+		_ins_Skill_clone[1] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][1]);
 
 		_ins_Hero_clone->m_bLoop = false;
 
 
 
 		s_HeroTag.s_Damage = s_Damage;
-		s_HeroTag.DOWN_SkillEffect = s_Skill_Set.DOWN_SkillEffect;
-		s_HeroTag.OVER_SkillEffect = s_Skill_Set.OVER_SkillEffect;
-		s_Skill_Set.DOWN_SkillEffect = false;
-		s_Skill_Set.OVER_SkillEffect = false;
+		s_HeroTag.DOWN_SkillEffect = s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect;
+		s_HeroTag.OVER_SkillEffect = s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect;
+		s_Skill_Set[s_HeroTag.SEX].DOWN_SkillEffect = false;
+		s_Skill_Set[s_HeroTag.SEX].OVER_SkillEffect = false;
 
 
 		//_ins_Hero_clone->m_posX = _ins_Hero->m_posX;
