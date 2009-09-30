@@ -13,12 +13,8 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\w_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
-    PALETTE 0 ".\w_part.act"
-    PALETTE 1 ".\w_part.act"
-    PALETTE 2 ".\w_part.act"
-    PALETTE 3 ".\w_part.act"
-    PALETTE 4 ".\w_part.act"
+    IMAGE 0x0000 ".\w_bow_1.png" TRANSP 0x00FF00FF // 0  size: 256 x 82  palettes: 2
+    PALETTE 1 ".\w_bow_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -36,10 +32,10 @@
 
     MODULES
     {
-        MD	0x1007	MD_IMAGE	0	15	243	14	46
-        MD	0x101F	MD_IMAGE	0	33	243	27	42
-        MD	0x1025	MD_IMAGE	0	217	171	24	40
-        MD	0x1026	MD_IMAGE	0	215	211	30	37
+        MD	0x1007	MD_IMAGE	0	12	25	17	46
+        MD	0x101F	MD_IMAGE	0	31	24	31	44
+        MD	0x1025	MD_IMAGE	0	177	11	24	40
+        MD	0x1026	MD_IMAGE	0	215	11	30	40
     }
 
     SPRITE_END
