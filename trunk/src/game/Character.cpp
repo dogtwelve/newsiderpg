@@ -504,16 +504,16 @@
 				SUTIL_LoadAspritePack(PACK_SPRITE_COSTUME);//ÆÑ¿­±â
 /////////////////////////////////////
  				ChangeCostume(_spr_Hero_W,PAL_HEAD,RND(0,4),RND(0,4));
- 				ChangeCostume(_spr_Hero_W,PAL_BODY,RND(0,4),RND(0,4));
- 				ChangeCostume(_spr_Hero_W,PAL_ARM,RND(0,4),RND(0,4));
- 				ChangeCostume(_spr_Hero_W,PAL_LEG,RND(0,4),RND(0,4));
-				ChangeCostume(_spr_Hero_W,PAL_BOW,RND(0,9),RND(0,1));
- ////////////////////////////////////
-				ChangeCostume(_spr_Hero_M,PAL_HEAD,RND(0,4),RND(0,4));
-				ChangeCostume(_spr_Hero_M,PAL_BODY,RND(0,4),RND(0,4));
-				ChangeCostume(_spr_Hero_M,PAL_ARM,RND(0,4),RND(0,4));
-				ChangeCostume(_spr_Hero_M,PAL_LEG,RND(0,4),RND(0,4));
-				ChangeCostume(_spr_Hero_M,PAL_CLAW,RND(0,9),RND(0,1));
+  				ChangeCostume(_spr_Hero_W,PAL_BODY,RND(0,4),RND(0,4));
+  				ChangeCostume(_spr_Hero_W,PAL_ARM,RND(0,4),RND(0,4));
+  				ChangeCostume(_spr_Hero_W,PAL_LEG,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_W,PAL_BOW,RND(0,9),RND(0,1));
+//  ////////////////////////////////////
+ 				ChangeCostume(_spr_Hero_M,PAL_HEAD,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_M,PAL_BODY,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_M,PAL_ARM,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_M,PAL_LEG,RND(0,4),RND(0,4));
+ 				ChangeCostume(_spr_Hero_M,PAL_CLAW,RND(0,9),RND(0,1));
 
  				//ChangeCostume(PAL_ORB,RND(0,9),RND(0,1));
 ///////////////////////////////////
