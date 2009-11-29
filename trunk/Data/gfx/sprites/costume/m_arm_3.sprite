@@ -13,8 +13,11 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\m_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
-    PALETTE 4 ".\m_part.act"
+    IMAGE 0x0000 ".\m_arm_3.png" TRANSP 0x00FF00FF // 0  size: 256 x 54  palettes: 5
+    PALETTE 1 ".\m_arm_3_1.act"
+    PALETTE 2 ".\m_arm_3_2.act"
+    PALETTE 3 ".\m_arm_3_3.act"
+    PALETTE 4 ".\m_arm_3_4.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -32,12 +35,12 @@
 
     MODULES
     {
-        MD	0x1010	MD_IMAGE	0	8	80	12	19	"m_sho out_00"
-        MD	0x1011	MD_IMAGE	0	32	80	13	17	"m_sho out_01"
-        MD	0x1012	MD_IMAGE	0	59	80	17	14	"m_sho out_02"
-        MD	0x1013	MD_IMAGE	0	84	79	12	19	"m_sho in_00"
-        MD	0x1014	MD_IMAGE	0	106	80	14	17	"m_sho in_01"
-        MD	0x1015	MD_IMAGE	0	130	82	16	14	"m_sho in_02"
+        MD	0x1010	MD_IMAGE	0	8	29	14	20	"m_sho out_00"
+        MD	0x1011	MD_IMAGE	0	31	28	15	18	"m_sho out_01"
+        MD	0x1012	MD_IMAGE	0	59	27	17	17	"m_sho out_02"
+        MD	0x1013	MD_IMAGE	0	84	27	13	21	"m_sho in_00"
+        MD	0x1014	MD_IMAGE	0	106	29	14	18	"m_sho in_01"
+        MD	0x1015	MD_IMAGE	0	130	30	16	16	"m_sho in_02"
     }
 
     SPRITE_END

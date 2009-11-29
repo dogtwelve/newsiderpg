@@ -44,7 +44,7 @@
 #define DEBUF_WEAK			(1 << 1)			//약화
 #define DEBUF_ICE			(1 << 2)			//아이스
 #define DEBUF_FREEZE		(1 << 3)			//동결
-#define DEBUF_STUN			(1 << 4)			//스턴
+#define DEBUF_STUN			(1 << 4)			//마수의계약
 #define DEBUF_STONE			(1 << 5)			//석화
 #define DEBUF_POISON		(1 << 6)			//독
 	//#define DEBUF_CONFUSE		(1 << 7)			//혼란

@@ -13,8 +13,8 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\m_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
-    PALETTE 4 ".\m_part.act"
+    IMAGE 0x0000 ".\m_claw_3.png" TRANSP 0x00FF00FF // 0  size: 256 x 44  palettes: 2
+    PALETTE 1 ".\m_claw_3.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -32,14 +32,14 @@
 
     MODULES
     {
-        MD	0x1016	MD_IMAGE	0	2	105	17	30	"m_claw_00"
-        MD	0x1017	MD_IMAGE	0	25	105	17	30	"m_claw_01"
-        MD	0x1018	MD_IMAGE	0	42	105	28	23	"m_claw_02"
-        MD	0x1019	MD_IMAGE	0	78	104	17	30	"m_claw_03"
-        MD	0x101A	MD_IMAGE	0	97	105	21	30	"m_claw_04"
-        MD	0x101B	MD_IMAGE	0	118	106	27	18	"m_claw_05"
-        MD	0x101C	MD_IMAGE	0	158	107	15	15	"m_claw_06"
-        MD	0x101D	MD_IMAGE	0	179	104	15	17	"m_claw_07"
+        MD	0x1016	MD_IMAGE	0	2	5	17	30	"m_claw_00"
+        MD	0x1017	MD_IMAGE	0	23	5	19	30	"m_claw_01"
+        MD	0x1018	MD_IMAGE	0	42	5	28	23	"m_claw_02"
+        MD	0x1019	MD_IMAGE	0	78	4	17	30	"m_claw_03"
+        MD	0x101A	MD_IMAGE	0	97	5	21	30	"m_claw_04"
+        MD	0x101B	MD_IMAGE	0	118	6	28	22	"m_claw_05"
+        MD	0x101C	MD_IMAGE	0	158	7	15	15	"m_claw_06"
+        MD	0x101D	MD_IMAGE	0	179	4	15	17	"m_claw_07"
     }
 
     SPRITE_END

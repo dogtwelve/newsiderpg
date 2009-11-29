@@ -102,37 +102,61 @@
 #define	SKILL_ACTIVE_O5		18
 #define	SKILL_ACTIVE_O6		19
 #define	SKILL_ACTIVE_O7		20
-									
-#define	SKILL_P_S_swordMaster		21
-#define	SKILL_P_S_lifeUp			22
-#define	SKILL_P_S_deadlyAttack		23
-#define	SKILL_P_S_ironWall			24
-#define	SKILL_P_S_poisonAttack		25
-#define	SKILL_P_S_wingSword			26
-#define	SKILL_P_S_spaceCut			27
 
-#define	SKILL_P_G_gunMaster			28
-#define	SKILL_P_G_criIncrease		29
-#define	SKILL_P_G_highAgi			30
-#define	SKILL_P_G_manaUp			31
-#define	SKILL_P_G_identify			32
-#define	SKILL_P_G_stunUp			33
-#define	SKILL_P_G_healUp			34
 
-#define	SKILL_P_O_orbMaster			35
-#define	SKILL_P_O_immuneAttUp		36
-#define	SKILL_P_O_recoveryUp		37
-#define	SKILL_P_O_coolTimeDown		38
-#define	SKILL_P_O_addAbility		39
-#define	SKILL_P_O_ancientLang		40
-#define	SKILL_P_O_iceUp				41
 
-#define	SKILL_P_P_catch				42
-#define	SKILL_P_P_lineMove			43
-#define	SKILL_P_P_dashAtt			44
-#define	SKILL_P_P_guard				45
-#define	SKILL_P_P_chargeShot		46
-#define	SKILL_P_P_manaCharge		47
+#define	SKILL_P_W_CriUp				21	//치명타 공격력을 증대 시킨다.
+#define	SKILL_P_W_SkillUp			22	//스킬 데미지 를 N% 상승 시켜준다.
+#define	SKILL_P_W_CriDown			23	//N% 확률로 치명타 데미지 를 받지 않는다.
+#define	SKILL_P_W_HPup				24	//HP 를 상승 시켜준다.
+#define	SKILL_P_W_Catch				25	//근처에 오는 적을 잡아 넘긴다.
+#define	SKILL_P_W_SideStep			26	//(기본장착)  뒤로 도망가기
+#define	SKILL_P_W_MPregen			27	//마나 회복이 N% 증가 한다.
+#define	SKILL_P_W_Immune			28	//N% 의 확률로 디버프의 피해를 입지 않는다.
+
+#define	SKILL_P_M_MPup				29	//MP 를 상승 시켜준다.
+#define	SKILL_P_M_IronSkin			20	//HP 30%이하일 경우 방어력 N% 상승한다. 
+#define	SKILL_P_M_Defense			31	//5번키 누르고 있으면 가드 된다(커맨드 스킬중 가드 습득)
+#define	SKILL_P_M_SideStep			32	//(기본 장착 패시브) 위아래 탈출 할때 쓴다.
+#define	SKILL_P_M_Attup				33	//ATT 를 증가 시켜준다.
+#define	SKILL_P_M_HPregen			34	//HP 회복 능력이 N% 강화 된다.
+#define	SKILL_P_M_LongStun			35	//하울링 스턴의 지속시간을 n 초 늘린다.
+#define	SKILL_P_M_FastCool			36	//마수의 계약 쿨 타임을 n 초 줄인다.
+
+
+
+
+
+// #define	SKILL_P_S_swordMaster		21
+// #define	SKILL_P_S_lifeUp			22
+// #define	SKILL_P_S_deadlyAttack		23
+// #define	SKILL_P_S_ironWall			24
+// #define	SKILL_P_S_poisonAttack		25
+// #define	SKILL_P_S_wingSword			26
+// #define	SKILL_P_S_spaceCut			27
+// 
+// #define	SKILL_P_G_gunMaster			28
+// #define	SKILL_P_G_criIncrease		29
+// #define	SKILL_P_G_highAgi			30
+// #define	SKILL_P_G_manaUp			31
+// #define	SKILL_P_G_identify			32
+// #define	SKILL_P_G_stunUp			33
+// #define	SKILL_P_G_healUp			34
+// 
+// #define	SKILL_P_O_orbMaster			35
+// #define	SKILL_P_O_immuneAttUp		36
+// #define	SKILL_P_O_recoveryUp		37
+// #define	SKILL_P_O_coolTimeDown		38
+// #define	SKILL_P_O_addAbility		39
+// #define	SKILL_P_O_ancientLang		40
+// #define	SKILL_P_O_iceUp				41
+// 
+// #define	SKILL_P_P_catch				42
+// #define	SKILL_P_P_lineMove			43
+// #define	SKILL_P_P_dashAtt			44
+// #define	SKILL_P_P_guard				45
+// #define	SKILL_P_P_chargeShot		46
+// #define	SKILL_P_P_manaCharge		47
 //
 //#define	SKILL_P_S_swordMaster				s_Skill.Level_P[ 0]
 //#define	SKILL_P_S_lifeUp					s_Skill.Level_P[ 1]
@@ -190,10 +214,10 @@
 #define	START_W_BOW					56//69
 
 #define	START_M_HEAD				0//0 
-#define	START_M_BODY				12//13
-#define	START_M_ARM					20//24
-#define	START_M_LEG					26//39
-#define	START_M_CLAW				48//69
+#define	START_M_BODY				11//13
+#define	START_M_ARM					17//24
+#define	START_M_LEG					23//39
+#define	START_M_CLAW				42//69
 
 //갯수
 #define	LENGTH_W_HEAD				13//13 
@@ -202,10 +226,10 @@
 #define	LENGTH_W_LEG				19//22
 #define	LENGTH_W_BOW				4//3
 
-#define	LENGTH_M_HEAD				12//13 
-#define	LENGTH_M_BODY				8//11
+#define	LENGTH_M_HEAD				11//13 
+#define	LENGTH_M_BODY				6//11
 #define	LENGTH_M_ARM				6//15
-#define	LENGTH_M_LEG				22//22
+#define	LENGTH_M_LEG				19//22
 #define	LENGTH_M_CLAW				8//4
 
 
@@ -303,7 +327,7 @@ struct HeroStatus{
 	int MANA_RECOVERY;	//마나가 회복 대는 수치
 	//int	ELEMENTAL;		//공식에 의해 상대에게 직접적인 타격을 주는 수치
 	//int	SEX;		//0: 남자, 1:여자
-	int	Qslot[2];		//0:Bag  1:Slot
+	//int	Qslot[2];		//0:Bag  1:Slot
 
 	int	MONEY;		//보유금액
 };
@@ -332,7 +356,7 @@ struct HeroTag{
 };
 struct Skill{ 
 	int Equip_A[3*2];	//장착 액티브 스킬//-1은 미습득
-	int Equip_P[9];	//장착 패시브 스킬//-1은 미습득
+	int Equip_P[8*2];	//장착 패시브 스킬//-1은 미습득
 
 	int Level_A[7*3];	//액티브 스킬레벨
 	int Level_P[7*4];	//칼 패시브 스킬레벨
@@ -344,10 +368,15 @@ struct Skill_Set{
 	int Skill_ID[3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
 	int Skill_LEVEL[3];//스킬의 고유 ID 를 저장 스킬의 예외처리에 사용된다
 	int Need_Mana[3];//스킬의 소비마나 수치
-	int Cool_TimeMax[5];//스킬의 쿨타임을 기록
-	int Cool_TimeNow[5];//스킬의 현재 쿨타임
+	int Cool_TimeMax[3];//스킬의 쿨타임을 기록
+	int Cool_TimeNow[3];//스킬의 현재 쿨타임
 	bool OVER_SkillEffect;		//SangHo - 주인공의 스킬이 발동하면 True 이다
 	bool DOWN_SkillEffect;		//SangHo - 주인공의 스킬이 발동하면 True 이다
+};
+struct Potion_Tag{
+	int Cool_TimeMax[3];//스킬의 쿨타임을 기록
+	int Cool_TimeNow[3];//스킬의 현재 쿨타임
+	int	Qslot[2][2];		//0:Bag  1:Slot
 };
 struct ItemBag{
 	int Data0;		//아이템의 인덱스및 컬러,착용 정보
@@ -407,6 +436,7 @@ public:
 	
 	static Skill s_Skill;
 	static Skill_Set s_Skill_Set[2];//현재 시전 스킬 정보
+	static Potion_Tag s_Potion_Tag;//포션과 태그 쿨타임기록
 
 	static ItemBag s_ItemEquip[2][7];//착용 아이템
 	static ItemAbility s_ItemAbil[2][7];//착용 아이템의 능력
@@ -424,12 +454,12 @@ public:
 
 	class ASprite*	_spr_Skill[2][3];		//스프라이트 - 히어로 스킬 2x3개
 
-	class ASpriteInstance*	_ins_Hero;			//인스턴스 - 히어로
-	class ASpriteInstance*	_ins_Hero_clone;	//인스턴스 - 태그직후 히어로의 행동 보존개체
-	class ASpriteInstance*	_ins_Skill_clone[2];		//인스턴스 - 히어로 스킬 5개
+	class ASpriteInstance*	_ins_Hero;			//인마수의계약스 - 히어로
+	class ASpriteInstance*	_ins_Hero_clone;	//인마수의계약스 - 태그직후 히어로의 행동 보존개체
+	class ASpriteInstance*	_ins_Skill_clone[2];		//인마수의계약스 - 히어로 스킬 5개
 
-	class ASpriteInstance*	_ins_Debuff;	//인스턴스 - 디버프
-	class ASpriteInstance*	_ins_Skill[2][3][2];		//인스턴스 -{남,여] [히어로 스킬 3개] [앞,뒤]
+	class ASpriteInstance*	_ins_Debuff;	//인마수의계약스 - 디버프
+	class ASpriteInstance*	_ins_Skill[2][3][2];		//인마수의계약스 -{남,여] [히어로 스킬 3개] [앞,뒤]
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -604,6 +634,7 @@ private:
 	//ETC
 	bool	Check_command(int m_keyCode, int m_keyRepeat);					//액션 커맨드를 저장하는 큐공간
 	bool	Check_skill_impossible(int m_skillnum);									//스킬 사용 가능여부를 판단
+	bool	Check_PotionTag_impossible(int m_PT_num);									//포션, 태그 사용 가능여부를 판단
 	//int		Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi);
 	
 	int		Check_weapon(int m_Must_Weapon , int m_if_true_set_action );

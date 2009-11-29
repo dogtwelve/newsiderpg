@@ -648,14 +648,19 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 							USE_item(&Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE]);
 							s_Page.Focus = 0;
 						}else if(SELECT_INVENTORY_POPUP_Y==1){//퀵슬롯
-							QSLOT_item(&Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE]);
-							s_Page.Focus = 0;
+							SELECT_INVENTORY_POPUP_KIND = INVENTORY_POPUP_SLOT;//슬롯고르기
+							SELECT_INVENTORY_POPUP_Y=0;
 						}else if(SELECT_INVENTORY_POPUP_Y==2){//버림
 							DEL_item();
 						}else if(SELECT_INVENTORY_POPUP_Y==3){//이동
 							MOVE_item();
 							s_Page.Focus = 0;
 						}
+						break;
+					case INVENTORY_POPUP_SLOT:
+						QSLOT_item(&Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE],SELECT_INVENTORY_POPUP_Y);
+						s_Page.Focus = 0;
+					
 						break;
 					case INVENTORY_POPUP_EQUIP:
 					case INVENTORY_POPUP_EQUIP2:
@@ -728,6 +733,7 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 				SELECT_INVENTORY_POPUP_Y--;
 				switch(SELECT_INVENTORY_POPUP_KIND){//팝업의 종류
 					case INVENTORY_POPUP_QUICK:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=3;break;
+					case INVENTORY_POPUP_SLOT:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=1;break;
 					case INVENTORY_POPUP_EQUIP:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=2;break;
 					case INVENTORY_POPUP_EQUIP2:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=3;break;
 					case INVENTORY_POPUP_USE:if(SELECT_INVENTORY_POPUP_Y<0)SELECT_INVENTORY_POPUP_Y=2;break;
@@ -738,6 +744,7 @@ void PopupUi::Key_INVENTORY(int m_keyCode, int m_keyRepeat)
 				SELECT_INVENTORY_POPUP_Y++;
 				switch(SELECT_INVENTORY_POPUP_KIND){//팝업의 종류
 					case INVENTORY_POPUP_QUICK:if(SELECT_INVENTORY_POPUP_Y>3)SELECT_INVENTORY_POPUP_Y=0;break;
+					case INVENTORY_POPUP_SLOT:if(SELECT_INVENTORY_POPUP_Y>1)SELECT_INVENTORY_POPUP_Y=0;break;
 					case INVENTORY_POPUP_EQUIP:if(SELECT_INVENTORY_POPUP_Y>2)SELECT_INVENTORY_POPUP_Y=0;break;
 					case INVENTORY_POPUP_EQUIP2:if(SELECT_INVENTORY_POPUP_Y>3)SELECT_INVENTORY_POPUP_Y=0;break;
 					case INVENTORY_POPUP_USE:if(SELECT_INVENTORY_POPUP_Y>2)SELECT_INVENTORY_POPUP_Y=0;break;
@@ -2467,6 +2474,22 @@ void PopupUi::Paint_INVENTORY()
 						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
 				}
 				break;
+			case INVENTORY_POPUP_SLOT : //2개 - 슬롯 고르기
+				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_4,XPOS+Px,YPOS+Py,0);//3개짜리 팝업창
+
+				for(int xx = 0;xx<2;xx++){
+					if(SELECT_INVENTORY_POPUP_Y == xx){
+						_SUTIL->pFont->setColor(0xcfeef4);
+						SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_CURSOR_UI2,XPOS+Px,YPOS+Py+(19*xx),0);//선택커서
+					}else{
+						_SUTIL->pFont->setColor(0x3a444d);
+
+					}
+					_SUTIL->pFont->DrawText(_SUTIL->g, 
+						(char*)pCLRPOPUP_Text->nText[(xx==0?CLRMENU_SLOT_0:CLRMENU_SLOT_1)], 
+						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
+				}
+				break;
 
 			case INVENTORY_POPUP_EQUIP	://3개
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_POPUP_3,XPOS+Px,YPOS+Py,0);//3개짜리 팝업창
@@ -2542,8 +2565,7 @@ void PopupUi::Paint_INVENTORY()
 						XPOS+Px+20, YPOS+Py+5+(19*xx), CGraphics::HCENTER);
 				}
 				break;
-
-				break;
+			
 
 			case INVENTORY_POPUP_BAGCHANGE	://가방 슬롯에 끼기
 				int ss = 0;
@@ -2652,7 +2674,7 @@ void PopupUi::Paint_SKILL()
 
 	//아이콘 뿌려주기 - 슬롯
 	if(SELECT_SKILL_ACT_PAS){//패시브
-		for(int xx = 0;xx<9;xx++){
+		for(int xx = 0;xx<8;xx++){
 			if(Character::s_Skill.Equip_P[xx] > -1)
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_PASSIVE_S_00+Character::s_Skill.Equip_P[xx],
 					XPOS-25 + ((xx%3)*18), 
@@ -2873,7 +2895,7 @@ void PopupUi::Paint_SKILL()
 // 		}
 		if(SELECT_SKILL_Y == 2){
 			if(SELECT_SKILL_ACT_PAS){//패시브
-				PaintPopup_Sharp(SELECT_SKILL_KIND + SKILL_P_S_swordMaster);
+				PaintPopup_Sharp(SELECT_SKILL_KIND + SKILL_P_W_CriUp);
 			}else{
 				PaintPopup_Sharp(SELECT_SKILL_KIND);
 			}
@@ -4083,7 +4105,7 @@ void PopupUi::PaintPopup_Sharp(int Skill_Num)
 
 
 	//텍스트를 합쳐서 한줄로 뽑아낸다
-	if(Skill_Num<SKILL_P_S_swordMaster){//액티브 스킬
+	if(Skill_Num<SKILL_P_W_CriUp){//액티브 스킬
 
 		int Skill_Lv = Character::s_Skill.Level_A[Skill_Num];//스킬 레벨
 
@@ -4106,7 +4128,7 @@ void PopupUi::PaintPopup_Sharp(int Skill_Num)
 		s_Popup_Sharp.LineMAX = _SUTIL->pFont->DrawText(_SUTIL->g, str, posX+START_X, posY+START_Y, 0) - 5;
 
 	}else{//패시브 스킬
-		Skill_Num -= SKILL_P_S_swordMaster;
+		Skill_Num -= SKILL_P_W_CriUp;
 
 		int Skill_Lv = Character::s_Skill.Level_P[Skill_Num];//스킬 레벨
 
@@ -4248,9 +4270,9 @@ int PopupUi::itemICON(struct ItemBag _item)
 		case ITEM_GEM_STONE	:return MODULE_ITEM_JEWEL_EARTH_00+(_item.ITEM_INDEX);
 
 
-		case ITEM_SWORD		:return MODULE_ITEM_SWORD_00+((_item.ITEM_INDEX)/5);
+		case ITEM_SWORD		:return MODULE_ITEM_BOW_00/*MODULE_ITEM_SWORD_00*/+((_item.ITEM_INDEX)/5);
 //		case ITEM_AXE		:return MODULE_ITEM_AXE_00+((_item.ITEM_INDEX)/5);
-		case ITEM_GUN		:return MODULE_ITEM_GUN_00+((_item.ITEM_INDEX)/5);
+		case ITEM_GUN		:return MODULE_ITEM_CLAW_00/*MODULE_ITEM_GUN_00*/+((_item.ITEM_INDEX)/5);
 //		case ITEM_OEB		:return MODULE_ITEM_ORB_00+((_item.ITEM_INDEX)/5);
 		case ITEM_HEAD		:return MODULE_ITEM_HAT_00+((_item.ITEM_INDEX)/5);
 		case ITEM_CHEST		:return MODULE_ITEM_JACKET_00+((_item.ITEM_INDEX)/5);
@@ -4263,7 +4285,7 @@ int PopupUi::itemICON(struct ItemBag _item)
 				case ITEM_CALL_crystal:
 					return MODULE_ITEM_SPIRITSTONE_05;//자수정
 				case ITEM_CALL_diary:
-					return MODULE_ITEM_SKILLBOOK_03;//일지
+					return MODULE_ITEM_SKILLBOOK_01;//일지
 				default:
 					return MODULE_ITEM_QUESTITEM;
 			}
@@ -4519,8 +4541,8 @@ void PopupUi::USE_item(struct ItemBag *_item){//아이템 사용
 
 			if(_item->Data1%100<1){
 				Del_Item(_item);
-				Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]=-1;
-				Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]=-1;
+// 				Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]=-1;
+// 				Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]=-1;
 			}
 
 			switch(_item->ITEM_INDEX){
@@ -4587,7 +4609,7 @@ void PopupUi::USE_item(struct ItemBag *_item){//아이템 사용
 	}
 
 }
-void PopupUi::QSLOT_item(struct ItemBag *_item){//퀵슬롯
+void PopupUi::QSLOT_item(struct ItemBag *_item,int slot){//퀵슬롯
 	if(_item->ITEM_EQUIP){// 이미 장비한 아이템이면 반응하지않는다
 		return;
 	}
@@ -4609,27 +4631,32 @@ void PopupUi::QSLOT_item(struct ItemBag *_item){//퀵슬롯
 	//switch(Character::s_ItemBag[SELECT_INVENTORY_BAG][SELECT_INVENTORY_INSIDE].ITEM_KIND){//아이템 종류별 분화
 	//							case ITEM_POTION:
 
-	_item->Data0  = (_item->Data0 %= 10000000) + 10000000;
-	Character::s_Status[Character::s_HeroTag.SEX].Qslot[0] = SELECT_INVENTORY_BAG;
-	Character::s_Status[Character::s_HeroTag.SEX].Qslot[1] = SELECT_INVENTORY_INSIDE;
+	_item->Data0  = (_item->Data0 %= 10000000) + 10000000*(slot+1);
+	Character::s_Potion_Tag.Qslot[slot][0] = SELECT_INVENTORY_BAG;
+	Character::s_Potion_Tag.Qslot[slot][1] = SELECT_INVENTORY_INSIDE;
 }
 
 void PopupUi::QSLOT_find(){//퀵슬롯
 
+	Character::s_Potion_Tag.Qslot[0][0]=-1;
+	Character::s_Potion_Tag.Qslot[0][1]=-1;
+	Character::s_Potion_Tag.Qslot[1][0]=-1;
+	Character::s_Potion_Tag.Qslot[1][1]=-1;
+
 	for(int xx = 0;xx<4;xx++){//모든 인벤을 돌면서 기존의 Equip장비를 찾아 풀어준다
 		for(int yy = 0;yy<32;yy++){
 			if(Character::s_ItemBag[xx][yy].ITEM_EQUIP){//장비템 중에
+				int slot = Character::s_ItemBag[xx][yy].ITEM_EQUIP -1;
 				switch(Character::s_ItemBag[xx][yy].ITEM_KIND){//퀵슬롯템 위치를 갱신한다
 						case ITEM_POTION://물약
-							Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]=xx;
-							Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]=yy;
-							return;
+							Character::s_Potion_Tag.Qslot[slot][0]=xx;
+							Character::s_Potion_Tag.Qslot[slot][1]=yy;
+							break;;
 				}
 			}
 		}
 	}
-	Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]=-1;
-	Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]=-1;
+	
 
 }
 

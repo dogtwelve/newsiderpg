@@ -68,6 +68,7 @@
 #define INVENTORY_POPUP_EQUIP2		2
 #define INVENTORY_POPUP_USE			3
 #define INVENTORY_POPUP_DEFAULT		4
+#define INVENTORY_POPUP_SLOT		5
 
 #define INVENTORY_POPUP_BAGCHANGE	10
 
@@ -184,8 +185,8 @@ struct Popup_Sharp{// 상세정보 팝업창
 
 #include "PopupTable.h" //아이템 정보 테이블
 
-const short s_X[2][7] = {{-34,56,-34,26, 26,-64,-4},{-34,56,-64,26,-64, -4,-4}};
-const short s_Y[2][7] = {{-18, 0, 20,20,-18,  0, 0},{  0, 0, 20, 0,-18,-18,20}};
+const short s_X[2][7] = {{-34,56,-34,26, 26,-64,-4},{ -4,56,-34,26,-64, -4,-64}};
+const short s_Y[2][7] = {{ 20, 0,-18,20,-18,  0, 0},{-18, 0,  0, 0,-18, 20, 20}};
 
 class PopupUi
 {
@@ -420,7 +421,7 @@ private:
 
 
 
-	void QSLOT_item(struct ItemBag *_item);//퀵슬롯 
+	void QSLOT_item(struct ItemBag *_item,int slot);//퀵슬롯 
 	void QSLOT_find();
 	void EQUIP_item(int slot,struct ItemBag *_item);//아이템 착용
 	void DEL_item();//아이템 버리기

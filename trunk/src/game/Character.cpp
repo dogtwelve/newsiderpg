@@ -11,6 +11,7 @@
 	HeroTag Character::s_HeroTag;
 	Skill Character::s_Skill;
 	Skill_Set Character::s_Skill_Set[2];
+	Potion_Tag Character::s_Potion_Tag;
 
 
 	ItemBag Character::s_ItemEquip[2][7];
@@ -35,7 +36,7 @@
 
 		s_ASpriteSet = (ASpriteSet*)s__ASpriteSet;//Void 포인터를 스프라이트 포인트struct 포인터로 치환
 
-		_ins_Debuff = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 240, NULL);//디버프 인스턴스
+		_ins_Debuff = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 240, NULL);//디버프 인마수의계약스
 
 
 		_spr_Hero_W = SUTIL_LoadSprite(PACK_SPRITE, SPRITE_WOMAN_BODY);
@@ -70,12 +71,24 @@
 				s_Skill.Equip_P[xx] = -1;
 
 
+			//초기세팅
 			s_Skill.Equip_P[0] = 21;
 			s_Skill.Equip_P[1] = 22;
 			s_Skill.Equip_P[2] = 23;
 			s_Skill.Equip_P[3] = 24;
 			s_Skill.Equip_P[4] = 25;
 			s_Skill.Equip_P[5] = 26;
+			s_Skill.Equip_P[6] = 27;
+			s_Skill.Equip_P[7] = 28;
+
+			s_Skill.Equip_P[8] = 29;
+			s_Skill.Equip_P[9] = 30;
+			s_Skill.Equip_P[10] = 31;
+			s_Skill.Equip_P[11] = 32;
+			s_Skill.Equip_P[12] = 33;
+			s_Skill.Equip_P[13] = 34;
+			s_Skill.Equip_P[14] = 35;
+			s_Skill.Equip_P[15] = 36;
 
 
 
@@ -100,6 +113,10 @@
 
 			s_Status[0].LEVEL =  31;
 			s_Status[1].LEVEL =  31;
+
+			s_Potion_Tag.Cool_TimeMax[0] = 20;
+			s_Potion_Tag.Cool_TimeMax[1] = 20;
+			s_Potion_Tag.Cool_TimeMax[2] = 20;
 
 
 // 			switch(SAVELOAD_sex){ // 0 : 여자 1 : 남자
@@ -177,10 +194,10 @@
 			s_Status[1].EXP = 0;
 
 			
-			s_Status[0].Qslot[0]=-1;//퀵슬롯 비우기
-			s_Status[0].Qslot[1]=-1;//퀵슬롯 비우기
-			s_Status[1].Qslot[0]=-1;//퀵슬롯 비우기
-			s_Status[1].Qslot[1]=-1;//퀵슬롯 비우기
+			s_Potion_Tag.Qslot[0][0]=-1;//퀵슬롯 비우기
+			s_Potion_Tag.Qslot[0][1]=-1;//퀵슬롯 비우기
+			s_Potion_Tag.Qslot[1][0]=-1;//퀵슬롯 비우기
+			s_Potion_Tag.Qslot[1][1]=-1;//퀵슬롯 비우기
 		}
 		_m_test=1;
 		s_MustAction.must_Action = -1;
@@ -237,7 +254,8 @@
 		switch(m_keyCode){
 			case MH_KEY_ASTERISK:// 히어로 변경 - 태그시작
 				if(m_keyRepeat)break;//키릴리즈에 반응하지않는다.
-				CloneCopy();
+				if(!Check_PotionTag_impossible(2)){CloneCopy();}
+					
 				return;
 		}
 
@@ -397,10 +415,10 @@
 				if(Temp_command){
 
 					switch(s_C_Skill[xx].name){
-						case HERO_LINE_MOVE_UP	:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
-						case HERO_LINE_MOVE_DOWN:if(!Get_Skill(SKILL_P_P_lineMove)){return _move_Order;}break;//패시브
+						case HERO_LINE_MOVE_UP	:if(!Get_Skill(Check_sex(SKILL_P_W_SideStep,SKILL_P_M_SideStep))){return _move_Order;}break;//패시브
+						case HERO_LINE_MOVE_DOWN:if(!Get_Skill(Check_sex(SKILL_P_W_SideStep,SKILL_P_M_SideStep))){return _move_Order;}break;//패시브
 						case HERO_CHARGE		:
-							if(!Get_Skill(Check_sex(SKILL_P_P_chargeShot,SKILL_P_P_guard))){return false;}//패시브
+							if(!Check_sex(false,Get_Skill(SKILL_P_M_Defense))){return false;}//패시브
 							if(_b_JabNum==JAB_KNIGHT && (s_Status[s_HeroTag.SEX].MANA < PER(s_Status[s_HeroTag.SEX].MANA_MAX,30))){return false;}//가드 - 마나가 부족하면 발동하지않는다
 
 							break;
@@ -444,7 +462,7 @@
 			case MH_KEY_SELECT:
 				if(m_keyRepeat)return 0;//키릴리즈에 반응하지않는다.
 
-				if(Get_Skill(SKILL_P_P_catch)){
+				if(Check_sex(Get_Skill(SKILL_P_W_Catch),false)){
 					s_Throw.ThrowPossible = true;//잡기
 					s_Throw.ThrowNum = 0;//잡기
 				}
@@ -476,25 +494,21 @@
 				return HERO_SKILL_3;
 
 			case MH_KEY_0:
-				if(m_keyRepeat || Check_skill_impossible(4))return 0;//스킬을 쓸 수 없는 상황이다
-
-				s_Skill_Set[s_HeroTag.SEX].Input_Key=MH_KEY_0;
-				return HERO_SKILL_4;
-
-
-			//case MH_KEY_ASTERISK:// 히어로 변경 - 태그시작
-			//	if(m_keyRepeat)return 0;//키릴리즈에 반응하지않는다.
-
-			//	//_b_ActionEnd = false;
-			//	_b_Key_Protect=true;
-			//	
-			//	return HERO_SWITCH;
+				if(m_keyRepeat || Check_PotionTag_impossible(0))return 0;//스킬을 쓸 수 없는 상황이다
+				PopupUi::USE_item(&s_ItemBag[s_Potion_Tag.Qslot[0][0]][s_Potion_Tag.Qslot[0][1]]);
+				if(s_ItemBag[s_Potion_Tag.Qslot[0][0]][s_Potion_Tag.Qslot[0][1]].ITEM_STACK_COUNT<1){
+					s_Potion_Tag.Qslot[0][0] = 0;
+					s_Potion_Tag.Qslot[0][1] = 0;
+				}
+				return 0;
 
 			case MH_KEY_POUND:
-				if(m_keyRepeat || Check_skill_impossible(5))return 0;//스킬을 쓸 수 없는 상황이다
-
-
-				PopupUi::USE_item(&s_ItemBag[s_Status[s_HeroTag.SEX].Qslot[0]][s_Status[s_HeroTag.SEX].Qslot[1]]);
+				if(m_keyRepeat || Check_PotionTag_impossible(1))return 0;//스킬을 쓸 수 없는 상황이다
+				PopupUi::USE_item(&s_ItemBag[s_Potion_Tag.Qslot[1][0]][s_Potion_Tag.Qslot[1][1]]);
+				if(s_ItemBag[s_Potion_Tag.Qslot[1][0]][s_Potion_Tag.Qslot[1][1]].ITEM_STACK_COUNT<1){
+					s_Potion_Tag.Qslot[1][0] = 0;
+					s_Potion_Tag.Qslot[1][1] = 0;
+				}
 				return 0;
 			case MH_KEY_SEND:
 				for(int xx = 0;SUBQUEST_MAX>xx;xx++)SUBQUEST_IDX(xx)=QUEST_FIN;			
@@ -733,9 +747,9 @@
 				case HERO_DASH_RIGHT:
 				case HERO_DASH_LEFT:
 					if(m_keyCode == MH_KEY_SELECT){
-						if(Get_Skill(SKILL_P_P_dashAtt)){
+						//if(Get_Skill(SKILL_P_P_dashAtt)){
 							return HERO_DASH_ATT;
-						}
+						//}
 					}
 					if(m_keyCode ==  MH_KEY_1 || m_keyCode ==  MH_KEY_3 || m_keyCode ==  MH_KEY_7 || m_keyCode ==  MH_KEY_9 || m_keyCode ==  MH_KEY_0){
 						return Event_move(m_keyCode,m_keyRepeat);//대쉬중 스킬사용
@@ -842,8 +856,8 @@
 		if(s_Status[s_HeroTag.SEX].LIFE<=0)//주인공 사망시 작동하지않음
 			return;
 
-		int FNFH = FULL_NEED_FRAME_HP * 100 /(100+Get_Skill(SKILL_P_O_recoveryUp));//패시브
-		int FNFM = FULL_NEED_FRAME_MP * 100 /(100+Get_Skill(SKILL_P_O_recoveryUp));//패시브
+		int FNFH = FULL_NEED_FRAME_HP * 100 /(100+Check_sex(false,Get_Skill(SKILL_P_W_MPregen)));//패시브
+		int FNFM = FULL_NEED_FRAME_MP * 100 /(100+Check_sex(Get_Skill(SKILL_P_M_HPregen),false));//패시브
 
 		if(s_Status[s_HeroTag.SEX].LIFE < s_Status[s_HeroTag.SEX].LIFE_MAX){
 			s_Status[s_HeroTag.SEX].LIFE += s_Status[s_HeroTag.SEX].LIFE_MAX*(NUMBER+1)/FNFH - s_Status[s_HeroTag.SEX].LIFE_MAX*(NUMBER)/FNFH ;//피 채우기
@@ -1405,7 +1419,7 @@
 					break;
 
 				case HERO_THROW:
-					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_THROW,ANIM_MAN_BODY_A_S_THROW));
+					_ins_Hero->SetAnim(Check_sex(ANIM_WOMAN_BODY_A_S_THROW,0/*ANIM_MAN_BODY_A_S_THROW*/));
 					_ins_Hero->m_bLoop = false;
 					break;
 				case HERO_JumpUp:
@@ -1627,7 +1641,7 @@
 							if(xx == 0 )_ins_Hero->m_sprite->SetBlendCustom(false,false,0,0);
 						}
 						break;
-					case DEBUF_STUN://스턴
+					case DEBUF_STUN://마수의계약
 						if(xx == 0 ){// 0번째(최신) 디버프이며
 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_STUN){// 디버프 타이머가 지금 시작 되었다면
 								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_STUN);
@@ -2180,20 +2194,20 @@
 		if(s_Damage.Type == DAMAGE_FLY)
 			return true;//플라잉 데미지시 에는 기술 사용을 막는다
 	
-		if(m_skillnum == 5){//물약
-			if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum]){
-				return true;//쿨타임이 남아있거나 마나가 부족하면 스킬은 나가지 않는다
-			}else{
-				s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[m_skillnum];
-			}
-		}else{
+// 		if(m_skillnum == 5){//물약
+// 			if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum]){
+// 				return true;//쿨타임이 남아있거나 마나가 부족하면 스킬은 나가지 않는다
+// 			}else{
+// 				s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[m_skillnum];
+// 			}
+// 		}else{
 			if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum]  ||  s_Status[s_HeroTag.SEX].MANA < s_Skill_Set[s_HeroTag.SEX].Need_Mana[m_skillnum] || (s_Skill.Equip_A[s_HeroTag.SEX*3 + m_skillnum] == -1)){
 				return true;//쿨타임이 남아있거나 마나가 부족하거나 슬롯이 비었으면 스킬은 나가지 않는다
 			}else{
 				s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[m_skillnum] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[m_skillnum];
 				s_Status[s_HeroTag.SEX].MANA -= s_Skill_Set[s_HeroTag.SEX].Need_Mana[m_skillnum];
 			}
-		}
+//		}
 		
 
 		
@@ -2201,6 +2215,16 @@
 		_b_Key_Protect=true;
 		s_Skill_Set[s_HeroTag.SEX].Num = m_skillnum;
 		return false;
+	}
+	bool Character::Check_PotionTag_impossible(int m_PT_num){//포션,태그 사용 가능여부를 판단
+
+			if(s_Potion_Tag.Cool_TimeNow[m_PT_num]){
+				return true;//쿨타임이 남아있거나 마나가 부족하면 스킬은 나가지 않는다
+			}else{
+				s_Potion_Tag.Cool_TimeNow[m_PT_num] = s_Potion_Tag.Cool_TimeMax[m_PT_num];
+			}
+			return false;
+		
 	}
 	//int Character::Check_jab(int m_Jab_Knight,int  m_Jab_Gunner,int  m_Jab_Magi)
 	//{//SangHo - 직업별 행동을 자연분화시킨다
@@ -2386,12 +2410,12 @@
 
 
 
-			s_Status[xx].LIFE_MAX		= add_CON * 15  + (s_HeroTag.SEX==SEX_WOMAN? 0: 50) + Get_Skill(SKILL_P_S_lifeUp);//패시브//생명 0 이 되면 죽는다.
+			s_Status[xx].LIFE_MAX		= add_CON * 15  + (s_HeroTag.SEX==SEX_WOMAN? 0: 50) + Check_sex(Get_Skill(SKILL_P_W_HPup),false);//패시브//생명 0 이 되면 죽는다.
 			s_Status[xx].LIFE_MAX=PER(s_Status[xx].LIFE_MAX,(100+add_HP));
 			if(s_Status[xx].LIFE>s_Status[xx].LIFE_MAX)s_Status[xx].LIFE = s_Status[xx].LIFE_MAX;
 
 			s_Status[xx].MANA_MAX		= add_INT * 5;//마나 0 이 되면 스킬을 못쓴다.
-			s_Status[xx].MANA_MAX=PER(s_Status[xx].MANA_MAX,(100+add_MP + Get_Skill(SKILL_P_G_manaUp)));//패시브
+			s_Status[xx].MANA_MAX=PER(s_Status[xx].MANA_MAX,(100+add_MP + Check_sex(false,Get_Skill(SKILL_P_M_MPup))));//패시브
 			if(s_Status[xx].MANA>s_Status[xx].MANA_MAX)s_Status[xx].MANA = s_Status[xx].MANA_MAX;
 
 			
@@ -2425,18 +2449,10 @@
 		
 
 		//100 프레임 이상의 쿨타임을 가지는 스킬들은 쿨타임을 일정량 줄인다
-		if(Get_Skill(SKILL_P_O_coolTimeDown)){//패시브
-			for(int xx = 0;xx<6;xx++){
-				if(s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]>=0){
-					int need_frm = a_Skill_Table[s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][2];//스킬 쿨타임
-					if(need_frm >= 100){
-						s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = need_frm - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
-					}else{
-						s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = need_frm;
-					}
-					if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[xx]>s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx]){
-						s_Skill_Set[s_HeroTag.SEX].Cool_TimeNow[xx]=s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx];
-					}
+		if(Check_sex(false,Get_Skill(SKILL_P_M_FastCool))){//패시브
+			for(int xx = 0;xx<3;xx++){
+				if(s_Skill.Equip_A[s_HeroTag.SEX*3 + xx]==SKILL_ACTIVE_G1){
+					s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] -= Get_Skill(SKILL_P_M_FastCool);//패시브
 				}
 			}
 		}
@@ -2476,8 +2492,12 @@
 					
 
 					s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][2];//스킬 쿨타임
-					if(s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] >= 100){
-						s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] - Get_Skill(SKILL_P_O_coolTimeDown);//패시브
+					
+					
+					if(s_Skill.Equip_A[sex*3 + xx]==SKILL_ACTIVE_G1){
+						if(Check_sex(false,Get_Skill(SKILL_P_M_FastCool))){//패시브
+							s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] -= Get_Skill(SKILL_P_M_FastCool);//패시브
+						}
 					}
 
 					s_Skill_Set[s_HeroTag.SEX].Need_Mana[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][4];//필요마나
@@ -2595,7 +2615,6 @@
 		switch(D_index){//공식 인덱스 번호
 		//평타
 			case 0: percent = 100;
-				if(RND(1,100) <= Get_Skill(SKILL_P_S_poisonAttack))s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_POISON;//패시브
 				break;
 		//노데미지
 			case 10:percent = 0;break;
@@ -2606,47 +2625,47 @@
 			case 42:percent = 200;break;
 
 		/*어기어검*/
-			case 50:percent = a_Skill_Table[table_Index][0]+Get_Skill(SKILL_P_S_wingSword);break;//패시브
-			case 51:percent = a_Skill_Table[table_Index][1]+Get_Skill(SKILL_P_S_wingSword);break;
-		/*다운스케이팅*/					
+			case 50:percent = a_Skill_Table[table_Index][0];break;//패시브
+			case 51:percent = a_Skill_Table[table_Index][1];break;
+		/*얼음화살비*/					
 			case 52:percent = a_Skill_Table[table_Index][0];break;	
 			case 53:percent = a_Skill_Table[table_Index][1];break;
-		/*하이크래시*/						
+		/*바운드*/						
 			case 54:percent = a_Skill_Table[table_Index][0];break;	
 			case 55:percent = a_Skill_Table[table_Index][1];break;
-		/*공간참격*/						
-			case 56:percent = a_Skill_Table[table_Index][0];cri_Num+=Get_Skill(SKILL_P_S_spaceCut);break;//패시브	
-			case 57:percent = a_Skill_Table[table_Index][1];cri_Num+=Get_Skill(SKILL_P_S_spaceCut);break;
-		/*돌격*/							
+		/*스카이*/						
+			case 56:percent = a_Skill_Table[table_Index][0];break;//패시브	
+			case 57:percent = a_Skill_Table[table_Index][1];break;
+		/*화염구*/							
 			case 58:percent = a_Skill_Table[table_Index][0];break;	
 			case 59:percent = a_Skill_Table[table_Index][1];break;
-		/*드래곤헌팅*/						
+		/*토네이도*/						
 			case 60:percent = a_Skill_Table[table_Index][0];break;	
 			case 61:percent = a_Skill_Table[table_Index][1];break;
-		/*3연난무*/							
+		/*뒤구르기지뢰*/							
 			case 62:percent = a_Skill_Table[table_Index][0];break;	
 			case 63:percent = a_Skill_Table[table_Index][1];break;
 
 
-		/*백다운피스톨*/
+		/*하울링*/
 			case 64:percent = a_Skill_Table[table_Index][0];break;	
 			case 65:percent = a_Skill_Table[table_Index][1];break;
-		/*스턴*/							
+		/*마수의계약*/							
 			case 66:percent = a_Skill_Table[table_Index][0];s_Status[s_HeroTag.SEX].DEBUFF = s_Status[s_HeroTag.SEX].DEBUFF|DEBUF_STUN;break;	
 			case 67:percent = a_Skill_Table[table_Index][1];break;
-		/*스핀샷*/							
+		/*연계3타*/							
 			case 68:percent = a_Skill_Table[table_Index][0];break;	
 			case 69:percent = a_Skill_Table[table_Index][1];break;
-		/*힐링팩*/							
+		/*검사3콤*/							
 			case 70:percent = a_Skill_Table[table_Index][0];break;	
 			case 71:percent = a_Skill_Table[table_Index][1];break;
-		/*안드로메다*/						
+		/*승룡권*/						
 			case 72:percent = a_Skill_Table[table_Index][0];break;	
 			case 73:percent = a_Skill_Table[table_Index][1];break;
-		/*발칸샷*/							
+		/*돌찍기*/							
 			case 74:percent = a_Skill_Table[table_Index][0];break;	
 			case 75:percent = a_Skill_Table[table_Index][1];break;
-		/*3콤건컷터*/						
+		/*흡기신공*/						
 			case 76:percent = a_Skill_Table[table_Index][0];break;	
 			case 77:percent = a_Skill_Table[table_Index][1];break;
 
@@ -2674,6 +2693,9 @@
 // 			case 91:percent = a_Skill_Table[table_Index][1];break;
 
 		}
+		if(D_index >= 50 && D_index <= 63){
+			percent+=PER(percent,100+Get_Skill(SKILL_P_W_SkillUp));
+		}
 
 		int add_INT = s_Ability[s_HeroTag.SEX].INT;//오리지널값을 가져오기
 		for (int slot = 0 ; slot<7 ; slot++){
@@ -2696,7 +2718,7 @@
 					case ELEMENTAL_NEUTRAL:	ATT=PER(ATT, 80);	break;//중성
 					case ELEMENTAL_NON:		ATT=PER(ATT,100);	break;//무성
 				}
-				ATT = PER(ATT,100+Get_Skill(SKILL_P_S_swordMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
+				//ATT = PER(ATT,100+Get_Skill(SKILL_P_S_swordMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
 				
 				break;
 			case SEX_MAN:
@@ -2706,12 +2728,12 @@
 					case ELEMENTAL_NEUTRAL:	ATT=PER(ATT, 80);	break;//중성
 					case ELEMENTAL_NON:		ATT=PER(ATT,100);	break;//무성
 				}
-				ATT = PER(ATT,100+Get_Skill(SKILL_P_S_swordMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
+				//ATT = PER(ATT,100+Get_Skill(SKILL_P_S_swordMaster)+Get_Skill(SKILL_P_O_immuneAttUp));//패시브
 				break;
 		}
 
-		if(s_Status[s_HeroTag.SEX].LIFE<PER(s_Status[s_HeroTag.SEX].LIFE_MAX,20)) 
-			ATT = PER(ATT,100+Get_Skill(SKILL_P_S_deadlyAttack));//패시브
+// 		if(s_Status[s_HeroTag.SEX].LIFE<PER(s_Status[s_HeroTag.SEX].LIFE_MAX,20)) 
+// 			ATT = PER(ATT,100+Get_Skill(SKILL_P_S_deadlyAttack));//패시브
 
 		//방어율
 		//ATT=MAX(ATT/8+1, PER(ATT,100-monDefense))+10000;
@@ -2721,7 +2743,7 @@
 		
 		if(RND(1,100)<=cri_Num) {
 			ATT*=2;
-			ATT = PER(ATT,100+Get_Skill(SKILL_P_G_criIncrease));//패시브
+			ATT = PER(ATT,100+Check_sex(Get_Skill(SKILL_P_M_FastCool),0));//패시브
 			Critical=true;
 		}
 
@@ -2780,7 +2802,7 @@
 			//DEBUF_WEAK		(1 << 1)			//약화
 			//DEBUF_ICE			(1 << 2)			//아이스
 			//DEBUF_FREEZE		(1 << 3)			//동결
-			//DEBUF_STUN		(1 << 4)			//스턴
+			//DEBUF_STUN		(1 << 4)			//마수의계약
 			//DEBUF_STONE		(1 << 5)			//석화
 			//DEBUF_POISON		(1 << 6)			//독
 			//DEBUF_CONFUSE		(1 << 7)			//혼란
@@ -2795,8 +2817,8 @@
 			s_Status[s_HeroTag.SEX].EXP -= s_Status[s_HeroTag.SEX].EXP_MAX;
 			s_Status[s_HeroTag.SEX].LEVEL++;
 			s_Ability[s_HeroTag.SEX].POINT += 3;
-			if(RND(1,100) <= Get_Skill(SKILL_P_O_addAbility))
-			{s_Ability[s_HeroTag.SEX].POINT += 2;}//패시브
+// 			if(RND(1,100) <= Get_Skill(SKILL_P_O_addAbility))
+// 			{s_Ability[s_HeroTag.SEX].POINT += 2;}//패시브
 
 			s_Ability[s_HeroTag.SEX].STR+=2;
 			s_Ability[s_HeroTag.SEX].DEX+=2;
@@ -2825,7 +2847,7 @@
 
 
 
-		//인스턴스 카피
+		//인마수의계약스 카피
 			SUTIL_FreeSpriteInstance(_ins_Hero_clone);
 		_ins_Hero_clone = GL_NEW ASpriteInstance(_ins_Hero);
 		_ins_Skill_clone[0] = GL_NEW ASpriteInstance(_ins_Skill[s_HeroTag.SEX][s_Skill_Set[s_HeroTag.SEX].Num][0]);
@@ -3090,11 +3112,11 @@
 
 
 	int Character::Get_Skill(int passive_Num){//패시브
-		passive_Num-=SKILL_P_S_swordMaster;
+		passive_Num-=SKILL_P_W_CriUp;
 		if(passive_Num<0)return 0;
 
-		for(int xx = 0;xx<9;xx++){
-			if(Character::s_Skill.Equip_P[xx] == (passive_Num)){
+		for(int xx = 0;xx<18;xx++){
+			if(Character::s_Skill.Equip_P[xx] == (passive_Num + SKILL_P_W_CriUp)){
 				return a_Passive_Table[ passive_Num * 5 + (s_Skill.Level_P[passive_Num]-1) ][0];//-1 의 이유는 배열은 0부터시작하니까
 			}
 		}
