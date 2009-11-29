@@ -5,7 +5,7 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 12
+    // Modules: 11
     // Frames:  0
     // Anims:   0
 
@@ -13,8 +13,11 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\m_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
-    PALETTE 4 ".\m_part.act"
+    IMAGE 0x0000 ".\m_head_1.png" TRANSP 0x00FF00FF // 0  size: 256 x 49  palettes: 5
+    PALETTE 0 ".\m_head_1_0.act"
+    PALETTE 2 ".\m_head_1_2.act"
+    PALETTE 3 ".\m_head_1_3.act"
+    PALETTE 4 ".\m_head_1_4.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -35,9 +38,8 @@
         MD	0x1000	MD_IMAGE	0	6	4	28	31	"m_head_00"
         MD	0x1001	MD_IMAGE	0	40	9	31	29	"m_head_01"
         MD	0x1002	MD_IMAGE	0	72	5	25	31	"m_head_02"
-        MD	0x1003	MD_IMAGE	0	106	6	25	26	"m_head_03"
-        MD	0x1004	MD_IMAGE	0	134	7	28	27	"m_head_04"
-        MD	0x1005	MD_IMAGE	0	167	4	25	31	"m_head_05"
+        MD	0x1004	MD_IMAGE	0	134	7	28	28	"m_head_03"
+        MD	0x1005	MD_IMAGE	0	167	4	25	31	"m_head_04"
         MD	0x103B	MD_IMAGE	0	5	39	3	3	"m_eye_00"
         MD	0x103C	MD_IMAGE	0	37	41	3	4	"m_eye_01"
         MD	0x103F	MD_IMAGE	0	56	38	11	7	"m_eye_02"

@@ -1445,7 +1445,7 @@ void ASprite::Load(byte* file, int offset)
 
 	void ASprite::PaintAnimation(CGraphics* g, int _animIndex, int posX, int posY, int flags, int hx, int hy)
     {//SangHo - 에니메이션에서 한 프레임을 그려줄때마다 프레임의 인덱스,좌표등등을 불러온다
-	//SangHo -  (비인스턴스)내부 구조는 PaintAFrame 과 동일하게 PaintFrame 을 호출한다 차이점은 중요6개 변수가 이미 저장이 되어 있다는점
+	//SangHo -  (비인마수의계약스)내부 구조는 PaintAFrame 과 동일하게 PaintFrame 을 호출한다 차이점은 중요6개 변수가 이미 저장이 되어 있다는점
 
 
         //if (_animIndex >= MAX_ANIMATION_INSTANCES) {
@@ -1471,7 +1471,7 @@ void ASprite::Load(byte* file, int offset)
 
 
 	int ASprite::UpdateAnimation( int _animIndex )
-	{//SangHo - (비인스턴스) 에니메이션 넘버(_current_animation) 의 _animIndex  번째 배열의 프레임 넘버(_current_frame)값을 증가시킨다
+	{//SangHo - (비인마수의계약스) 에니메이션 넘버(_current_animation) 의 _animIndex  번째 배열의 프레임 넘버(_current_frame)값을 증가시킨다
 
         //if (_animIndex >= MAX_ANIMATION_INSTANCES) {
         //    if (bDbgS) System.out.println("MAX_ANIMATION_INSTANCES is too small!");

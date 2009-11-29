@@ -316,8 +316,8 @@ public:
 	int				m_nowAniZ;			//SangHo - Flag 변환이 적용된 AFrame 의 마지막 Z좌표
 	int				m_nowFlag;
 
-	int				Fast_Ani_Num;//인스턴스생성이 필요없는 간단한 Ani 저장 변수
-	int				Fast_Frm_Num;//인스턴스생성이 필요없는 간단한 AF 저장 변수
+	int				Fast_Ani_Num;//인마수의계약스생성이 필요없는 간단한 Ani 저장 변수
+	int				Fast_Frm_Num;//인마수의계약스생성이 필요없는 간단한 AF 저장 변수
 
 MC_GrpContext gc;
 

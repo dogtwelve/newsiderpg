@@ -1255,13 +1255,15 @@ void FieldUi::PaintMonsterInfo(int MonName, int level, int NowHp, int MaxHp, int
 #define SKILL_SLOT_SIZE		(30)
  
 //--------------------------------------------------------------------------
+
+
 void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,int* needmana)
 //--------------------------------------------------------------------------
 {
 	//	1379 skill   m_pFieldUiAs 
 
 	for(int loop = 0; loop < 3; loop++){//아이콘
-		
+
 		if(skill_id[loop]>=0){//비설정 상태가 아니라면 
 			if(cooltime[loop]>2){//쿨타임이 남아있다면
 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);//그레이 스케일
@@ -1291,7 +1293,7 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 
 			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_BASE, SKILL_SLOT_POS_X+loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);//프레임
 			if(cooltime[loop]==0)SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_1 + loop, SKILL_SLOT_POS_X+loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
-			
+
 		}else{
 			s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,0,0);//비어있는 슬롯은 블랜딩을 해제한다
 
@@ -1302,71 +1304,101 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 		}
 
 
-		
-	}
 
-	
-		
-
-	
-	if(Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]>=0 && Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]>=0){//비설정 상태가 아니라면 
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_EMPTY, SCREEN_WIDTH - SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
-
-		if(cooltime[5]>2){//쿨타임이 남아있다면
-
-			s_ASpriteSet->pItemAs->SetBlendCustom(true,false,8,0);//그레이 스케일
-			s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);//그레이 스케일
-			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
-				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
-			for(int i = 0,f = (cooltime[5]*13/coolMax[5]);i<=f;i++){
-				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILL_COOL, SCREEN_WIDTH - SKILL_SLOT_SIZE + 6,SKILL_SLOT_POS_Y + 6+i,0);
-			}
-			cooltime[5]--;
-		}else if(cooltime[5]==2){//쿨타임이 해제직전
-
-			s_ASpriteSet->pItemAs->SetBlendCustom(true,false,7,42260);//60% 밝게
-			s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,42260);//60% 밝게
-			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
-				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
-			cooltime[5]--;
-		}else if(cooltime[5]==1){//쿨타임이 해제직전
-
-			s_ASpriteSet->pItemAs->SetBlendCustom(true,false,7,21130);//50% 밝게
-			s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,21130);//50% 밝게
-			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
-				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
-			cooltime[5]=0;
-		}else{
-
-			s_ASpriteSet->pItemAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
-			s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
-
-			SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
-				PopupUi::itemICON(Character::s_ItemBag[Character::s_Status[Character::s_HeroTag.SEX].Qslot[0]][Character::s_Status[Character::s_HeroTag.SEX].Qslot[1]]), 
-				SCREEN_WIDTH - SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
-		}
-
-
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_ITEMSLOT_BASE, SCREEN_WIDTH - SKILL_SLOT_SIZE ,SKILL_SLOT_POS_Y,0);//프레임
-		if(cooltime[5]==0)SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_SHARP, SCREEN_WIDTH - SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
-
-	}else{
-		s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,0,0);//비어있는 슬롯은 블랜딩을 해제한다
-
-		//	pound key skill
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_EMPTY, SCREEN_WIDTH - SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
-
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_ITEMSLOT_BASE, SCREEN_WIDTH - SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
-		SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_SHARP, SCREEN_WIDTH - SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
 	}
 
 	s_ASpriteSet->pItemAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
 	s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
 
+
+}
+
+#define POTION_WIDTH		(SCREEN_WIDTH - 60)
+
+void FieldUi::PaintPotionTagInfo(int* coolMax,int* cooltime)
+//--------------------------------------------------------------------------
+{
+
+	for(int loop = 0; loop < 2; loop++){//아이콘 s_Potion_Tag.Qslot[1]
+ 		if(Character::s_Potion_Tag.Qslot[loop][0]>=0 && Character::s_Potion_Tag.Qslot[loop][1]>=0){//비설정 상태가 아니라면 
+ 			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_EMPTY, POTION_WIDTH + loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
+	 
+ 			if(cooltime[loop]>2){//쿨타임이 남아있다면
+	 
+ 				s_ASpriteSet->pItemAs->SetBlendCustom(true,false,8,0);//그레이 스케일
+ 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);//그레이 스케일
+ 				SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
+ 					PopupUi::itemICON(Character::s_ItemBag[Character::s_Potion_Tag.Qslot[loop][0]][Character::s_Potion_Tag.Qslot[loop][1]]), 
+ 					POTION_WIDTH + loop*SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
+ 				for(int i = 0,f = (cooltime[loop]*13/coolMax[loop]);i<=f;i++){
+ 					SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILL_COOL, POTION_WIDTH + loop*SKILL_SLOT_SIZE + 6,SKILL_SLOT_POS_Y + 6+i,0);
+ 				}
+ 				cooltime[loop]--;
+ 			}else if(cooltime[loop]==2){//쿨타임이 해제직전
+	 
+ 				s_ASpriteSet->pItemAs->SetBlendCustom(true,false,7,42260);//60% 밝게
+ 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,42260);//60% 밝게
+ 				SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
+ 					PopupUi::itemICON(Character::s_ItemBag[Character::s_Potion_Tag.Qslot[loop][0]][Character::s_Potion_Tag.Qslot[loop][1]]), 
+ 					POTION_WIDTH + loop*SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
+ 				cooltime[loop]--;
+ 			}else if(cooltime[loop]==1){//쿨타임이 해제직전
+	 
+ 				s_ASpriteSet->pItemAs->SetBlendCustom(true,false,7,21130);//50% 밝게
+ 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,21130);//50% 밝게
+ 				SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
+ 					PopupUi::itemICON(Character::s_ItemBag[Character::s_Potion_Tag.Qslot[loop][0]][Character::s_Potion_Tag.Qslot[loop][1]]), 
+ 					POTION_WIDTH + loop*SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
+ 				cooltime[loop]=0;
+ 			}else{
+	 
+ 				s_ASpriteSet->pItemAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
+ 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
+	 
+ 				SUTIL_Paint_Module(s_ASpriteSet->pItemAs ,  
+ 					PopupUi::itemICON(Character::s_ItemBag[Character::s_Potion_Tag.Qslot[loop][0]][Character::s_Potion_Tag.Qslot[loop][1]]), 
+ 					POTION_WIDTH + loop*SKILL_SLOT_SIZE + 5,SKILL_SLOT_POS_Y + 5,0,0);
+ 			}
+	 
+	 
+ 			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_ITEMSLOT_BASE, POTION_WIDTH + loop*SKILL_SLOT_SIZE ,SKILL_SLOT_POS_Y,0);//프레임
+ 			if(cooltime[loop]==0)SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_0+loop, POTION_WIDTH + loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
+	 
+ 		}else{
+ 			s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,0,0);//비어있는 슬롯은 블랜딩을 해제한다
+	 
+ 			//	pound key skill
+ 			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_EMPTY, POTION_WIDTH + loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
+	 
+ 			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_ITEMSLOT_BASE, POTION_WIDTH + loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
+ 			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_0+loop, POTION_WIDTH + loop*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
+ 		}
+	}
+
+
+
 	
+	if(cooltime[2]>0){//쿨타임이 남아있다면
+
+		s_ASpriteSet->pItemAs->SetBlendCustom(true,false,8,0);//그레이 스케일
+		s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,8,0);//그레이 스케일
+		for(int i = 0,f = (cooltime[2]*6/coolMax[2]);i<=f;i++){
+			SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_TAG_COOL, SCREEN_WIDTH,SCREEN_HEIGHT - 11+i,0);
+		}
+		cooltime[2]--;
+	}else{
+		SUTIL_Paint_Ani(s_ASpriteSet->pFieldUiAs ,ANIM_UI_A_TAG,SCREEN_WIDTH,SCREEN_HEIGHT, 0);//호칭 커서
+	}
+
+	//if(cooltime[2]==0)SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILLSLOT_SHARP, POTION_WIDTH + 2*SKILL_SLOT_SIZE,SKILL_SLOT_POS_Y,0);
+
+
+
+
+	s_ASpriteSet->pItemAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
+	s_ASpriteSet->pFieldUiAs->SetBlendCustom(false,false,8,0);//그레이 스케일 해제
+
+
 }
 
 

@@ -69,7 +69,7 @@ void GFieldBattle::LoadFirstData(int timer, int nDummy1, int nDummy2)
 		//--------------------------------------------------------------------------
 		{
 			//	주인공
-			hero = GL_NEW Character(SEX_WOMAN ,SDIR_RIGHT, (void*) &s_ASpriteSet);//인스턴스 포인터전달, 방향지정 및 초기화
+			hero = GL_NEW Character(SEX_WOMAN ,SDIR_RIGHT, (void*) &s_ASpriteSet);//인마수의계약스 포인터전달, 방향지정 및 초기화
 
 			if(0 != nDummy2)
 			{
@@ -1942,8 +1942,16 @@ void GFieldBattle::Paint()
 			&(hero->s_Skill_Set[hero->s_HeroTag.SEX].Cool_TimeNow[0]),
 			hero->s_Status[hero->s_HeroTag.SEX].MANA,
 			&(hero->s_Skill_Set[hero->s_HeroTag.SEX].Need_Mana[0]));
+
+		
+		
+
 		pFieldUi->PaintExpInfo(hero->s_Status[hero->s_HeroTag.SEX].EXP,
 			hero->s_Status[hero->s_HeroTag.SEX].EXP_MAX);
+
+		pFieldUi->PaintPotionTagInfo(&(hero->s_Potion_Tag.Cool_TimeMax[0]),
+			&(hero->s_Potion_Tag.Cool_TimeNow[0]));
+
 	}
 
 
@@ -2487,7 +2495,7 @@ bool GFieldBattle::Contact_Check(ASpriteInstance* p_Attacker,ASpriteInstance* p_
 			s_Contact.z =		XY(p_Attacker, att_Rect_Index+1);
 			s_Contact.D_index = WH(p_Attacker, att_Rect_Index+3);
 
-			//☆☆☆공격자 인스턴스 절대좌표와 수비자 인스턴스 절대좌표를 비교하여 X방향을 뒤집는다 
+			//☆☆☆공격자 인마수의계약스 절대좌표와 수비자 인마수의계약스 절대좌표를 비교하여 X방향을 뒤집는다 
 			//☆☆☆공격자가 보는 방향은 따지지 않는다
 			if(ac_X_Att > ac_X_Def)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
 
@@ -3162,7 +3170,7 @@ void GFieldBattle::Paint_Exception_Check()
 							MON_ATK_DEAD_ATTACK == s_Homing[i].pMons->m_ActState ||
 							MON_AC_DIE_AFTER == s_Homing[i].pMons->m_ActState ||
 							s_Homing[i].pMons->pMonAsIns==NULL)
-						{//몬스터가 사망했거나 스프라이트 인스턴스가 없다면
+						{//몬스터가 사망했거나 스프라이트 인마수의계약스가 없다면
 							s_Homing[i].pMons = NULL;//추적좌표 갱신을 중지한다
 						}else{
 							s_Homing[i].X2 = s_Homing[i].pMons->pMonAsIns->m_posX;
@@ -3419,7 +3427,7 @@ void GFieldBattle::Paint_Exception_Check()
 // 							s_Contact.x = 0;
 // 							s_Contact.y = 0;
 // 							s_Contact.z = -50;
-// 							s_Contact.D_index = 72;//안드로메다 인덱스
+// 							s_Contact.D_index = 72;//승룡권 인덱스
 // 							DamageSand_Hero(hero, GetData(pMonList));//주인공의 공격
 // 
 // 						}
@@ -4034,12 +4042,13 @@ void GFieldBattle::DamageSand_Mon(Monster* mon , Character* hero)
 
 		tmp = mon->SND_Damage(hero->s_Status[hero->s_HeroTag.SEX].LEVEL,
 			hero->s_HeroTag.SEX /*hero->s_Status[hero->s_HeroTag.SEX].ELEMENTAL*/,
-			hero->s_Status[hero->s_HeroTag.SEX].DEFENSE_PER,
+			hero->s_Status[hero->s_HeroTag.SEX].DEFENSE_PER + 
+			(hero->s_Status[hero->s_HeroTag.SEX].LIFE*10 < hero->s_Status[hero->s_HeroTag.SEX].LIFE_MAX*3 ?  hero->Check_sex(0, hero->Get_Skill(SKILL_P_M_IronSkin)) : 0),
 			s_Contact.D_index);
 		
 
 			bool cri = false;
-			if((RND(1,100)<= (mon->m_Stet.m_Cri)) && (RND(1,100) > hero->Get_Skill(SKILL_P_G_highAgi))) {tmp*=2;cri=true;}
+			if((RND(1,100)<= (mon->m_Stet.m_Cri)) && (RND(1,100) > hero->Check_sex( hero->Get_Skill(SKILL_P_W_CriDown) , 0))) {tmp*=2;cri=true;}
 
 
 			if(hero->_move_Order == HERO_CHARGE && hero->_b_JabNum == JAB_KNIGHT){//주인공이 가드에 성공했을경우
@@ -4048,7 +4057,7 @@ void GFieldBattle::DamageSand_Mon(Monster* mon , Character* hero)
 			}else{
 				pFieldUi->Insert_CrashEffect(s_Contact.crash_x, hero->_ins_Hero->m_posY, s_Contact.crash_z, ANIM_WEFFECT_A_EFF_HITMC);	
 			}
-			if(RND(1,100) <= hero->Get_Skill(SKILL_P_S_ironWall)) {tmp/=2;}//패시브
+			//if(RND(1,100) <= hero->Get_Skill(SKILL_P_S_ironWall)) {tmp/=2;}//패시브
 
 			hero->RCV_Damage(tmp);
 			pFieldUi->InsertdamageNum(s_Contact.crash_x, hero->_ins_Hero->m_posY, hero->m_HEADTOP, tmp, (cri?HERO_CRI_NUM:HERO_NUM));

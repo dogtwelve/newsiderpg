@@ -216,33 +216,33 @@
 #define MONSTER_NAME_MON201 			 200			/*보스9*/
 #define MONSTER_NAME_MON202 			 201			/*보스10*/
 //------------------------------------------------------------------------- CLRMENU
-#define CLRMENU_SKILL_S_1 			 0			/*어기어검*/
-#define CLRMENU_SKILL_S_1_TEXT 			 1			/*강력한 에너지 검을 소환한다. */
-#define CLRMENU_SKILL_S_2 			 2			/*다운스케이팅*/
-#define CLRMENU_SKILL_S_2_TEXT 			 3			/*몬스터 를 난타 한후 몬스터 스케이팅 */
-#define CLRMENU_SKILL_S_3 			 4			/*하이크래시*/
+#define CLRMENU_SKILL_S_1 			 0			/*연발*/
+#define CLRMENU_SKILL_S_1_TEXT 			 1			/*화살을 정면으로 난사한다.*/
+#define CLRMENU_SKILL_S_2 			 2			/*얼음 화살비*/
+#define CLRMENU_SKILL_S_2_TEXT 			 3			/*마법을 실은 화살비로 정면을 전체 공격 한다.*/
+#define CLRMENU_SKILL_S_3 			 4			/*바운드*/
 #define CLRMENU_SKILL_S_3_TEXT 			 5			/*공중으로 띄워 바닥에 내리친다. */
-#define CLRMENU_SKILL_S_4 			 6			/*공간참격*/
+#define CLRMENU_SKILL_S_4 			 6			/*스카이*/
 #define CLRMENU_SKILL_S_4_TEXT 			 7			/*공간을 베는 전체 공격을 한다. */
-#define CLRMENU_SKILL_S_5 			 8			/*돌격*/
+#define CLRMENU_SKILL_S_5 			 8			/*화염구*/
 #define CLRMENU_SKILL_S_5_TEXT 			 9			/*강한 돌격으로 적을 쓰러트린다.  */
-#define CLRMENU_SKILL_S_6 			 10			/*드래곤헌팅*/
+#define CLRMENU_SKILL_S_6 			 10			/*토네이도*/
 #define CLRMENU_SKILL_S_6_TEXT 			 11			/*강한 회전으로 주변을 물리친다. */
-#define CLRMENU_SKILL_S_7 			 12			/*3연난무*/
+#define CLRMENU_SKILL_S_7 			 12			/*뒤구르기지뢰*/
 #define CLRMENU_SKILL_S_7_TEXT 			 13			/*2연속 띄우고 스크류 드라이버  공격.*/
-#define CLRMENU_SKILL_G_1 			 14			/*백다운피스톨*/
+#define CLRMENU_SKILL_G_1 			 14			/*하울링*/
 #define CLRMENU_SKILL_G_1_TEXT 			 15			/*뒤로 날면서 연사 공격을 한다.          */
-#define CLRMENU_SKILL_G_2 			 16			/*스턴*/
+#define CLRMENU_SKILL_G_2 			 16			/*마수의 계약*/
 #define CLRMENU_SKILL_G_2_TEXT 			 17			/*강한 총격으로 스턴을 건다.             */
-#define CLRMENU_SKILL_G_3 			 18			/*스핀샷*/
+#define CLRMENU_SKILL_G_3 			 18			/*연계3타*/
 #define CLRMENU_SKILL_G_3_TEXT 			 19			/*몬스터를 띄워서 난사 한다.             */
-#define CLRMENU_SKILL_G_4 			 20			/*힐링팩*/
+#define CLRMENU_SKILL_G_4 			 20			/*검사3콤*/
 #define CLRMENU_SKILL_G_4_TEXT 			 21			/*에너지 탄으로 HP 를 채운다             */
-#define CLRMENU_SKILL_G_5 			 22			/*안드로메다*/
+#define CLRMENU_SKILL_G_5 			 22			/*승룡권*/
 #define CLRMENU_SKILL_G_5_TEXT 			 23			/*우주병기를 이용하여 전체 공격한다. */
-#define CLRMENU_SKILL_G_6 			 24			/*발칸샷*/
+#define CLRMENU_SKILL_G_6 			 24			/*돌찍기*/
 #define CLRMENU_SKILL_G_6_TEXT 			 25			/*강력한 발칸포로 연사 한다.*/
-#define CLRMENU_SKILL_G_7 			 26			/*3콤건컷터*/
+#define CLRMENU_SKILL_G_7 			 26			/*흡기신공*/
 #define CLRMENU_SKILL_G_7_TEXT 			 27			/*2연속 공격후 건으로 난무                */
 #define CLRMENU_SKILL_O_1 			 28			/*쌍염탄*/
 #define CLRMENU_SKILL_O_1_TEXT 			 29			/*두발의 화염구를 발사 한다.*/
@@ -351,79 +351,81 @@
 #define CLRMENU_EQUIP 			 132			/*장착*/
 #define CLRMENU_UNEQUIP 			 133			/*해제*/
 #define CLRMENU_JAMSTONE 			 134			/*잼스톤*/
-#define CLRMENU_SWORD 			 135			/*스워드*/
-#define CLRMENU_GUN 			 136			/*건*/
-#define CLRMENU_MAGIC 			 137			/*매직*/
-#define CLRMENU_PUBLIC 			 138			/*공용*/
-#define CLRMENU_ACTIVE 			 139			/*액티브*/
-#define CLRMENU_PASSIVE 			 140			/*패시브*/
-#define CLRMENU_USEMANA 			 141			/*소모마나*/
-#define CLRMENU_COOLTIME 			 142			/*쿨타임*/
-#define CLRMENU_MAIN 			 143			/*메    인*/
-#define CLRMENU_SUB 			 144			/*서    브*/
-#define CLRMENU_CLOSE 			 145			/*닫기*/
-#define CLRMENU_DISCARD 			 146			/*포기*/
-#define CLRMENU_SYSTEM_0 			 147			/*저장하기*/
-#define CLRMENU_SYSTEM_1 			 148			/*환경설정*/
-#define CLRMENU_SYSTEM_2 			 149			/*도움말*/
-#define CLRMENU_SYSTEM_3 			 150			/*온라인상점*/
-#define CLRMENU_SYSTEM_4 			 151			/*메인메뉴*/
-#define CLRMENU_VOLUME 			 152			/*볼륨*/
-#define CLRMENU_MUZAK 			 153			/*배경음*/
-#define CLRMENU_EFFECTS 			 154			/*효과음*/
-#define CLRMENU_VIBRATION 			 155			/*진동*/
-#define CLRMENU_SPEED 			 156			/*스피드*/
-#define CLRMENU_USE_LIFESTONE 			 157			/*생명석 사용*/
-#define CLRMENU_BUY_LIFESTONE 			 158			/*생명석 구입*/
-#define CLRMENU_TOWN_REVIVAL 			 159			/*마을 부활*/
-#define CLRMENU_MAINMENU 			 160			/*메인메뉴*/
-#define CLRMENU_UP_0 			 161			/*장비*/
-#define CLRMENU_UP_1 			 162			/*강화석*/
-#define CLRMENU_UP_2 			 163			/*수수료*/
-#define CLRMENU_UP_3 			 164			/*강화*/
-#define CLRMENU_Q0 			 165			/*소리를 켜시겠습니까?*/
-#define CLRMENU_Q1 			 166			/*스탯을 적용 하시겠습니까?*/
-#define CLRMENU_Q2 			 167			/*세이브 하시겠습니까?*/
-#define CLRMENU_Q3 			 168			/*장착 하시겠습니까?*/
-#define CLRMENU_Q4 			 169			/*버리겠습니까?*/
-#define CLRMENU_Q5 			 170			/*가방의 공간이 부족합니다.*/
-#define CLRMENU_Q6 			 171			/*장착된 아이템 입니다.*/
-#define CLRMENU_Q7 			 172			/*구입 하시겠습니까?*/
-#define CLRMENU_Q8 			 173			/*판매 하시겠습니까?*/
-#define CLRMENU_Q9 			 174			/*골드가 부족합니다.*/
-#define CLRMENU_Q10 			 175			/*아이템을 조합 하시겠습니까?*/
-#define CLRMENU_Q11 			 176			/*아이템을 강화 하시겠습니까?*/
-#define CLRMENU_Q12 			 177			/*아이템 강화중*/
-#define CLRMENU_Q13 			 178			/*아이템 강화 성공*/
-#define CLRMENU_Q14 			 179			/*강화 실패, 강화도 유지*/
-#define CLRMENU_Q15 			 180			/*강화 실패, 강화도 하락*/
-#define CLRMENU_Q16 			 181			/*강화 대실패, 아이템 파괴*/
-#define CLRMENU_GEM_SUM 			 182			/*합계*/
-#define CLRMENU_GEM_0 			 183			/*지*/
-#define CLRMENU_GEM_1 			 184			/*수*/
-#define CLRMENU_GEM_2 			 185			/*화*/
-#define CLRMENU_GEM_3 			 186			/*풍*/
-#define CLRMENU_GOLD 			 187			/*Gold*/
-#define CLRMENU_MAIN_Q 			 188			/*MQ*/
-#define CLRMENU_SUB_Q 			 189			/*SQ*/
-#define CLRMENU_YES 			 190			/*예*/
-#define CLRMENU_NO 			 191			/*아니오*/
-#define CLRMENU_IDENTIFY 			 192			/*확인*/
-#define CLRMENU_TEXT_SAVED 			 193			/*저장 되었습니다.*/
-#define CLRMENU_MIX 			 194			/*조합*/
-#define CLRMENU_MAKENUM 			 195			/*수량*/
-#define CLRMENU_NEEDNUM 			 196			/*필요수량*/
-#define CLRMENU_MINING 			 197			/*채광*/
-#define CLRMENU_PICKING 			 198			/*채집*/
-#define CLRMENU_COOKING 			 199			/*요리*/
-#define CLRMENU_JEWELRY 			 200			/*보석*/
-#define CLRMENU_TITLETEMP 			 201			/*골렘슬레이어*/
-#define CLRMENU_MAINMENU_NAMEM 			 202			/*잉그램|깔쌈한 외모와 바람끼가 흐르는 생김새와 달리 성격은 내성적인 전형적 남자주인공*/
-#define CLRMENU_MAINMENU_NAMEW 			 203			/*루시엔|S라인 몸매와 사람이 아닌 3싸이즈가 게걸스럽게 먹어대도 유지되는 여자주인공*/
-#define CLRMENU_MAINMENU_TYPE1 			 204			/*워리어|양손 무기를 사용하는 근거리 공격타입|공격이 빠른 스피드형*/
-#define CLRMENU_MAINMENU_TYPE2 			 205			/*건너|총기류를 사용하는 장거리 공격 타입|공격이 느린 견제형*/
-#define CLRMENU_MAINMENU_TYPE3 			 206			/*위져드|마법을 사용하는 광역 공격타입|공격이 강력한 파워형*/
-#define CLRMENU_MAINMENU6 			 207			/*세이브 슬롯*/
+#define CLRMENU_SLOT_0 			 135			/*슬롯 0*/
+#define CLRMENU_SLOT_1 			 136			/*슬롯 #*/
+#define CLRMENU_SWORD 			 137			/*스워드*/
+#define CLRMENU_GUN 			 138			/*건*/
+#define CLRMENU_MAGIC 			 139			/*매직*/
+#define CLRMENU_PUBLIC 			 140			/*공용*/
+#define CLRMENU_ACTIVE 			 141			/*액티브*/
+#define CLRMENU_PASSIVE 			 142			/*패시브*/
+#define CLRMENU_USEMANA 			 143			/*소모마나*/
+#define CLRMENU_COOLTIME 			 144			/*쿨타임*/
+#define CLRMENU_MAIN 			 145			/*메    인*/
+#define CLRMENU_SUB 			 146			/*서    브*/
+#define CLRMENU_CLOSE 			 147			/*닫기*/
+#define CLRMENU_DISCARD 			 148			/*포기*/
+#define CLRMENU_SYSTEM_0 			 149			/*저장하기*/
+#define CLRMENU_SYSTEM_1 			 150			/*환경설정*/
+#define CLRMENU_SYSTEM_2 			 151			/*도움말*/
+#define CLRMENU_SYSTEM_3 			 152			/*온라인상점*/
+#define CLRMENU_SYSTEM_4 			 153			/*메인메뉴*/
+#define CLRMENU_VOLUME 			 154			/*볼륨*/
+#define CLRMENU_MUZAK 			 155			/*배경음*/
+#define CLRMENU_EFFECTS 			 156			/*효과음*/
+#define CLRMENU_VIBRATION 			 157			/*진동*/
+#define CLRMENU_SPEED 			 158			/*스피드*/
+#define CLRMENU_USE_LIFESTONE 			 159			/*생명석 사용*/
+#define CLRMENU_BUY_LIFESTONE 			 160			/*생명석 구입*/
+#define CLRMENU_TOWN_REVIVAL 			 161			/*마을 부활*/
+#define CLRMENU_MAINMENU 			 162			/*메인메뉴*/
+#define CLRMENU_UP_0 			 163			/*장비*/
+#define CLRMENU_UP_1 			 164			/*강화석*/
+#define CLRMENU_UP_2 			 165			/*수수료*/
+#define CLRMENU_UP_3 			 166			/*강화*/
+#define CLRMENU_Q0 			 167			/*소리를 켜시겠습니까?*/
+#define CLRMENU_Q1 			 168			/*스탯을 적용 하시겠습니까?*/
+#define CLRMENU_Q2 			 169			/*세이브 하시겠습니까?*/
+#define CLRMENU_Q3 			 170			/*장착 하시겠습니까?*/
+#define CLRMENU_Q4 			 171			/*버리겠습니까?*/
+#define CLRMENU_Q5 			 172			/*가방의 공간이 부족합니다.*/
+#define CLRMENU_Q6 			 173			/*장착된 아이템 입니다.*/
+#define CLRMENU_Q7 			 174			/*구입 하시겠습니까?*/
+#define CLRMENU_Q8 			 175			/*판매 하시겠습니까?*/
+#define CLRMENU_Q9 			 176			/*골드가 부족합니다.*/
+#define CLRMENU_Q10 			 177			/*아이템을 조합 하시겠습니까?*/
+#define CLRMENU_Q11 			 178			/*아이템을 강화 하시겠습니까?*/
+#define CLRMENU_Q12 			 179			/*아이템 강화중*/
+#define CLRMENU_Q13 			 180			/*아이템 강화 성공*/
+#define CLRMENU_Q14 			 181			/*강화 실패, 강화도 유지*/
+#define CLRMENU_Q15 			 182			/*강화 실패, 강화도 하락*/
+#define CLRMENU_Q16 			 183			/*강화 대실패, 아이템 파괴*/
+#define CLRMENU_GEM_SUM 			 184			/*합계*/
+#define CLRMENU_GEM_0 			 185			/*지*/
+#define CLRMENU_GEM_1 			 186			/*수*/
+#define CLRMENU_GEM_2 			 187			/*화*/
+#define CLRMENU_GEM_3 			 188			/*풍*/
+#define CLRMENU_GOLD 			 189			/*Gold*/
+#define CLRMENU_MAIN_Q 			 190			/*MQ*/
+#define CLRMENU_SUB_Q 			 191			/*SQ*/
+#define CLRMENU_YES 			 192			/*예*/
+#define CLRMENU_NO 			 193			/*아니오*/
+#define CLRMENU_IDENTIFY 			 194			/*확인*/
+#define CLRMENU_TEXT_SAVED 			 195			/*저장 되었습니다.*/
+#define CLRMENU_MIX 			 196			/*조합*/
+#define CLRMENU_MAKENUM 			 197			/*수량*/
+#define CLRMENU_NEEDNUM 			 198			/*필요수량*/
+#define CLRMENU_MINING 			 199			/*채광*/
+#define CLRMENU_PICKING 			 200			/*채집*/
+#define CLRMENU_COOKING 			 201			/*요리*/
+#define CLRMENU_JEWELRY 			 202			/*보석*/
+#define CLRMENU_TITLETEMP 			 203			/*골렘슬레이어*/
+#define CLRMENU_MAINMENU_NAMEM 			 204			/*잉그램|깔쌈한 외모와 바람끼가 흐르는 생김새와 달리 성격은 내성적인 전형적 남자주인공*/
+#define CLRMENU_MAINMENU_NAMEW 			 205			/*루시엔|S라인 몸매와 사람이 아닌 3싸이즈가 게걸스럽게 먹어대도 유지되는 여자주인공*/
+#define CLRMENU_MAINMENU_TYPE1 			 206			/*워리어|양손 무기를 사용하는 근거리 공격타입|공격이 빠른 스피드형*/
+#define CLRMENU_MAINMENU_TYPE2 			 207			/*건너|총기류를 사용하는 장거리 공격 타입|공격이 느린 견제형*/
+#define CLRMENU_MAINMENU_TYPE3 			 208			/*위져드|마법을 사용하는 광역 공격타입|공격이 강력한 파워형*/
+#define CLRMENU_MAINMENU6 			 209			/*세이브 슬롯*/
 //------------------------------------------------------------------------- QUEST_M
 #define QUEST_M_QUEST_000_TITLE 			 0			/*동굴 입구를 찾아라!!*/
 #define QUEST_M_QUEST_000_CAPTION 			 1			/*탈출을 위해 동굴 입구를 찾아야 한다. 동쪽으로 이동하면 찾을수 있다.*/

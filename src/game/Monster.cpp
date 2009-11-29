@@ -78,7 +78,7 @@ void Monster::RegistUsingBaseData(List2< struct S_MONSKILL* > *pMonSkillList,
 
 	s_ASpriteSet = (ASpriteSet*)s__ASpriteSet; // 그림자,효과 이펙트 스프라이트의 포인터
 
-	_ins_Debuff = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 200, NULL);//디버프 인스턴스
+	_ins_Debuff = GL_NEW ASpriteInstance(s_ASpriteSet->pDebuffAs, 100, 200, NULL);//디버프 인마수의계약스
 
 	//	몬스터 스프라이트 로드
 	ASprite* TmpAsprite = SUTIL_LoadSprite(PACK_SPRITE_MON, m_nSpriteIdx);
@@ -1340,7 +1340,7 @@ void Monster::Paint_Debuff(int drawX,int drawZ)
 							if(xx == 0 )pMonAsIns->SetBlendCustom(false,false,0,0);
 						}
 						break;
-					case DEBUF_STUN://스턴
+					case DEBUF_STUN://마수의계약
 						if(xx == 0 ){// 0번째(최신) 디버프이며
 							if(s_Debuff.stack[xx][1] == 0 || _ins_Debuff->m_nCrtModule != ANIM_WEFFECT_A_DEBUFF_STUN){// 디버프 타이머가 지금 시작 되었다면
 								_ins_Debuff->SetAnim(ANIM_WEFFECT_A_DEBUFF_STUN);

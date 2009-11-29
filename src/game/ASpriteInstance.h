@@ -45,8 +45,8 @@ public:
 	
 	bool			m_bLoop;		//SangHo - AniDraw 경우 루프여부를 지정
 	bool			b_MoveLock;		//SangHo - 애니메이션이 종료후 원점 좌표에 반영 하는 여부를 지정
-	//int				m_layer;					//SangHo - 주타이쿤에서 쓰기 위해 만들어진 레이어 개념(비 인스턴트 변수)
-	int				m_savedLayer/* = -1*/;		//SangHo - 주타이쿤에서 쓰기 위해 만들어진 레이어 개념(비 인스턴트 변수)
+	//int				m_layer;					//SangHo - 주타이쿤에서 쓰기 위해 만들어진 레이어 개념(비 인마수의계약트 변수)
+	int				m_savedLayer/* = -1*/;		//SangHo - 주타이쿤에서 쓰기 위해 만들어진 레이어 개념(비 인마수의계약트 변수)
 
 	int				m_lastX;			//SangHo - X 몸통 충돌체크를 위해서 지난 X좌표를 기록
 	int				m_lastY;			//SangHo - X 몸통 충돌체크를 위해서 지난 Y좌표를 기록
@@ -138,9 +138,9 @@ public:
 	
 	int* GetAbsoluteRect(bool bColRect);//SangHo - 원점기준의 좌,상,너비,높이 4개인자값을 리턴한다.	
 	
-	int* GetFModuleRect(int module,int posX, int posY, int flags, int hx, int hy);	//SangHo - 현재 인스턴스가 그리고있는 Animation Frame 의 module번째 모듈의 좌표를 리턴한다(원점기준, 하이퍼 프레임은 해당되지않음)
+	int* GetFModuleRect(int module,int posX, int posY, int flags, int hx, int hy);	//SangHo - 현재 인마수의계약스가 그리고있는 Animation Frame 의 module번째 모듈의 좌표를 리턴한다(원점기준, 하이퍼 프레임은 해당되지않음)
 		
-	int GetAnimFrame();	//SangHo - 현재 인스턴스가 그리고있는 Animation Frame 의 고유ID값을 리턴한다
+	int GetAnimFrame();	//SangHo - 현재 인마수의계약스가 그리고있는 Animation Frame 의 고유ID값을 리턴한다
 	
 	bool IsRectCrossing(int* rect1, int* rect2);	//SangHo - 두 면적이 충돌하였는지를 판단한다
 	

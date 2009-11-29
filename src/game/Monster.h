@@ -154,7 +154,7 @@ struct S_MONSKILL
 	int Movex;
 	int Movey;
 	int Movez;
-	class ASpriteInstance*	pMonSkillAsIns;		//	인스턴스
+	class ASpriteInstance*	pMonSkillAsIns;		//	인마수의계약스
 };	
 
 struct S_ATKRECT
@@ -627,7 +627,7 @@ public:
 	//	image
 	class ASpriteInstance* pMonAsIns;
 //	class ASpriteInstance* pShaodwAsIns;
-	class ASpriteInstance*	_ins_Debuff;	//인스턴스 - 디버프
+	class ASpriteInstance*	_ins_Debuff;	//인마수의계약스 - 디버프
 
 	List2< S_MONSKILL* >	*m_MonSkillList;
 	List2< S_MESSAGE* >		*m_MonMsgList;

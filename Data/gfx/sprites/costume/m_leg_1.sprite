@@ -5,7 +5,7 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 22
+    // Modules: 19
     // Frames:  0
     // Anims:   0
 
@@ -13,8 +13,11 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\m_part.png" TRANSP 0x00FF00FF // 0  size: 256 x 1066  palettes: 5
-    PALETTE 4 ".\m_part.act"
+    IMAGE 0x0000 ".\m_leg_1.png" TRANSP 0x00FF00FF // 0  size: 256 x 197  palettes: 5
+    PALETTE 0 ".\m_leg_1_0.act"
+    PALETTE 2 ".\m_leg_1_2.act"
+    PALETTE 3 ".\m_leg_1_3.act"
+    PALETTE 4 ".\m_leg_1_4.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -32,25 +35,22 @@
 
     MODULES
     {
-        MD	0x1020	MD_IMAGE	0	6	135	26	31	"m_leg_00"
-        MD	0x1021	MD_IMAGE	0	37	135	24	31	"m_leg_01"
-        MD	0x1022	MD_IMAGE	0	67	135	26	30	"m_leg_02"
-        MD	0x1027	MD_IMAGE	0	3	171	31	30	"m_leg_03"
-        MD	0x1028	MD_IMAGE	0	37	170	30	32	"m_leg_04"
-        MD	0x102C	MD_IMAGE	0	72	174	37	27	"m_leg_05"
-        MD	0x102D	MD_IMAGE	0	110	170	24	34	"m_leg_06"
-        MD	0x102E	MD_IMAGE	0	137	174	26	25	"m_leg_07"
-        MD	0x102F	MD_IMAGE	0	171	177	31	19	"m_leg_08"
-        MD	0x1032	MD_IMAGE	0	2	207	35	24	"m_leg_09"
-        MD	0x1033	MD_IMAGE	0	39	206	30	28	"m_leg_10"
-        MD	0x1034	MD_IMAGE	0	79	206	38	28	"m_leg_11"
-        MD	0x1049	MD_IMAGE	0	160	213	42	20	"m_leg_12"
-        MD	0x1039	MD_IMAGE	0	80	250	23	30	"m_leg_13"
-        MD	0x1042	MD_IMAGE	0	105	251	30	29	"m_leg_14"
-        MD	0x1046	MD_IMAGE	0	136	250	28	28	"m_leg_15"
-        MD	0x1047	MD_IMAGE	0	172	249	22	29	"m_leg_16"
-        MD	0x1048	MD_IMAGE	0	197	250	27	28	"m_leg_17"
-        MD	0x104A	MD_IMAGE	0	224	251	30	28	"m_leg_18"
+        MD	0x1027	MD_IMAGE	0	3	71	31	30	"m_leg_00"
+        MD	0x1028	MD_IMAGE	0	37	70	30	32	"m_leg_01"
+        MD	0x102C	MD_IMAGE	0	72	74	37	27	"m_leg_02"
+        MD	0x102D	MD_IMAGE	0	110	70	24	34	"m_leg_03"
+        MD	0x102E	MD_IMAGE	0	137	75	26	24	"m_leg_04"
+        MD	0x102F	MD_IMAGE	0	171	77	31	19	"m_leg_05"
+        MD	0x1032	MD_IMAGE	0	2	107	35	24	"m_leg_06"
+        MD	0x1033	MD_IMAGE	0	39	106	30	28	"m_leg_07"
+        MD	0x1034	MD_IMAGE	0	79	106	38	28	"m_leg_08"
+        MD	0x1049	MD_IMAGE	0	160	113	42	20	"m_leg_09"
+        MD	0x1039	MD_IMAGE	0	80	150	23	30	"m_leg_10"
+        MD	0x1042	MD_IMAGE	0	105	151	30	29	"m_leg_11"
+        MD	0x1046	MD_IMAGE	0	136	150	28	28	"m_leg_12"
+        MD	0x1047	MD_IMAGE	0	172	149	22	29	"m_leg_13"
+        MD	0x1048	MD_IMAGE	0	197	150	27	28	"m_leg_14"
+        MD	0x104A	MD_IMAGE	0	224	151	30	28	"m_leg_15"
         MD	0x1007	MD_IMAGE	0	196	14	16	30	"m_tail"
         MD	0x1009	MD_IMAGE	0	215	15	20	23	"m_tail_01"
         MD	0x101F	MD_IMAGE	0	238	16	17	28	"m_tail_02"

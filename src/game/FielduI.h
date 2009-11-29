@@ -165,6 +165,7 @@ public:
 	void PaintComboGage(int Combo);
 	void PaintMonsterInfo(int MonName, int level, int NowHp, int MaxHp, int elemental);
 	void PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,int* needmana);//스킬 고유 ID , 쿨타임 Max , 쿨타임 
+	void PaintPotionTagInfo(int* coolMax,int* cooltime);
 	void PaintExpInfo(int NowExp, int MaxExp);
 
 	void InsertdamageNum(int x, int y, int z, int damage, int type);	

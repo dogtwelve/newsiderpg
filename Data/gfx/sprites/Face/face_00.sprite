@@ -5,15 +5,15 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 4
-    // Frames:  7
-    // Anims:   1
+    // Modules: 1
+    // Frames:  4
+    // Anims:   0
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\face_00.png" TRANSP 0x00FF00FF // 0  size: 250 x 280  palettes: 1
+    IMAGE 0x0000 ".\face_00.png" TRANSP 0x00FF00FF // 0  size: 200 x 200  palettes: 1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -31,10 +31,7 @@
 
     MODULES
     {
-        MD	0x1000	MD_IMAGE	0	3	9	173	150
-        MD	0x1001	MD_IMAGE	0	3	159	173	90
-        MD	0x1002	MD_IMAGE	0	212	5	31	20
-        MD	0x1003	MD_IMAGE	0	212	42	31	20
+        MD	0x1000	MD_IMAGE	0	0	0	136	140
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,63 +43,26 @@
 
     FRAME "face" // Index = 0, FModules = 1
     {
-        0x2003
-        FM	0x2004	-27	-47	+HYPER_FM
+        0x2000
+        FM	0x2001	0	-100	+HYPER_FM
     }
 
-    FRAME "haha" // Index = 1, FModules = 2
-    {
-        0x2005
-        FM	0x2004	-27	-47	+HYPER_FM
-        FM	0x1002	-50	-119
-    }
-
-    FRAME "angry" // Index = 2, FModules = 2
-    {
-        0x2006
-        FM	0x2004	-27	-47	+HYPER_FM
-        FM	0x1003	-51	-121
-    }
-
-    FRAME "unselect" // Index = 3, FModules = 1
-    {
-        0x2001
-        FM	0x2000	-40	38	+HYPER_FM
-    }
-
-    FRAME "select" // Index = 4, FModules = 1
+    FRAME "haha" // Index = 1, FModules = 1
     {
         0x2002
-        FM	0x2000	-25	38	+HYPER_FM
+        FM	0x2001	0	-100	+HYPER_FM
     }
 
-    FRAME "full" // Index = 5, FModules = 2
+    FRAME "angry" // Index = 2, FModules = 1
     {
-        0x2000
-        FM	0x1000	-102	-120
-        FM	0x1001	-102	30
+        0x2003
+        FM	0x2001	0	-100	+HYPER_FM
     }
 
-    FRAME "small" // Index = 6, FModules = 1
+    FRAME "" // Index = 3, FModules = 1
     {
-        0x2004
-        FM	0x1000	-71	-120	+FLIP_X
-    }
-
-////////////////////////////////////////////////////////////////////////////////
-// Animations...
-// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
-// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
-// Flags  := FLIP_X | FLIP_Y | ROT_90
-
-    ANIM "a_select" // Index = 0, AFrames = 5
-    {
-        0x3000
-        AF	0x2000	1	-40	38
-        AF	0x2000	1	-32	38
-        AF	0x2000	1	-28	38
-        AF	0x2000	1	-26	38
-        AF	0x2000	1	-25	38
+        0x2001
+        FM	0x1000	-74	-54
     }
 
     SPRITE_END

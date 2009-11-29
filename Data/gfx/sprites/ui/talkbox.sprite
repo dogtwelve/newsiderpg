@@ -5,7 +5,7 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 6
+    // Modules: 7
     // Frames:  18
     // Anims:   0
 
@@ -31,8 +31,9 @@
 
     MODULES
     {
-        MD	0x1000	MD_IMAGE	0	4	2	40	19
-        MD	0x1001	MD_IMAGE	0	4	26	22	7
+        MD	0x1006	MD_IMAGE	0	42	2	13	21
+        MD	0x1007	MD_IMAGE	0	38	50	62	10
+        MD	0x1001	MD_IMAGE	0	4	27	29	5
         MD	0x1002	MD_IMAGE	0	6	37	20	17
         MD	0x1005	MD_IMAGE	0	6	54	20	22
         MD	0x1003	MD_IMAGE	0	70	7	80	11
@@ -46,23 +47,27 @@
 // <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
 // Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
 
-    FRAME "select_box" // Index = 0, FModules = 4
+    FRAME "select_box" // Index = 0, FModules = 6
     {
         0x2002
         FM	0x2001	-100	-63	+HYPER_FM
         FM	0x2001	60	-63	+HYPER_FM
-        FM	0x1000	-80	-66
-        FM	0x1000	-120	-66	+FLIP_X
+        FM	0x1006	-43	-67
+        FM	0x1006	-118	-67	+FLIP_X	+FLIP_Y
+        FM	0x1007	-105	-66
+        FM	0x1007	-105	-57	+FLIP_X	+FLIP_Y
     }
 
-    FRAME "talk_box" // Index = 1, FModules = 5
+    FRAME "talk_box" // Index = 1, FModules = 7
     {
         0x2003
         FM	0x2001	-100	-48	+HYPER_FM
         FM	0x2001	60	-48	+HYPER_FM
-        FM	0x1000	-80	-54
-        FM	0x1000	-120	-54	+FLIP_X
-        FM	0x1001	97	-8
+        FM	0x1001	90	-7
+        FM	0x1006	-43	-55
+        FM	0x1006	-118	-55	+FLIP_X	+FLIP_Y
+        FM	0x1007	-105	-54
+        FM	0x1007	-105	-45	+FLIP_X	+FLIP_Y
     }
 
     FRAME "BLEND" // Index = 2, FModules = 2
@@ -77,28 +82,28 @@
         0x2001
         FM	0x1002	-60	0
         FM	0x1005	-60	17
-        FM	0x1002	-60	39	+FLIP_Y
         FM	0x1002	-40	0
         FM	0x1005	-40	17
-        FM	0x1002	-40	39	+FLIP_Y
         FM	0x1002	-20	0
         FM	0x1005	-20	17
-        FM	0x1002	-20	39	+FLIP_Y
         FM	0x1002	0	0
         FM	0x1005	0	17
-        FM	0x1002	0	39	+FLIP_Y
         FM	0x1002	20	0
         FM	0x1005	20	17
-        FM	0x1002	20	39	+FLIP_Y
         FM	0x1002	40	0
         FM	0x1005	40	17
-        FM	0x1002	40	39	+FLIP_Y
         FM	0x1002	60	0
         FM	0x1005	60	17
-        FM	0x1002	60	39	+FLIP_Y
         FM	0x1002	80	0
         FM	0x1005	80	17
-        FM	0x1002	80	39	+FLIP_Y
+        FM	0x1005	-60	39
+        FM	0x1005	-40	39
+        FM	0x1005	-20	39
+        FM	0x1005	0	39
+        FM	0x1005	20	39
+        FM	0x1005	40	39
+        FM	0x1005	60	39
+        FM	0x1005	80	39
     }
 
     FRAME "black" // Index = 4, FModules = 11

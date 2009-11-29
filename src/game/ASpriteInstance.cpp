@@ -237,8 +237,8 @@ int ASpriteInstance::_posY;*/
 		//m_bAnimIsOver = IsAnimEnded();
 
 
-		m_lastX =m_posX;	//SangHo - 인스턴스의 현 좌표를 반영한다. - 몸통체크를 위해서(전좌표로 쓰인다)
-		m_lastY =m_posY;				//SangHo - 인스턴스의 현 좌표를 반영한다. - 몸통체크를 위해서(전좌표로 쓰인다)
+		m_lastX =m_posX;	//SangHo - 인마수의계약스의 현 좌표를 반영한다. - 몸통체크를 위해서(전좌표로 쓰인다)
+		m_lastY =m_posY;				//SangHo - 인마수의계약스의 현 좌표를 반영한다. - 몸통체크를 위해서(전좌표로 쓰인다)
 
 
 
@@ -276,7 +276,7 @@ int ASpriteInstance::_posY;*/
 
 
 		{//프레임의 Time 값을 체크한다 ----- Time 값만큼 딜레이 후에 다음 프레임으로 넘어간다
-			m_nCrtAnimation++; //인스턴스의 time 값 1증가
+			m_nCrtAnimation++; //인마수의계약스의 time 값 1증가
 			if (m_nCrtAnimation < _m_time) //프레임의 타임값보다 작다면 1증가 하고 한번더 그림
 				if (m_nCrtAnimation == (_m_time-1) && m_nCrtFrame == (_m_frame -1) ){//&&!m_bLoop) //마지막Time 일때 다음으로 증가할 프레임이 없다면 false 가 되야한다
 					return false;
@@ -411,7 +411,7 @@ int ASpriteInstance::_posY;*/
 	////////////////////////////////////////////////////////////////////////////////////////////////////	
 
 	int*  ASpriteInstance::GetFModuleRect(int module,int posX, int posY, int flags, int hx, int hy)
-	{//SangHo - 현재 인스턴스가 그리고있는 Animation Frame 의 module번째 모듈의 좌표를 리턴한다(원점기준, 하이퍼 프레임은 해당되지않음)
+	{//SangHo - 현재 인마수의계약스가 그리고있는 Animation Frame 의 module번째 모듈의 좌표를 리턴한다(원점기준, 하이퍼 프레임은 해당되지않음)
 		if (m_rect == NULL)
 		{
 			m_rect = GL_NEW int[4];
@@ -429,7 +429,7 @@ int ASpriteInstance::_posY;*/
 
 
 	int ASpriteInstance::GetAnimFrame()
-	{//SangHo - 현재 인스턴스가 그리고있는 Animation Frame 의 고유Index 값을 리턴한다(Ani off값 아님)
+	{//SangHo - 현재 인마수의계약스가 그리고있는 Animation Frame 의 고유Index 값을 리턴한다(Ani off값 아님)
 		if(m_sprite != NULL)
 		{
 			return m_sprite->GetAnimFrame(m_nCrtModule,m_nCrtFrame);
