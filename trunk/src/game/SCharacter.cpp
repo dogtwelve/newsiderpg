@@ -40,7 +40,7 @@ SCharacter::~SCharacter()
 void SCharacter::Process()
 //--------------------------------------------------------------------------------------
 {
-	GetAsIns()->CameraX = -(SScreenMgr::GetInstPtr()->GetWorldXPos());
+	GetAsIns()->setCamera(SScreenMgr::GetInstPtr()->GetWorldXPos(), 0);
 	SUTIL_UpdateTimeAsprite(GetAsIns());
 }
 
