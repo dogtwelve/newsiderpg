@@ -567,11 +567,11 @@
 					break;
 
 				case HERO_ATTACK3:
-					if(_b_JabNum==0)
-						return Set_skill_chain(2, m_keyCode, MH_KEY_SELECT, HERO_ATTACK3, HERO_ATTACK4, HERO_ATTACK3END);
-					else
+// 					if(_b_JabNum==0)
+// 						return Set_skill_chain(2, m_keyCode, MH_KEY_SELECT, HERO_ATTACK3, HERO_ATTACK4, HERO_ATTACK3END);
+// 					else
 						return Set_skill_chain(2, m_keyCode, MH_KEY_SELECT, HERO_ATTACK3, HERO_STOP, HERO_STOP);//마법과 총은 3연타로끝남
-					break;
+/*					break;*/
 
 				case HERO_ATTACK4:
 					return Set_skill_chain(3, m_keyCode, MH_KEY_SELECT, HERO_ATTACK4, HERO_STOP, HERO_STOP);

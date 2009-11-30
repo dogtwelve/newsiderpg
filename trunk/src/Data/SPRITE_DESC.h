@@ -1405,7 +1405,7 @@
 
 // FRAME //
 	#define FRAME_MAN_S7_EMPTY	 0
-	#define FRAME_MAN_S7_BLEND	 16
+	#define FRAME_MAN_S7_BLEND	 17
 
 // MODULE //
 

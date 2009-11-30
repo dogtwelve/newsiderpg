@@ -1049,7 +1049,6 @@ void PopupUi::Key_SKILL(int m_keyCode, int m_keyRepeat)
 						case MH_KEY_LEFT:SELECT_SKILL_SLOT+=2;	break;
 						case MH_KEY_RIGHT:SELECT_SKILL_SLOT++;	break;
 						case MH_KEY_UP:SELECT_SKILL_Y--;		break;
-						case MH_KEY_DOWN:SELECT_SKILL_Y++;		break;
 						case MH_KEY_SELECT:
 							{
 							//if(SELECT_SKILL_KIND_NOW>=0){

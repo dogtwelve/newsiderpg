@@ -5,7 +5,7 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 15
+    // Modules: 12
     // Frames:  26
     // Anims:   2
 
@@ -34,12 +34,9 @@
         MD	0x103A	MD_IMAGE	0	98	108	14	62
         MD	0x105F	MD_IMAGE	0	123	112	9	53
         MD	0x1060	MD_IMAGE	0	145	106	5	33
-        MD	0x1067	MD_IMAGE	0	102	81	29	15
-        MD	0x1068	MD_IMAGE	0	138	80	31	16
+        MD	0x1067	MD_IMAGE	0	100	81	31	15
+        MD	0x1068	MD_IMAGE	0	138	79	33	16
         MD	0x106A	MD_IMAGE	0	11	112	45	74
-        MD	0x1070	MD_IMAGE	0	92	102	26	74
-        MD	0x1078	MD_IMAGE	0	113	103	26	74
-        MD	0x1079	MD_IMAGE	0	137	102	26	74
         MD	0x108B	MD_IMAGE	0	162	114	21	36
         MD	0x1094	MD_IMAGE	0	158	27	19	21
         MD	0x1093	MD_IMAGE	0	177	27	19	21
@@ -361,7 +358,7 @@
         FM	0x1068	-127	106
     }
 
-    FRAME "BLEND" // Index = 25, FModules = 14
+    FRAME "BLEND" // Index = 25, FModules = 11
     {
         0x2000
         FM	0x103A	2	0
@@ -370,9 +367,6 @@
         FM	0x1067	2	0
         FM	0x1068	2	0
         FM	0x106A	2	0
-        FM	0x1070	2	0
-        FM	0x1078	2	0
-        FM	0x1079	2	0
         FM	0x108B	2	0
         FM	0x1094	3	0
         FM	0x1093	3	0
