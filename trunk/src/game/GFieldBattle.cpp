@@ -1,6 +1,6 @@
 #include "GFieldBattle.h"
 #include "SObjectMgr.h"
-
+#include "SScreenMgr.h"
 
 //--------------------------------------------------------------------------
 GFieldBattle::GFieldBattle()
@@ -12,6 +12,8 @@ GFieldBattle::GFieldBattle()
 
 	// 싱글턴 객체 생성
 	SObjectMgr* pObjectMgr = new SObjectMgr();
+	SScreenMgr* pScreenMgr = new SScreenMgr();
+
 }
 
 
@@ -31,7 +33,8 @@ GFieldBattle::~GFieldBattle()
 	SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
 	SAFE_DELETE( pObjectMgr );
 
-
+	SScreenMgr* pScreenMgr = SScreenMgr::GetInstPtr();
+	SAFE_DELETE( pScreenMgr );
 }
 
 
@@ -627,6 +630,10 @@ void GFieldBattle::MakeMonsterSeed()
 //	if(NU == FIELD_MONSTER_INFO[nRealFieldNum][0])	{return;}
 
 	m_nMonLevel = pMinimap->m_CurMapSector->m_MonsterInfo[MI_LEVEL];
+	
+	// TODO 몬스터 레벨을 주인공 레벨에 맞추는 임시코드를 넣는다.
+	m_nMonLevel = hero->s_Status[hero->s_HeroTag.SEX].LEVEL;
+
 	m_nMonLevelRnd = pMinimap->m_CurMapSector->m_MonsterInfo[MI_ADD_RND_LEVEL]+1;
 
 	pField->m_nRegenDistance = pMinimap->m_CurMapSector->m_MonsterInfo[MI_DISTANCE];
@@ -3995,6 +4002,10 @@ void GFieldBattle::SetCameraMove()
 
 	pField->SetCamera(tempX+s_Camera.CameraAdd);
 	s_Camera.cX = tempX;
+
+	//	스크린 매니져 추가
+	SScreenMgr::GetInstPtr()->SetWorldPos(pField->m_nSrcCamAngle_X);
+
 }
 
 

@@ -1,6 +1,7 @@
 #include "SUtil.h"
 #include "SCharacter.h"
 
+#include "SScreenMgr.h"
 
 
 ////--------------------------------------------------------------------------------------
@@ -39,13 +40,13 @@ SCharacter::~SCharacter()
 void SCharacter::Process()
 //--------------------------------------------------------------------------------------
 {
+	GetAsIns()->CameraX = -(SScreenMgr::GetInstPtr()->GetWorldXPos());
 	SUTIL_UpdateTimeAsprite(GetAsIns());
-	//GetAsIns()->CameraX = 
 }
 
 //--------------------------------------------------------------------------------------
 void SCharacter::Paint()
 //--------------------------------------------------------------------------------------
 {
-	SUTIL_PaintAsprite(GetAsIns(), S_INCLUDE_SORT);
+//	SUTIL_PaintAsprite(GetAsIns(), S_INCLUDE_SORT);
 }

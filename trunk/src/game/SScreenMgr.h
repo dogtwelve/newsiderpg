@@ -16,7 +16,7 @@ public:
 	inline int GetWorldYPos(void)					{return m_nWorld_YPos;}
 
 	SScreenMgr(void)	{m_nWorld_XPos = 0;		m_nWorld_YPos = 0;}
-	virtual ~SScreenMgr(void);
+	virtual ~SScreenMgr(void)	{}
 };
 
 
