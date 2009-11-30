@@ -68,6 +68,8 @@ void BackLayer::Process()
 void BackLayer::Paint()
 //--------------------------------------------------------------------------
 {
+/*
+
 	int nTmpXAddAngle = m_nMyAngleX;
 	nTmpXAddAngle %= m_nLayerSizeX;
 	nTmpXAddAngle *= (-1);
@@ -78,7 +80,6 @@ void BackLayer::Paint()
 		while(NotEndList(pObjectList))
 		{
 			//	타입은 고유 인덱스이다.
-//			if()
 
 			// 이미지가 화면의 왼쪽보다 작으면 그리지 않는다.
 			if(0 < (GetData(pObjectList)->endx + nTmpXAddAngle))
@@ -103,6 +104,74 @@ void BackLayer::Paint()
 		
 		if(SCREEN_WIDTH < nTmpXAddAngle){return;}
 	}
+
+*/
+
+	int screenSX = m_nMyAngleX;
+	int screenEX = screenSX + SCREEN_WIDTH;
+	BackLayerObject* pObject = NULL;
+
+	int add = -m_nLayerSizeX;
+
+	while(add < Field::m_nFieldSize_X)
+	{
+		for(InitList(pObjectList); NotEndList(pObjectList); MoveNext(pObjectList) )
+		{
+			pObject = GetData(pObjectList);
+
+			if(	(screenEX > pObject->startx+add && screenSX <= pObject->startx+add ) ||
+				(screenEX > pObject->endx+add && screenSX <= pObject->endx+add )		)
+			{
+				if(1 == pObject->drawtype)	{SUTIL_UpdateTimeAsprite(pObject->pAsIns);}
+				SUTIL_SetXPosAsprite(pObject->pAsIns, pObject->x+add);
+				SUTIL_SetYPosAsprite(pObject->pAsIns, pObject->y);
+				SUTIL_SetZPosAsprite(pObject->pAsIns, pObject->z);
+
+				pObject->pAsIns->CameraX = -m_nMyAngleX;
+
+				SUTIL_PaintAsprite(pObject->pAsIns,S_NOT_INCLUDE_SORT);
+			}
+		}
+
+		add += m_nLayerSizeX;
+	}
+
+/*
+	int nTmpXAddAngle = m_nMyAngleX;
+	nTmpXAddAngle %= m_nLayerSizeX;
+	nTmpXAddAngle *= (-1);
+
+	while(1)
+	{
+		InitList(pObjectList);
+		while(NotEndList(pObjectList))
+		{
+			//	타입은 고유 인덱스이다.
+
+			// 이미지가 화면의 왼쪽보다 작으면 그리지 않는다.
+			if(0 < (GetData(pObjectList)->endx + nTmpXAddAngle))
+			//if(0 < (GetData(pObjectList)->x + nTmpXAddAngle + GetData(pObjectList)->width))
+			{
+				// 이미지가 화면의 오른쪽보다 크면 그리지 않는다.
+				if(SCREEN_WIDTH > (GetData(pObjectList)->startx + nTmpXAddAngle))
+				{
+					if(1 == GetData(pObjectList)->drawtype)	{SUTIL_UpdateTimeAsprite(GetData(pObjectList)->pAsIns);}
+					SUTIL_SetXPosAsprite(GetData(pObjectList)->pAsIns, GetData(pObjectList)->x);
+					SUTIL_SetYPosAsprite(GetData(pObjectList)->pAsIns, GetData(pObjectList)->y);
+					SUTIL_SetZPosAsprite(GetData(pObjectList)->pAsIns, GetData(pObjectList)->z);
+
+					GetData(pObjectList)->pAsIns->CameraX = nTmpXAddAngle;
+
+					SUTIL_PaintAsprite(GetData(pObjectList)->pAsIns,S_NOT_INCLUDE_SORT);
+				}
+			}
+			MoveNext(pObjectList);
+		}
+		nTmpXAddAngle += m_nLayerSizeX;
+		
+		if(SCREEN_WIDTH < nTmpXAddAngle){return;}
+	}
+*/
 }
 
 //--------------------------------------------------------------------------
@@ -117,6 +186,7 @@ void BackLayer::SetAngle(int xAngle)
 void BackLayer::LoadMapLayer(ASprite** pASprite, char* packName, int packIndex)
 //--------------------------------------------------------------------------
 {
+/*
 	BackLayerObject* pBackObject = NULL;
 	int tmpsprid = 0;
 
@@ -197,6 +267,7 @@ void BackLayer::LoadMapLayer(ASprite** pASprite, char* packName, int packIndex)
 	}
 
 	SUTIL_Data_free();
+*/
 }
 
 

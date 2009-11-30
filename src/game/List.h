@@ -93,6 +93,8 @@ public:
 
 #define		NotEndList(a)		((a)->now != (a)->tail)	
 
+#define		DeleteNowList(a)	SAFE_DELETE((a)->now->data)
+
 
 //agent list 
 template<class T>

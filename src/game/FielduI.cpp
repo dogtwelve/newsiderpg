@@ -175,14 +175,14 @@ void FieldUi::Paint()
 				GetData(pDamageNumList)->damageValue,
 				GetData(pDamageNumList)->x+addx + m_pFieldUiDamageNumAsIns->CameraX,
 				GetData(pDamageNumList)->y+addy-10+
-				GetData(pDamageNumList)->z,-5, CGraphics::HCENTER);
+				GetData(pDamageNumList)->z,-3, CGraphics::HCENTER);
 		}else{
 			PaintNumber(m_pFieldUiDamageNumAs,
 				MODULE_DAMAGE_NUM_MISS,
 				0,
 				GetData(pDamageNumList)->x+addx + m_pFieldUiDamageNumAsIns->CameraX,
 				GetData(pDamageNumList)->y+addy-10+
-				GetData(pDamageNumList)->z,-5, CGraphics::HCENTER);
+				GetData(pDamageNumList)->z,-3, CGraphics::HCENTER);
 		}
 		
 		
