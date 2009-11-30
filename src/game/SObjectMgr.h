@@ -16,8 +16,8 @@
 #include "List.h"
 #include "Data.h"
 
-#include "SCharacter.h"
-#include "SNpc.h"
+//#include "SCharacter.h"
+//#include "SNpc.h"
 
 
 

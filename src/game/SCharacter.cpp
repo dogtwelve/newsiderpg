@@ -48,5 +48,5 @@ void SCharacter::Process()
 void SCharacter::Paint()
 //--------------------------------------------------------------------------------------
 {
-//	SUTIL_PaintAsprite(GetAsIns(), S_INCLUDE_SORT);
+	SUTIL_PaintAsprite(GetAsIns(), S_INCLUDE_SORT);
 }
