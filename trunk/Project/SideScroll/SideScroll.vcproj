@@ -690,7 +690,7 @@
 			Name="Manager"
 			>
 			<File
-				RelativePath="C:\project\SideScroll\src\game\SFieldMgr.cpp"
+				RelativePath="..\..\src\game\SFieldMgr.cpp"
 				>
 			</File>
 			<File
@@ -698,7 +698,7 @@
 				>
 			</File>
 			<File
-				RelativePath="C:\project\SideScroll\src\game\SObjectMgr.cpp"
+				RelativePath="..\..\src\game\SObjectMgr.cpp"
 				>
 			</File>
 			<File
