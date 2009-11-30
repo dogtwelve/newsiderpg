@@ -13,7 +13,9 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0001 ".\mon15.png" TRANSP 0x00FF00FF // 0  size: 326 x 310  palettes: 1
+    IMAGE 0x0001 ".\mon15.png" TRANSP 0x00FF00FF // 0  size: 326 x 310  palettes: 2
+    PALETTE 0 ".\mon15_0.act"
+    PALETTE 1 ".\mon15_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -553,7 +555,14 @@
 // <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
 // Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    ANIM "walk_1_d" // Index = 0, AFrames = 8
+    ANIM "stand_d" // Index = 0, AFrames = 2
+    {
+        0x3026
+        AF	0x2013	4	0	0
+        AF	0x201D	4	0	0
+    }
+
+    ANIM "walk_1_d" // Index = 1, AFrames = 8
     {
         0x3025
         AF	0x201B	1	3	3
@@ -566,7 +575,7 @@
         AF	0x2014	1	24	3
     }
 
-    ANIM "walk_vertical_1_d" // Index = 1, AFrames = 8
+    ANIM "walk_vertical_1_d" // Index = 2, AFrames = 8
     {
         0x3037
         AF	0x201B	1	0	0
@@ -579,7 +588,7 @@
         AF	0x2014	1	0	0
     }
 
-    ANIM "walk_2_d" // Index = 2, AFrames = 8
+    ANIM "walk_2_d" // Index = 3, AFrames = 8
     {
         0x3038
         AF	0x201B	1	5	5
@@ -592,7 +601,7 @@
         AF	0x2014	1	40	5
     }
 
-    ANIM "walk_vertical_2_d" // Index = 3, AFrames = 8
+    ANIM "walk_vertical_2_d" // Index = 4, AFrames = 8
     {
         0x3039
         AF	0x201B	1	0	0
@@ -603,13 +612,6 @@
         AF	0x201C	1	0	0
         AF	0x2014	1	0	0
         AF	0x2014	1	0	0
-    }
-
-    ANIM "stand_d" // Index = 4, AFrames = 2
-    {
-        0x3026
-        AF	0x2013	4	0	0
-        AF	0x201D	4	0	0
     }
 
     ANIM "down_d" // Index = 5, AFrames = 4

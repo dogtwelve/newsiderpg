@@ -1,22 +1,19 @@
-// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
 ////////////////////////////////////////////////////////////////////////////////
 /*SPRITE*/ {
 
     VERSION 0001
 
     // Images:  1
-    // Modules: 8
-    // Frames:  5
-    // Anims:   1
+    // Modules: 6
+    // Frames:  12
+    // Anims:   3
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 "map_0.png" TRANSP 0x00FF00FF // 0  size: 286 x 152  palettes: 4
-    PALETTE 1 ".\map_0_color_green.act"
-    PALETTE 2 ".\map_0_color_purple.act"
-    PALETTE 3 ".\map_0_color_red.act"
+    IMAGE 0x0000 ".\map_0.png" TRANSP 0x00FF00FF // 0  size: 640 x 600  palettes: 1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -26,20 +23,20 @@
 // [params]  := if (Type == MD_IMAGE)     -> image x y width height
 //              if (Type == MD_RECT)      -> color width height
 //              if (Type == MD_FILL_RECT) -> color width height
-//              if (Type == MD_ARC)       -> color width height
-//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
 //              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
 
     MODULES
     {
-        MD	0x1000	MD_IMAGE	0	0	0	144	151
-        MD	0x102E	MD_IMAGE	0	145	0	80	151
-        MD	0x1048	MD_IMAGE	0	235	0	5	75
-        MD	0x1049	MD_IMAGE	0	235	75	5	76
-        MD	0x104E	MD_IMAGE	0	241	1	24	61
-        MD	0x104F	MD_IMAGE	0	241	62	24	61
-        MD	0x1050	MD_IMAGE	0	267	10	19	46
-        MD	0x1051	MD_IMAGE	0	267	71	19	44
+        MD	0x1000	MD_IMAGE	0	0	0	160	128
+        MD	0x1009	MD_IMAGE	0	160	0	160	128
+        MD	0x1011	MD_IMAGE	0	468	146	27	26
+        MD	0x1012	MD_IMAGE	0	496	147	24	24
+        MD	0x1013	MD_IMAGE	0	528	149	18	20
+        MD	0x1014	MD_IMAGE	0	549	152	17	17
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,39 +44,82 @@
 // <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
 // <RCi>   := RC x1 y1 x2 y2
 // <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
-// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
 
-    FRAME "forest1" // Index = 0, FModules = 1
+    FRAME "f_bg1" // Index = 0, FModules = 1
     {
         0x2000
-        FM	0x1000	-71	-80
+        FM	0x1000	-80	-117
     }
 
-    FRAME "forest2" // Index = 1, FModules = 1
+    FRAME "f_bg2" // Index = 1, FModules = 1
     {
         0x2001
-        FM	0x102E	-37	-80
+        FM	0x1009	-80	-117
     }
 
-    FRAME "forest3" // Index = 2, FModules = 2
+    FRAME "" // Index = 2, FModules = 1
     {
-        0x2002
-        FM	0x1048	0	-80
-        FM	0x1049	0	-5
+        0x200F
+        FM	0x1011	-13	-13
     }
 
-    FRAME "water1" // Index = 3, FModules = 2
+    FRAME "" // Index = 3, FModules = 1
     {
-        0x2003
-        FM	0x104E	-19	10
-        FM	0x1050	71	25
+        0x2010
+        FM	0x1012	-11	-12
     }
 
-    FRAME "water2" // Index = 4, FModules = 2
+    FRAME "" // Index = 4, FModules = 1
     {
-        0x2004
-        FM	0x104F	-19	10
-        FM	0x1051	71	25
+        0x2011
+        FM	0x1013	-7	-10
+    }
+
+    FRAME "" // Index = 5, FModules = 1
+    {
+        0x2012
+        FM	0x1014	-8	-8
+    }
+
+    FRAME "" // Index = 6, FModules = 1
+    {
+        0x2014
+        FM	0x1011	-13	-13        	FLAGS 0x00000020
+    }
+
+    FRAME "" // Index = 7, FModules = 1
+    {
+        0x2015
+        FM	0x1012	-11	-12        	FLAGS 0x00000020
+    }
+
+    FRAME "" // Index = 8, FModules = 1
+    {
+        0x2016
+        FM	0x1013	-7	-10        	FLAGS 0x00000020
+    }
+
+    FRAME "" // Index = 9, FModules = 1
+    {
+        0x2017
+        FM	0x1014	-8	-8        	FLAGS 0x00000020
+    }
+
+    FRAME "BLEND" // Index = 10, FModules = 4
+    {
+        0x2013
+        FM	0x1011	2	0
+        FM	0x1012	2	0
+        FM	0x1013	2	0
+        FM	0x1014	2	0
+    }
+
+    FRAME "empty" // Index = 11, FModules = 1
+    {
+        0x2018
+        // WARNING: Next module index out of range ! (module = -1)
+        FM	0xFFFF	0	0
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,11 +128,43 @@
 // <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
 // Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    ANIM "water" // Index = 0, AFrames = 2
+    ANIM "a_bglight_00" // Index = 0, AFrames = 8
     {
         0x3000
-        AF	0x2003	2	0	0
-        AF	0x2004	2	0	0
+        AF	0x2014	1	4	-3
+        AF	0x2010	1	12	-2
+        AF	0x2015	1	15	-1
+        AF	0x200F	1	19	-4
+        AF	0x2014	1	17	-6
+        AF	0x2010	1	11	-3
+        AF	0x2015	1	7	-1
+        AF	0x200F	1	0	0
+    }
+
+    ANIM "a_bglight_01" // Index = 1, AFrames = 12
+    {
+        0x3002
+        AF	0x2016	1	7	-1
+        AF	0x2010	1	13	-5
+        AF	0x2015	1	12	-9
+        AF	0x2011	1	6	-11
+        AF	0x2016	1	2	-4
+        AF	0x2010	1	-5	-1
+        AF	0x2015	1	-13	-3
+        AF	0x2011	1	-13	-8
+        AF	0x2016	1	-11	-7
+        AF	0x2010	1	-8	-6
+        AF	0x2015	1	-5	-2
+        AF	0x2011	1	0	0
+    }
+
+    ANIM "a_bglight_02" // Index = 2, AFrames = 4
+    {
+        0x3001
+        AF	0x2011	1	0	0
+        AF	0x2016	1	-2	1
+        AF	0x2012	1	-6	-1
+        AF	0x2017	1	-3	-2
     }
 
     SPRITE_END

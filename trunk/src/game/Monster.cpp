@@ -847,6 +847,12 @@ bool Monster::BaseProcess()
 	switch(m_ActState)
 	{
 		default:									{return false;}
+		case MON_AC_READY:
+		//-----------------------------------------------------------------------
+		{
+			if(8 < m_nTimer)	{ResvAction(MON_AC_STAND, 0);}
+			return true;
+		}
 		case MON_AC_RCV_HOLDING_SKY:
 		case MON_AC_STAND:
 		case MON_AC_RCV_HOLDING_DOWN:
@@ -856,7 +862,6 @@ bool Monster::BaseProcess()
 		case MON_AC_RCV_AIR_ATTACK:
 		case MON_AC_AWAK:
 		case MON_AC_RCV_GROUND_ATTACK:				{break;}
-		case MON_AC_READY:
 		//-----------------------------------------------------------------------
 		{
 			break;
@@ -1076,29 +1081,38 @@ void Monster::Paint()
 	if(MON_AC_DIE_AFTER == m_ActState)	{return;}						//	죽은이후는 그리지 않는다.
 	if((MON_AC_DIE == m_ActState) && (1 < m_nTimer%4))	{return;}
 
-	//	paint shadow
-	//int tmpx = pMonAsIns->Get_AFrameXZ();
-	//int tmpy = tmpx%100000;
-	//tmpx = tmpx/100000; 
-
 	int tmpXZ[2];
 	pMonAsIns->Get_AFrameXZ(&tmpXZ[0]);
 	int tmpx = tmpXZ[0];
 	int tmpz = tmpXZ[1];
 
-	/*pShaodwAsIns->SetFrame(FRAME_SHADOW_SHADOW_3);
+	if(MON_AC_READY == m_ActState)
+	{
+	//	SUTIL_Paint_Frame(_ins_Debuff->m_sprite ,FRAME_WEFFECT_JOIN_SMALL+(m_nTimer%4) , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns),0);
+	}
 
-	SUTIL_SetXPosAsprite(pShaodwAsIns,	tmpx);
-	SUTIL_SetYPosAsprite(pShaodwAsIns,	SUTIL_GetYPosAsprite(pMonAsIns)-2);
+	if(MON_AC_READY != m_ActState || 5 < m_nTimer)
+	{
+		//	paint shadow
+		//int tmpx = pMonAsIns->Get_AFrameXZ();
+		//int tmpy = tmpx%100000;
+		//tmpx = tmpx/100000; 
 
-	SUTIL_PaintAsprite(pShaodwAsIns, S_NOT_INCLUDE_SORT);*/
-	SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
 
-	//	paint monster
-	SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+		/*pShaodwAsIns->SetFrame(FRAME_SHADOW_SHADOW_3);
 
-	//	paint Debuff
-	Paint_Debuff(tmpx , tmpz);
+		SUTIL_SetXPosAsprite(pShaodwAsIns,	tmpx);
+		SUTIL_SetYPosAsprite(pShaodwAsIns,	SUTIL_GetYPosAsprite(pMonAsIns)-2);
+
+		SUTIL_PaintAsprite(pShaodwAsIns, S_NOT_INCLUDE_SORT);*/
+		SUTIL_Paint_Frame(s_ASpriteSet->pShadowAs ,m_nShadowIdx , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns)-2,0);
+
+		//	paint monster
+		SUTIL_PaintAsprite(pMonAsIns, S_INCLUDE_SORT);
+
+		//	paint Debuff
+		Paint_Debuff(tmpx , tmpz);
+	}
 }
 
 

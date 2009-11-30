@@ -13,7 +13,9 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\mon18.png" TRANSP 0x00FF00FF // 0  size: 201 x 230  palettes: 1
+    IMAGE 0x0000 ".\mon18.png" TRANSP 0x00FF00FF // 0  size: 201 x 230  palettes: 2
+    PALETTE 0 ".\mon18_0.act"
+    PALETTE 1 ".\mon18_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -458,24 +460,24 @@
     ANIM "start" // Index = 17, AFrames = 18
     {
         0x3007
-        AF	0x2021	1	50	0
-        AF	0x2020	1	66	0
-        AF	0x2014	1	74	1
-        AF	0x2014	1	74	-1
-        AF	0x2014	1	74	0
-        AF	0x2013	1	74	0
-        AF	0x2014	1	74	0
-        AF	0x2013	1	74	0
-        AF	0x201B	1	74	0
-        AF	0x2017	1	74	0
-        AF	0x2016	1	74	0
-        AF	0x2015	1	74	0
-        AF	0x2018	1	78	0
-        AF	0x2019	1	82	0
-        AF	0x201A	1	86	0
-        AF	0x201C	1	86	0
-        AF	0x201D	1	86	0
-        AF	0x201E	1	86	0
+        AF	0x2021	1	78	0
+        AF	0x2020	1	94	0
+        AF	0x2014	1	102	1
+        AF	0x2014	1	102	-1
+        AF	0x2014	1	102	0
+        AF	0x2013	1	102	0
+        AF	0x2014	1	102	0
+        AF	0x2013	1	102	0
+        AF	0x201B	1	102	0
+        AF	0x2017	1	102	0
+        AF	0x2016	1	102	0
+        AF	0x2015	1	102	0
+        AF	0x2018	1	106	0
+        AF	0x2019	1	110	0
+        AF	0x201A	1	114	0
+        AF	0x201C	1	114	0
+        AF	0x201D	1	114	0
+        AF	0x201E	1	114	0
     }
 
     ANIM "fly_sample" // Index = 18, AFrames = 9

@@ -1,6 +1,9 @@
 #include "Field.h"
 #include "Minimap.h"
 
+#include "SObjectMgr.h"
+
+
 int Field::m_nFieldSize_X = 0;
 
 int Field::m_nWayMoveCharx = 0;
@@ -460,33 +463,75 @@ void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, b
 	BackLayerObject* pBackObject = NULL;
 	int tmpsprid = 0;
 
+//	SUTIL_Data_init(packName);
+//	SUTIL_Data_open(packIndex);
+
 	SUTIL_Data_init(packName);
-	SUTIL_Data_open(packIndex);
+	byte* pBuf = SUTIL_Data_readAll(packIndex);
+	SUTIL_Data_free();
 
 	int AsframeNum = 0;
 	int tmpId = 0;
+	int nBufCnt = 0;
 
 	ASprite*	tmpASprite;
 	while(1)
 	{
-		SUTIL_Data_readU8();											//	0x08		읽고 버린다.
-		tmpId				= (short)SUTIL_Data_readU16();
+		
+		nBufCnt++;											//	0x08		읽고 버린다.
+		tmpId				= (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;
 
 		switch(tmpId)
 		{
+			case EVT_NPC:				//	NPC
+			//---------------------------------------------------------------
+			{
+				int x				 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	x
+				int y				 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	y
+				int imgidx			 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	인자1
+				int evtCode = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;		//	인자2
+				nBufCnt+=2;				//	더미
+				nBufCnt+=2;				//	
+				nBufCnt+=2;				//	
+
+//				pKeyInputEvt->Insert_next(pTmpStoreNpc);
+
+				SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+				pObjectMgr->Add(OBJ_M_NPC, 0, 0, x-100, y );
+
+/*
+				int x				 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	x
+				int y				 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	y
+				int imgidx			 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	인자1
+				Npc* pTmpStoreNpc = GL_NEW Npc(imgidx, x, y);
+				pTmpStoreNpc->m_nType = tmpId;
+				pTmpStoreNpc->m_nSaveEvtCode = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;		//	인자2
+				nBufCnt+=2;				//	더미
+				nBufCnt+=2;				//	
+				nBufCnt+=2;				//	
+
+				pKeyInputEvt->Insert_next(pTmpStoreNpc);
+
+
+				SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+				pObjectMgr->Add(new SNpc(OBJ_M_NPC, 0, 0, x, y) );
+
+*/
+				continue;
+			}
 			case EVT_DONT_GO_RECT:				//	EVT_DONT_GO_RECT
 			//---------------------------------------------------------------
 			{
 				DONT_GO_RECT* pTmpRect = GL_NEW DONT_GO_RECT();
 
-				pTmpRect->sx			 = (short)SUTIL_Data_readU16();				//	x
-				pTmpRect->sy			 = (short)SUTIL_Data_readU16();				//	y
-				pTmpRect->dx			 = (short)SUTIL_Data_readU16();				//	w
-				pTmpRect->dy			 = (short)SUTIL_Data_readU16();				//	h
-				SUTIL_Data_readU16();
-				SUTIL_Data_readU16();
-				SUTIL_Data_readU16();
-				SUTIL_Data_readU16();
+				pTmpRect->sx			 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	x
+				pTmpRect->sy			 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	y
+				pTmpRect->dx			 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	w
+				pTmpRect->dy			 = (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	h
+				nBufCnt+=2;
+				nBufCnt+=2;
+				nBufCnt+=2;
+				nBufCnt+=2;
 
 				//	패턴이기 때문에 더해줘야 된다.
 				pTmpRect->sx += pBackLayer->m_nLayerSizeX;
@@ -497,7 +542,7 @@ void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, b
 			case EVT_END_OF_LAYER:			
 			//---------------------------------------------------------------
 			{
-				pBackLayer->m_nLayerSizeX += (short)SUTIL_Data_readU16();
+				pBackLayer->m_nLayerSizeX += (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;
 				break;
 			}
 			default:
@@ -506,13 +551,13 @@ void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, b
 				//	리피트 일경우는 이벤트만 복사해야되므로 이미지패턴은 재로드하지 않는다.
 				if(true == isRepeat)
 				{
-					(short)SUTIL_Data_readU16();
-					(short)SUTIL_Data_readU16();
-					(short)SUTIL_Data_readU16();
-					(short)SUTIL_Data_readU16();
-					(short)SUTIL_Data_readU16();
-					(short)SUTIL_Data_readU16();
-					(short)SUTIL_Data_readU16();
+					nBufCnt+=2;
+					nBufCnt+=2;
+					nBufCnt+=2;
+					nBufCnt+=2;
+					nBufCnt+=2;
+					nBufCnt+=2;
+					nBufCnt+=2;
 					continue;
 				}
 
@@ -522,16 +567,20 @@ void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, b
 					tmpsprid = (tmpId-100)/100;
 					tmpASprite = pFieldAs[tmpsprid];
 				}
+				else
+				{
+					break;
+				}
 
 				pBackObject	= GL_NEW BackLayerObject();
-				pBackObject->x			= (short)SUTIL_Data_readU16();				//	x
-				pBackObject->y			= (short)SUTIL_Data_readU16();				//	y
+				pBackObject->x			= (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	x
+				pBackObject->y			= (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	y
 
-										  (short)SUTIL_Data_readU16();				//	읽고 버린다.
-				pBackObject->type		= (short)SUTIL_Data_readU16();				//	고유 타입
-				pBackObject->drawtype	= (short)SUTIL_Data_readU16();				//	draw type	//	0이면 frame, 1이면 animation
-				AsframeNum				= (short)SUTIL_Data_readU16();				//	draw num
-										  (short)SUTIL_Data_readU16();				//	임시3		읽고 버린다.
+										  (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	읽고 버린다.
+				pBackObject->type		= (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	고유 타입
+				pBackObject->drawtype	= (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	draw type	//	0이면 frame, 1이면 animation
+				AsframeNum				= (short)( (pBuf[nBufCnt]) | (pBuf[nBufCnt+1] << 8) );	nBufCnt+=2;				//	draw num
+										  nBufCnt+=2;;											//	임시3		읽고 버린다.
 
 				pBackObject->spridx = tmpsprid;
 				pBackObject->pAsIns = GL_NEW ASpriteInstance(tmpASprite, 0, 0, NULL);
@@ -547,12 +596,18 @@ void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, b
 			//	pBackObject->adjustx = tmpASprite->GetFrameX(AsframeNum);
 			//	pBackObject->width = tmpASprite->GetFrameWidth(AsframeNum);
 				pBackObject->x += pBackLayer->m_nLayerSizeX;
-				pBackObject->y += pBackLayer->m_nBaseYLine;
+			//	pBackObject->y += pBackLayer->m_nBaseYLine;
 			//	pBackObject->x += pBackObject->adjustx;
 				pBackObject->z = 0;
 
 				pBackObject->startx = pBackObject->x + tmpASprite->GetFrameX(AsframeNum);
 				pBackObject->endx = pBackObject->startx + tmpASprite->GetFrameWidth(AsframeNum);
+
+//				int aaaa = tmpASprite->GetFrameWidth(AsframeNum);
+//				if(200 < aaaa)
+//				{
+//					int b = 0;
+//				}
 
 				pBackLayer->InsertObject(pBackObject);
 
@@ -563,7 +618,31 @@ void Field::LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, b
 		break;
 	}
 
-	SUTIL_Data_free();
+	SAFE_DELETE(pBuf);
+	//SUTIL_Data_free();
+
+	//	로드를 한후 이미지를 로드한다. (파일 인풋때문에)
+
+	for(InitList(pKeyInputEvt);NotEndList(pKeyInputEvt);MoveNext(pKeyInputEvt))
+	{
+		switch(GetData(pKeyInputEvt)->m_nType )
+		{
+			case EVT_NPC:
+			//--------------------------------------------------------------
+			{
+				((Npc*)GetData(pKeyInputEvt))->ReadyObject(s_ASpriteSet);
+				break;
+			}
+//			case EVT_BARREL:
+//			//--------------------------------------------------------------
+//			{
+//				((CrushObj*)GetData(pKeyInputEvt))->ReadyObject(s_ASpriteSet);
+//				break;
+//			}
+
+			
+		}
+	}
 
 /*
 
@@ -665,7 +744,7 @@ void Field::LoadMap(void* pMinimapData)
 	MoveHead(pDontgoRect);
 
 	char packName[3];
-	int baseIdx[6];
+	int baseIdx[4];
 
 	switch(m_nSaveResType)
 	{
@@ -674,12 +753,10 @@ void Field::LoadMap(void* pMinimapData)
 		{
 			strcpy(packName, PACK_DATA_MAP_FOREST);	
 
-			baseIdx[0] = 0;			//	뒷 배경	시작
-			baseIdx[1] = 3;			//	윗바닥 시작
-			baseIdx[2] = 4;			//	아래바닥 시작
-			baseIdx[3] = 5;			//	바닥 오브젝트 시작
-			baseIdx[4] = 8;			//	앞 배경 시작
-			baseIdx[5] = 11;		//	오브젝트
+			baseIdx[0] = 0;			//	landscape 시작
+			baseIdx[1] = 1;			//	ground 시작
+			baseIdx[2] = 2;			//	up_obj 시작
+			baseIdx[3] = 7;			//	down_obj 시작
 			break;
 		}
 	}
@@ -689,8 +766,6 @@ void Field::LoadMap(void* pMinimapData)
 	baseIdx[1] -= 1;
 	baseIdx[2] -= 1;
 	baseIdx[3] -= 1;
-	baseIdx[4] -= 1;
-	baseIdx[5] -= 1;
 
 	// 맵데이타 로드
 	MoveHead(pLayerList);
@@ -704,64 +779,31 @@ void Field::LoadMap(void* pMinimapData)
 	//	바닥 레이어 로드 /////////////////////////////////////////////////////////
 	pBackLayer = GL_NEW BackLayer();
 	pBackLayer->m_nMoveRate = 100;
-	LoadMapLayer(pBackLayer, packName, baseIdx[1] + 1 );
-
-	//	임시
-	for(loop = 0; loop < pMiniMapData->m_nCellCount-1; loop++)
-	{
-		LoadMapLayer(pBackLayer, packName, baseIdx[1] + 1 , true);
-	}
-	
-
+	LoadMapLayer(pBackLayer, packName, baseIdx[1]+1 );
 	pLayerList->Insert_next(pBackLayer);
 
-	//	앞 바닥 레이어 로드
-	pBackLayer = GL_NEW BackLayer();
-	pBackLayer->m_nMoveRate = 130;
-
-	//	임시
-	LoadMapLayer(pBackLayer, packName, baseIdx[2] + 1 );
-//	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
-//	{
-//		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
-//		LoadMapLayer(pBackLayer, packName, baseIdx[2] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
-//	}
-	pLayerList->Insert_next(pBackLayer);
-
-	//	앞 바닥 오브젝트 레이어 로드
-	pBackLayer = GL_NEW BackLayer();
-	pBackLayer->m_nMoveRate = 130;
-	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
-	{
-		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
-		LoadMapLayer(pBackLayer, packName, baseIdx[3] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
-	}
-	pLayerList->Insert_next(pBackLayer);
-
-
-	//	앞 전경 레이어 로드
-	pBackLayer = GL_NEW BackLayer();
-	pBackLayer->m_nMoveRate = 130;
-	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
-	{
-		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
-		LoadMapLayer(pBackLayer, packName, baseIdx[4] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
-	}
-	pLayerList->Insert_next(pBackLayer);
-
-	//	오브젝트 레이어 로드 //////////////////////////////////////////////////////////
+	//	위 오브젝트 레이어 로드 //////////////////////////////////////////////////////////
 	pBackLayer = GL_NEW BackLayer();
 	pBackLayer->m_nMoveRate = 100;
 	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
 	{
 		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnObject)	{break;}
-		LoadMapLayer(pBackLayer, packName, baseIdx[5] + pMiniMapData->m_sMapCellData[loop].m_PtnObject );
+		LoadMapLayer(pBackLayer, packName, baseIdx[2] + pMiniMapData->m_sMapCellData[loop].m_PtnObject );
 	}
 	pLayerList->Insert_next(pBackLayer);
 
 
+	//	앞 오브젝트 레이어 로드 //////////////////////////////////////////////
+	pFrontLayer = GL_NEW BackLayer();
+	pFrontLayer->m_nMoveRate = 140;
+	for(loop = 0; loop < pMiniMapData->m_nCellCount; loop++)
+	{
+		if(0 == pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround)	{break;}
+		LoadMapLayer(pFrontLayer, packName, baseIdx[3] + pMiniMapData->m_sMapCellData[loop].m_PtnFrontGround );
+	}
+
 	//	맵 정보
-	m_nFieldSize_X = pMiniMapData->m_nCellCount*500;
+	m_nFieldSize_X = pMiniMapData->m_nCellCount*SECTOR_SIZE;
 
 
 	//	맵 화살표 정보
@@ -2649,7 +2691,7 @@ void Field::LoadSprite(int nSpriteNum)
 	//	블랜딩 등록
 	int blendnum[SPRITE_MAP_MAX] = 
 	{
-		0, 0, FRAME_MAP_2_BLEND, 0,	FRAME_MAP_4_BLEND,
+		FRAME_MAP_0_BLEND, FRAME_MAP_1_BLEND, FRAME_MAP_2_BLEND, 0,	FRAME_MAP_4_BLEND,
 		FRAME_MAP_5_BLEND, 0, 0, FRAME_MAP_8_BLEND, FRAME_MAP_9_BLEND,
 		0, 0, FRAME_MAP_12_BLEND, FRAME_MAP_13_BLEND, 0, 
 		FRAME_MAP_15_BLEND, FRAME_MAP_16_BLEND, FRAME_MAP_17_BLEND, 0, FRAME_MAP_19_BLEND, 

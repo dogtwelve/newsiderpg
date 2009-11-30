@@ -321,6 +321,30 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Object"
+				>
+				<File
+					RelativePath="..\..\src\game\SCharacter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\game\SCharacter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\game\SNpc.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\game\SNpc.h"
+					>
+				</File>
+				<File
+					RelativePath="C:\project\SideScroll\src\game\SObject.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="game"
@@ -610,6 +634,10 @@
 				>
 			</File>
 			<File
+				RelativePath="C:\project\SideScroll\src\game\SSingleton.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\SUtil.cpp"
 				>
 			</File>
@@ -655,6 +683,30 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Data\TEXT.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Manager"
+			>
+			<File
+				RelativePath="C:\project\SideScroll\src\game\SFieldMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath="C:\project\SideScroll\src\game\SFieldMgr.h"
+				>
+			</File>
+			<File
+				RelativePath="C:\project\SideScroll\src\game\SObjectMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath="C:\project\SideScroll\src\game\SObjectMgr.h"
+				>
+			</File>
+			<File
+				RelativePath="C:\project\SideScroll\src\game\SScreenMgr.h"
 				>
 			</File>
 		</Filter>

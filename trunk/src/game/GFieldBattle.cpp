@@ -1,6 +1,5 @@
 #include "GFieldBattle.h"
-
-
+#include "SObjectMgr.h"
 
 
 //--------------------------------------------------------------------------
@@ -10,6 +9,9 @@ GFieldBattle::GFieldBattle()
 	isHoldingProcess = true;
 	isHoldingPaint = true;
 	isHoldingKey = true;
+
+	// 싱글턴 객체 생성
+	SObjectMgr* pObjectMgr = new SObjectMgr();
 }
 
 
@@ -21,6 +23,15 @@ GFieldBattle::~GFieldBattle()
 	Message_FreeInstance();
 	EventManager_FreeInstance();
 	Quest_FreeInstance();
+
+
+	SObjectMgr::GetInstPtr()->RemoveAll();
+
+	//	싱글턴 객체 해제
+	SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+	SAFE_DELETE( pObjectMgr );
+
+
 }
 
 
@@ -1323,6 +1334,10 @@ void GFieldBattle::Release()
 void GFieldBattle::Process()
 //--------------------------------------------------------------------------
 {
+
+	SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+	pObjectMgr->Process();
+
 	if(b_WorldMap){return;}//월드맵 그리기
 		
 	
@@ -1903,6 +1918,9 @@ void GFieldBattle::Paint()
 //		pField->MiddlePaint();
 //	}
 	
+
+	SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+	pObjectMgr->Paint();
 
 	//그리기 갱신
 	SUTIL_UpdateSprite();
@@ -3984,6 +4002,9 @@ void GFieldBattle::SetCameraMove()
 void GFieldBattle::DamageSand_Hero(Character* hero, Monster* mon)
 //--------------------------------------------------------------------------
 {
+	//	레디상태는 데미지가 안 들어간다.
+	if(MON_AC_READY == mon->m_ActState )	{return;}
+
 	int tmp = 0;
 	
 	power.Init(s_Contact.x,s_Contact.y,s_Contact.z);

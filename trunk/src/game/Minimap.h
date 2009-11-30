@@ -8,7 +8,7 @@
 #define MAP_MOVE_X		30
 #define MAP_DEF_CHAR_UP_Y	(MAP_MOVE_UP_Y+10)
 #define MAP_DEF_CHAR_DOWN_Y	(MAP_MOVE_DOWN_Y-10)
-#define SECTOR_SIZE		500
+#define SECTOR_SIZE		320
 #define MAP_START_X		50
 #define MAP_START_Y		20
 
