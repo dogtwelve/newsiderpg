@@ -690,6 +690,10 @@
 			Name="Manager"
 			>
 			<File
+				RelativePath="..\..\src\game\SEffectMgr.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\SFieldMgr.cpp"
 				>
 			</File>
