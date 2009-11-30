@@ -1341,10 +1341,6 @@ void GFieldBattle::Release()
 void GFieldBattle::Process()
 //--------------------------------------------------------------------------
 {
-
-	SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
-	pObjectMgr->Process();
-
 	if(b_WorldMap){return;}//월드맵 그리기
 		
 	
@@ -1558,6 +1554,10 @@ void GFieldBattle::Process()
 			SetCameraMove();
 			pField->Process();
 			EventProcess();
+
+			//	오브젝트를 업데이트 시켜준다.
+			SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+			pObjectMgr->Process();
 
 			//	필드 UI
 			pFieldUi->Process();
@@ -4004,7 +4004,7 @@ void GFieldBattle::SetCameraMove()
 	s_Camera.cX = tempX;
 
 	//	스크린 매니져 추가
-	SScreenMgr::GetInstPtr()->SetWorldPos(pField->m_nSrcCamAngle_X);
+	SScreenMgr::GetInstPtr()->SetWorldPos(-(pField->m_nSrcCamAngle_X));
 
 }
 
