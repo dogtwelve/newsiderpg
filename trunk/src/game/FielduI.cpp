@@ -1453,6 +1453,7 @@ void FieldUi::PaintCombo()
 	//m_pFieldUiDamageNumAs->workPal(true, 0, 5);
 
 	//	콤보
+/*
 	if(0 == m_nSaveCombo%20)
 	{
 		switch(m_nSaveCombo/20)
@@ -1475,6 +1476,7 @@ void FieldUi::PaintCombo()
 	}
 	else	//일반 콤보
 	{
+*/
 		int temp = m_nSaveComboTimer;
 
 		//	콤보 바탕 이미지
@@ -1483,9 +1485,82 @@ void FieldUi::PaintCombo()
 		SUTIL_Paint_Frame(m_pFieldUiDamageNumAs ,FRAME_DAMAGE_NUM_HIT_START+temp, COMBO_TEXT_LOCATE_X, COMBO_TEXT_LOCATE_Y, 0);
 
 		//	콤보 숫자
+		int off = (m_pFieldUiDamageNumAs->_anims_af_start[ANIM_DAMAGE_NUM_COMBO_NUM] + (m_nSaveComboTimer%6)) * 5;
+//		int off = (m_pFieldUiDamageNumAs->_anims_af_start[ANIM_DAMAGE_NUM_COMBO_NUM]) * 5;
+		int addx =  m_pFieldUiDamageNumAs->_aframes[off + 2];
+		int addy =  m_pFieldUiDamageNumAs->_aframes[off + 3];
+//		int frame_Start = (m_pFieldUiDamageNumAs->_frames_fm_start[m_pFieldUiDamageNumAs->_aframes[off + 0]] << 2);
+//		int m_Num = m_pFieldUiDamageNumAs->_fmodules[frame_Start];
 
-		PaintNumber(m_pFieldUiDamageNumAs, MODULE_DAMAGE_NUM_COMBO_NUM, m_nSaveCombo,COMBO_TEXT_LOCATE_X+8, COMBO_TEXT_LOCATE_Y-16, -5,Graphics::RIGHT);
+		PaintNumber(m_pFieldUiDamageNumAs, MODULE_DAMAGE_NUM_COMBO_NUM, m_nSaveCombo,COMBO_TEXT_LOCATE_X+8+addx, COMBO_TEXT_LOCATE_Y-16+addy, -5,Graphics::RIGHT);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+/*
+	int off = 0;// off가 현재 애니메이션 프레임 인덱스
+	int addx = 0;// addx 가 에니메이션 x 좌표
+	int addy = 0;// addy 가 에니메이션 y 좌표
+	int frame_Start = 0;//가 현재 프레임 모듈 인덱스
+	int m_Num = 0;//모듈번호
+
+	MoveHead(pDamageNumList);
+	MoveNext(pDamageNumList);
+	while(NotEndList(pDamageNumList))
+	{
+		
+		int off = (m_pFieldUiDamageNumAs->_anims_af_start[ANIM_DAMAGE_NUM_COMBO_NUM] + (7-GetData(pDamageNumList)->lifeTime)) * 5;
+		int addx =  m_pFieldUiDamageNumAs->_aframes[off + 2];
+		int addy =  m_pFieldUiDamageNumAs->_aframes[off + 3];
+//		int frame_Start = (m_pFieldUiDamageNumAs->_frames_fm_start[m_pFieldUiDamageNumAs->_aframes[off + 0]] << 2);
+//		int m_Num = m_pFieldUiDamageNumAs->_fmodules[frame_Start];
+	
+		
+
+		m_pFieldUiDamageNumAsIns->m_sprite->SetBlendFrame(-1);
+		m_pFieldUiDamageNumAsIns->m_sprite->m_Blend_Kind = 1;
+		m_pFieldUiDamageNumAsIns->m_sprite->m_Blend_Percent = (GetData(pDamageNumList)->lifeTime>3 ? 32: (GetData(pDamageNumList)->lifeTime)*8);
+
+
+		if(GetData(pDamageNumList)->damageValue){
+			PaintNumber(m_pFieldUiDamageNumAs,m_Num,
+				//m_pFieldUiDamageNumAsIns->m_sprite->_aframes[off + 0],
+				GetData(pDamageNumList)->damageValue,
+				GetData(pDamageNumList)->x+addx + m_pFieldUiDamageNumAsIns->CameraX,
+				GetData(pDamageNumList)->y+addy-10+
+				GetData(pDamageNumList)->z,-3, CGraphics::HCENTER);
+		}else{
+			PaintNumber(m_pFieldUiDamageNumAs,
+				MODULE_DAMAGE_NUM_MISS,
+				0,
+				GetData(pDamageNumList)->x+addx + m_pFieldUiDamageNumAsIns->CameraX,
+				GetData(pDamageNumList)->y+addy-10+
+				GetData(pDamageNumList)->z,-3, CGraphics::HCENTER);
+		}
+		
+		
+		
+		
+
+
+
+		off = (m_pFieldUiDamageNumAsIns->m_sprite->_anims_af_start[0] + (7-GetData(pDamageNumList)->lifeTime)) * 5;
+
+		//	paint num
+//		SUTIL_SetTypeFrameAsprite(m_pFieldUiDamageNumAsIns,0);
+//		SUTIL_SetXPosAsprite(m_pFieldUiDamageNumAsIns, GetData(pDamageNumList)->x );
+//		SUTIL_SetYPosAsprite(m_pFieldUiDamageNumAsIns, GetData(pDamageNumList)->y );
+//		SUTIL_SetZPosAsprite(m_pFieldUiDamageNumAsIns, GetData(pDamageNumList)->z );
+
+//		SUTIL_PaintAsprite(m_pFieldUiDamageNumAsIns,S_NOT_INCLUDE_SORT);
+		MoveNext(pDamageNumList);
 	}
+
+	m_pFieldUiDamageNumAs->SetBlendFrame(FRAME_DAMAGE_NUM_BLEND);
+
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////
+//	}
+
 	m_pFieldUiDamageNumAs->SetBlendCustom(false,false,0,0);//블랜딩 해제
 }
 

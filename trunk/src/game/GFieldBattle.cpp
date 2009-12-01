@@ -1,6 +1,7 @@
 #include "GFieldBattle.h"
 #include "SObjectMgr.h"
 #include "SScreenMgr.h"
+#include "SEffectMgr.h"
 
 //--------------------------------------------------------------------------
 GFieldBattle::GFieldBattle()
@@ -13,6 +14,9 @@ GFieldBattle::GFieldBattle()
 	// 싱글턴 객체 생성
 	SObjectMgr* pObjectMgr = new SObjectMgr();
 	SScreenMgr* pScreenMgr = new SScreenMgr();
+
+	SEffectMgr* pSEffectMgr = new SEffectMgr();
+
 
 }
 
@@ -35,6 +39,9 @@ GFieldBattle::~GFieldBattle()
 
 	SScreenMgr* pScreenMgr = SScreenMgr::GetInstPtr();
 	SAFE_DELETE( pScreenMgr );
+
+	SEffectMgr* pSEffectMgr = SEffectMgr::GetInstPtr();
+	SAFE_DELETE( pSEffectMgr );
 }
 
 
@@ -76,6 +83,12 @@ void GFieldBattle::LoadFirstData(int timer, int nDummy1, int nDummy2)
 			s_ASpriteSet.pFieldUiAs->SetBlendFrame(FRAME_UI_BLEND);
 
 			s_ASpriteSet.pItemAs = SUTIL_LoadSprite(PACK_SPRITE_UI, SPRITE_UI_ITEM_UI);
+
+
+			//	TODO	임시로 셋팅
+			SEffectMgr* pSEffectMgr = SEffectMgr::GetInstPtr();
+			pSEffectMgr->m_ShadowAs = s_ASpriteSet.pShadowAs;
+			pSEffectMgr->m_DebuffAs = s_ASpriteSet.pDebuffAs;
 			//s_ASpriteSet.pFieldUiAs->SetBlendFrame(FRAME_UI_BLEND);
 			break;
 		}

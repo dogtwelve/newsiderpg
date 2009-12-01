@@ -1,25 +1,19 @@
-// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
 ////////////////////////////////////////////////////////////////////////////////
 /*SPRITE*/ {
 
     VERSION 0001
 
     // Images:  1
-    // Modules: 15
-    // Frames:  26
+    // Modules: 9
+    // Frames:  10
     // Anims:   0
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 "map_11.png" TRANSP 0x00FF00FF // 0  size: 193 x 139  palettes: 6
-    PALETTE 0 ".\map_11_blue.act"
-    PALETTE 1 ".\map_11_green.act"
-    PALETTE 2 ".\map_11_pink.act"
-    PALETTE 3 ".\map_11_purple.act"
-    PALETTE 4 ".\map_11_yellow.act"
-    PALETTE 5 ".\map_11_red.act"
+    IMAGE 0x0000 ".\map_11.png" TRANSP 0x00FF00FF // 0  size: 586 x 227  palettes: 1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -29,27 +23,23 @@
 // [params]  := if (Type == MD_IMAGE)     -> image x y width height
 //              if (Type == MD_RECT)      -> color width height
 //              if (Type == MD_FILL_RECT) -> color width height
-//              if (Type == MD_ARC)       -> color width height
-//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
 //              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
 
     MODULES
     {
-        MD	0x1000	MD_IMAGE	0	1	44	11	27
-        MD	0x1008	MD_IMAGE	0	12	1	45	49
-        MD	0x100A	MD_IMAGE	0	57	3	24	70
-        MD	0x1009	MD_IMAGE	0	25	50	32	28
-        MD	0x1002	MD_IMAGE	0	147	1	25	17
-        MD	0x1007	MD_IMAGE	0	138	18	43	14
-        MD	0x1006	MD_IMAGE	0	128	32	63	13
-        MD	0x1003	MD_IMAGE	0	118	46	40	17
-        MD	0x1005	MD_IMAGE	0	159	46	3	17
-        MD	0x1004	MD_IMAGE	0	1	109	12	23
-        MD	0x100C	MD_IMAGE	0	25	80	85	19
-        MD	0x100E	MD_IMAGE	0	13	80	12	34
-        MD	0x100D	MD_IMAGE	0	29	99	65	15
-        MD	0x100B	MD_IMAGE	0	36	114	45	24
-        MD	0x1001	MD_IMAGE	0	82	5	31	34
+        MD	0x1000	MD_IMAGE	0	17	75	102	122
+        MD	0x1007	MD_IMAGE	0	124	106	48	52
+        MD	0x1004	MD_IMAGE	0	181	136	93	60
+        MD	0x1005	MD_IMAGE	0	111	12	99	71
+        MD	0x1006	MD_IMAGE	0	221	4	78	99
+        MD	0x1002	MD_IMAGE	0	304	47	64	35
+        MD	0x1003	MD_IMAGE	0	384	47	128	35
+        MD	0x1001	MD_IMAGE	0	304	95	255	64
+        MD	0x1008	MD_IMAGE	0	0	0	1	1
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,205 +47,70 @@
 // <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
 // <RCi>   := RC x1 y1 x2 y2
 // <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
-// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
 
-    FRAME "h" // Index = 0, FModules = 4
-    {
-        0x2000
-        FM	0x1008	-57	-48	PALETTE 5
-        FM	0x100A	-12	-46	PALETTE 5
-        FM	0x1009	-44	1	PALETTE 5
-        FM	0x1000	-68	-5	PALETTE 5
-    }
-
-    FRAME "s" // Index = 1, FModules = 5
-    {
-        0x2001
-        FM	0x100C	-41	-33
-        FM	0x100D	-37	-14
-        FM	0x100B	-30	1
-        FM	0x100E	-53	-33
-        FM	0x1004	-65	-4
-    }
-
-    FRAME "house_roof_blue" // Index = 2, FModules = 2
-    {
-        0x2002
-        FM	0x2000	-11	-2	+HYPER_FM
-        FM	0x2000	13	-2	+FLIP_X	+HYPER_FM
-    }
-
-    FRAME "small_roof_blue" // Index = 3, FModules = 2
-    {
-        0x2003
-        FM	0x2001	-44	-4	+HYPER_FM
-        FM	0x2001	44	-4	+FLIP_X	+HYPER_FM
-    }
-
-    FRAME "smallwindow_blue" // Index = 4, FModules = 1
-    {
-        0x2004
-        FM	0x1001	0	0
-    }
-
-    FRAME "clock_blue" // Index = 5, FModules = 5
-    {
-        0x2005
-        FM	0x1003	-37	-3
-        FM	0x1003	6	-3	+FLIP_X
-        FM	0x1005	3	-3
-        FM	0x1006	-27	-16
-        FM	0x1007	-17	-30
-    }
-
-    FRAME "house_roof_green" // Index = 6, FModules = 2
-    {
-        0x2006
-        FM	0x2000	-11	-2	+HYPER_FM	PALETTE 1
-        FM	0x2000	13	-2	+FLIP_X	+HYPER_FM	PALETTE 1
-    }
-
-    FRAME "small_roof_green" // Index = 7, FModules = 2
+    FRAME "water" // Index = 0, FModules = 1
     {
         0x2007
-        FM	0x2001	-44	-4	+HYPER_FM	PALETTE 1
-        FM	0x2001	44	-4	+FLIP_X	+HYPER_FM	PALETTE 1
+        FM	0x1001	-127	-63
     }
 
-    FRAME "smallwindow_green" // Index = 8, FModules = 1
+    FRAME "houses_all" // Index = 1, FModules = 5
+    {
+        0x2000
+        FM	0x1005	-27	-93
+        FM	0x1007	-34	-69
+        FM	0x1006	63	-101
+        FM	0x1000	-121	-100
+        FM	0x1004	23	-59
+    }
+
+    FRAME "houses_1" // Index = 2, FModules = 1
+    {
+        0x2003
+        FM	0x1005	-49	-65
+    }
+
+    FRAME "houses_2" // Index = 3, FModules = 1
+    {
+        0x2001
+        FM	0x1007	-24	-50
+    }
+
+    FRAME "houses_3" // Index = 4, FModules = 1
+    {
+        0x2004
+        FM	0x1006	-34	-91
+    }
+
+    FRAME "houses_4" // Index = 5, FModules = 1
+    {
+        0x2002
+        FM	0x1004	-36	-56
+    }
+
+    FRAME "houses_5" // Index = 6, FModules = 1
     {
         0x2008
-        FM	0x1001	0	0	PALETTE 1
+        FM	0x1000	-55	-106
     }
 
-    FRAME "clock_green" // Index = 9, FModules = 5
+    FRAME "wall" // Index = 7, FModules = 1
+    {
+        0x2005
+        FM	0x1002	-31	-33
+    }
+
+    FRAME "hall" // Index = 8, FModules = 1
+    {
+        0x2006
+        FM	0x1003	-65	-33
+    }
+
+    FRAME "BLEND" // Index = 9, FModules = 1
     {
         0x2009
-        FM	0x1003	-37	-3	PALETTE 1
-        FM	0x1003	6	-3	+FLIP_X	PALETTE 1
-        FM	0x1005	3	-3	PALETTE 1
-        FM	0x1006	-27	-16	PALETTE 1
-        FM	0x1007	-17	-30	PALETTE 1
-    }
-
-    FRAME "house_roof_pink" // Index = 10, FModules = 2
-    {
-        0x200A
-        FM	0x2000	-11	-2	+HYPER_FM	PALETTE 2
-        FM	0x2000	13	-2	+FLIP_X	+HYPER_FM	PALETTE 2
-    }
-
-    FRAME "small_roof_pink" // Index = 11, FModules = 2
-    {
-        0x200B
-        FM	0x2001	-44	-4	+HYPER_FM	PALETTE 2
-        FM	0x2001	44	-4	+FLIP_X	+HYPER_FM	PALETTE 2
-    }
-
-    FRAME "smallwindow_pink" // Index = 12, FModules = 1
-    {
-        0x200C
-        FM	0x1001	0	0	PALETTE 2
-    }
-
-    FRAME "clock_pink" // Index = 13, FModules = 5
-    {
-        0x200D
-        FM	0x1003	-37	-3	PALETTE 2
-        FM	0x1003	6	-3	+FLIP_X	PALETTE 2
-        FM	0x1005	3	-3	PALETTE 2
-        FM	0x1006	-27	-16	PALETTE 2
-        FM	0x1007	-17	-30	PALETTE 2
-    }
-
-    FRAME "house_roof_purple" // Index = 14, FModules = 2
-    {
-        0x200E
-        FM	0x2000	-11	-2	+HYPER_FM	PALETTE 3
-        FM	0x2000	13	-2	+FLIP_X	+HYPER_FM	PALETTE 3
-    }
-
-    FRAME "small_roof_purple" // Index = 15, FModules = 2
-    {
-        0x200F
-        FM	0x2001	-44	-4	+HYPER_FM	PALETTE 3
-        FM	0x2001	44	-4	+FLIP_X	+HYPER_FM	PALETTE 3
-    }
-
-    FRAME "smallwindow_urple" // Index = 16, FModules = 1
-    {
-        0x2010
-        FM	0x1001	0	0	PALETTE 3
-    }
-
-    FRAME "clock_purple" // Index = 17, FModules = 5
-    {
-        0x2011
-        FM	0x1003	-37	-3	PALETTE 3
-        FM	0x1003	6	-3	+FLIP_X	PALETTE 3
-        FM	0x1005	3	-3	PALETTE 3
-        FM	0x1006	-27	-16	PALETTE 3
-        FM	0x1007	-17	-30	PALETTE 3
-    }
-
-    FRAME "house_roof_yellow" // Index = 18, FModules = 2
-    {
-        0x2012
-        FM	0x2000	-11	-2	+HYPER_FM	PALETTE 4
-        FM	0x2000	13	-2	+FLIP_X	+HYPER_FM	PALETTE 4
-    }
-
-    FRAME "small_roof_yellow" // Index = 19, FModules = 2
-    {
-        0x2013
-        FM	0x2001	-44	-4	+HYPER_FM	PALETTE 4
-        FM	0x2001	44	-4	+FLIP_X	+HYPER_FM	PALETTE 4
-    }
-
-    FRAME "smallwindow_yellow" // Index = 20, FModules = 1
-    {
-        0x2014
-        FM	0x1001	0	0	PALETTE 4
-    }
-
-    FRAME "clock_yellow" // Index = 21, FModules = 5
-    {
-        0x2015
-        FM	0x1003	-37	-3	PALETTE 4
-        FM	0x1003	5	-3	+FLIP_X	PALETTE 4
-        FM	0x1005	2	-3	PALETTE 4
-        FM	0x1006	-28	-16	PALETTE 4
-        FM	0x1007	-17	-30	PALETTE 4
-    }
-
-    FRAME "house_roof_red" // Index = 22, FModules = 2
-    {
-        0x2016
-        FM	0x2000	-11	-2	+HYPER_FM	PALETTE 5
-        FM	0x2000	13	-2	+FLIP_X	+HYPER_FM	PALETTE 5
-    }
-
-    FRAME "small_roof_red" // Index = 23, FModules = 2
-    {
-        0x2017
-        FM	0x2001	-44	-4	+HYPER_FM	PALETTE 5
-        FM	0x2001	44	-4	+FLIP_X	+HYPER_FM	PALETTE 5
-    }
-
-    FRAME "smallwindow_red" // Index = 24, FModules = 1
-    {
-        0x2018
-        FM	0x1001	0	0	PALETTE 5
-    }
-
-    FRAME "clock_red" // Index = 25, FModules = 5
-    {
-        0x2019
-        FM	0x1003	-37	-3	PALETTE 5
-        FM	0x1003	6	-3	+FLIP_X	PALETTE 5
-        FM	0x1005	3	-3	PALETTE 5
-        FM	0x1006	-27	-16	PALETTE 5
-        FM	0x1007	-17	-30	PALETTE 5
+        FM	0x1008	0	0
     }
 
     SPRITE_END
