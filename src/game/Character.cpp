@@ -989,8 +989,6 @@
 			
 		}
 
-		
-		
 		if(_m_actNum != m_actNum || s_Damage._b_Must_Decide){//만약 다르다면 해당 행동으로 교체
 			//_ins_Hero->UpdateTempXZ(APPLY_X|APPLY_Z);//SangHo - 이전 Ani 의 최종 X좌표를 원점에 반영, 높이(APPLY_Z) 존재시 높이수치반영
 			_ins_Hero->m_bLoop = true;

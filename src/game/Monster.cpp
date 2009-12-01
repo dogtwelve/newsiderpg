@@ -1088,7 +1088,7 @@ void Monster::Paint()
 
 	if(MON_AC_READY == m_ActState)
 	{
-	//	SUTIL_Paint_Frame(_ins_Debuff->m_sprite ,FRAME_WEFFECT_JOIN_SMALL+(m_nTimer%4) , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns),0);
+		SUTIL_Paint_Frame(_ins_Debuff->m_sprite ,FRAME_WEFFECT_JOIN_SMALL+(m_nTimer%4) , tmpx  + pMonAsIns->CameraX, SUTIL_GetYPosAsprite(pMonAsIns),0);
 	}
 
 	if(MON_AC_READY != m_ActState || 5 < m_nTimer)
