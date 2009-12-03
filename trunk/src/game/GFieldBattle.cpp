@@ -2531,9 +2531,12 @@ bool GFieldBattle::Contact_Check(ASpriteInstance* p_Attacker,ASpriteInstance* p_
 			s_Contact.z =		XY(p_Attacker, att_Rect_Index+1);
 			s_Contact.D_index = WH(p_Attacker, att_Rect_Index+3);
 
-			//☆☆☆공격자 인마수의계약스 절대좌표와 수비자 인마수의계약스 절대좌표를 비교하여 X방향을 뒤집는다 
+			//☆☆☆공격자  절대좌표와 수비자  절대좌표를 비교하여 X방향을 뒤집는다 
 			//☆☆☆공격자가 보는 방향은 따지지 않는다
-			if(ac_X_Att > ac_X_Def)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
+
+			if(p_Attacker->m_flags)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
+			//아래는 예외기술들 양쪽으로 퍼진다던지 하는 방사형 인덱스 ㅡ체크
+			//if(ac_X_Att > ac_X_Def)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
 
 		}else{
 
