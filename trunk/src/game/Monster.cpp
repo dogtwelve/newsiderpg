@@ -390,10 +390,16 @@ bool Monster::ReceiveAttack(Position3D& _Power)
 
 	//	힘 방향 저장
 	m_nResvPower = _Power;
-	if(m_CharInfo == NULL)return true;//상호의 미봉책 >ㅂ<;; 해결되심 삭제 부탁
+	if(m_CharInfo == NULL)	return true;//상호의 미봉책 >ㅂ<;; 해결되심 삭제 부탁
 	SetDirection(m_CharInfo->m_Direction * (-1));
 
 //	MC_knlPrintk((signed char*)"force : %d, %d, %d \n", m_nResvPower.x, m_nResvPower.y, m_nResvPower.z);
+
+	if(m_nResvPower.x < 0 && m_CharInfo->m_Direction == SDIR_RIGHT)
+	{
+		int a = 0;
+	}
+
 
 	//	공중처리
 	if(0 > pMonAsIns->m_posZ)
@@ -666,6 +672,26 @@ bool Monster::SetHolding(int HoldType)
 //	if(MON_IDX_BOSS5_4 == MonBaseStet[m_PtnIdx][STET_BASE])	{return false;}
 
 	if(!m_CharInfo)														{return false;}
+
+	if(1 == HoldType)		//	공중잡기
+	{
+		if(MON_AC_DIE == m_ActState ||
+//			MON_AC_ING_AIRDOWN == m_ActState ||
+			MON_AC_DOWNED == m_ActState ||
+			MON_AC_ING_DOWN == m_ActState ||
+			MON_AC_RCV_DOWN_ATTACK == m_ActState ||
+			MON_AC_RCV_AIR_ATTACK == m_ActState ||
+			MON_AC_DIE_AFTER == m_ActState)		{return false;}
+
+		if(SQR(22+m_Stet.m_Width/2) < SQR(pMonAsIns->m_posX - m_CharInfo->m_nPos.x))	{return false;}
+		if(-30 < pMonAsIns->m_posZ)												{return false;}
+		if(-130 > pMonAsIns->m_posZ)												{return false;}
+
+		ResvAction(MON_AC_RCV_HOLDING_SKY, 0);
+		m_bIsPanic = true;
+		return true;
+	}
+
 	if(SQR(20) < (SQR(pMonAsIns->m_posY - m_CharInfo->m_nPos.y)))				{return false;}
 
 	if(SDIR_LEFT == m_CharInfo->m_Direction)
@@ -693,24 +719,7 @@ bool Monster::SetHolding(int HoldType)
 		m_bIsPanic = true;
 		return true;
 	}
-	else if(1 == HoldType)		//	공중잡기
-	{
-		if(MON_AC_DIE == m_ActState ||
-//			MON_AC_ING_AIRDOWN == m_ActState ||
-			MON_AC_DOWNED == m_ActState ||
-			MON_AC_ING_DOWN == m_ActState ||
-			MON_AC_RCV_DOWN_ATTACK == m_ActState ||
-			MON_AC_RCV_AIR_ATTACK == m_ActState ||
-			MON_AC_DIE_AFTER == m_ActState)		{return false;}
 
-		if(SQR(22+m_Stet.m_Width/2) < SQR(pMonAsIns->m_posX - m_CharInfo->m_nPos.x))	{return false;}
-		if(-70 < pMonAsIns->m_posZ)												{return false;}
-		if(-130 > pMonAsIns->m_posZ)												{return false;}
-
-		ResvAction(MON_AC_RCV_HOLDING_SKY, 0);
-		m_bIsPanic = true;
-		return true;
-	}
 	else if(2 == HoldType)
 	{
 		if(MON_AC_DIE == m_ActState ||
@@ -721,7 +730,7 @@ bool Monster::SetHolding(int HoldType)
 	//		MON_AC_RCV_AIR_ATTACK == m_ActState ||
 			MON_AC_DIE_AFTER == m_ActState)		{return false;}
 
-		if(SQR(44+m_Stet.m_Width/2) < SQR(pMonAsIns->m_posX - m_CharInfo->m_nPos.x))	{return false;}
+		if(SQR(33+m_Stet.m_Width/2) < SQR(pMonAsIns->m_posX - m_CharInfo->m_nPos.x))	{return false;}
 		ResvAction(MON_AC_RCV_HOLDING_DOWN, 0);
 		m_bIsPanic = true;
 		return true;
@@ -855,7 +864,6 @@ bool Monster::BaseProcess()
 		}
 		case MON_AC_RCV_HOLDING_SKY:
 		case MON_AC_STAND:
-		case MON_AC_RCV_HOLDING_DOWN:
 		case MON_AC_RCV_HOLDING:
 		case MON_AC_RCV_DOWN_ATTACK:
 		case MON_AC_ING_DOWN:
@@ -978,6 +986,20 @@ bool Monster::BaseProcess()
 			}
 			break;
 		}
+		case MON_AC_RCV_HOLDING_DOWN:
+		//-----------------------------------------------------------------------
+		{
+			if(SDIR_RIGHT == m_nDirection)
+			{
+				pMonAsIns->m_posX += 1;
+			}
+			else
+			{
+				pMonAsIns->m_posX -= 1;
+			}
+			break;
+		}
+
 		case MON_AC_DIE:
 		//-----------------------------------------------------------------------
 		{

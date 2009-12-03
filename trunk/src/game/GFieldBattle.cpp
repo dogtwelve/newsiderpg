@@ -2523,8 +2523,6 @@ bool GFieldBattle::Contact_Check(ASpriteInstance* p_Attacker,ASpriteInstance* p_
 	H_d =WH(p_Defender, def_Rect_Index+3);
 	if(p_Defender->m_stopFlag & FLAG_FLIP_X) X_d = -(X_d+W_d);// 수비 애니 반전이면
 
-
-
 	for(int xx = 0 ; xx <= (RECT_NUM(p_Attacker, att_Frame_Index)-2) ; xx++ , att_Rect_Index+=4){//공격측은 Rect가 1개 이상일 수 도 있다 - (RECT_NUM(p_Attacker, att_Frame_Index)-2):공격측 충돌영역 갯수
 
 		if(xx==0){//x충격량,z충격량 저장하기 - 충돌영역의 2번째 Rect는 정보값을 저장한다
