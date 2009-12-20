@@ -55,13 +55,13 @@ typedef struct tagBossInfo
 //	MONSTER DATA	///////////////////////////////////////////////////////////////////////////////
 
 
-
 class SObjectMgr : public SSingleton<SObjectMgr>
 {
 private:
 	int m_nUniqueIdx;		//	오브젝트의 고유 아이디
-	List2< class SObject* >			*m_ObjectList;	
+	List2< class SObject* >					*m_ObjectList;	
 
+	List2< class STalkInterface* >			*m_TalkObjectList;
 
 	inline int MakeUniqueKey(void)		{return (m_nUniqueIdx++);}
 
@@ -81,6 +81,10 @@ public:
 	// 액션에 관한것을 정의해준다.
 	void Process(void);
 	void Paint(void);
+
+//	SObject* GetAttachObject(ObjectType eObjType = OBJ_M_NPC);
+
+	
 
 };
 

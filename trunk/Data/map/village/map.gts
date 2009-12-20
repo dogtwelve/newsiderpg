@@ -214,7 +214,7 @@ TEMPLATE OBJECT_LAYER "HOUSE_1B"
       }
 }
 
-TEMPLATE OBJECT_LAYER "HOUSE_1B"
+TEMPLATE OBJECT_LAYER "HOUSE_2A"
 {
       ID     1102
       SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_10.SPRITE"
@@ -438,6 +438,25 @@ TEMPLATE OBJECT_LAYER "HALL"
             0	"NOT FIX" "STATIC VALUE"
             0	"ANI TYPE" "0:FRAME, 1:ANI"
             8	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "WATER1"
+{
+      ID     1209
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_11.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	9
+
+
+      PARAMS
+      {
+            9	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            9	"DRAW IDX" "ANI OR FRAME IDX"
             0	"NOT USE" ""
       }
 }
@@ -954,3 +973,4 @@ TEMPLATE OBJECT_LAYER "LAND"
             0	"NOT USE" ""
       }
 }
+

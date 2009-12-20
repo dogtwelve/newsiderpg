@@ -250,7 +250,7 @@ public:
 	void AddRegenMonSetting(int defPosx);
 //	void AddRegenMonSetting();
 //	void LoadMonsterSprite(int nIdx);
-	void MakeMonsterSeed(int nStageNum);
+//	void MakeMonsterSeed(int nStageNum);
 	void MakeMonsterSeed();
 
 

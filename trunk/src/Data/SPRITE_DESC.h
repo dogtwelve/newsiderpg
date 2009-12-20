@@ -50,7 +50,8 @@
 	#define FRAME_MAP_11_HOUSES_5	 6
 	#define FRAME_MAP_11_WALL	 7
 	#define FRAME_MAP_11_HALL	 8
-	#define FRAME_MAP_11_BLEND	 9
+	#define FRAME_MAP_11_WATER1	 9
+	#define FRAME_MAP_11_BLEND	 10
 
 // MODULE //
 

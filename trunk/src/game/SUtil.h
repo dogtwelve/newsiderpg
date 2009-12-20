@@ -93,8 +93,29 @@ public:
 	//--------------------------------------------------------------
 	//	ABOUT SPRITE
 	//--------------------------------------------------------------
-	ASprite*			SpriteDB[SPRITE_MAP_MAX+SPRITE_WORLDMAP_MAX+SPRITE_UI_MAX+SPRITE_COSTUME_MAX+SPRITE_MAX+SPRITE_MON_MAX+SPRITE_NPC_MAX+SPRITE_FACE_MAX+SPRITE_MAINMENU_MAX+SPRITE_LOADING_MAX+SPRITE_CINEMA_MAX];
-	int					SpriteRefDB[SPRITE_MAP_MAX+SPRITE_WORLDMAP_MAX+SPRITE_UI_MAX+SPRITE_COSTUME_MAX+SPRITE_MAX+SPRITE_MON_MAX+SPRITE_NPC_MAX+SPRITE_FACE_MAX+SPRITE_MAINMENU_MAX+SPRITE_LOADING_MAX+SPRITE_CINEMA_MAX];
+	ASprite*			SpriteDB[SPRITE_MAP_MAX+
+									SPRITE_WORLDMAP_MAX+
+									SPRITE_UI_MAX+
+									SPRITE_COSTUME_MAX+
+									SPRITE_MAX+
+									SPRITE_MON_MAX+
+									SPRITE_NPC_MAX+
+									SPRITE_FACE_MAX+
+									SPRITE_MAINMENU_MAX+
+									SPRITE_LOADING_MAX+
+									SPRITE_CINEMA_MAX];
+
+	int					SpriteRefDB[SPRITE_MAP_MAX+
+									SPRITE_WORLDMAP_MAX+
+									SPRITE_UI_MAX+
+									SPRITE_COSTUME_MAX+
+									SPRITE_MAX+
+									SPRITE_MON_MAX+
+									SPRITE_NPC_MAX+
+									SPRITE_FACE_MAX+
+									SPRITE_MAINMENU_MAX+
+									SPRITE_LOADING_MAX+
+									SPRITE_CINEMA_MAX];
 
 	int					GetSpriteDB_Index(char* _packtype, int _spriteNum);
 

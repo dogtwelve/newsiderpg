@@ -12,7 +12,8 @@ SNpc::SNpc(ObjectType ObjType, uint8 nActionType, int nUniKey, ASpriteInstance* 
 //	SetObjID(nUniKey);
 
 	m_nActionType = nActionType;
-	m_nEvtCode = Evtcode;
+
+	SetEventCode(Evtcode);
 
 	SUTIL_SetTypeAniAsprite(pAsins, ANIM_NPC_01_1_STAND);
 	SUTIL_SetLoopAsprite(pAsins, true);		
@@ -25,6 +26,7 @@ SNpc::~SNpc()
 {
 
 }
+
 
 /*
 //--------------------------------------------------------------------------------------
