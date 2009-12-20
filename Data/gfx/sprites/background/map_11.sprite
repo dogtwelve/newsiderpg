@@ -5,8 +5,8 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 9
-    // Frames:  10
+    // Modules: 10
+    // Frames:  11
     // Anims:   0
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,8 @@
         MD	0x1006	MD_IMAGE	0	221	4	78	99
         MD	0x1002	MD_IMAGE	0	304	47	64	35
         MD	0x1003	MD_IMAGE	0	384	47	128	35
-        MD	0x1001	MD_IMAGE	0	304	95	255	64
+        MD	0x1001	MD_IMAGE	0	304	95	100	64
+        MD	0x1009	MD_IMAGE	0	404	95	155	64
         MD	0x1008	MD_IMAGE	0	0	0	1	1
     }
 
@@ -55,13 +56,12 @@
         FM	0x1001	-127	-63
     }
 
-    FRAME "houses_all" // Index = 1, FModules = 5
+    FRAME "houses_all" // Index = 1, FModules = 4
     {
         0x2000
         FM	0x1005	-27	-93
         FM	0x1007	-34	-69
         FM	0x1006	63	-101
-        FM	0x1000	-121	-100
         FM	0x1004	23	-59
     }
 
@@ -107,7 +107,13 @@
         FM	0x1003	-65	-33
     }
 
-    FRAME "BLEND" // Index = 9, FModules = 1
+    FRAME "water1" // Index = 9, FModules = 1
+    {
+        0x200A
+        FM	0x1009	-127	-63
+    }
+
+    FRAME "BLEND" // Index = 10, FModules = 1
     {
         0x2009
         FM	0x1008	0	0

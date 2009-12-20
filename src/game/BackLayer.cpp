@@ -7,6 +7,7 @@ BackLayer::BackLayer()
 	pObjectList = GL_NEW List2<BackLayerObject*>();
 	m_nLayerSizeX = 0;
 	m_nBaseYLine = 0;
+	m_nSortOption = S_NOT_INCLUDE_SORT;
 }
 
 
@@ -110,6 +111,7 @@ void BackLayer::Paint()
 	int screenSX = m_nMyAngleX;
 	int screenEX = screenSX + SCREEN_WIDTH;
 	BackLayerObject* pObject = NULL;
+	ASpriteInstance* pTmpAsIns;
 
 	int add = -m_nLayerSizeX;
 
@@ -118,18 +120,19 @@ void BackLayer::Paint()
 		for(InitList(pObjectList); NotEndList(pObjectList); MoveNext(pObjectList) )
 		{
 			pObject = GetData(pObjectList);
+			pTmpAsIns = pObject->pAsIns;
 
 			if(	(screenEX > pObject->startx+add && screenSX <= pObject->startx+add ) ||
 				(screenEX > pObject->endx+add && screenSX <= pObject->endx+add )		)
 			{
-				if(1 == pObject->drawtype)	{SUTIL_UpdateTimeAsprite(pObject->pAsIns);}
-				SUTIL_SetXPosAsprite(pObject->pAsIns, pObject->x+add);
-				SUTIL_SetYPosAsprite(pObject->pAsIns, pObject->y);
-				SUTIL_SetZPosAsprite(pObject->pAsIns, pObject->z);
+				if(1 == pObject->drawtype)	{SUTIL_UpdateTimeAsprite(pTmpAsIns);}
+				SUTIL_SetXPosAsprite(pTmpAsIns, pObject->x+add);
+				SUTIL_SetYPosAsprite(pTmpAsIns, pObject->y);
+				SUTIL_SetZPosAsprite(pTmpAsIns, pObject->z);
 
-				pObject->pAsIns->CameraX = -m_nMyAngleX;
+				pTmpAsIns->CameraX = -m_nMyAngleX;
 
-				SUTIL_PaintAsprite(pObject->pAsIns,S_NOT_INCLUDE_SORT);
+				SUTIL_PaintAsprite(pTmpAsIns,m_nSortOption);
 			}
 		}
 

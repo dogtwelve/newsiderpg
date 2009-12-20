@@ -6,18 +6,28 @@
 #include "ASpriteInstance.h"
 
 
-class SNpc : public SCharacter
+class SNpc : public SCharacter , public STalkInterface
 {
 private:
-	uint8 m_nActionType;
-	uint8 m_nEvtCode;
+	int m_nEvtCode;
+	int m_nActionType;
+
 
 public:
 	SNpc(ObjectType ObjType, uint8 nActionType, int nUniKey, ASpriteInstance* pAsins, uint8 Evtcode);
 	virtual ~SNpc(void);
 
+	inline void SetActionType(int ActionType)	{m_nActionType = ActionType;}
+	inline int GetActionType()					{return m_nActionType;}
+
+	inline void SetEventCode(int eventCode)		{m_nEvtCode = eventCode;}
+	inline int GetEventCode()					{return m_nEvtCode;}
+
 //	void Process(void);
 //	void Paint(void)
+
+	bool PossibleToTalk()		{return true;}
+	inline int GetTalkCode()	{return nTalkCode;}
 };
 
 

@@ -44,8 +44,10 @@ public:
 
 	void RematchImage(class ASprite** pAsprite);
 
-private:
+	inline void SetSortOption(int nSortOpt)	{m_nSortOption = nSortOpt;}
 
+private:
+	int m_nSortOption;
 };
 
 

@@ -83,7 +83,7 @@ void AppMain::Update()
 	m_GameState->Process();
 	m_GameState->Paint();
 
-	if(m_nAsprite_Ani<1000000000)m_nAsprite_Ani++;
+	if(m_nAsprite_Ani<1000000000)	m_nAsprite_Ani++;
 }
 
 

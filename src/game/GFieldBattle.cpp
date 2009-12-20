@@ -14,7 +14,6 @@ GFieldBattle::GFieldBattle()
 	// 싱글턴 객체 생성
 	SObjectMgr* pObjectMgr = new SObjectMgr();
 	SScreenMgr* pScreenMgr = new SScreenMgr();
-
 	SEffectMgr* pSEffectMgr = new SEffectMgr();
 
 
@@ -674,125 +673,6 @@ void GFieldBattle::MakeMonsterSeed()
 		pMonData[loop].nNameIdx = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_NAME+loop*4];
 		pMonData[loop].nPtn = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_PTN+loop*4];
 		pMonData[loop].nCount = pMinimap->m_CurMapSector->m_MonsterInfo[MI_MON1_COUNT+loop*4];
-	}
-
-	//	몬스터 총 갯수
-	m_nMonSeedCnt = 0;
-	for(int loop = 0; loop < nMonTypeCnt; loop++)
-	{
-		m_nMonSeedCnt += pMonData[loop].nCount;
-	}
-
-	//	몬스터가 없다.
-	if(!m_nMonSeedCnt)	{return;}
-	/////////////////////////////////////////////////////////////////////////////////////////////
-
-	//	몬스터 데이타 구성
-	m_nSeedData	= GL_NEW int[m_nMonSeedCnt];
-
-	loop = 0;
-	int loop2 = 0;
-	int addcnt = 0;
-
-	for(loop = 0; loop < nMonTypeCnt; loop++)
-	{
-		for(loop2 = 0; loop2 < pMonData[loop].nCount; loop2++)
-		{
-			m_nSeedData[loop2+addcnt] = loop;
-		}
-		addcnt += loop2;
-	}
-
-	//	시드 스왑(10번)
-	int src, dst, tmp;
-	for(loop = 0; loop < 10; loop++)
-	{
-		src = SUTIL_GetRandom()%(m_nMonSeedCnt);
-		dst = SUTIL_GetRandom()%(m_nMonSeedCnt);
-
-		tmp = m_nSeedData[src];
-		m_nSeedData[src] = m_nSeedData[dst];
-		m_nSeedData[dst] = tmp;
-	}
-
-	//	등급 결정 테이블
-	int GradeDiceTable[5][4] = {{0, 38, 15, 5},	{0, 36, 16, 6},	{0, 34, 17, 7},	{0, 34, 17, 8},	{0, 33, 17, 9}};
-
-	//	등급결정을 해야됨
-	m_nSeedDataGrade = GL_NEW int [m_nMonSeedCnt];
-
-	int TableIdx = 4;
-	if(70 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)		{TableIdx = 0;}
-	else if(60 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 1;}
-	else if(40 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 2;}
-	else if(20 < hero->s_Status[hero->s_HeroTag.SEX].LEVEL)	{TableIdx = 3;}
-
-	//	등급 확인
-	int Dice = 0;
-	for(loop = GRADE_RARE; loop <= GRADE_SPECIAL; loop++)
-	{
-		while(0 < nMonGradeCnt[loop])
-		{
-			Dice = SUTIL_GetRandom()%100;
-			if(GradeDiceTable[TableIdx][loop] > Dice)
-			{
-				m_nSeedDataGrade[Dice%m_nMonSeedCnt] = loop;
-			}
-			nMonGradeCnt[loop]--;
-		}
-	}
-
-	//	몬스터의 이미지를 로드시킨다.
-	SUTIL_LoadAspritePack(PACK_SPRITE_MON);
-	for(loop = 0; loop < nMonTypeCnt; loop++)
-	{
-		LoadMonsterSprite(pMonData[loop].nMonIdx);
-	}
-	SUTIL_ReleaseAspritePack();
-}
-
-
-//--------------------------------------------------------------------------
-void GFieldBattle::MakeMonsterSeed(int nStageNum)
-//--------------------------------------------------------------------------
-{
-	int loop = 0;
-	int nRealFieldNum = 0;
-
-	while(NU != FIELD_MONSTER_INFO[nRealFieldNum][0])
-	{
-		if(nStageNum == FIELD_MONSTER_INFO[nRealFieldNum][GEN_FIELD_NUM])	{break;}
-		nRealFieldNum++;
-	}
-
-	if(NU == FIELD_MONSTER_INFO[nRealFieldNum][0])	{return;}
-
-	m_nMonLevel = FIELD_MONSTER_INFO[nRealFieldNum][GEN_LEVEL];
-	m_nMonLevelRnd = FIELD_MONSTER_INFO[nRealFieldNum][GEN_ADD_RND_LEVEL]+1;
-
-	pField->m_nRegenDistance = FIELD_MONSTER_INFO[nRealFieldNum][GEN_DISTANCE];
-
-	//	몬스터 등급 설정
-	nMonGradeCnt[GRADE_RARE]	= FIELD_MONSTER_INFO[nRealFieldNum][GEN_RARE_GRADE];
-	nMonGradeCnt[GRADE_UNIQUE]	= FIELD_MONSTER_INFO[nRealFieldNum][GEN_UNIQUE_GRADE];
-	nMonGradeCnt[GRADE_SPECIAL]	= FIELD_MONSTER_INFO[nRealFieldNum][GEN_SPECIAL_GRADE];
-
-	//	몬스터 설정
-	nMonTypeCnt = 0;
-	for(loop = 0; loop < GEN_MON_COUNT; loop++)
-	{
-		if(NU != FIELD_MONSTER_INFO[nRealFieldNum][GEN_MON1_IDX+loop*4])	{nMonTypeCnt++;}
-	}
-
-	//	nMonTypeCnt = 3;
-	pMonData = GL_NEW STAGE_MON_DATA [nMonTypeCnt];
-
-	for(loop = 0; loop < nMonTypeCnt; loop++)
-	{
-		pMonData[loop].nMonIdx = FIELD_MONSTER_INFO[nRealFieldNum][GEN_MON1_IDX+loop*4];
-		pMonData[loop].nNameIdx = FIELD_MONSTER_INFO[nRealFieldNum][GEN_MON1_NAME+loop*4];
-		pMonData[loop].nPtn = FIELD_MONSTER_INFO[nRealFieldNum][GEN_MON1_PTN+loop*4];
-		pMonData[loop].nCount = FIELD_MONSTER_INFO[nRealFieldNum][GEN_MON1_COUNT+loop*4];
 	}
 
 	//	몬스터 총 갯수
@@ -1730,7 +1610,7 @@ void GFieldBattle::Process()
 			{
 				switch( GetData(pField->pKeyInputEvt)->m_nType )
 				{
-				case EVT_NPC:
+					case EVT_NPC:
 					//-------------------------------------------------------
 					{
 						Npc* tmp = (Npc*)GetData(pField->pKeyInputEvt);
@@ -1835,13 +1715,13 @@ void GFieldBattle::Paint()
 
 	//	주인공
 
-
+/*
 	if(1)
 	{
 		pMinimap->PaintMiniMap();
 		//return;
 	}
-
+*/
 
 	if(true == pCinema->m_IsPlayCinema)
 	{
@@ -1966,7 +1846,7 @@ void GFieldBattle::Paint()
 	
 
 	//	미니맵 임시
-	PaintMiniMap();
+	//PaintMiniMap();
 
 	//아이템 습득 리스트
 	pPopupUi->PaintItemList();
@@ -4487,7 +4367,7 @@ void GFieldBattle::Analysis_Event()
 				{
 					pField->DeleteFieldImage();
 					Field* ppField = GL_NEW Field((void*) &s_ASpriteSet);
-					ppField->LoadMap(GetData( pMsgList )->param[1]);
+					//ppField->LoadMap(GetData( pMsgList )->param[1]);
 					pCinema->Load_Cinematics(PACK_DATA_CINEMA, GetData( pMsgList )->param[0], 0, ppField);
 				}
 				else

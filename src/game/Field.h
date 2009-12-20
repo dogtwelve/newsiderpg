@@ -65,66 +65,6 @@
 
 #define GEN_MON_COUNT						5
 
-static const int FIELD_MONSTER_INFO[][GEN_INFO_MAX] = 
-{
-  	//필드인덱스,초기셋팅,레벨,레벨랜덤, /  RARE, UNIQ, SPEC, / 몬스터번호,테이블 이름,몬스터강도, 마리수 / <- 최대 5마리 까지
-    // 스테이지 1	
-    // 수정동굴
-    {103, 200,1,1,		                    0, 0, 0,			     2, 3, 0, 4,  		NU, NU, NU, NU,	NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {200, 300,1,1,		                    0, 0, 0,			     2, 6, 0, 4,		4, 7, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {201, 200,1,2,		                    0, 0, 0,			     2, 1, 0, 3,		4, 4, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {202, 300,1,2,		                    0, 0, 0,			     2, 1, 0, 5,		4, 4, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {203, 200,1,2,		                    0, 0, 0,			     2, 6, 0, 4,		4, 7, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-
-    //스몰타운 초원
-    {100, 250,3,2,		                    0, 0, 0,			     13, 2, 0,5,		4,6, 0, 10,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {101, 200,3,2,		                    0, 0, 0,			     2, 3, 0, 5,		4,6, 0, 10,		13, 1, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU},
-
-    // 미들타운 연결로
-    {104, 200,5,2,		                    0, 0, 0,			     2, 3, 0, 6,		4, 2, 0, 6,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
- 
-     // 마을 서쪽숲
-    {105, 200,7,2,		                    0, 0, 0,			     2, 0, 0, 5,		4, 4, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {106, 150,7,2,		                    0, 0, 0,			     2, 3, 0, 8,		4, 7, 0, 8,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {107, 150,7,2,		                    0, 0, 0,			     2, 6, 0, 4,		4, 1, 0, 5,		3, 1, 0, 4,			NU, NU, NU, NU,		NU, NU, NU, NU},
-    {108, 150,7,2,		                    0, 0, 0,			     2, 3, 0, 5,		4, 4, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {109, 200,8,2,		                    0, 0, 0,			     2, 0, 0, 7,		4, 7, 0, 7,		3, 1, 0, 6,			NU, NU, NU, NU,		NU, NU, NU, NU},
-    {110, 200,8,2,		                    0, 0, 0,			     2, 6, 0, 5,		3, 1, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {111, 150,8,2,		                    0, 0, 0,			     2, 0, 0, 3,		3, 7, 0, 3,		4, 1, 0, 3,			NU, NU, NU, NU,		NU, NU, NU, NU},
-    {112, 200,8,2,		                    0, 0, 0,			     3, 3, 0, 7,		4, 4, 0, 7,		13, 1, 0, 7,		NU, NU, NU, NU,		NU, NU, NU, NU},
-//    {300, 200,8,2,		                    0, 0, 0,			     3, 6, 0, 3,		4, 1, 0, 3,		13, 1, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU},
-	//	호로스 보스 테스트 스테이지
-    {300, 200,10,2,		                    0, 0, 0,			     NU, NU, NU, NU,	NU, NU, NU, NU,	NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {400, 200,10,2,		                    0, 0, 0,			     NU, NU, NU, NU,	NU, NU, NU, NU,	NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-
-
-    //마을 동쪽숲
-    {113, 200,6,2,		                    0, 0, 0,			     3, 1, 0, 5,		4, 3, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {114, 200,6,2,		                    0, 0, 0,			     3, 7, 0, 8,		4, 6, 0, 8,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {115, 200,6,2,		                    0, 0, 0,			     3, 4, 0, 4,		4, 0, 0, 5,		13, 1, 0, 4,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {116, 150,6,2,		                    0, 0, 0,			     3, 7, 0, 5,		4, 3, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {117, 200,7,2,		                    0, 0, 0,			     3, 1, 0, 7,		4, 6, 0, 7,		13, 1, 0, 6,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {204, 150,7,2,		                    0, 0, 0,			     3, 4, 0, 5,		4, 0, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    
-   // 미로동굴
-    {205, 250,9,2,		                    0, 0, 0,			     2, 0, 0, 5,		3, 4, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {206, 200,9,2,		                    0, 0, 0,			     3, 3, 0, 8,		4, 7, 0, 8,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {207, 150,9,2,		                    0, 0, 0,			     2, 6, 0, 4,		3, 1, 0, 5,		4, 1, 0, 4,			NU, NU, NU, NU,		NU, NU, NU, NU},
-    {208, 200,9,2,		                    0, 0, 0,			     2, 3, 0, 5,		4, 4, 0, 5,		13, 1, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {209, 150,9,2,		                    0, 0, 0,			     2, 0, 0, 7,		4, 7, 0, 7,		13, 1, 0, 6,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {210, 200,9,2,		                    0, 0, 0,			     4, 6, 0, 5,		13, 1, 0, 5,	NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {211, 100,9,2,		                    0, 0, 0,			     3, 0, 0, 3,		4, 7, 0, 3,		13, 1, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {212, 200,9,2,		                    0, 0, 0,			     3, 3, 0, 7,		4, 4, 0, 7,		13, 1, 0, 7,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {213, 200,10,2,		                    0, 0, 0,			     3, 6, 0, 3,		4, 1, 0, 3,		13, 1, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {214, 200,10,2,		                    0, 0, 0,			     2, 6, 0, 5,		3, 1, 0, 5,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {215, 150,10,2,		                    0, 0, 0,			     2, 0, 0, 3,		3, 7, 0, 3,		13, 1, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {216, 150,10,2,		                    0, 0, 0,			     3, 3, 0, 7,		4, 4, 0, 7,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-    {217, 200,10,2,		                    0, 0, 0,			     3, 6, 0, 3,		4, 1, 0, 3,		NU, NU, NU, NU,		NU, NU, NU, NU,		NU, NU, NU, NU},
-
-	{NU},
-};
-
-
 
 
 typedef struct _MAP_EVT_WAY
@@ -196,7 +136,7 @@ public:
 	void SetCamera(int camx, int camy = 0);
 
 	void LoadSprite(int nSpriteNum);
-	void LoadMap(int nNextStageNum);
+	//void LoadMap(int nNextStageNum);
 	void LoadMap(void* pMinimapData);
 	void LoadMapLayer(BackLayer* pBackLayer, char* packName, int packIndex, bool isRepeat = false);
 
@@ -225,7 +165,7 @@ public:
 	//	ABOUT EVT_WAY	이벤트에 해당하는 길의 위치를 표시 //////////
 	List2<MAP_EVT_WAY*>	*pEvtWayList;
 	int Process_EVT_WAY(int battleState, int herodir, int herox1, int heroy1);
-	void Load_EVT(char* packName, int packIndex);
+	//void Load_EVT(char* packName, int packIndex);
 	void Release_EVT_WAY();
 
 	//	ABOUT EVT_WAY	키반응이 필요한 이벤트 //////////
@@ -255,9 +195,6 @@ public:
 	int	m_nRegenDistance;		//	몬스터의 잰 간격
 //	List2<MONSTER_REGEN_DATA*>		*pMonsterGenRect;
 
-
-	
-	
 
 	//	다른 필드 로드시 이미지를 날려준다.
 	void DeleteFieldImage();	

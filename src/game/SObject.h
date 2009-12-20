@@ -60,6 +60,35 @@ static const uint8 NpcData[][NPC_TYPEDEF_MAX] =
 	{NPC_TYPE_TALK, SPRITE_NPC_NPC1, 0, 0},
 };
 
+/*
+enum ObjectEventType {
+	OE_DEF = -1,
+	OE_TALk,
+	OE_QUEST,
+	QE_CINEMA,
+};
+
+
+class SPressEventObject
+{
+	ObjectEventType
+	int m_nEventCode;				//	가지고 있는 이벤트 코드
+	int m_nCheckDistance;			//	이벤트가 발생하는 거리
+
+	virtual void GetEvent()=0;
+};
+
+*/
+
+class STalkInterface
+{
+protected:
+	int nTalkCode;
+	virtual bool PossibleToTalk()=0;
+	virtual int GetTalkCode()=0;
+};
+
+
 class SObject
 {
 private:
@@ -69,6 +98,8 @@ private:
 
 //	Physics				m_Physics;
 	ASpriteInstance*	m_pAsIns;
+
+	bool				m_bLive;		//	오브젝트가 살았는지 죽었는지 확인
 
 public:
 	SObject()								{}
@@ -89,6 +120,9 @@ public:
 
 	virtual void		Process()=0;
 	virtual void		Paint()=0;
+
+	inline bool			IsLive()	{return m_bLive;}
+	inline void			SetDie()	{m_bLive = false;}
 
 
 };

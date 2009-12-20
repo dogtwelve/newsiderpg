@@ -319,8 +319,6 @@ void FieldUi::InsertdamageNum(int x, int y, int z, int damage, int type)
 
 	}
 
-	
-
 	MoveTail(pDamageNumList);
 	pDamageNumList->Insert_prev(tmpDamageNumEft);
 
