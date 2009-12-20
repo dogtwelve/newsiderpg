@@ -7,7 +7,7 @@
     // Images:  1
     // Modules: 17
     // Frames:  32
-    // Anims:   3
+    // Anims:   4
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
@@ -517,9 +517,38 @@
         AF	0x2008	1	-10	-79
     }
 
-    ANIM "a_b_skill2_e2" // Index = 1, AFrames = 23
+    ANIM "a_b_skill2_e2" // Index = 1, AFrames = 24
     {
         0x3000
+        AF	0x22B2	19	0	0
+        AF	0x2004	1	-120	-110
+        AF	0x2004	1	-95	-60
+        AF	0x2004	1	-70	-10
+        AF	0x2001	1	-45	-60
+        AF	0x200C	1	-20	-10
+        AF	0x2010	1	0	0
+        AF	0x200D	1	0	0
+        AF	0x2003	1	0	0
+        AF	0x2005	1	0	0
+        AF	0x2006	1	0	0
+        AF	0x200E	1	0	0
+        AF	0x200F	1	0	0
+        AF	0x2011	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2013	1	0	0
+        AF	0x2014	1	0	0
+        AF	0x2015	1	0	0
+        AF	0x2016	2	0	0
+        AF	0x2016	1	0	0
+        AF	0x2016	1	0	0
+        AF	0x2016	1	0	0
+        AF	0x2016	1	0	0
+        AF	0x22B2	1	0	0
+    }
+
+    ANIM "a_b_skill2_e2_empty" // Index = 2, AFrames = 23
+    {
+        0x3001
         AF	0x2004	1	-120	-110
         AF	0x2004	1	-95	-60
         AF	0x2004	1	-70	-10
@@ -545,7 +574,7 @@
         AF	0x22B2	1	0	0
     }
 
-    ANIM "a_b_skill2_e2_old" // Index = 2, AFrames = 1
+    ANIM "a_b_skill2_e2_old" // Index = 3, AFrames = 1
     {
         0x3053
         AF	0x22B2	26	16	0

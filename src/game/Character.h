@@ -238,9 +238,9 @@
 #define	JAB_KNIGHT	0
 #define	JAB_GUNNER	1
 #define	JAB_MAGE	2
-
-#define	TEMP_UP_LIMIT	157
-#define	TEMP_DOWN_LIMIT	255
+// 
+// #define	TEMP_UP_LIMIT	157
+// #define	TEMP_DOWN_LIMIT	255
 
 #define	D_RIGHT	1
 #define	D_LEFT	2
@@ -535,7 +535,7 @@ public:
 		8 - 0프레임 x0 31프레임간
 		9 - 0프레임 x0 31프레임간
 	*/
-#define	BULLET_MAX 10
+#define	BULLET_MAX 10+(20*2)
 	Level_Eff s_Bullet_Eff[BULLET_MAX];
 	Level_Eff s_Knife_Eff[3];//K1,K2,K3 ,Back_E , Front_E
 	bool	_b_Knife_ActionEnd;		//SangHo - 주인공의 액션이 종료했다면 True 이다
@@ -591,7 +591,7 @@ public:
 	int m_HEADTOP;//주인공 머리꼭대기
 
 	
-	int _m_test;//지울것
+	int m_FrozenNum;//프로즌 사워 갯수 체크
 
 
 

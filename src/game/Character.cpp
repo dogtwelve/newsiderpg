@@ -199,7 +199,7 @@
 			s_Potion_Tag.Qslot[1][0]=-1;//퀵슬롯 비우기
 			s_Potion_Tag.Qslot[1][1]=-1;//퀵슬롯 비우기
 		}
-		_m_test=1;
+		m_FrozenNum=0;//프로즌 사워 갯수 체크
 		s_MustAction.must_Action = -1;
 		_m_actNum = HERO_STOP;//SangHo - 주인공 케릭터의 액션 상태값
 		_b_LookRight = Look;
@@ -310,7 +310,9 @@
 						if(_ins_Hero_clone->m_nCrtFrame == 21)s_Bullet_Eff[4].act = true;//발사
 						break;
 					case 1://프로즌 샤워
-						if(_ins_Hero_clone->m_nCrtFrame == 8)s_Bullet_Eff[5].act = true;//발사
+						if(_ins_Hero->m_nCrtFrame == 0){m_FrozenNum=10;}else{m_FrozenNum++;}
+						if(m_FrozenNum < BULLET_MAX)s_Bullet_Eff[m_FrozenNum].act = true;//발사
+
 						break;
 					case 5://토네이도
 						if(_ins_Hero_clone->m_nCrtFrame == 5)s_Bullet_Eff[6].act = true;//발사
@@ -622,7 +624,8 @@
 							}return m_actNum;
 						case 1://프로즌 샤워
 							{ 
-								if(_ins_Hero->m_nCrtFrame == 8)s_Bullet_Eff[5].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 0){m_FrozenNum=10;}else{m_FrozenNum++;}
+								if(m_FrozenNum < BULLET_MAX)s_Bullet_Eff[m_FrozenNum].act = true;//발사
 								if(_b_ActionEnd){
 									return 0;
 								}
@@ -1476,20 +1479,20 @@
 
 		switch(m_actNum){//축계 이동 Y 라인 움직임 예외처리
 			case HERO_WALK_UP:
-				if(_ins_Hero->m_posY>TEMP_UP_LIMIT)
+				/*if(_ins_Hero->m_posY>TEMP_UP_LIMIT)*/
 					_ins_Hero->m_posY-=5;//75%
 					//_ins_Hero->m_posX-=5;//75% //For namyoung
 				break;
 			case HERO_WALK_DOWN:
-				if(_ins_Hero->m_posY<TEMP_DOWN_LIMIT)
+				/*if(_ins_Hero->m_posY<TEMP_DOWN_LIMIT)*/
 					_ins_Hero->m_posY+=5;//75%
 				break;
 			case HERO_LINE_MOVE_UP:
-				if(_ins_Hero->m_posY>TEMP_UP_LIMIT && _ins_Hero->m_nCrtFrame<4)
+				/*if(_ins_Hero->m_posY>TEMP_UP_LIMIT && _ins_Hero->m_nCrtFrame<4)*/
 					_ins_Hero->m_posY-=10;//75%
 				break;
 			case HERO_LINE_MOVE_DOWN:
-				if(_ins_Hero->m_posY<TEMP_DOWN_LIMIT && _ins_Hero->m_nCrtFrame<4)
+				/*if(_ins_Hero->m_posY<TEMP_DOWN_LIMIT && _ins_Hero->m_nCrtFrame<4)*/
 					_ins_Hero->m_posY+=10;//75%
 				break;
 
@@ -2011,20 +2014,23 @@
 					if(s_Bullet_Eff[i].LVupEff_Num==0){//초기할당
 						
 						int m_Sex = 0;//모든 불렛은 여자 케릭터가 다 가지고있다
-						switch(i){//애니메이션 결정
-							case 0:
-							case 1:
-							case 2:
-							case 3:
-							case 4:
-							case 5:
-							case 6:
-							case 7:
-							case 8:
-							case 9:
-								_ins_Temp = (s_HeroTag.SEX ? _ins_Hero_clone: _ins_Hero);
-								break;
-						}
+// 						switch(i){//애니메이션 결정
+// 							case 0:
+// 							case 1:
+// 							case 2:
+// 							case 3:
+// 							case 4:
+// 							case 5:
+// 							case 6:
+// 							case 7:
+// 							case 8:
+// 							case 9:
+// 								_ins_Temp = (s_HeroTag.SEX ? _ins_Hero_clone: _ins_Hero);
+// 								break;
+// 						}
+
+						_ins_Temp = (s_HeroTag.SEX ? _ins_Hero_clone: _ins_Hero);
+
 						s_Bullet_Eff[i].LVup_Eff_Ins = GL_NEW ASpriteInstance(_spr_Skill[m_Sex][s_Skill_Set[m_Sex].Num], 100, 200, NULL);// 0번째 배열, 실사용시는 define 필요
 
 						s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = true;
@@ -2035,8 +2041,10 @@
 							case 2:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET3);	break;
 							case 3:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET4);	break;
 							case 4:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S1_A_B_SKILL1_E_BULLET5);	break;
-
-							case 5:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S2_A_B_SKILL2_E2);	break;
+							//프로즌 샤워
+							default:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S2_A_B_SKILL2_E2);
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = false;
+								s_Bullet_Eff[i].LVup_Eff_Ins->SetBlendCustom(false,false,0,0);break;
 
 							case 6:s_Bullet_Eff[i].LVup_Eff_Ins->SetAnim(ANIM_WOMAN_S6_A_S_SKILL6_BULLET);	
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_bLoop = false;break;
@@ -2057,9 +2065,10 @@
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;
 								break;
 
-							case 5:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -100:+100);
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = 200;
+							//프로즌 샤워
+							default:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -100-RND(0,200):+100+RND(0,200));
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = 100+RND(0,200);
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;
 								break;
 
@@ -2106,10 +2115,14 @@
 								if(s_Bullet_Eff[i].LVupEff_Num >= 10){s_Bullet_Eff[i].LVup_ActionEnd = true;}else{s_Bullet_Eff[i].LVup_ActionEnd = false;}
 								break;
 
-							case 5:
-								if(s_Bullet_Eff[i].LVupEff_Num >= 22){s_Bullet_Eff[i].LVup_ActionEnd = true;}else{s_Bullet_Eff[i].LVup_ActionEnd = false;}	
+							//프로즌 샤워
+							default:
+								if(s_Bullet_Eff[i].LVupEff_Num >= 38){
+									s_Bullet_Eff[i].LVup_Eff_Ins->SetBlendCustom(true,true,1,32-(s_Bullet_Eff[i].LVupEff_Num - 38)*8);
+								}	
 								break;
-
+							case 6:
+								break;
 
 // 							case 6:s_Bullet_Eff[i].LVup_ActionEnd = !s_Bullet_Eff[i].LVup_Eff_Ins->UpdateSpriteAnim();	break;
 // 
