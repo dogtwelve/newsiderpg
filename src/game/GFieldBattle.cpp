@@ -1982,6 +1982,11 @@ void GFieldBattle::Paint()
 			&(hero->s_Skill_Set[hero->s_HeroTag.SEX].Need_Mana[0]));
 
 		
+		for(int sex = 0;sex<2;sex++){
+			for(int xx = 0;xx<3;xx++){//쿨타임 감소
+				if(hero->s_Skill_Set[sex].Cool_TimeNow[xx]>0)hero->s_Skill_Set[sex].Cool_TimeNow[xx]--;
+			}
+		}
 		
 
 		pFieldUi->PaintExpInfo(hero->s_Status[hero->s_HeroTag.SEX].EXP,
@@ -2534,9 +2539,27 @@ bool GFieldBattle::Contact_Check(ASpriteInstance* p_Attacker,ASpriteInstance* p_
 			//☆☆☆공격자  절대좌표와 수비자  절대좌표를 비교하여 X방향을 뒤집는다 
 			//☆☆☆공격자가 보는 방향은 따지지 않는다
 
-			if(p_Attacker->m_flags)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
-			//아래는 예외기술들 양쪽으로 퍼진다던지 하는 방사형 인덱스 ㅡ체크
-			//if(ac_X_Att > ac_X_Def)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
+			
+
+
+			switch(s_Contact.D_index){
+				case 52:
+				case 53:
+				case 60:
+				case 61:
+				case 62:
+				case 63:
+				case 64:
+				case 65:
+				case 72:
+				case 73:
+					if(ac_X_Att > ac_X_Def)s_Contact.x = -s_Contact.x;// 공격자 보다 더 뒤에있는 피격자는 물리X방향이 반대가 된다
+					break;
+				default:
+					if(p_Attacker->m_flags)s_Contact.x = -s_Contact.x;// 공격자가 보는방향으로 무조건 밀림
+					break;
+			}
+			
 
 		}else{
 
@@ -2886,85 +2909,112 @@ void GFieldBattle::Paint_Exception_Check()
 {
 	Exception_Num = 0; //초기화
 
-// 	if(hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 19)
-// 	{//뇌룡
-// 		switch(hero->_ins_Hero->m_nCrtFrame){
-// 			case 1:
-// 				pField->workPal(true,0,-5);
-// 				break;
-// 			case 2:
-// 				pField->workPal(true,0,-10);
-// 				break;
-// 			case 9:
-// 				pField->workPal(true,0,-5);
-// 				break;
-// 			case 10:
-// 				pField->workPal(false,0,0);
-// 				break;
-// 		}
-// 
-// 	}
-// 	if(hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 3)
-// 	{//공간베기
-// 
-// 		int ani_time = hero->_ins_Hero->m_nCrtAnimation;
-// 		switch(hero->_ins_Hero->m_nCrtFrame){
-// 			case 5:
-// 				pField->workPal(true,0,-10);
-// 				break;
-// 			case 6:
-// 				pField->workPal(true,0,-20);
-// 				break;
-// 			case 49:
+	
+	if(   (hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 7)//현재 케릭이썻거나
+		||(hero->s_Skill_Set[!hero->s_HeroTag.SEX].act&& hero->s_Skill_Set[!hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[!hero->s_HeroTag.SEX].Num] == 7 ))//스위칭 케릭이 썻거나
+	{///*하울링*/ 시전했을때
+		class ASpriteInstance*	_ins_Temp;
+		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero: hero->_ins_Hero_clone);
+
+		if(_ins_Temp->m_nCrtFrame == 0 && _ins_Temp->m_nCrtAnimation==0){
+			pFieldUi->InsertEffect(SCREEN_WIDTH>>1, SCREEN_HEIGHT>>1, 0, ANIM_WEFFECT_A_LINE);	
+		}
+
+
+		switch(_ins_Temp->m_nCrtFrame){
+			case 1:
+				pField->workPal(true,0,-24);
+				break;
+			case 3:
+				pField->workPal(false,0,0);
+				break;
+		}
+
+	}
+
+	if(   (hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 0)//현재 케릭이썻거나
+		||(hero->s_Skill_Set[!hero->s_HeroTag.SEX].act&& hero->s_Skill_Set[!hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[!hero->s_HeroTag.SEX].Num] == 0 ))//스위칭 케릭이 썻거나
+	{///*5연발샷*/ 시전했을때
+		class ASpriteInstance*	_ins_Temp;
+		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero_clone: hero->_ins_Hero);
+
+		switch(_ins_Temp->m_nCrtFrame){
+			case 1:
+				pField->workPal(true,0,-24);
+				break;
+			case 4:
+				pField->workPal(false,0,0);
+// 				int ani_time = hero->_ins_Hero->m_nCrtAnimation;
 // 				switch(ani_time){
-// 			case 0:
-// 				pField->workPal(true,0,20);
-// 				break;
-// 			case 1:
-// 				pField->workPal(true,0,10);
-// 				break;
-// 			case 2:
-// 				pField->workPal(false,0,0);
-// 				break;
+// 					case 0:
+// 						pField->workPal(true,0,20);
+// 						break;
+// 					case 1:
+// 						pField->workPal(true,0,10);
+// 						break;
+// 					case 2:
+// 						pField->workPal(false,0,0);
+// 						break;
 // 				}
-// 		}
-// 
-// 
-// 		if(hero->_ins_Hero->m_nCrtFrame == 18 || hero->_ins_Hero->m_nCrtFrame == 48){//전체 공격
-// 			MoveHead(pMonList);
-// 			MoveNext(pMonList);
-// 			Position3D power;
-// 			int tmp = 0;
-// 
-// 			while(NotEndList(pMonList))
-// 			{
-// 				if((MON_AC_DIE != GetData(pMonList)->m_ActState) &&
-// 					MON_ATK_DEAD_ATTACK != GetData(pMonList)->m_ActState &&
-// 					(MON_AC_DIE_AFTER != GetData(pMonList)->m_ActState))
-// 				{
-// 
-// 					if(hero->_ins_Hero->m_nCrtFrame == 18){
-// 						s_Contact.x = 1;
-// 						s_Contact.y = 0;
-// 						s_Contact.z = 0;
-// 					}else{
-// 						s_Contact.x = 0;
-// 						s_Contact.y = 0;
-// 						s_Contact.z = -50;
-// 					}
-// 					s_Contact.D_index = 56;//공간 참격 인덱스
-// 					DamageSand_Hero(hero, GetData(pMonList));//주인공의 공격
-// 
-// 
-// 				}
-// 
-// 				MoveNext(pMonList);
-// 			}
-// 		}else{
-// 			Exception_Num+=PROCESS_MON_NOT;//몬스터 정지
-// 		}
-// 
-// 	}
+				break;
+		}
+
+	}
+
+	if(   (hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 1)//현재 케릭이썻거나
+		||(hero->s_Skill_Set[!hero->s_HeroTag.SEX].act&& hero->s_Skill_Set[!hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[!hero->s_HeroTag.SEX].Num] == 1 ))//스위칭 케릭이 썻거나
+	{///*프로즌 샤워*/
+
+		class ASpriteInstance*	_ins_Temp;
+		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero_clone: hero->_ins_Hero);
+
+		if(_ins_Temp->m_nCrtFrame == 0 && _ins_Temp->m_nCrtAnimation==0){
+			pFieldUi->InsertEffect(_ins_Temp->m_posX, _ins_Temp->m_posY, 0, ANIM_WEFFECT_A_WOMAN_S2);	
+		}
+		
+		switch(_ins_Temp->m_nCrtFrame){
+			case 5:
+				pField->workPal(true,0,-24);
+				break;
+			case 8:
+				pField->workPal(false,0,0);
+				break;
+		}
+
+		if(_ins_Temp->m_nCrtFrame==5){
+			Exception_Num+=PROCESS_MON_NOT;//몬스터 정지
+		}
+
+	}
+
+	if(   (hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 8)//현재 케릭이썻거나
+		||(hero->s_Skill_Set[!hero->s_HeroTag.SEX].act&& hero->s_Skill_Set[!hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[!hero->s_HeroTag.SEX].Num] == 8 ))//스위칭 케릭이 썻거나
+	{///*마수의 계약*/
+
+		class ASpriteInstance*	_ins_Temp;
+		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero: hero->_ins_Hero_clone);
+
+
+		if(_ins_Temp->m_nCrtFrame == 0 && _ins_Temp->m_nCrtAnimation==0){
+			pFieldUi->InsertEffect(_ins_Temp->m_posX, _ins_Temp->m_posY, 0, ANIM_WEFFECT_A_MAN_S2);	
+		}
+
+		switch(_ins_Temp->m_nCrtFrame){
+			case 6:
+				pField->workPal(true,0,-24);
+				break;
+			case 15:
+				pField->workPal(false,0,0);
+				break;
+		}
+
+		if(_ins_Temp->m_nCrtFrame==6){
+			Exception_Num+=PROCESS_MON_NOT;//몬스터 정지
+		}
+
+	}
+
+
 // 	if(hero->s_Skill_Set[hero->s_HeroTag.SEX].act && hero->s_Skill_Set[hero->s_HeroTag.SEX].Skill_ID[hero->s_Skill_Set[hero->s_HeroTag.SEX].Num] == 18)
 // 	{//블랙홀
 // 		int ani_time = hero->_ins_Hero->m_nCrtAnimation;

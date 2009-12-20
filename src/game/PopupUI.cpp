@@ -1284,7 +1284,10 @@ void PopupUi::Key_GAMEOVER(int m_keyCode, int m_keyRepeat)
 				GameOver = false;
 				Character::s_Status[Character::s_HeroTag.SEX].LIFE = Character::s_Status[Character::s_HeroTag.SEX].LIFE_MAX;
 				Character::s_Status[Character::s_HeroTag.SEX].MANA = Character::s_Status[Character::s_HeroTag.SEX].MANA_MAX;
-				for(int xx =0 ;xx<3;xx++)Character::s_Skill_Set[Character::s_HeroTag.SEX].Cool_TimeNow[xx]=0;
+				for(int xx =0 ;xx<3;xx++){
+					Character::s_Skill_Set[0].Cool_TimeNow[xx]=0;
+					Character::s_Skill_Set[1].Cool_TimeNow[xx]=0;
+				}
 			}
 			break;
 	}

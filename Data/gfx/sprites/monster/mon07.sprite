@@ -13,9 +13,9 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0001 ".\mon07.png" TRANSP 0x00FF00FF // 0  size: 299 x 434  palettes: 2
-    PALETTE 0 ".\mon07_0.act"
-    PALETTE 1 ".\mon07_1.act"
+    IMAGE 0x0001 ".\mon07.png" TRANSP 0x00FF00FF // 0  size: 299 x 434  palettes: 3
+    PALETTE 1 ".\mon07_0.act"
+    PALETTE 2 ".\mon07_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -688,7 +688,7 @@
     {
         0x301E
         AF	0x203F	1	1	0
-        AF	0x2040	1	1	0
+        AF	0x2040	2	1	0
         AF	0x2041	1	11	0
         AF	0x2042	1	11	0
         AF	0x2051	2	11	0

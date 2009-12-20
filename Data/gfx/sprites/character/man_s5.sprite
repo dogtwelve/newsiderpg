@@ -6,14 +6,14 @@
 
     // Images:  1
     // Modules: 5
-    // Frames:  7
+    // Frames:  8
     // Anims:   1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0002 ".\man_s5.png" TRANSP 0x00FF00FF // 0  size: 255 x 255  palettes: 1
+    IMAGE 0x0001 ".\man_s5.png" TRANSP 0x00FF00FF // 0  size: 255 x 255  palettes: 1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -31,11 +31,11 @@
 
     MODULES
     {
-        MD	0x105E	MD_IMAGE	0	8	100	69	56
-        MD	0x105F	MD_IMAGE	0	82	73	69	119
-        MD	0x1060	MD_IMAGE	0	155	68	69	84
-        MD	0x1067	MD_IMAGE	0	156	158	69	62
-        MD	0x1000	MD_IMAGE	0	0	0	1	1
+        MD	0x1000	MD_IMAGE	0	12	115	69	30
+        MD	0x101E	MD_IMAGE	0	82	73	69	119
+        MD	0x1020	MD_IMAGE	0	155	68	69	84
+        MD	0x1021	MD_IMAGE	0	156	158	69	62
+        MD	0x1022	MD_IMAGE	0	0	0	1	1
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,62 +47,76 @@
 
     FRAME "empty" // Index = 0, FModules = 1
     {
-        0x22B2
-        FM	0x1000	0	0
+        0x2001
+        FM	0x1022	0	0
     }
 
     FRAME "" // Index = 1, FModules = 1
     {
-        0x225A
-        RC	0	0	0	0
-        RC	0	-30	0	42
-        RC	26	-73	48	-14
-        FM	0x105E	6	-79	+FLIP_X	+FLIP_Y	+ROT_90
-    }
-
-    FRAME "" // Index = 2, FModules = 1
-    {
-        0x2253
+        0x2005
         RC	0	0	0	0
         RC	0	0	0	72
         RC	-6	-30	50	-4
-        FM	0x105E	-11	-49
+        FM	0x1000	-7	-34
     }
 
-    FRAME "" // Index = 3, FModules = 1
+    FRAME "" // Index = 2, FModules = 3
     {
-        0x224C
+        0x2002
         RC	0	0	0	0
-        RC	0	-30	0	42
-        RC	-6	-71	27	-11
-        FM	0x105F	-25	-89
+        RC	-7	-42	-7	30
+        RC	-24	-73	23	-14
+        FM	0x1000	-7	-83	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1000	-35	-34        	FLAGS 0x00000020
+        FM	0x1020	-18	-93	+FLIP_X
     }
 
-    FRAME "" // Index = 4, FModules = 1
+    FRAME "" // Index = 3, FModules = 3
     {
-        0x224F
+        0x2007
         RC	0	0	0	0
-        RC	0	-30	0	42
+        RC	-7	-42	-7	30
+        RC	-22	-100	23	-27
+        FM	0x101E	-33	-119
+        FM	0x1000	-7	-83        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1020	-18	-93        	FLAGS 0x00000020	+FLIP_X
+    }
+
+    FRAME "" // Index = 4, FModules = 2
+    {
+        0x2009
+        RC	0	0	0	0
+        RC	-7	-42	-7	30
+        RC	-27	-78	23	-2
+        FM	0x1020	-44	-97
+        FM	0x101E	-33	-69        	FLAGS 0x00000020
+    }
+
+    FRAME "" // Index = 5, FModules = 3
+    {
+        0x2008
+        RC	0	0	0	0
+        RC	30	-25	30	47
         RC	-25	-83	20	-64
-        FM	0x1067	-36	-101
+        FM	0x1021	-36	-101
+        FM	0x1000	-23	-115	+FLIP_X	+ROT_90
+        FM	0x1020	-44	-97        	FLAGS 0x00000020
     }
 
-    FRAME "" // Index = 5, FModules = 1
+    FRAME "" // Index = 6, FModules = 2
     {
-        0x224E
-        RC	0	0	0	0
-        RC	0	-30	0	42
-        RC	-27	-78	7	-22
-        FM	0x1060	-44	-97
+        0x200F
+        FM	0x1021	-36	-101        	FLAGS 0x00000020
+        FM	0x1000	-23	-115        	FLAGS 0x00000020	+FLIP_X	+ROT_90
     }
 
-    FRAME "BLEND" // Index = 6, FModules = 4
+    FRAME "BLEND" // Index = 7, FModules = 4
     {
-        0x2000
-        FM	0x105E	2	0
-        FM	0x105F	2	0
-        FM	0x1060	2	0
-        FM	0x1067	2	0
+        0x200A
+        FM	0x1000	2	0
+        FM	0x101E	2	0
+        FM	0x1020	2	0
+        FM	0x1021	2	0
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -111,16 +125,17 @@
 // <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
 // Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    ANIM "a_s_skill_5_e" // Index = 0, AFrames = 7
+    ANIM "a_s_skill_5_e" // Index = 0, AFrames = 8
     {
-        0x3051
-        AF	0x22B2	1	0	0
-        AF	0x2253	1	4	0
-        AF	0x225A	1	4	0
-        AF	0x224C	1	24	-30
-        AF	0x224E	1	32	-50
-        AF	0x224F	1	32	-50
-        AF	0x22B2	6	0	0
+        0x3001
+        AF	0x2001	2	0	0
+        AF	0x2005	1	4	0
+        AF	0x2002	1	32	0
+        AF	0x2007	1	32	0
+        AF	0x2009	1	32	-50
+        AF	0x2008	1	32	-50
+        AF	0x200F	1	32	-50
+        AF	0x2001	5	0	0
     }
 
     SPRITE_END
