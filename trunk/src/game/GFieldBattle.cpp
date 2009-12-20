@@ -202,7 +202,7 @@ void GFieldBattle::LoadStage(int m_nNextStage, int step)
 			//	몬스터 정보
 			//			nGenCnt = 0;
 			ReleaseStage();
-			break;
+			for(int i =0;i<BULLET_MAX;i++)hero->s_Bullet_Eff[i].act = false;//스킬종료
 		}
 	case 1:
 		//----------------------------------------------------------
@@ -2797,7 +2797,7 @@ void GFieldBattle::Paint_Exception_Check()
 		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero: hero->_ins_Hero_clone);
 
 		if(_ins_Temp->m_nCrtFrame == 1 && _ins_Temp->m_nCrtAnimation==0){
-			pFieldUi->InsertEffect(SCREEN_WIDTH>>1, SCREEN_HEIGHT>>1, 0, ANIM_WEFFECT_A_LINE);	
+			pFieldUi->InsertEffect(pField->m_nSrcCamAngle_X+(SCREEN_WIDTH>>1), (SCREEN_HEIGHT>>1)-4, 0, ANIM_WEFFECT_A_LINE);	
 		}
 
 
@@ -2820,7 +2820,7 @@ void GFieldBattle::Paint_Exception_Check()
 
 
 		if(_ins_Temp->m_nCrtFrame == 1 && _ins_Temp->m_nCrtAnimation==0){
-			pFieldUi->InsertEffect(SCREEN_WIDTH>>1, SCREEN_HEIGHT>>1, 0, ANIM_WEFFECT_A_LINE);	
+			pFieldUi->InsertEffect(pField->m_nSrcCamAngle_X+(SCREEN_WIDTH>>1), (SCREEN_HEIGHT>>1)-4, 0, ANIM_WEFFECT_A_LINE);	
 		}
 
 		switch(_ins_Temp->m_nCrtFrame){
@@ -2854,7 +2854,7 @@ void GFieldBattle::Paint_Exception_Check()
 		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero_clone: hero->_ins_Hero);
 
 		if(_ins_Temp->m_nCrtFrame == 0 && _ins_Temp->m_nCrtAnimation==0){
-			pFieldUi->InsertEffect(_ins_Temp->m_posX, _ins_Temp->m_posY, 0, ANIM_WEFFECT_A_WOMAN_S2);	
+			pFieldUi->InsertEffect(_ins_Temp->m_posX+(_ins_Temp->m_flags? +32:-32), _ins_Temp->m_posY, 0, ANIM_WEFFECT_A_WOMAN_S2);	
 		}
 		
 		switch(_ins_Temp->m_nCrtFrame){
