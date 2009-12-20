@@ -13,9 +13,9 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0001 ".\mon09.png" TRANSP 0x00FF00FF // 0  size: 255 x 255  palettes: 2
-    PALETTE 0 ".\mon09_0.act"
-    PALETTE 1 ".\mon09_1.act"
+    IMAGE 0x0001 ".\mon09.png" TRANSP 0x00FF00FF // 0  size: 255 x 255  palettes: 3
+    PALETTE 1 ".\mon09_0.act"
+    PALETTE 2 ".\mon09_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -246,7 +246,7 @@
     {
         0x2032
         RC	-13	-48	29	1
-        RC	10	0	11	0
+        RC	15	0	16	0
         RC	-25	-51	58	-9
         FM	0x101F	23	-45
         FM	0x1028	-32	-72	+FLIP_Y
@@ -740,16 +740,15 @@
         AF	0x2042	1	19	60
     }
 
-    ANIM "melee_1" // Index = 19, AFrames = 7
+    ANIM "melee_1" // Index = 19, AFrames = 6
     {
         0x302A
-        AF	0x2011	1	0	0
         AF	0x2030	1	-2	0
-        AF	0x2031	1	-2	0
+        AF	0x2031	2	-2	0
+        AF	0x2030	1	-2	0
         AF	0x2032	1	6	0
         AF	0x2035	1	7	0
         AF	0x2036	1	7	0
-        AF	0x2011	1	7	0
     }
 
     ANIM "range_1" // Index = 20, AFrames = 12

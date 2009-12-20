@@ -6,16 +6,16 @@
 
     // Images:  1
     // Modules: 25
-    // Frames:  42
+    // Frames:  43
     // Anims:   24
 
 ////////////////////////////////////////////////////////////////////////////////
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0000 ".\mon16.png" TRANSP 0x00FF00FF // 0  size: 300 x 300  palettes: 2
-    PALETTE 0 ".\mon16_0.act"
-    PALETTE 1 ".\mon16_1.act"
+    IMAGE 0x0000 ".\mon16.png" TRANSP 0x00FF00FF // 0  size: 300 x 300  palettes: 3
+    PALETTE 1 ".\mon16_0.act"
+    PALETTE 2 ".\mon16_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
@@ -113,6 +113,17 @@
 
     FRAME "" // Index = 4, FModules = 5
     {
+        0x2001
+        RC	-12	-48	12	3
+        FM	0x1002	-4	-29
+        FM	0x1003	-23	-21
+        FM	0x1014	-15	-59
+        FM	0x1009	-13	-52	+FLIP_X	+FLIP_Y
+        FM	0x1012	-35	-67	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "" // Index = 5, FModules = 5
+    {
         0x2016
         RC	-12	-48	12	3
         FM	0x1002	-4	-29
@@ -122,7 +133,7 @@
         FM	0x100F	-47	-54	+FLIP_X	+FLIP_Y
     }
 
-    FRAME "" // Index = 5, FModules = 6
+    FRAME "" // Index = 6, FModules = 6
     {
         0x2017
         RC	-12	-48	12	3
@@ -134,7 +145,7 @@
         FM	0x1000	-11	-51
     }
 
-    FRAME "" // Index = 6, FModules = 6
+    FRAME "" // Index = 7, FModules = 6
     {
         0x201B
         RC	-12	-48	12	3
@@ -146,7 +157,7 @@
         FM	0x1012	-12	-42
     }
 
-    FRAME "" // Index = 7, FModules = 5
+    FRAME "" // Index = 8, FModules = 5
     {
         0x2021
         RC	-12	-48	12	3
@@ -157,7 +168,7 @@
         FM	0x1012	-11	-42
     }
 
-    FRAME "" // Index = 8, FModules = 5
+    FRAME "" // Index = 9, FModules = 5
     {
         0x2026
         RC	-12	-48	12	3
@@ -168,7 +179,7 @@
         FM	0x1012	-11	-42
     }
 
-    FRAME "" // Index = 9, FModules = 5
+    FRAME "" // Index = 10, FModules = 5
     {
         0x2024
         RC	-12	-48	12	3
@@ -179,7 +190,7 @@
         FM	0x1012	-11	-43
     }
 
-    FRAME "" // Index = 10, FModules = 5
+    FRAME "" // Index = 11, FModules = 5
     {
         0x2025
         RC	-12	-48	12	3
@@ -190,7 +201,7 @@
         FM	0x1012	-11	-43
     }
 
-    FRAME "" // Index = 11, FModules = 6
+    FRAME "" // Index = 12, FModules = 6
     {
         0x201C
         RC	-12	-48	12	3
@@ -202,7 +213,7 @@
         FM	0x1012	-13	-42
     }
 
-    FRAME "" // Index = 12, FModules = 5
+    FRAME "" // Index = 13, FModules = 5
     {
         0x2009
         RC	-12	-48	12	3
@@ -213,7 +224,7 @@
         FM	0x100F	-14	-27
     }
 
-    FRAME "" // Index = 13, FModules = 5
+    FRAME "" // Index = 14, FModules = 5
     {
         0x2006
         RC	-12	-48	12	3
@@ -224,7 +235,7 @@
         FM	0x100E	-7	-39
     }
 
-    FRAME "" // Index = 14, FModules = 5
+    FRAME "" // Index = 15, FModules = 5
     {
         0x2007
         RC	-12	-48	12	3
@@ -235,7 +246,7 @@
         FM	0x100E	-7	-38
     }
 
-    FRAME "" // Index = 15, FModules = 5
+    FRAME "" // Index = 16, FModules = 5
     {
         0x200A
         RC	-16	-48	8	3
@@ -246,7 +257,7 @@
         FM	0x100F	-3	-26
     }
 
-    FRAME "" // Index = 16, FModules = 5
+    FRAME "" // Index = 17, FModules = 5
     {
         0x200F
         RC	-16	-48	8	3
@@ -257,7 +268,7 @@
         FM	0x1012	-20	-20	+ROT_90
     }
 
-    FRAME "" // Index = 17, FModules = 5
+    FRAME "" // Index = 18, FModules = 5
     {
         0x202F
         RC	-12	-48	12	3
@@ -268,7 +279,7 @@
         FM	0x1012	-14	-20	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 18, FModules = 6
+    FRAME "" // Index = 19, FModules = 6
     {
         0x202C
         RC	-22	-19	22	4
@@ -280,7 +291,7 @@
         FM	0x1013	21	-3
     }
 
-    FRAME "" // Index = 19, FModules = 6
+    FRAME "" // Index = 20, FModules = 6
     {
         0x202D
         RC	-22	-19	22	4
@@ -292,7 +303,7 @@
         FM	0x1013	17	-16
     }
 
-    FRAME "" // Index = 20, FModules = 5
+    FRAME "" // Index = 21, FModules = 5
     {
         0x2022
         RC	-16	-48	8	3
@@ -303,7 +314,7 @@
         FM	0x1012	-20	-19	+ROT_90
     }
 
-    FRAME "" // Index = 21, FModules = 5
+    FRAME "" // Index = 22, FModules = 5
     {
         0x200B
         RC	-28	-15	21	4
@@ -314,7 +325,7 @@
         FM	0x100F	-3	-41	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 22, FModules = 6
+    FRAME "" // Index = 23, FModules = 6
     {
         0x2010
         RC	-15	-29	17	-3
@@ -326,7 +337,7 @@
         FM	0x100F	-1	-55	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 23, FModules = 6
+    FRAME "" // Index = 24, FModules = 6
     {
         0x202B
         RC	-15	-29	17	-3
@@ -338,7 +349,7 @@
         FM	0x100F	-12	-55	+FLIP_X	+ROT_90
     }
 
-    FRAME "" // Index = 24, FModules = 6
+    FRAME "" // Index = 25, FModules = 6
     {
         0x2029
         RC	-14	-40	10	4
@@ -350,7 +361,7 @@
         FM	0x100F	4	-50	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 25, FModules = 6
+    FRAME "" // Index = 26, FModules = 6
     {
         0x202A
         RC	-14	-40	10	4
@@ -362,28 +373,28 @@
         FM	0x100F	-17	-50	+FLIP_X	+ROT_90
     }
 
-    FRAME "" // Index = 26, FModules = 1
+    FRAME "" // Index = 27, FModules = 1
     {
         0x200D
         RC	-32	-7	29	1
         FM	0x1011	-37	-19
     }
 
-    FRAME "" // Index = 27, FModules = 1
+    FRAME "" // Index = 28, FModules = 1
     {
         0x200E
         RC	-8	-59	10	-1
         FM	0x1011	-14	-67	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 28, FModules = 1
+    FRAME "" // Index = 29, FModules = 1
     {
         0x2030
         RC	-8	-59	10	-1
         FM	0x1011	-13	-67	+FLIP_X	+ROT_90
     }
 
-    FRAME "" // Index = 29, FModules = 7
+    FRAME "" // Index = 30, FModules = 7
     {
         0x2014
         RC	-12	-36	16	3
@@ -398,7 +409,7 @@
         FM	0x1019	-3	-69
     }
 
-    FRAME "" // Index = 30, FModules = 7
+    FRAME "" // Index = 31, FModules = 7
     {
         0x2013
         RC	-12	-36	16	3
@@ -411,7 +422,7 @@
         FM	0x1019	-4	-69        	FLAGS 0x00000020
     }
 
-    FRAME "" // Index = 31, FModules = 6
+    FRAME "" // Index = 32, FModules = 6
     {
         0x2018
         RC	-12	-36	16	3
@@ -423,7 +434,7 @@
         FM	0x1012	3	-16	+ROT_90
     }
 
-    FRAME "" // Index = 32, FModules = 7
+    FRAME "" // Index = 33, FModules = 7
     {
         0x2027
         RC	-12	-48	12	3
@@ -436,7 +447,7 @@
         FM	0x1012	7	-44
     }
 
-    FRAME "" // Index = 33, FModules = 6
+    FRAME "" // Index = 34, FModules = 6
     {
         0x2028
         RC	-12	-48	12	3
@@ -448,7 +459,7 @@
         FM	0x1012	0	-42
     }
 
-    FRAME "" // Index = 34, FModules = 6
+    FRAME "" // Index = 35, FModules = 6
     {
         0x2019
         RC	-12	-36	16	3
@@ -460,7 +471,7 @@
         FM	0x100F	4	-21
     }
 
-    FRAME "" // Index = 35, FModules = 1
+    FRAME "" // Index = 36, FModules = 1
     {
         0x201D
         RC	0	0	0	0
@@ -469,7 +480,7 @@
         FM	0x1005	3	-44
     }
 
-    FRAME "" // Index = 36, FModules = 1
+    FRAME "" // Index = 37, FModules = 1
     {
         0x201E
         RC	0	0	0	0
@@ -478,7 +489,7 @@
         FM	0x1017	1	-43
     }
 
-    FRAME "" // Index = 37, FModules = 1
+    FRAME "" // Index = 38, FModules = 1
     {
         0x201F
         RC	0	0	0	0
@@ -487,7 +498,7 @@
         FM	0x1005	3	-44	+FLIP_Y
     }
 
-    FRAME "" // Index = 38, FModules = 1
+    FRAME "" // Index = 39, FModules = 1
     {
         0x2020
         RC	0	0	0	0
@@ -496,7 +507,7 @@
         FM	0x1017	1	-43	+FLIP_Y
     }
 
-    FRAME "" // Index = 39, FModules = 6
+    FRAME "" // Index = 40, FModules = 6
     {
         0x201A
         RC	-12	-36	16	3
@@ -508,7 +519,7 @@
         FM	0x100F	3	-21
     }
 
-    FRAME "" // Index = 40, FModules = 6
+    FRAME "" // Index = 41, FModules = 6
     {
         0x202E
         RC	-15	-25	20	4
@@ -520,7 +531,7 @@
         FM	0x100F	-13	-49	+FLIP_X	+ROT_90
     }
 
-    FRAME "BLEND" // Index = 41, FModules = 3
+    FRAME "BLEND" // Index = 42, FModules = 3
     {
         0x2000
         FM	0x1019	2	0
@@ -712,11 +723,12 @@
         AF	0x2029	1	19	60
     }
 
-    ANIM "melee_1" // Index = 19, AFrames = 5
+    ANIM "melee_1" // Index = 19, AFrames = 6
     {
         0x3011
         AF	0x2017	1	3	0
-        AF	0x2015	1	3	0
+        AF	0x2001	1	3	0
+        AF	0x2015	2	3	0
         AF	0x2014	1	8	0
         AF	0x2013	1	9	0
         AF	0x2018	2	9	0

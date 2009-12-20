@@ -611,6 +611,11 @@
 								if(_ins_Hero->m_nCrtFrame == 15)s_Bullet_Eff[2].act = true;//발사
 								if(_ins_Hero->m_nCrtFrame == 18)s_Bullet_Eff[3].act = true;//발사
 								if(_ins_Hero->m_nCrtFrame == 21)s_Bullet_Eff[4].act = true;//발사
+								if(_ins_Hero->m_nCrtFrame == 29){
+									s_Bullet_Eff[0].act = true;//발사
+									s_Bullet_Eff[1].act = true;//발사
+									s_Bullet_Eff[2].act = true;//발사
+								}
 								if(_b_ActionEnd){
 									return 0;
 								}
@@ -2065,15 +2070,15 @@
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
 
 							case 7:
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -40:+40) ;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
-								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
-							case 8:
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -80:+80) ;
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
-							case 9:
+							case 8:
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -120:+120) ;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
+							case 9:
+								s_Bullet_Eff[i].LVup_Eff_Ins->m_posX = _ins_Temp->m_posX+(_ins_Temp->m_flags? -160:+160) ;
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_posY = _ins_Temp->m_posY;
 								s_Bullet_Eff[i].LVup_Eff_Ins->m_flags = _ins_Temp->m_flags;	break;
 						}
@@ -2489,18 +2494,18 @@
 
 					
 
-					s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][2];//스킬 쿨타임
+					s_Skill_Set[sex].Cool_TimeMax[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[sex].Skill_LEVEL[xx]][2];//스킬 쿨타임
 					
 					
 					if(s_Skill.Equip_A[sex*3 + xx]==SKILL_ACTIVE_G1){
 						if(Check_sex(false,Get_Skill(SKILL_P_M_FastCool))){//패시브
-							s_Skill_Set[s_HeroTag.SEX].Cool_TimeMax[xx] -= Get_Skill(SKILL_P_M_FastCool);//패시브
+							s_Skill_Set[sex].Cool_TimeMax[xx] -= Get_Skill(SKILL_P_M_FastCool);//패시브
 						}
 					}
 
-					s_Skill_Set[s_HeroTag.SEX].Need_Mana[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[s_HeroTag.SEX].Skill_LEVEL[xx]][4];//필요마나
+					s_Skill_Set[sex].Need_Mana[xx] = a_Skill_Table[s_Skill.Equip_A[sex*3 + xx]*10 + s_Skill_Set[sex].Skill_LEVEL[xx]][4];//필요마나
 				}else{//빈소캣
-					s_Skill_Set[s_HeroTag.SEX].Skill_ID[xx] = -1;
+					s_Skill_Set[sex].Skill_ID[xx] = -1;
 				}
 			}
 		}
@@ -2622,7 +2627,7 @@
 			case 41:percent = 400;break;
 			case 42:percent = 200;break;
 
-		/*어기어검*/
+		/*연발샷*/
 			case 50:percent = a_Skill_Table[table_Index][0];break;//패시브
 			case 51:percent = a_Skill_Table[table_Index][1];break;
 		/*얼음화살비*/					

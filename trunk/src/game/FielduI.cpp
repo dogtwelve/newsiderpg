@@ -1271,15 +1271,15 @@ void FieldUi::PaintSkillInfo(int* skill_id,int* coolMax,int* cooltime,int mana,i
 				for(int i = 0,f = (cooltime[loop]*13/coolMax[loop]);i<=f;i++){
 					SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_SKILL_COOL, SKILL_SLOT_POS_X+loop*SKILL_SLOT_SIZE + 6,SKILL_SLOT_POS_Y + 6+i,0);
 				}
-				cooltime[loop]--;
+				//cooltime[loop]--;
 			}else if(cooltime[loop]==2){//쿨타임이 해제직전
 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,42260);//60% 밝게
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1 + skill_id[loop], SKILL_SLOT_POS_X+loop*SKILL_SLOT_SIZE + 6,SKILL_SLOT_POS_Y + 6,0);
-				cooltime[loop]--;
+				//cooltime[loop]--;
 			}else if(cooltime[loop]==1){//쿨타임이 해제직전
 				s_ASpriteSet->pFieldUiAs->SetBlendCustom(true,false,7,21130);//50% 밝게
 				SUTIL_Paint_Frame(s_ASpriteSet->pFieldUiAs ,FRAME_UI_S_1 + skill_id[loop], SKILL_SLOT_POS_X+loop*SKILL_SLOT_SIZE + 6,SKILL_SLOT_POS_Y + 6,0);
-				cooltime[loop]=0;
+				//cooltime[loop]=0;
 			}else{
 
 				if(mana < needmana[loop])//마나부족

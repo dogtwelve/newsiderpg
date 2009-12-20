@@ -6,7 +6,7 @@
 
     // Images:  1
     // Modules: 4
-    // Frames:  5
+    // Frames:  6
     // Anims:   1
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,25 +62,42 @@
         FM	0x1036	-58	-1	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 2, FModules = 4
+    FRAME "" // Index = 2, FModules = 8
     {
         0x220F
         FM	0x103A	-64	-66
         FM	0x103A	0	-64	+ROT_90
         FM	0x103A	0	0	+FLIP_X	+FLIP_Y
         FM	0x103A	-66	0	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1036	-58	-59        	FLAGS 0x00000020
+        FM	0x1036	0	-58        	FLAGS 0x00000020	+ROT_90
+        FM	0x1036	0	0        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+        FM	0x1036	-58	-1        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "" // Index = 3, FModules = 4
+    FRAME "" // Index = 3, FModules = 8
     {
         0x2210
         FM	0x1040	-71	-70
         FM	0x1040	-1	-70	+ROT_90
         FM	0x1040	1	0	+FLIP_X	+FLIP_Y
         FM	0x1040	-73	4	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x103A	-64	-66        	FLAGS 0x00000020
+        FM	0x103A	0	-64        	FLAGS 0x00000020	+ROT_90
+        FM	0x103A	0	0        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+        FM	0x103A	-66	0        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y	+ROT_90
     }
 
-    FRAME "BLEND" // Index = 4, FModules = 3
+    FRAME "" // Index = 4, FModules = 4
+    {
+        0x2001
+        FM	0x1040	-71	-70        	FLAGS 0x00000020
+        FM	0x1040	-1	-70        	FLAGS 0x00000020	+ROT_90
+        FM	0x1040	1	0        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+        FM	0x1040	-73	4        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "BLEND" // Index = 5, FModules = 3
     {
         0x2000
         FM	0x1036	2	0
@@ -94,13 +111,15 @@
 // <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
 // Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    ANIM "a_s_skill_1_e" // Index = 0, AFrames = 5
+    ANIM "a_s_skill_1_e" // Index = 0, AFrames = 7
     {
         0x304F
         AF	0x22B2	3	0	0
+        AF	0x22B2	1	0	0
         AF	0x220E	1	14	-27
         AF	0x220F	1	14	-27
         AF	0x2210	1	14	-27
+        AF	0x2001	1	14	-27
         AF	0x22B2	2	0	0
     }
 

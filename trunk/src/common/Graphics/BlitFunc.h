@@ -1086,7 +1086,7 @@ void BlitD16SI256RLEK(void *dst, void *src, BlitParam *par,/*Blend*/ unsigned ch
 #if defined ENABLE_I256RLE_BLIT
 #define BLIT_HAS_COLOR_KEY
 	
-//SangHo - BLEND - 0: normal, 1: alpha, 2: DodgeChannel, 3: linearDodge, 4: shadow, 5: Lighten, 6: alphaChannel
+//SangHo - BLEND - 0: normal, 1: alpha, 2: DodgeChannel, 3: linearDodge, 4: shadow, 5: Lighten, 6: alphaChannel 6: LV1
 
 			if(Blend_Kind == 0){
 #define BLIT_BLEND_COLOR(d, s, o) d = s;
@@ -1142,8 +1142,18 @@ void BlitD16SI256RLEK(void *dst, void *src, BlitParam *par,/*Blend*/ unsigned ch
 	d= grayScale<<11 | grayScale<<6 | grayScale;}
 #include "BlitD16SI256RLE.h"
 #undef BLIT_BLEND_COLOR
+			}else
+			if(Blend_Kind == 9){
+				unsigned short blend_Percent;
+				unsigned int bR,bG,bB;
+#define BLIT_BLEND_COLOR(d, s, o) {blend_Percent =32 - (((s&0xF800)>>11)+((s&0x7E0)>>6)+(s&0x1F))/2;\
+	bR=(((d&0xF800)*(blend_Percent)>> 5)+(s&0xF800));\
+	bG=(((d&0x7e0)*(blend_Percent)>> 5)+(s&0x7e0));\
+	bB=(((d&0x1f)*(blend_Percent)>> 5)+(s&0x1f));\
+	d=(bR > 0xF800 ? 0xF800 : (bR & 0xF800)) | (bG > 0x7E0 ? 0x7E0 : (bG & 0x7E0)) | (bB > 0x1f ? 0x1f : (bB & 0x1f));}
+#include "BlitD16SI256RLE.h"
+#undef BLIT_BLEND_COLOR
 			}
-
 
 #undef BLIT_HAS_COLOR_KEY
 #else

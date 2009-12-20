@@ -13,9 +13,9 @@
 // Images...
 // <Image> := IMAGE [id] "file" [TRANSP transp_color]
 
-    IMAGE 0x0001 ".\mon15.png" TRANSP 0x00FF00FF // 0  size: 326 x 310  palettes: 2
-    PALETTE 0 ".\mon15_0.act"
-    PALETTE 1 ".\mon15_1.act"
+    IMAGE 0x0001 ".\mon15.png" TRANSP 0x00FF00FF // 0  size: 326 x 310  palettes: 3
+    PALETTE 1 ".\mon15_0.act"
+    PALETTE 2 ".\mon15_1.act"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
