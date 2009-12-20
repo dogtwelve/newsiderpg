@@ -2916,7 +2916,7 @@ void GFieldBattle::Paint_Exception_Check()
 		class ASpriteInstance*	_ins_Temp;
 		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero: hero->_ins_Hero_clone);
 
-		if(_ins_Temp->m_nCrtFrame == 0 && _ins_Temp->m_nCrtAnimation==0){
+		if(_ins_Temp->m_nCrtFrame == 1 && _ins_Temp->m_nCrtAnimation==0){
 			pFieldUi->InsertEffect(SCREEN_WIDTH>>1, SCREEN_HEIGHT>>1, 0, ANIM_WEFFECT_A_LINE);	
 		}
 
@@ -2937,6 +2937,11 @@ void GFieldBattle::Paint_Exception_Check()
 	{///*5연발샷*/ 시전했을때
 		class ASpriteInstance*	_ins_Temp;
 		_ins_Temp = (hero->s_HeroTag.SEX ? hero->_ins_Hero_clone: hero->_ins_Hero);
+
+
+		if(_ins_Temp->m_nCrtFrame == 1 && _ins_Temp->m_nCrtAnimation==0){
+			pFieldUi->InsertEffect(SCREEN_WIDTH>>1, SCREEN_HEIGHT>>1, 0, ANIM_WEFFECT_A_LINE);	
+		}
 
 		switch(_ins_Temp->m_nCrtFrame){
 			case 1:
