@@ -955,6 +955,25 @@ TEMPLATE OBJECT_LAYER "LIGHT"
       }
 }
 
+TEMPLATE OBJECT_LAYER "BENCH"
+{
+      ID     1326
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_12.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	26
+
+
+      PARAMS
+      {
+            26	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            26	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
 TEMPLATE OBJECT_LAYER "LAND"
 {
       ID     1400
@@ -973,4 +992,138 @@ TEMPLATE OBJECT_LAYER "LAND"
             0	"NOT USE" ""
       }
 }
+
+TEMPLATE OBJECT_LAYER "LAND2"
+{
+      ID     1500
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_14.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	0
+
+
+      PARAMS
+      {
+            0	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            0	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "BAY1"
+{
+      ID     1600
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_15.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	0
+
+
+      PARAMS
+      {
+            0	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            0	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "BAY2"
+{
+      ID     1601
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_15.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	1
+
+
+      PARAMS
+      {
+            1	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            1	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "BAY_DOWN"
+{
+      ID     1602
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_15.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	2
+
+
+      PARAMS
+      {
+            2	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            2	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "BAY1_REVERSE"
+{
+      ID     1603
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_15.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	3
+
+
+      PARAMS
+      {
+            3	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            3	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "BAY2_REVERSE"
+{
+      ID     1604
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_15.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	4
+
+
+      PARAMS
+      {
+            4	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            4	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
+TEMPLATE OBJECT_LAYER "BAY_DOWN_REVERSE"
+{
+      ID     1605
+      SPRITE ".\..\..\GFX\SPRITES\BACKGROUND\MAP_15.SPRITE"
+      SET SPRITE 0
+      SET MODULE -1
+      SET FRAME	5
+
+
+      PARAMS
+      {
+            5	"NOT FIX" "VIEW TOOL IDX"
+            0	"NOT FIX" "STATIC VALUE"
+            0	"ANI TYPE" "0:FRAME, 1:ANI"
+            5	"DRAW IDX" "ANI OR FRAME IDX"
+            0	"NOT USE" ""
+      }
+}
+
 
