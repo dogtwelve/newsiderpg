@@ -5,8 +5,8 @@
     VERSION 0001
 
     // Images:  1
-    // Modules: 29
-    // Frames:  27
+    // Modules: 32
+    // Frames:  28
     // Anims:   0
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +60,9 @@
         MD	0x101A	MD_IMAGE	0	522	155	31	12
         MD	0x101B	MD_IMAGE	0	577	142	23	19
         MD	0x101C	MD_IMAGE	0	584	171	19	9
+        MD	0x101F	MD_IMAGE	0	549	19	79	32
+        MD	0x101D	MD_IMAGE	0	566	123	14	9
+        MD	0x101E	MD_IMAGE	0	580	123	13	9
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -229,12 +232,26 @@
         FM	0x1019	-24	-70
     }
 
-    FRAME "BLEND" // Index = 26, FModules = 3
+    FRAME "bench" // Index = 26, FModules = 7
+    {
+        0x201B
+        FM	0x101D	-41	-6
+        FM	0x101D	25	-6	+FLIP_X	+FLIP_Y
+        FM	0x101E	-27	-6
+        FM	0x101E	-14	-6
+        FM	0x101E	-1	-6
+        FM	0x101E	12	-6
+        FM	0x101F	-37	-28
+    }
+
+    FRAME "BLEND" // Index = 27, FModules = 5
     {
         0x201A
         FM	0x101A	4	0
         FM	0x101B	4	0
         FM	0x101C	4	0
+        FM	0x101D	4	0
+        FM	0x101E	4	0
     }
 
     SPRITE_END

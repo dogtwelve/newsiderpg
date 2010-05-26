@@ -26,7 +26,7 @@ public:
 //	void Process(void);
 //	void Paint(void)
 
-	bool PossibleToTalk()		{return true;}
+	bool PossibleToTalk(int dir, int x1, int y1, int x2, int y2);
 	inline int GetTalkCode()	{return nTalkCode;}
 };
 

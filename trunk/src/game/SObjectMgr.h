@@ -71,7 +71,7 @@ public:
 
 	void InitMgr(void);
 	bool Add(ObjectType ObjType, int ObjSubType, int color, int xPos, int yPos); 
-	bool Remove(int nUniQueIdx);
+	bool Remove(class SObject* pObject);
 	void RemoveAll(void);
 
 
@@ -81,6 +81,8 @@ public:
 	// 액션에 관한것을 정의해준다.
 	void Process(void);
 	void Paint(void);
+
+	STalkInterface* SObjectMgr::GetTalkEvent(int dir, int x1, int y1, int x2, int y2);
 
 //	SObject* GetAttachObject(ObjectType eObjType = OBJ_M_NPC);
 

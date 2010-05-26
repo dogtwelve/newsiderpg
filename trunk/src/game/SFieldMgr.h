@@ -4,7 +4,7 @@
 #include "SSingleton.h"
 #include "List.h"
 #include "BackLayer.h"
-
+#include "MemMgr.h"
 
 class SFieldZone
 {
