@@ -757,7 +757,6 @@ void Field::ReleaseMap(int nResIdx)
 //		}
 	}
 
-
 	m_pMiniMapData = NULL;
 
 	InitList(pLayerList);

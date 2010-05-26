@@ -4205,6 +4205,7 @@ void GFieldBattle::EventProcess()
 bool GFieldBattle::KeyEventProcess()
 //--------------------------------------------------------------------------
 {
+/*
 	//	필드에서 키버튼 체크시 이벤트 체크이벤트 체크
 	int evtcode = pField->KeyPressEvent(hero->s_Event_Rect.Direction,
 		hero->s_Event_Rect.X1,hero->s_Event_Rect.Y1,
@@ -4213,6 +4214,18 @@ bool GFieldBattle::KeyEventProcess()
 	{
 		ADD_EVENT_MSG(EVT_GAME_KEYEVENT, 0, evtcode);
 		return true;
+	}
+*/
+	SObjectMgr* pObjectMgr = SObjectMgr::GetInstPtr();
+
+	STalkInterface* pSTalkInterface = pObjectMgr->GetTalkEvent(	hero->s_Event_Rect.Direction,
+									hero->s_Event_Rect.X1, hero->s_Event_Rect.Y1,
+									hero->s_Event_Rect.X2, hero->s_Event_Rect.Y2);
+
+	if(pSTalkInterface)
+	{
+		return true;
+		//return pSTalkInterface->GetTalkCode();
 	}
 
 	return false;

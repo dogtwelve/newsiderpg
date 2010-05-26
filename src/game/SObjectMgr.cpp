@@ -68,32 +68,43 @@ bool SObjectMgr::Add(ObjectType ObjType, int ObjSubType, int color, int xPos, in
 			ASpriteInstance* TmpSprIns =  new ASpriteInstance(TmpAsprite, xPos, yPos, NULL);//디버프 인스턴스
 
 			//	TODO : 컬러값 셋팅해야됨
-			class SObject* pObject = new SNpc( ObjType,
+			class SNpc* pObject = new SNpc( ObjType,
 										 NpcData[ObjSubType][NPC_TYPEDEF_TYPE],
 										 MakeUniqueKey(),
 										 TmpSprIns,
 										 NpcData[ObjSubType][NPC_TYPEDEF_EVTCODE]);
 
-			m_ObjectList->Insert_next(pObject);
+			m_ObjectList->Insert_next((class SObject*)pObject);
 			m_TalkObjectList->Insert_next((STalkInterface*)pObject);
 			break;
 		}
 	}
-
-	
 
 	return true;
 }
 
 
 //--------------------------------------------------------------------------------------
-bool SObjectMgr::Remove(int nUniqueIdx)
+bool SObjectMgr::Remove(class SObject* pObject)
 //--------------------------------------------------------------------------------------
 {
 	for(InitList(m_ObjectList); NotEndList(m_ObjectList); MoveNext(m_ObjectList) )
 	{
-		if(nUniqueIdx == GetData(m_ObjectList)->GetObjID())
+		if(pObject->GetObjID() == GetData(m_ObjectList)->GetObjID())
 		{
+			if(OBJ_M_NPC == pObject->GetObjType())
+			{
+				//	토크 이벤트를 지워준다.
+				for(InitList(m_TalkObjectList); NotEndList(m_TalkObjectList); MoveNext(m_TalkObjectList) )
+				{
+					if(pObject == (class SObject*)(GetData(m_TalkObjectList)) )
+					{
+						m_TalkObjectList->Delete();
+						break;
+					}
+				}
+			}
+
 			DeleteNowList(m_ObjectList);
 			break;
 		}
@@ -123,29 +134,20 @@ void SObjectMgr::Paint()
 		GetData(m_ObjectList)->Paint();
 	}
 }
-/*
 //--------------------------------------------------------------------------------------
-int SObjectMgr::GetTalkEvent()
+STalkInterface* SObjectMgr::GetTalkEvent(int dir, int x1, int y1, int x2, int y2)
 //--------------------------------------------------------------------------------------
 {
-	SNpc* pSNpc = NULL;
-
-	for(InitList(m_ObjectList); NotEndList(m_ObjectList); MoveNext(m_ObjectList) )
+	for(InitList(m_TalkObjectList); NotEndList(m_TalkObjectList); MoveNext(m_TalkObjectList) )
 	{
-		if(OBJ_M_NPC == GetData(m_ObjectList)->GetObjType())
+		if(GetData(m_TalkObjectList)->PossibleToTalk(dir, x1,y1,x2,y2))
 		{
-			pSNpc = (SNpc*)GetData(m_ObjectList);
-
-			if(NPC_TYPE_TALK == pSNpc->GetActionType())
-			{
-				return pSNpc->GetEventCode();
-			}
+			return GetData(m_TalkObjectList);
 		}
 	}
 
-	return 0;
+	return NULL;
 }
-*/
 /*
 //--------------------------------------------------------------------------------------
 SObject* SObjectMgr::GetAttachObject(ObjectType eObjType)

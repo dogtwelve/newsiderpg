@@ -82,10 +82,10 @@ class SPressEventObject
 
 class STalkInterface
 {
-protected:
+public:
 	int nTalkCode;
-	virtual bool PossibleToTalk()=0;
 	virtual int GetTalkCode()=0;
+	virtual bool PossibleToTalk(int dir, int x1, int y1, int x2, int y2) = 0;
 };
 
 
