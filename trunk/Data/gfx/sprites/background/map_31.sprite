@@ -1,0 +1,132 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 14
+    // Frames:  11
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_31.png" TRANSP 0x00FF00FF // 0  size: 116 x 68  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	0	29	24
+        MD	0x1001	MD_IMAGE	0	29	0	23	12
+        MD	0x1002	MD_IMAGE	0	53	0	35	25
+        MD	0x1003	MD_IMAGE	0	89	0	21	21
+        MD	0x1004	MD_IMAGE	0	0	25	24	17
+        MD	0x1005	MD_IMAGE	0	25	25	22	11
+        MD	0x100D	MD_IMAGE	0	25	38	8	3
+        MD	0x1006	MD_IMAGE	0	54	27	33	19
+        MD	0x1007	MD_IMAGE	0	65	46	19	8
+        MD	0x1008	MD_IMAGE	0	0	42	24	17
+        MD	0x1009	MD_IMAGE	0	24	43	24	25
+        MD	0x100A	MD_IMAGE	0	48	50	18	14
+        MD	0x100B	MD_IMAGE	0	82	48	19	17
+        MD	0x100C	MD_IMAGE	0	101	43	15	13
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "bascar1" // Index = 0, FModules = 1
+    {
+        0x2002
+        FM	0x1002	0	0
+    }
+
+    FRAME "bascar2" // Index = 1, FModules = 1
+    {
+        0x2003
+        FM	0x1003	0	0
+    }
+
+    FRAME "bascar3" // Index = 2, FModules = 2
+    {
+        0x2004
+        FM	0x1006	0	0
+        FM	0x1007	11	19
+    }
+
+    FRAME "bab1" // Index = 3, FModules = 1
+    {
+        0x2005
+        FM	0x1004	0	0
+    }
+
+    FRAME "bab2" // Index = 4, FModules = 1
+    {
+        0x2006
+        FM	0x1005	0	0
+    }
+
+    FRAME "bab3" // Index = 5, FModules = 1
+    {
+        0x2007
+        FM	0x100D	0	0
+    }
+
+    FRAME "badent1" // Index = 6, FModules = 3
+    {
+        0x2008
+        FM	0x1008	-33	0
+        FM	0x1009	-9	1
+        FM	0x100A	15	8
+    }
+
+    FRAME "badent2" // Index = 7, FModules = 3
+    {
+        0x2009
+        FM	0x1008	10	0	+FLIP_X
+        FM	0x1009	-14	1	+FLIP_X
+        FM	0x100A	-32	8	+FLIP_X
+    }
+
+    FRAME "badent3" // Index = 8, FModules = 2
+    {
+        0x200A
+        FM	0x100B	-17	0
+        FM	0x100C	2	-6
+    }
+
+    FRAME "zz_bastone1" // Index = 9, FModules = 1
+    {
+        0x2000
+        RC	-11	-14	12	1
+        FM	0x1000	-13	-14
+    }
+
+    FRAME "zz_bastone2" // Index = 10, FModules = 1
+    {
+        0x2001
+        RC	-9	-6	11	1
+        FM	0x1001	-9	-6
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

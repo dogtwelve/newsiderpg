@@ -1,0 +1,55 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 11
+    // Frames:  0
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\w_body_4.png" TRANSP 0x00FF00FF // 0  size: 256 x 93  palettes: 5
+    PALETTE 0 ".\w_body_4_3.act"
+    PALETTE 1 ".\w_body_4_1.act"
+    PALETTE 2 ".\w_body_4_2.act"
+    PALETTE 3 ".\w_body_4_4.act"
+    PALETTE 4 ".\w_body_4_0.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1038	MD_IMAGE	0	13	54	15	18	"m_body_00"
+        MD	0x1008	MD_IMAGE	0	29	54	17	18	"m_body_01"
+        MD	0x1030	MD_IMAGE	0	56	54	14	18	"m_body_02"
+        MD	0x100B	MD_IMAGE	0	73	55	17	17	"m_body_03"
+        MD	0x100C	MD_IMAGE	0	95	54	13	17	"m_body_04"
+        MD	0x102B	MD_IMAGE	0	113	53	14	18	"m_body_05"
+        MD	0x100E	MD_IMAGE	0	136	55	16	16	"m_body_06"
+        MD	0x100A	MD_IMAGE	0	180	53	14	18	"m_body_08"
+        MD	0x1009	MD_IMAGE	0	204	53	15	18	"m_body_09"
+        MD	0x1006	MD_IMAGE	0	159	55	16	18	"m_body_10"
+        MD	0x1000	MD_IMAGE	0	229	55	16	18	"m_body_11"
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

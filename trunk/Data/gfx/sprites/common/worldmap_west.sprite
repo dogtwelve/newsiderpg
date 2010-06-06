@@ -1,0 +1,141 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 15
+    // Frames:  9
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\worldmap_west.png" TRANSP 0x00FF00FF // 0  size: 377 x 900  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	69	1	69	103
+        MD	0x1002	MD_IMAGE	0	1	46	68	74
+        MD	0x1001	MD_IMAGE	0	138	46	84	64
+        MD	0x1003	MD_IMAGE	0	154	110	64	26
+        MD	0x1004	MD_IMAGE	0	51	119	97	57
+        MD	0x1005	MD_IMAGE	0	8	176	136	71
+        MD	0x1006	MD_IMAGE	0	0	247	106	66
+        MD	0x1007	MD_IMAGE	0	39	321	54	27
+        MD	0x1008	MD_IMAGE	0	106	284	134	80
+        MD	0x1009	MD_IMAGE	0	112	261	97	23
+        MD	0x1028	MD_IMAGE	0	193	676	19	19
+        MD	0x1029	MD_IMAGE	0	218	676	20	19
+        MD	0x102B	MD_IMAGE	0	2	781	60	119
+        MD	0x102D	MD_IMAGE	0	140	730	84	123
+        MD	0x102C	MD_IMAGE	0	62	700	78	193
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "1st" // Index = 0, FModules = 4
+    {
+        0x2001
+        FM	0x1004	-66	-106
+        FM	0x1005	-109	-49
+        FM	0x1006	-117	22
+        FM	0x1007	-78	96
+    }
+
+    FRAME "2st" // Index = 1, FModules = 3
+    {
+        0x2003
+        FM	0x102B	-64	46
+        FM	0x102C	-4	-35
+        FM	0x102D	74	-5
+    }
+
+    FRAME "4st" // Index = 2, FModules = 4
+    {
+        0x2000
+        FM	0x1002	-102	-37
+        FM	0x1001	35	-37
+        FM	0x1000	-34	-82
+        FM	0x1003	51	27
+    }
+
+    FRAME "1st_town1" // Index = 3, FModules = 4
+    {
+        0x201B
+        FM	0x1029	-103	45
+        FM	0x1028	-68	32
+        FM	0x1029	-47	59
+        FM	0x1029	-56	-9
+    }
+
+    FRAME "1st_town2" // Index = 4, FModules = 5
+    {
+        0x201C
+        FM	0x1029	-56	-9
+        FM	0x1028	-46	-51
+        FM	0x1029	-36	-90
+        FM	0x1029	-6	-49
+        FM	0x1029	-85	-52
+    }
+
+    FRAME "house" // Index = 5, FModules = 1
+    {
+        0x200F
+        FM	0x1028	-9	-9
+    }
+
+    FRAME "field" // Index = 6, FModules = 1
+    {
+        0x2010
+        FM	0x1029	-9	-9
+    }
+
+    FRAME "" // Index = 7, FModules = 3
+    {
+        0x2019
+        FM	0x2000	-94	-99	+HYPER_FM
+        FM	0x2001	-124	12	+HYPER_FM
+        FM	0x2003	-108	-54	+HYPER_FM
+    }
+
+    FRAME "" // Index = 8, FModules = 10
+    {
+        0x201A
+        FM	0x2019	0	0	+HYPER_FM
+        FM	0x1029	-227	57
+        FM	0x1028	-192	44
+        FM	0x1029	-171	71
+        FM	0x1029	-180	3
+        FM	0x1028	-170	-39
+        FM	0x1029	-160	-78
+        FM	0x1029	-130	-37
+        FM	0x1028	-91	4
+        FM	0x1029	-209	-40
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

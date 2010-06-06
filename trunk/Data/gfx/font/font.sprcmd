@@ -1,0 +1,13 @@
+SetGlobalBSpriteFlags(BS_DEFAULT_MIDP2 | BS_FRAME_RECTS)
+
+Load("font01.sprite")
+	SetPalette(0, 0, { 0x00FF00FF 0xFF4F5ED1 0xFFFFFFFF}) 
+	SetPalette(0, 1, { 0x00FF00FF 0xFF000681 0xFF4F5ED1})
+	SetPalette(0, 2, { 0x00FF00FF 0xFF888888 0xFF000000})
+	ExportBSpriteEx("font01.bsprite", GLOBAL, I4, _8888)
+	
+Load("font02.sprite")
+	SetPalette(0, 0, { 0x00FF00FF 0xFF4F5ED1 0xFF000000}) 
+	SetPalette(0, 1, { 0x00FF00FF 0xFFFFFFFF 0xFF000000})
+	SetPalette(0, 2, { 0x00FF00FF 0xFF888888 0xFF000000})	
+	ExportBSpriteEx("font02.bsprite", GLOBAL, I4, _8888)

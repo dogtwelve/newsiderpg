@@ -1,0 +1,196 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 19
+    // Frames:  9
+    // Anims:   5
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "mon_barrel.png" TRANSP 0x00FF00FF // 0  size: 75 x 133  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	22	0	32	40
+        MD	0x1013	MD_IMAGE	0	0	41	19	6
+        MD	0x1002	MD_IMAGE	0	32	49	16	14
+        MD	0x1003	MD_IMAGE	0	5	57	23	16
+        MD	0x1004	MD_IMAGE	0	1	78	19	15
+        MD	0x1005	MD_IMAGE	0	23	78	31	20
+        MD	0x1006	MD_IMAGE	0	56	70	18	15
+        MD	0x1007	MD_IMAGE	0	61	55	13	11
+        MD	0x1008	MD_IMAGE	0	1	102	21	15
+        MD	0x1009	MD_IMAGE	0	36	67	16	9
+        MD	0x100A	MD_IMAGE	0	52	58	6	5
+        MD	0x100B	MD_IMAGE	0	23	50	4	4
+        MD	0x100C	MD_IMAGE	0	23	99	14	12
+        MD	0x100D	MD_IMAGE	0	40	106	4	4
+        MD	0x100E	MD_IMAGE	0	33	113	9	9
+        MD	0x100F	MD_IMAGE	0	24	114	7	7
+        MD	0x1010	MD_IMAGE	0	13	121	8	12
+        MD	0x1011	MD_IMAGE	0	24	124	13	8
+        MD	0x1012	MD_IMAGE	0	0	0	1	1
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "ba1" // Index = 0, FModules = 1
+    {
+        0x2000
+        RC	-16	-36	16	1
+        FM	0x1000	-16	-36
+    }
+
+    FRAME "ba6" // Index = 1, FModules = 1
+    {
+        0x2007
+        RC	-16	-36	16	1
+        FM	0x1000	-15	-36
+    }
+
+    FRAME "ba2" // Index = 2, FModules = 9
+    {
+        0x2001
+        FM	0x1003	-32	-38
+        FM	0x1002	-7	-48
+        FM	0x1009	-1	-28
+        FM	0x100A	14	-23
+        FM	0x100D	-6	-33
+        FM	0x1004	-27	-18
+        FM	0x1006	12	-40
+        FM	0x100C	18	-18
+        FM	0x1005	-18	-18
+    }
+
+    FRAME "ba3" // Index = 3, FModules = 11
+    {
+        0x2002
+        FM	0x1008	-47	-28
+        FM	0x1007	-30	-40
+        FM	0x100E	-21	-24
+        FM	0x100D	-48	-33
+        FM	0x100F	9	-29
+        FM	0x1010	-27	-19
+        FM	0x1011	21	-16
+        FM	0x1004	17	-35	+FLIP_X
+        FM	0x100A	38	-40	+FLIP_X
+        FM	0x100D	46	-17
+        FM	0x100E	36	-25
+    }
+
+    FRAME "ba4" // Index = 4, FModules = 11
+    {
+        0x2003
+        FM	0x1007	-46	-26	+ROT_90
+        FM	0x100E	-31	-22	+FLIP_Y
+        FM	0x100D	-58	-17
+        FM	0x1010	-52	-17	+FLIP_X	+ROT_90
+        FM	0x1011	30	-8	+FLIP_Y
+        FM	0x100A	-52	-29	+FLIP_X
+        FM	0x100D	50	-4	+FLIP_X
+        FM	0x100E	24	-18
+        FM	0x100F	-46	-8
+        FM	0x1006	31	-31
+        FM	0x100D	20	-26
+    }
+
+    FRAME "ba5" // Index = 5, FModules = 6
+    {
+        0x2004
+        FM	0x100D	-54	6
+        FM	0x100A	-52	-6	+FLIP_X
+        FM	0x100D	44	7	+FLIP_X
+        FM	0x100F	-44	0	+ROT_90
+        FM	0x100A	32	1
+        FM	0x100C	41	-9	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "blend" // Index = 6, FModules = 1
+    {
+        0x2005
+        FM	0x1013	4	0
+    }
+
+    FRAME "xx" // Index = 7, FModules = 1
+    {
+        0x2006
+        FM	0x1012	0	3
+    }
+
+    FRAME "sha" // Index = 8, FModules = 4
+    {
+        0x2008
+        FM	0x1013	-19	3
+        FM	0x1013	0	3	+FLIP_X
+        FM	0x1013	-19	-3	+FLIP_Y
+        FM	0x1013	0	-3	+FLIP_X	+FLIP_Y
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "stand" // Index = 0, AFrames = 1
+    {
+        0x3000
+        AF	0x2000	1	0	0
+    }
+
+    ANIM "damage" // Index = 1, AFrames = 3
+    {
+        0x3003
+        AF	0x2000	1	0	0
+        AF	0x2007	1	0	0
+        AF	0x2000	1	0	0
+    }
+
+    ANIM "down" // Index = 2, AFrames = 4
+    {
+        0x3002
+        AF	0x2001	1	0	0
+        AF	0x2002	1	0	0
+        AF	0x2003	1	0	0
+        AF	0x2004	1	0	0
+    }
+
+    ANIM "downed" // Index = 3, AFrames = 1
+    {
+        0x3001
+        AF	0x2006	1	0	0
+    }
+
+    ANIM "shadow" // Index = 4, AFrames = 1
+    {
+        0x3004
+        AF	0x2008	1	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

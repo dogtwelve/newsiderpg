@@ -1,0 +1,132 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 6
+    // Frames:  5
+    // Anims:   5
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "mon_stone_big.png" TRANSP 0x00FF00FF // 0  size: 106 x 88  palettes: 4
+    PALETTE 1 ".\mon_stone_down.act"
+    PALETTE 2 ".\mon_stone_caveup.act"
+    PALETTE 3 ".\mon_stone_cavedown.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	16	28	46
+        MD	0x1002	MD_IMAGE	0	28	0	29	65
+        MD	0x1001	MD_IMAGE	0	57	22	30	46
+        MD	0x1003	MD_IMAGE	0	0	67	51	17
+        MD	0x1005	MD_IMAGE	0	51	70	55	18
+        MD	0x1004	MD_IMAGE	0	0	0	1	1
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "stone1" // Index = 0, FModules = 3
+    {
+        0x2000
+        RC	-44	-29	37	7
+        FM	0x1000	-46	-43
+        FM	0x1002	-18	-59
+        FM	0x1001	11	-37
+    }
+
+    FRAME "stone2" // Index = 1, FModules = 3
+    {
+        0x2001
+        RC	-44	-29	37	7
+        FM	0x1000	-48	-43
+        FM	0x1002	-20	-59
+        FM	0x1001	9	-37
+    }
+
+    FRAME "xx_none" // Index = 2, FModules = 1
+    {
+        0x2002
+        FM	0x1004	0	0
+    }
+
+    FRAME "sh" // Index = 3, FModules = 2
+    {
+        0x2003
+        FM	0x1003	-55	-7
+        FM	0x1005	-4	-4
+    }
+
+    FRAME "blend" // Index = 4, FModules = 2
+    {
+        0x2004
+        FM	0x1003	4	0
+        FM	0x1005	4	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "stand" // Index = 0, AFrames = 1
+    {
+        0x3000
+        AF	0x2000	1	0	0
+    }
+
+    ANIM "damage" // Index = 1, AFrames = 3
+    {
+        0x3001
+        AF	0x2000	1	0	0
+        AF	0x2001	1	0	0
+        AF	0x2000	1	0	0
+    }
+
+    ANIM "down" // Index = 2, AFrames = 2
+    {
+        0x3002
+        AF	0x2000	1	0	0
+        AF	0x2002	1	0	0
+    }
+
+    ANIM "downed" // Index = 3, AFrames = 1
+    {
+        0x3003
+        AF	0x2002	1	0	0
+    }
+
+    ANIM "shadow" // Index = 4, AFrames = 1
+    {
+        0x3004
+        AF	0x2003	1	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
