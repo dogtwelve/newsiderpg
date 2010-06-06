@@ -1,0 +1,4 @@
+디버깅 명령, 명령인수를 다음과같이 설정한다
+
+명령 - C:\dev\SDK\WIPI SDK\Bin\WIPIEmulator.ex
+명령인수 - /PATH=$(TargetDir)$(TargetName)/TYPE=smf /INSTALL
