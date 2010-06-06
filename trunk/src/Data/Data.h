@@ -4,23 +4,23 @@
 //------------------------------------------------------------------------------
 #define PACK_DATA_CINEMA 			"/0"
 
-#define DATA_CINEMA_SCENE0 			 0 
-#define DATA_CINEMA_SCENE1 			 1 
-#define DATA_CINEMA_SCENE2 			 2 
-#define DATA_CINEMA_SCENE3 			 3 
-#define DATA_CINEMA_SCENE4 			 4 
-#define DATA_CINEMA_SCENE5 			 5 
-#define DATA_CINEMA_SCENE6 			 6 
-#define DATA_CINEMA_SCENE7 			 7 
-#define DATA_CINEMA_SCENE8 			 8 
-#define DATA_CINEMA_SCENE9 			 9 
-#define DATA_CINEMA_SCENE10 			 10 
-#define DATA_CINEMA_SCENE11 			 11 
-#define DATA_CINEMA_SCENE12 			 12 
-#define DATA_CINEMA_SCENE13 			 13 
-#define DATA_CINEMA_SCENE14 			 14 
-#define DATA_CINEMA_SCENE15 			 15 
-#define DATA_CINEMA_SCENE16 			 16 
+#define DATA_CINEMA_SCENE0 			 -1 
+#define DATA_CINEMA_SCENE1 			 -1 
+#define DATA_CINEMA_SCENE2 			 -1 
+#define DATA_CINEMA_SCENE3 			 -1 
+#define DATA_CINEMA_SCENE4 			 -1 
+#define DATA_CINEMA_SCENE5 			 -1 
+#define DATA_CINEMA_SCENE6 			 -1 
+#define DATA_CINEMA_SCENE7 			 -1 
+#define DATA_CINEMA_SCENE8 			 -1 
+#define DATA_CINEMA_SCENE9 			 -1 
+#define DATA_CINEMA_SCENE10 			 -1 
+#define DATA_CINEMA_SCENE11 			 -1 
+#define DATA_CINEMA_SCENE12 			 -1 
+#define DATA_CINEMA_SCENE13 			 -1 
+#define DATA_CINEMA_SCENE14 			 -1 
+#define DATA_CINEMA_SCENE15 			 -1 
+#define DATA_CINEMA_SCENE16 			 -1 
 #define DATA_CINEMA_MAX 			 17 
 
 //------------------------------------------------------------------------------
