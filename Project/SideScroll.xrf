@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="euc-kr"?>
-<RESOURCE VERSION="1.0">
-	<KOR><TOKEN i_CNT="0" i_MAXCNT="0"/><IMAGE i_CNT="3" i_MAXCNT="7">
-			<IMG2 i_ID="2" NAME="small_font.dat">.\small_font.dat</IMG2>
-			<IMG5 i_ID="4" NAME="oconf.bar">.\oconf.bar</IMG5>
-			<IMG6 i_ID="6" NAME="res.bar">.\res.bar</IMG6></IMAGE><ANI i_CNT="0" i_MAXCNT="0"/></KOR></RESOURCE>
