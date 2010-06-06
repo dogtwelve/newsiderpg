@@ -1,0 +1,6038 @@
+// saved by AuroraGT v0.1.0.1 (SpriteEditor v0.1.0.3)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 54
+    // Frames:  326
+    // Anims:   58
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "boss_3.png" TRANSP 0x00FF00FF // 0  size: 255 x 700  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	71	106	77	87	"body"
+        MD	0x100E	MD_IMAGE	0	50	96	21	58	"body_01"
+        MD	0x100F	MD_IMAGE	0	79	47	32	59	"body_02"
+        MD	0x1001	MD_IMAGE	0	28	0	41	78	"pipe"
+        MD	0x1036	MD_IMAGE	0	120	61	10	22	"pipe2"
+        MD	0x100A	MD_IMAGE	0	86	12	21	38	"canon"
+        MD	0x100B	MD_IMAGE	0	118	13	20	38	"canon_01"
+        MD	0x1002	MD_IMAGE	0	18	83	26	28	"arm"
+        MD	0x1003	MD_IMAGE	0	4	110	35	47	"arm_01"
+        MD	0x1004	MD_IMAGE	0	23	158	39	46	"arm_02"
+        MD	0x1005	MD_IMAGE	0	15	206	48	46	"arm_03"
+        MD	0x1006	MD_IMAGE	0	12	252	49	57	"arm_04"
+        MD	0x1007	MD_IMAGE	0	8	312	57	52	"hand"
+        MD	0x1008	MD_IMAGE	0	116	207	32	78	"mouth"
+        MD	0x1009	MD_IMAGE	0	189	215	29	42	"junk"
+        MD	0x1037	MD_IMAGE	0	155	10	32	39	"junk2"
+        MD	0x1010	MD_IMAGE	0	118	450	36	27	"h_head"
+        MD	0x1018	MD_IMAGE	0	62	488	14	11	"h_arm"
+        MD	0x1019	MD_IMAGE	0	68	511	27	26	"h_hand"
+        MD	0x102D	MD_IMAGE	0	64	551	31	36	"h_hand_01"
+        MD	0x1011	MD_IMAGE	0	107	478	58	41	"h_body"
+        MD	0x1012	MD_IMAGE	0	179	453	19	18	"h_shoulder"
+        MD	0x1013	MD_IMAGE	0	176	473	25	27	"h_shoulder_01"
+        MD	0x1014	MD_IMAGE	0	111	519	24	17	"h_hip"
+        MD	0x1015	MD_IMAGE	0	108	536	29	26	"h_hip_01"
+        MD	0x1016	MD_IMAGE	0	102	564	32	42	"h_booster"
+        MD	0x1017	MD_IMAGE	0	182	515	25	15	"head_black"
+        MD	0x101A	MD_IMAGE	0	8	374	26	47	"eff"
+        MD	0x101B	MD_IMAGE	0	11	428	30	30	"eff_01"
+        MD	0x1022	MD_IMAGE	0	47	426	19	19	"eff_02"
+        MD	0x101C	MD_IMAGE	0	35	464	20	11	"eff_03"
+        MD	0x1027	MD_IMAGE	0	160	617	20	12	"eff_04"
+        MD	0x1029	MD_IMAGE	0	160	629	20	20	"eff_05"
+        MD	0x101F	MD_IMAGE	0	24	464	11	11	"eff_06"
+        MD	0x101D	MD_IMAGE	0	35	508	20	21	"eff_07"
+        MD	0x1028	MD_IMAGE	0	136	616	20	13	"eff_08"
+        MD	0x102A	MD_IMAGE	0	136	629	20	20	"eff_09"
+        MD	0x1020	MD_IMAGE	0	23	508	12	21	"eff_10"
+        MD	0x101E	MD_IMAGE	0	35	558	20	23	"eff_11"
+        MD	0x1021	MD_IMAGE	0	23	558	12	23	"eff_12"
+        MD	0x1023	MD_IMAGE	0	14	674	20	13	"eff_13"
+        MD	0x1024	MD_IMAGE	0	43	671	18	12	"eff_14"
+        MD	0x1025	MD_IMAGE	0	70	668	29	20	"eff_15"
+        MD	0x1026	MD_IMAGE	0	117	663	31	28	"eff_16"
+        MD	0x102C	MD_IMAGE	0	174	540	24	24	"eff_17"
+        MD	0x102E	MD_IMAGE	0	223	612	9	9	"eff_18"
+        MD	0x102F	MD_IMAGE	0	180	290	59	27	"eff_19"
+        MD	0x1030	MD_IMAGE	0	182	326	55	25	"eff_20"
+        MD	0x1031	MD_IMAGE	0	102	358	21	25	"eff_21"
+        MD	0x1032	MD_IMAGE	0	103	385	27	30	"eff_22"
+        MD	0x1033	MD_IMAGE	0	110	416	27	27	"eff_23"
+        MD	0x1034	MD_IMAGE	0	33	614	26	31	"eff_24"
+        MD	0x1035	MD_IMAGE	0	53	372	11	27	"eff_25"
+        MD	0x102B	MD_IMAGE	0	0	0	1	1
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "f" // Index = 0, FModules = 14
+    {
+        0x2000
+        FM	0x100F	-49	-142
+        FM	0x100E	-77	-94
+        FM	0x100A	-62	-108
+        FM	0x100B	-52	-111
+        FM	0x1000	-77	-84
+        FM	0x1000	0	-84	+FLIP_X
+        FM	0x1008	-41	-43
+        FM	0x1001	-103	-160
+        FM	0x1002	-96	-78
+        FM	0x1003	-105	-81
+        FM	0x1004	-124	-73
+        FM	0x1005	-134	-65
+        FM	0x1006	-137	-58
+        FM	0x1007	-140	-49
+    }
+
+    FRAME "f_01" // Index = 1, FModules = 8
+    {
+        0x2027
+        FM	0x101C	0	3
+        FM	0x101C	20	3
+        FM	0x101C	40	3
+        FM	0x101C	60	3
+        FM	0x101C	0	14	+FLIP_Y
+        FM	0x101C	20	14	+FLIP_Y
+        FM	0x101C	40	14	+FLIP_Y
+        FM	0x101C	60	14	+FLIP_Y
+    }
+
+    FRAME "f_02" // Index = 2, FModules = 8
+    {
+        0x2029
+        FM	0x101D	0	-7
+        FM	0x101D	20	-7
+        FM	0x101D	40	-7
+        FM	0x101D	60	-7
+        FM	0x101D	0	14	+FLIP_Y
+        FM	0x101D	20	14	+FLIP_Y
+        FM	0x101D	40	14	+FLIP_Y
+        FM	0x101D	60	14	+FLIP_Y
+    }
+
+    FRAME "f_03" // Index = 3, FModules = 8
+    {
+        0x202A
+        FM	0x101E	0	-9
+        FM	0x101E	20	-9
+        FM	0x101E	40	-9
+        FM	0x101E	60	-9
+        FM	0x101E	0	14	+FLIP_Y
+        FM	0x101E	20	14	+FLIP_Y
+        FM	0x101E	40	14	+FLIP_Y
+        FM	0x101E	60	14	+FLIP_Y
+    }
+
+    FRAME "f_04" // Index = 4, FModules = 18
+    {
+        0x206E
+        FM	0x101C	1	-80	+ROT_90
+        FM	0x101C	1	-60	+ROT_90
+        FM	0x101C	1	-40	+ROT_90
+        FM	0x101C	1	-20	+ROT_90
+        FM	0x101C	-10	-80	+FLIP_Y	+ROT_90
+        FM	0x101C	-10	-60	+FLIP_Y	+ROT_90
+        FM	0x101C	-10	-40	+FLIP_Y	+ROT_90
+        FM	0x101C	-10	-20	+FLIP_Y	+ROT_90
+        FM	0x101C	1	0	+ROT_90
+        FM	0x101C	1	20	+ROT_90
+        FM	0x101C	1	40	+ROT_90
+        FM	0x101C	1	60	+ROT_90
+        FM	0x101C	-10	0	+FLIP_Y	+ROT_90
+        FM	0x101C	-10	20	+FLIP_Y	+ROT_90
+        FM	0x101C	-10	40	+FLIP_Y	+ROT_90
+        FM	0x101C	-10	60	+FLIP_Y	+ROT_90
+        FM	0x101C	1	80	+ROT_90
+        FM	0x101C	-10	80	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "f_05" // Index = 5, FModules = 18
+    {
+        0x206F
+        FM	0x101D	1	-80	+ROT_90
+        FM	0x101D	1	-60	+ROT_90
+        FM	0x101D	1	-40	+ROT_90
+        FM	0x101D	1	-20	+ROT_90
+        FM	0x101D	-20	-80	+FLIP_Y	+ROT_90
+        FM	0x101D	-20	-60	+FLIP_Y	+ROT_90
+        FM	0x101D	-20	-40	+FLIP_Y	+ROT_90
+        FM	0x101D	-20	-20	+FLIP_Y	+ROT_90
+        FM	0x101D	1	0	+ROT_90
+        FM	0x101D	1	20	+ROT_90
+        FM	0x101D	1	40	+ROT_90
+        FM	0x101D	1	60	+ROT_90
+        FM	0x101D	-20	0	+FLIP_Y	+ROT_90
+        FM	0x101D	-20	20	+FLIP_Y	+ROT_90
+        FM	0x101D	-20	40	+FLIP_Y	+ROT_90
+        FM	0x101D	-20	60	+FLIP_Y	+ROT_90
+        FM	0x101D	1	80	+ROT_90
+        FM	0x101D	-20	80	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "f_06" // Index = 6, FModules = 18
+    {
+        0x2070
+        FM	0x101E	1	-80	+ROT_90
+        FM	0x101E	1	-60	+ROT_90
+        FM	0x101E	1	-40	+ROT_90
+        FM	0x101E	1	-20	+ROT_90
+        FM	0x101E	-22	-80	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	-60	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	-40	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	-20	+FLIP_Y	+ROT_90
+        FM	0x101E	1	0	+ROT_90
+        FM	0x101E	1	20	+ROT_90
+        FM	0x101E	1	40	+ROT_90
+        FM	0x101E	1	60	+ROT_90
+        FM	0x101E	-22	0	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	20	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	40	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	60	+FLIP_Y	+ROT_90
+        FM	0x101E	1	80	+ROT_90
+        FM	0x101E	-22	80	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "f_07" // Index = 7, FModules = 30
+    {
+        0x2075
+        FM	0x101C	11	-80	+ROT_90
+        FM	0x101C	11	-60	+ROT_90
+        FM	0x101C	11	-40	+ROT_90
+        FM	0x101C	11	-20	+ROT_90
+        FM	0x101C	-20	-80	+FLIP_Y	+ROT_90
+        FM	0x101C	-20	-60	+FLIP_Y	+ROT_90
+        FM	0x101C	-20	-40	+FLIP_Y	+ROT_90
+        FM	0x101C	-20	-20	+FLIP_Y	+ROT_90
+        FM	0x101C	11	0	+ROT_90
+        FM	0x101C	11	20	+ROT_90
+        FM	0x101C	11	40	+ROT_90
+        FM	0x101C	11	60	+ROT_90
+        FM	0x101C	-20	0	+FLIP_Y	+ROT_90
+        FM	0x101C	-20	20	+FLIP_Y	+ROT_90
+        FM	0x101C	-20	40	+FLIP_Y	+ROT_90
+        FM	0x101C	-20	60	+FLIP_Y	+ROT_90
+        FM	0x101C	11	80	+ROT_90
+        FM	0x101C	-20	80	+FLIP_Y	+ROT_90
+        FM	0x1027	-9	-92
+        FM	0x101F	-20	-91	+FLIP_Y	+ROT_90
+        FM	0x101F	11	-91	+ROT_90
+        FM	0x1029	-9	-80
+        FM	0x1029	-9	-60
+        FM	0x1029	-9	-40
+        FM	0x1029	-9	-20
+        FM	0x1029	-9	0
+        FM	0x1029	-9	20
+        FM	0x1029	-9	40
+        FM	0x1029	-9	60
+        FM	0x1029	-9	80
+    }
+
+    FRAME "f_08" // Index = 8, FModules = 30
+    {
+        0x2076
+        FM	0x101D	11	-80	+ROT_90
+        FM	0x101D	11	-60	+ROT_90
+        FM	0x101D	11	-40	+ROT_90
+        FM	0x101D	11	-20	+ROT_90
+        FM	0x101D	-30	-80	+FLIP_Y	+ROT_90
+        FM	0x101D	-30	-60	+FLIP_Y	+ROT_90
+        FM	0x101D	-30	-40	+FLIP_Y	+ROT_90
+        FM	0x101D	-30	-20	+FLIP_Y	+ROT_90
+        FM	0x101D	11	0	+ROT_90
+        FM	0x101D	11	20	+ROT_90
+        FM	0x101D	11	40	+ROT_90
+        FM	0x101D	11	60	+ROT_90
+        FM	0x101D	-30	0	+FLIP_Y	+ROT_90
+        FM	0x101D	-30	20	+FLIP_Y	+ROT_90
+        FM	0x101D	-30	40	+FLIP_Y	+ROT_90
+        FM	0x101D	-30	60	+FLIP_Y	+ROT_90
+        FM	0x101D	11	80	+ROT_90
+        FM	0x101D	-30	80	+FLIP_Y	+ROT_90
+        FM	0x1028	-9	-93
+        FM	0x1020	11	-92	+ROT_90
+        FM	0x1020	-30	-92	+FLIP_Y	+ROT_90
+        FM	0x102A	-9	-80
+        FM	0x102A	-9	-60
+        FM	0x102A	-9	-40
+        FM	0x102A	-9	-20
+        FM	0x102A	-9	0
+        FM	0x102A	-9	20
+        FM	0x102A	-9	40
+        FM	0x102A	-9	60
+        FM	0x102A	-9	80
+    }
+
+    FRAME "f_09" // Index = 9, FModules = 30
+    {
+        0x2077
+        FM	0x101E	21	-80	+ROT_90
+        FM	0x101E	21	-60	+ROT_90
+        FM	0x101E	21	-40	+ROT_90
+        FM	0x101E	21	-20	+ROT_90
+        FM	0x101E	-22	-80	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	-60	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	-40	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	-20	+FLIP_Y	+ROT_90
+        FM	0x101E	21	0	+ROT_90
+        FM	0x101E	21	20	+ROT_90
+        FM	0x101E	21	40	+ROT_90
+        FM	0x101E	21	60	+ROT_90
+        FM	0x101E	-22	0	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	20	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	40	+FLIP_Y	+ROT_90
+        FM	0x101E	-22	60	+FLIP_Y	+ROT_90
+        FM	0x101E	21	80	+ROT_90
+        FM	0x101E	-22	80	+FLIP_Y	+ROT_90
+        FM	0x1027	1	-93
+        FM	0x1029	1	-81
+        FM	0x1029	1	-61
+        FM	0x1029	1	-41
+        FM	0x1029	1	-21
+        FM	0x1029	1	-1
+        FM	0x1029	1	19
+        FM	0x1029	1	39
+        FM	0x1029	1	59
+        FM	0x1029	1	79
+        FM	0x1021	21	-92	+ROT_90
+        FM	0x1021	-22	-92	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "f_10" // Index = 10, FModules = 13
+    {
+        0x2001
+        FM	0x100F	-49	-100
+        FM	0x100E	-77	-52
+        FM	0x1002	-89	-36
+        FM	0x1001	-91	-117
+        FM	0x100A	-62	-66
+        FM	0x100B	-52	-69
+        FM	0x1000	-77	-42
+        FM	0x1008	-32	-1
+        FM	0x1003	-103	-39
+        FM	0x1004	-114	-31
+        FM	0x1005	-132	-23
+        FM	0x1006	-136	-16
+        FM	0x1007	-140	-8
+    }
+
+    FRAME "f_11" // Index = 11, FModules = 13
+    {
+        0x2003
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_12" // Index = 12, FModules = 13
+    {
+        0x210A
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-2
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_13" // Index = 13, FModules = 13
+    {
+        0x20E3
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x20D8	-19	-23	+HYPER_FM
+    }
+
+    FRAME "f_14" // Index = 14, FModules = 12
+    {
+        0x20E4
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x20D9	-19	-23	+HYPER_FM
+    }
+
+    FRAME "f_15" // Index = 15, FModules = 12
+    {
+        0x20E5
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x20DE	-19	-23	+HYPER_FM
+        FM	0x20D8	-35	-8	+HYPER_FM
+    }
+
+    FRAME "f_16" // Index = 16, FModules = 10
+    {
+        0x20E6
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x20D9	-35	-8	+HYPER_FM
+    }
+
+    FRAME "f_17" // Index = 17, FModules = 10
+    {
+        0x20E7
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1007	-80	-8
+        FM	0x20DE	-35	-8	+HYPER_FM
+        FM	0x20D8	-59	39	+HYPER_FM
+    }
+
+    FRAME "f_18" // Index = 18, FModules = 8
+    {
+        0x20E8
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x20D9	-59	39	+HYPER_FM
+    }
+
+    FRAME "f_19" // Index = 19, FModules = 8
+    {
+        0x20E9
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x20DE	-59	39	+HYPER_FM
+    }
+
+    FRAME "f_20" // Index = 20, FModules = 8
+    {
+        0x20E2
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1009	31	-63
+    }
+
+    FRAME "f_21" // Index = 21, FModules = 13
+    {
+        0x2080
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-44	-40
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-56	-33
+        FM	0x1005	-75	-26
+        FM	0x1006	-80	-20
+        FM	0x1007	-85	-13
+    }
+
+    FRAME "f_22" // Index = 22, FModules = 13
+    {
+        0x2081
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-44	-41
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-56	-35
+        FM	0x1005	-75	-29
+        FM	0x1006	-80	-24
+        FM	0x1007	-85	-18
+    }
+
+    FRAME "f_23" // Index = 23, FModules = 16
+    {
+        0x2082
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-28	-36
+        FM	0x1003	-39	-38
+        FM	0x1004	-47	-29
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1005	-62	-20
+        FM	0x1006	-65	-13
+        FM	0x1006	-63	-3
+        FM	0x1006	-58	6
+        FM	0x1006	-52	15
+        FM	0x1007	-47	27
+    }
+
+    FRAME "f_24" // Index = 24, FModules = 16
+    {
+        0x2084
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-28	-36
+        FM	0x1003	-40	-39
+        FM	0x1004	-49	-31
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1005	-65	-23
+        FM	0x1006	-68	-17
+        FM	0x1006	-68	-8
+        FM	0x1006	-64	0
+        FM	0x1006	-59	8
+        FM	0x1007	-55	18
+    }
+
+    FRAME "f_25" // Index = 25, FModules = 16
+    {
+        0x2085
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-28	-36
+        FM	0x1003	-41	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-51	-31
+        FM	0x1005	-68	-23
+        FM	0x1006	-71	-17
+        FM	0x1006	-72	-10
+        FM	0x1006	-70	-3
+        FM	0x1006	-66	4
+        FM	0x1007	-63	13
+    }
+
+    FRAME "f_26" // Index = 26, FModules = 16
+    {
+        0x2083
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-28	-36
+        FM	0x1003	-38	-37
+        FM	0x1004	-45	-27
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1005	-59	-17
+        FM	0x1006	-61	-9
+        FM	0x1006	-58	2
+        FM	0x1006	-53	12
+        FM	0x1006	-47	22
+        FM	0x1007	-42	35
+    }
+
+    FRAME "f_27" // Index = 27, FModules = 13
+    {
+        0x20FF
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1003	-31	-41
+        FM	0x1005	-50	-31
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1006	-52	-22
+        FM	0x1006	-49	-10
+        FM	0x1006	-39	4
+        FM	0x1007	-30	20
+    }
+
+    FRAME "f_28" // Index = 28, FModules = 13
+    {
+        0x2107
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1003	-31	-42
+        FM	0x1005	-50	-32
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1006	-52	-24
+        FM	0x1006	-49	-13
+        FM	0x1006	-39	0
+        FM	0x1007	-30	15
+    }
+
+    FRAME "f_29" // Index = 29, FModules = 13
+    {
+        0x2104
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1003	-31	-41
+        FM	0x1005	-51	-32
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1006	-54	-24
+        FM	0x1006	-52	-13
+        FM	0x1006	-45	-1
+        FM	0x1007	-38	13
+    }
+
+    FRAME "f_30" // Index = 30, FModules = 6
+    {
+        0x2086
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "f_31" // Index = 31, FModules = 7
+    {
+        0x2102
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	69	-85	+FLIP_X
+        FM	0x1004	77	-78	+FLIP_X
+        FM	0x1005	87	-71	+FLIP_X
+        FM	0x1006	91	-65	+FLIP_X
+        FM	0x1007	88	-58	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_32" // Index = 32, FModules = 1
+    {
+        0x2123
+        FM	0x2102	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_33" // Index = 33, FModules = 4
+    {
+        0x2105
+        FM	0x1006	65	-69	+FLIP_X
+        FM	0x1006	63	-58	+FLIP_X
+        FM	0x1006	56	-46	+FLIP_X
+        FM	0x1007	41	-32	+FLIP_X
+    }
+
+    FRAME "f_34" // Index = 34, FModules = 1
+    {
+        0x2125
+        FM	0x2105	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_35" // Index = 35, FModules = 6
+    {
+        0x2087
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "f_36" // Index = 36, FModules = 7
+    {
+        0x2130
+        FM	0x1002	-89	-81
+        FM	0x1003	-104	-86
+        FM	0x1004	-116	-80
+        FM	0x1005	-135	-74
+        FM	0x1006	-140	-69
+        FM	0x1007	-145	-63
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "f_37" // Index = 37, FModules = 7
+    {
+        0x2103
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	69	-86	+FLIP_X
+        FM	0x1004	77	-80	+FLIP_X
+        FM	0x1005	87	-74	+FLIP_X
+        FM	0x1006	91	-69	+FLIP_X
+        FM	0x1007	88	-63	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_38" // Index = 38, FModules = 1
+    {
+        0x2124
+        FM	0x2103	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_39" // Index = 39, FModules = 14
+    {
+        0x2088
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	-88	-81
+        FM	0x1003	-99	-83
+        FM	0x1004	-107	-74
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1005	-122	-65
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "f_40" // Index = 40, FModules = 14
+    {
+        0x2139
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	62	-81	+FLIP_X
+        FM	0x1003	64	-83	+FLIP_X
+        FM	0x1004	68	-74	+FLIP_X
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1005	74	-65	+FLIP_X
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_41" // Index = 41, FModules = 6
+    {
+        0x2131
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "f_42" // Index = 42, FModules = 5
+    {
+        0x2132
+        FM	0x1006	-125	-58
+        FM	0x1006	-123	-48
+        FM	0x1006	-118	-39
+        FM	0x1006	-112	-30
+        FM	0x1007	-107	-18
+    }
+
+    FRAME "f_43" // Index = 43, FModules = 13
+    {
+        0x2089
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	-88	-81
+        FM	0x1003	-100	-84
+        FM	0x1004	-109	-76
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "f_44" // Index = 44, FModules = 13
+    {
+        0x213B
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	62	-81	+FLIP_X
+        FM	0x1003	65	-84	+FLIP_X
+        FM	0x1004	70	-76	+FLIP_X
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_45" // Index = 45, FModules = 6
+    {
+        0x2135
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "f_46" // Index = 46, FModules = 6
+    {
+        0x2136
+        FM	0x1005	-125	-68
+        FM	0x1006	-128	-62
+        FM	0x1006	-128	-53
+        FM	0x1006	-124	-45
+        FM	0x1006	-119	-37
+        FM	0x1007	-115	-27
+    }
+
+    FRAME "f_47" // Index = 47, FModules = 13
+    {
+        0x208A
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	-88	-81
+        FM	0x1003	-101	-84
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1004	-111	-76
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "f_48" // Index = 48, FModules = 13
+    {
+        0x213C
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	62	-81	+FLIP_X
+        FM	0x1003	66	-84	+FLIP_X
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1004	72	-76	+FLIP_X
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_49" // Index = 49, FModules = 6
+    {
+        0x2137
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "f_50" // Index = 50, FModules = 6
+    {
+        0x2138
+        FM	0x1005	-128	-68
+        FM	0x1006	-131	-62
+        FM	0x1006	-132	-55
+        FM	0x1006	-130	-48
+        FM	0x1006	-126	-41
+        FM	0x1007	-123	-32
+    }
+
+    FRAME "f_51" // Index = 51, FModules = 14
+    {
+        0x208B
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	-88	-81
+        FM	0x1003	-98	-82
+        FM	0x1004	-105	-72
+        FM	0x1005	-119	-62
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "f_52" // Index = 52, FModules = 14
+    {
+        0x213A
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x1002	62	-81	+FLIP_X
+        FM	0x1003	63	-82	+FLIP_X
+        FM	0x1004	66	-72	+FLIP_X
+        FM	0x1005	71	-62	+FLIP_X
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_53" // Index = 53, FModules = 6
+    {
+        0x2133
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "f_54" // Index = 54, FModules = 5
+    {
+        0x2134
+        FM	0x1006	-121	-54
+        FM	0x1006	-118	-43
+        FM	0x1006	-113	-33
+        FM	0x1006	-107	-23
+        FM	0x1007	-102	-10
+    }
+
+    FRAME "f_55" // Index = 55, FModules = 4
+    {
+        0x20FE
+        FM	0x1006	63	-67	+FLIP_X
+        FM	0x1006	60	-55	+FLIP_X
+        FM	0x1006	50	-41	+FLIP_X
+        FM	0x1007	33	-25	+FLIP_X
+    }
+
+    FRAME "f_56" // Index = 56, FModules = 1
+    {
+        0x2126
+        FM	0x20FE	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_57" // Index = 57, FModules = 7
+    {
+        0x2106
+        FM	0x1006	63	-69	+FLIP_X
+        FM	0x1006	60	-58	+FLIP_X
+        FM	0x1006	50	-45	+FLIP_X
+        FM	0x1007	33	-30	+FLIP_X
+        FM	0x206E	61	96	+HYPER_FM
+        FM	0x101F	62	5	+ROT_90
+        FM	0x101F	51	5	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "f_58" // Index = 58, FModules = 1
+    {
+        0x2127
+        FM	0x2106	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_59" // Index = 59, FModules = 7
+    {
+        0x2108
+        FM	0x1006	63	-69	+FLIP_X
+        FM	0x1006	60	-58	+FLIP_X
+        FM	0x1006	50	-45	+FLIP_X
+        FM	0x1007	33	-30	+FLIP_X
+        FM	0x1020	62	4	+ROT_90
+        FM	0x1020	41	4	+FLIP_Y	+ROT_90
+        FM	0x206F	61	96	+HYPER_FM
+    }
+
+    FRAME "f_60" // Index = 60, FModules = 1
+    {
+        0x2128
+        FM	0x2108	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_61" // Index = 61, FModules = 7
+    {
+        0x2109
+        FM	0x1006	63	-69	+FLIP_X
+        FM	0x1006	60	-58	+FLIP_X
+        FM	0x1006	50	-45	+FLIP_X
+        FM	0x1007	33	-30	+FLIP_X
+        FM	0x1021	62	4	+ROT_90
+        FM	0x1021	39	4	+FLIP_Y	+ROT_90
+        FM	0x2070	61	96	+HYPER_FM
+    }
+
+    FRAME "f_62" // Index = 62, FModules = 1
+    {
+        0x2129
+        FM	0x2109	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_63" // Index = 63, FModules = 5
+    {
+        0x2100
+        FM	0x1006	63	-67	+FLIP_X
+        FM	0x1006	60	-55	+FLIP_X
+        FM	0x1006	50	-41	+FLIP_X
+        FM	0x1007	33	-25	+FLIP_X
+        FM	0x1022	52	8
+    }
+
+    FRAME "f_64" // Index = 64, FModules = 1
+    {
+        0x212A
+        FM	0x2100	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_65" // Index = 65, FModules = 5
+    {
+        0x2101
+        FM	0x1006	63	-67	+FLIP_X
+        FM	0x1006	60	-55	+FLIP_X
+        FM	0x1006	50	-41	+FLIP_X
+        FM	0x1007	33	-25	+FLIP_X
+        FM	0x1022	52	8        	FLAGS 0x00000020
+    }
+
+    FRAME "f_66" // Index = 66, FModules = 1
+    {
+        0x212B
+        FM	0x2101	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_67" // Index = 67, FModules = 6
+    {
+        0x208C
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	69	-85	+FLIP_X
+        FM	0x1004	77	-78	+FLIP_X
+        FM	0x1005	87	-71	+FLIP_X
+        FM	0x1006	91	-65	+FLIP_X
+        FM	0x1007	88	-58	+FLIP_X
+    }
+
+    FRAME "f_68" // Index = 68, FModules = 1
+    {
+        0x208D
+        FM	0x2130	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_69" // Index = 69, FModules = 1
+    {
+        0x208E
+        FM	0x2134	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_70" // Index = 70, FModules = 1
+    {
+        0x208F
+        FM	0x2136	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_71" // Index = 71, FModules = 1
+    {
+        0x2090
+        FM	0x2138	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_72" // Index = 72, FModules = 1
+    {
+        0x2091
+        FM	0x2132	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "f_73" // Index = 73, FModules = 13
+    {
+        0x204F
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_74" // Index = 74, FModules = 13
+    {
+        0x2050
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_75" // Index = 75, FModules = 14
+    {
+        0x2064
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x1022	-61	26
+    }
+
+    FRAME "f_76" // Index = 76, FModules = 14
+    {
+        0x20FD
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-40	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-48	-31
+        FM	0x1005	-63	-23
+        FM	0x1006	-64	-16
+        FM	0x1007	-67	-8
+        FM	0x1022	-61	26
+    }
+
+    FRAME "f_77" // Index = 77, FModules = 14
+    {
+        0x2065
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x1022	-61	26        	FLAGS 0x00000020
+    }
+
+    FRAME "f_78" // Index = 78, FModules = 16
+    {
+        0x2066
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-37
+        FM	0x1003	-43	-41
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-54	-34
+        FM	0x1005	-72	-27
+        FM	0x1006	-76	-21
+        FM	0x1007	-80	-14
+        FM	0x101F	-52	21	+ROT_90
+        FM	0x101F	-63	21	+FLIP_Y	+ROT_90
+        FM	0x206E	-53	112	+HYPER_FM
+    }
+
+    FRAME "f_79" // Index = 79, FModules = 16
+    {
+        0x2067
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-37
+        FM	0x1003	-43	-41
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-34
+        FM	0x1005	-72	-27
+        FM	0x1006	-76	-21
+        FM	0x1007	-80	-14
+        FM	0x1020	-52	20	+ROT_90
+        FM	0x1020	-73	20	+FLIP_Y	+ROT_90
+        FM	0x206F	-53	112	+HYPER_FM
+    }
+
+    FRAME "f_80" // Index = 80, FModules = 16
+    {
+        0x2068
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-37
+        FM	0x1003	-43	-41
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-54	-34
+        FM	0x1005	-72	-27
+        FM	0x1006	-76	-21
+        FM	0x1007	-80	-14
+        FM	0x1021	-52	20	+ROT_90
+        FM	0x1021	-75	20	+FLIP_Y	+ROT_90
+        FM	0x2070	-53	112	+HYPER_FM
+    }
+
+    FRAME "f_81" // Index = 81, FModules = 13
+    {
+        0x2071
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-37
+        FM	0x1003	-43	-41
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-34
+        FM	0x1005	-72	-27
+        FM	0x1006	-76	-21
+        FM	0x1007	-80	-14
+    }
+
+    FRAME "f_82" // Index = 82, FModules = 15
+    {
+        0x2051
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x1026	-20	64
+        FM	0x1026	3	92
+    }
+
+    FRAME "f_83" // Index = 83, FModules = 15
+    {
+        0x2052
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x1025	-13	60
+        FM	0x1025	9	86
+    }
+
+    FRAME "f_84" // Index = 84, FModules = 15
+    {
+        0x2053
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-4
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x1024	3	57
+        FM	0x1024	23	84
+    }
+
+    FRAME "f_85" // Index = 85, FModules = 15
+    {
+        0x2054
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x1023	10	52
+        FM	0x1023	28	78
+    }
+
+    FRAME "f_86" // Index = 86, FModules = 4
+    {
+        0x2060
+        FM	0x1026	-80	24
+        FM	0x1026	-57	52
+        FM	0x1026	49	24	+FLIP_X
+        FM	0x1026	26	52	+FLIP_X
+    }
+
+    FRAME "f_87" // Index = 87, FModules = 4
+    {
+        0x2061
+        FM	0x1025	-71	19
+        FM	0x1025	-50	44
+        FM	0x1025	42	19	+FLIP_X
+        FM	0x1025	21	44	+FLIP_X
+    }
+
+    FRAME "f_88" // Index = 88, FModules = 4
+    {
+        0x2062
+        FM	0x1024	-53	15
+        FM	0x1024	-35	40
+        FM	0x1024	35	15	+FLIP_X
+        FM	0x1024	17	40	+FLIP_X
+    }
+
+    FRAME "f_89" // Index = 89, FModules = 4
+    {
+        0x2063
+        FM	0x1023	-44	9
+        FM	0x1023	-29	32
+        FM	0x1023	24	9	+FLIP_X
+        FM	0x1023	9	32	+FLIP_X
+    }
+
+    FRAME "f_90" // Index = 90, FModules = 8
+    {
+        0x207E
+        FM	0x102C	-24	-25
+        FM	0x102C	0	-25	+FLIP_X
+        FM	0x102C	-24	-1	+FLIP_Y
+        FM	0x102C	0	-1	+FLIP_X	+FLIP_Y
+        FM	0x1026	-80	24
+        FM	0x1026	-57	52
+        FM	0x1026	49	24	+FLIP_X
+        FM	0x1026	26	52	+FLIP_X
+    }
+
+    FRAME "f_91" // Index = 91, FModules = 8
+    {
+        0x207F
+        FM	0x102C	-24	-25        	FLAGS 0x00000020
+        FM	0x102C	0	-25        	FLAGS 0x00000020	+FLIP_X
+        FM	0x102C	-24	-1        	FLAGS 0x00000020	+FLIP_Y
+        FM	0x102C	0	-1        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+        FM	0x1025	-73	20
+        FM	0x1025	-51	46
+        FM	0x1025	44	20	+FLIP_X
+        FM	0x1025	22	46	+FLIP_X
+    }
+
+    FRAME "f_92" // Index = 92, FModules = 8
+    {
+        0x207C
+        FM	0x102C	-24	-25
+        FM	0x102C	0	-25	+FLIP_X
+        FM	0x102C	-24	-1	+FLIP_Y
+        FM	0x102C	0	-1	+FLIP_X	+FLIP_Y
+        FM	0x1024	-57	17
+        FM	0x1024	-37	44
+        FM	0x1024	39	17	+FLIP_X
+        FM	0x1024	19	44	+FLIP_X
+    }
+
+    FRAME "f_93" // Index = 93, FModules = 8
+    {
+        0x207D
+        FM	0x102C	-24	-25        	FLAGS 0x00000020
+        FM	0x102C	0	-25        	FLAGS 0x00000020	+FLIP_X
+        FM	0x102C	-24	-1        	FLAGS 0x00000020	+FLIP_Y
+        FM	0x102C	0	-1        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+        FM	0x1023	-50	12
+        FM	0x1023	-32	38
+        FM	0x1023	30	12	+FLIP_X
+        FM	0x1023	12	38	+FLIP_X
+    }
+
+    FRAME "f_94" // Index = 94, FModules = 14
+    {
+        0x2041
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	0	-62
+        FM	0x101B	-13	-74
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_95" // Index = 95, FModules = 14
+    {
+        0x2042
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	0	-62
+        FM	0x101A	-15	-94
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_96" // Index = 96, FModules = 14
+    {
+        0x2043
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-1	-64
+        FM	0x101A	-15	-94        	FLAGS 0x00000020
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_97" // Index = 97, FModules = 14
+    {
+        0x2044
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	9	-65
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+        FM	0x101B	-2	-76
+    }
+
+    FRAME "f_98" // Index = 98, FModules = 14
+    {
+        0x2045
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	9	-65
+        FM	0x101A	-3	-95
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_99" // Index = 99, FModules = 14
+    {
+        0x2046
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	9	-65
+        FM	0x101A	-3	-95        	FLAGS 0x00000020
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_100" // Index = 100, FModules = 13
+    {
+        0x2047
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-67
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_101" // Index = 101, FModules = 13
+    {
+        0x2017
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-37
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-40
+        FM	0x1004	-54	-33
+        FM	0x1005	-72	-26
+        FM	0x1006	-76	-20
+        FM	0x1007	-80	-13
+    }
+
+    FRAME "f_102" // Index = 102, FModules = 16
+    {
+        0x2018
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	-9
+        FM	0x1006	-76	-2
+        FM	0x1006	-76	5
+        FM	0x1007	-80	14
+    }
+
+    FRAME "f_103" // Index = 103, FModules = 16
+    {
+        0x2019
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	6
+        FM	0x1006	-76	28
+        FM	0x1006	-76	50
+        FM	0x1007	-80	74
+    }
+
+    FRAME "f_104" // Index = 104, FModules = 16
+    {
+        0x201A
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	18
+        FM	0x1006	-76	52
+        FM	0x1006	-76	86
+        FM	0x1007	-80	121
+    }
+
+    FRAME "f_105" // Index = 105, FModules = 16
+    {
+        0x201B
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+    }
+
+    FRAME "f_106" // Index = 106, FModules = 20
+    {
+        0x2022
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x1022	-37	82
+        FM	0x1022	-85	82
+        FM	0x1022	-37	117
+        FM	0x1022	-85	117
+    }
+
+    FRAME "f_107" // Index = 107, FModules = 20
+    {
+        0x2023
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x1022	-37	82        	FLAGS 0x00000020
+        FM	0x1022	-85	82        	FLAGS 0x00000020
+        FM	0x1022	-37	117        	FLAGS 0x00000020
+        FM	0x1022	-85	117        	FLAGS 0x00000020
+    }
+
+    FRAME "f_108" // Index = 108, FModules = 26
+    {
+        0x2026
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x101F	-31	80
+        FM	0x101F	-31	91	+FLIP_Y
+        FM	0x2027	-20	77	+HYPER_FM
+        FM	0x101F	-31	115
+        FM	0x101F	-31	126	+FLIP_Y
+        FM	0x2027	-20	112	+HYPER_FM
+        FM	0x101F	-83	80	+FLIP_X
+        FM	0x101F	-83	91	+FLIP_X	+FLIP_Y
+        FM	0x101F	-83	115	+FLIP_X
+        FM	0x101F	-83	126	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_109" // Index = 109, FModules = 26
+    {
+        0x202B
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x2029	-20	77	+HYPER_FM
+        FM	0x2029	-20	112	+HYPER_FM
+        FM	0x1020	-32	70
+        FM	0x1020	-32	91	+FLIP_Y
+        FM	0x1020	-32	105
+        FM	0x1020	-32	126	+FLIP_Y
+        FM	0x1020	-83	70	+FLIP_X
+        FM	0x1020	-83	91	+FLIP_X	+FLIP_Y
+        FM	0x1020	-83	105	+FLIP_X
+        FM	0x1020	-83	126	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_110" // Index = 110, FModules = 26
+    {
+        0x202C
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x202A	-20	77	+HYPER_FM
+        FM	0x202A	-20	112	+HYPER_FM
+        FM	0x1021	-32	68
+        FM	0x1021	-32	91	+FLIP_Y
+        FM	0x1021	-32	103
+        FM	0x1021	-32	126	+FLIP_Y
+        FM	0x1021	-83	68	+FLIP_X
+        FM	0x1021	-83	91	+FLIP_X	+FLIP_Y
+        FM	0x1021	-83	103	+FLIP_X
+        FM	0x1021	-83	126	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_111" // Index = 111, FModules = 2
+    {
+        0x20F4
+        FM	0x2027	123	32	+HYPER_FM
+        FM	0x2027	123	67	+HYPER_FM
+    }
+
+    FRAME "f_112" // Index = 112, FModules = 2
+    {
+        0x20F5
+        FM	0x2029	123	32	+HYPER_FM
+        FM	0x2029	123	67	+HYPER_FM
+    }
+
+    FRAME "f_113" // Index = 113, FModules = 2
+    {
+        0x20F6
+        FM	0x202A	123	32	+HYPER_FM
+        FM	0x202A	123	67	+HYPER_FM
+    }
+
+    FRAME "f_114" // Index = 114, FModules = 2
+    {
+        0x20F7
+        FM	0x2027	123	67	+HYPER_FM
+        FM	0x2027	123	-3	+HYPER_FM
+    }
+
+    FRAME "f_115" // Index = 115, FModules = 2
+    {
+        0x20F8
+        FM	0x2029	123	-3	+HYPER_FM
+        FM	0x2029	123	67	+HYPER_FM
+    }
+
+    FRAME "f_116" // Index = 116, FModules = 2
+    {
+        0x20F9
+        FM	0x202A	123	-3	+HYPER_FM
+        FM	0x202A	123	67	+HYPER_FM
+    }
+
+    FRAME "f_117" // Index = 117, FModules = 20
+    {
+        0x2020
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x1022	-37	47
+        FM	0x1022	-85	47
+        FM	0x1022	-37	82
+        FM	0x1022	-85	82
+    }
+
+    FRAME "f_118" // Index = 118, FModules = 20
+    {
+        0x2021
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x1022	-37	47        	FLAGS 0x00000020
+        FM	0x1022	-85	47        	FLAGS 0x00000020
+        FM	0x1022	-37	82        	FLAGS 0x00000020
+        FM	0x1022	-85	82        	FLAGS 0x00000020
+    }
+
+    FRAME "f_119" // Index = 119, FModules = 26
+    {
+        0x2034
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x101F	-31	45
+        FM	0x101F	-31	56	+FLIP_Y
+        FM	0x2027	-20	42	+HYPER_FM
+        FM	0x101F	-31	80
+        FM	0x101F	-31	91	+FLIP_Y
+        FM	0x101F	-83	45	+FLIP_X
+        FM	0x101F	-83	56	+FLIP_X	+FLIP_Y
+        FM	0x101F	-83	80	+FLIP_X
+        FM	0x101F	-83	91	+FLIP_X	+FLIP_Y
+        FM	0x2027	-20	77	+HYPER_FM
+    }
+
+    FRAME "f_120" // Index = 120, FModules = 26
+    {
+        0x2035
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x2029	-20	42	+HYPER_FM
+        FM	0x2029	-20	77	+HYPER_FM
+        FM	0x1020	-32	35
+        FM	0x1020	-32	56	+FLIP_Y
+        FM	0x1020	-32	70
+        FM	0x1020	-32	91	+FLIP_Y
+        FM	0x1020	-83	35	+FLIP_X
+        FM	0x1020	-83	56	+FLIP_X	+FLIP_Y
+        FM	0x1020	-83	70	+FLIP_X
+        FM	0x1020	-83	91	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_121" // Index = 121, FModules = 26
+    {
+        0x2036
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x202A	-20	42	+HYPER_FM
+        FM	0x202A	-20	77	+HYPER_FM
+        FM	0x1021	-32	33
+        FM	0x1021	-32	56	+FLIP_Y
+        FM	0x1021	-32	68
+        FM	0x1021	-32	91	+FLIP_Y
+        FM	0x1021	-83	33	+FLIP_X
+        FM	0x1021	-83	56	+FLIP_X	+FLIP_Y
+        FM	0x1021	-83	68	+FLIP_X
+        FM	0x1021	-83	91	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_122" // Index = 122, FModules = 20
+    {
+        0x202F
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x1022	-37	47
+        FM	0x1022	-85	47
+        FM	0x1022	-37	117
+        FM	0x1022	-85	117
+    }
+
+    FRAME "f_123" // Index = 123, FModules = 20
+    {
+        0x2030
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x1022	-37	47        	FLAGS 0x00000020
+        FM	0x1022	-85	47        	FLAGS 0x00000020
+        FM	0x1022	-37	117        	FLAGS 0x00000020
+        FM	0x1022	-85	117        	FLAGS 0x00000020
+    }
+
+    FRAME "f_124" // Index = 124, FModules = 26
+    {
+        0x2031
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x101F	-31	45
+        FM	0x101F	-31	56	+FLIP_Y
+        FM	0x2027	-20	42	+HYPER_FM
+        FM	0x101F	-31	115
+        FM	0x101F	-31	126	+FLIP_Y
+        FM	0x101F	-83	45	+FLIP_X
+        FM	0x101F	-83	56	+FLIP_X	+FLIP_Y
+        FM	0x101F	-83	115	+FLIP_X
+        FM	0x101F	-83	126	+FLIP_X	+FLIP_Y
+        FM	0x2027	-20	112	+HYPER_FM
+    }
+
+    FRAME "f_125" // Index = 125, FModules = 26
+    {
+        0x2032
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x2029	-20	42	+HYPER_FM
+        FM	0x2029	-20	112	+HYPER_FM
+        FM	0x1020	-32	35
+        FM	0x1020	-32	56	+FLIP_Y
+        FM	0x1020	-32	105
+        FM	0x1020	-32	126	+FLIP_Y
+        FM	0x1020	-83	35	+FLIP_X
+        FM	0x1020	-83	56	+FLIP_X	+FLIP_Y
+        FM	0x1020	-83	105	+FLIP_X
+        FM	0x1020	-83	126	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_126" // Index = 126, FModules = 26
+    {
+        0x2033
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-36
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-1
+        FM	0x1003	-43	-39
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1006	-76	19
+        FM	0x1006	-76	54
+        FM	0x1006	-76	89
+        FM	0x1007	-80	125
+        FM	0x202A	-20	42	+HYPER_FM
+        FM	0x202A	-20	112	+HYPER_FM
+        FM	0x1021	-32	33
+        FM	0x1021	-32	56	+FLIP_Y
+        FM	0x1021	-32	103
+        FM	0x1021	-32	126	+FLIP_Y
+        FM	0x1021	-83	33	+FLIP_X
+        FM	0x1021	-83	56	+FLIP_X	+FLIP_Y
+        FM	0x1021	-83	103	+FLIP_X
+        FM	0x1021	-83	126	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "f_127" // Index = 127, FModules = 13
+    {
+        0x200B
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-35
+        FM	0x1003	-43	-39
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-2
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_128" // Index = 128, FModules = 13
+    {
+        0x200C
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-35
+        FM	0x1003	-43	-38
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-2
+        FM	0x1004	-54	-31
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_129" // Index = 129, FModules = 13
+    {
+        0x200D
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-35
+        FM	0x1003	-43	-38
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-30
+        FM	0x1005	-72	-23
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_130" // Index = 130, FModules = 13
+    {
+        0x200E
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-35
+        FM	0x1003	-43	-38
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-30
+        FM	0x1005	-72	-22
+        FM	0x1006	-76	-16
+        FM	0x1007	-80	-8
+    }
+
+    FRAME "f_131" // Index = 131, FModules = 13
+    {
+        0x200F
+        FM	0x100F	11	-100
+        FM	0x100E	-17	-52
+        FM	0x1002	-29	-35
+        FM	0x1003	-43	-38
+        FM	0x1001	-31	-117
+        FM	0x100A	-2	-66
+        FM	0x100B	8	-69
+        FM	0x1000	-17	-42
+        FM	0x1008	28	-3
+        FM	0x1004	-54	-30
+        FM	0x1005	-72	-22
+        FM	0x1006	-76	-15
+        FM	0x1007	-80	-7
+    }
+
+    FRAME "f_132" // Index = 132, FModules = 9
+    {
+        0x2002
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "f_133" // Index = 133, FModules = 15
+    {
+        0x212C
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1003	56	-86	+FLIP_X
+        FM	0x1005	63	-77	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1003	-91	-86
+        FM	0x1005	-111	-77
+        FM	0x1036	-72	-62
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "f_134" // Index = 134, FModules = 15
+    {
+        0x212D
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1003	56	-86	+FLIP_X
+        FM	0x1005	62	-76	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1003	-91	-86
+        FM	0x1005	-110	-76
+        FM	0x1036	-72	-62
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "f_135" // Index = 135, FModules = 15
+    {
+        0x212E
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1003	56	-87	+FLIP_X
+        FM	0x1005	62	-77	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1003	-91	-87
+        FM	0x1005	-110	-77
+        FM	0x1036	-72	-62
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "f_136" // Index = 136, FModules = 14
+    {
+        0x210C
+        FM	0x1002	-89	-81
+        FM	0x1003	-103	-84
+        FM	0x1004	-114	-76
+        FM	0x1005	-132	-68
+        FM	0x1006	-136	-61
+        FM	0x1007	-140	-53
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	-72	-62
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_137" // Index = 137, FModules = 7
+    {
+        0x210E
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "f_138" // Index = 138, FModules = 1
+    {
+        0x2119
+        FM	0x210E	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "hyper_pipe" // Index = 139, FModules = 6
+    {
+        0x210D
+        FM	0x100F	-49	-45
+        FM	0x100E	-77	3
+        FM	0x1001	-91	-62
+        FM	0x100F	17	-45	+FLIP_X
+        FM	0x100E	56	3	+FLIP_X
+        FM	0x1001	50	-62	+FLIP_X
+    }
+
+    FRAME "hyper_pipe3" // Index = 140, FModules = 5
+    {
+        0x2147
+        FM	0x100F	-49	-45
+        FM	0x100E	-77	3
+        FM	0x100F	17	-45	+FLIP_X
+        FM	0x100E	56	3	+FLIP_X
+        FM	0x1001	50	-62	+FLIP_X
+    }
+
+    FRAME "hyper_pipe2" // Index = 141, FModules = 4
+    {
+        0x213D
+        FM	0x100F	-49	-45
+        FM	0x100E	-77	3
+        FM	0x100F	17	-45	+FLIP_X
+        FM	0x100E	56	3	+FLIP_X
+    }
+
+    FRAME "ff" // Index = 142, FModules = 8
+    {
+        0x2069
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1022	102	-19	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_01" // Index = 143, FModules = 1
+    {
+        0x211C
+        FM	0x2069	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_02" // Index = 144, FModules = 8
+    {
+        0x206A
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1022	102	-19	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_03" // Index = 145, FModules = 1
+    {
+        0x211D
+        FM	0x206A	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_04" // Index = 146, FModules = 10
+    {
+        0x206B
+        RC	0	0	0	0
+        RC	0	0	5	0
+        RC	101	-26	123	167
+        FM	0x1002	63	-82	+FLIP_X
+        FM	0x1003	68	-86	+FLIP_X
+        FM	0x1004	75	-79	+FLIP_X
+        FM	0x1005	84	-72	+FLIP_X
+        FM	0x1006	87	-66	+FLIP_X
+        FM	0x1007	83	-59	+FLIP_X
+        FM	0x101F	101	-24	+FLIP_Y	+ROT_90
+        FM	0x101F	112	-24	+ROT_90
+        FM	0x206E	113	67	+FLIP_X	+HYPER_FM
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_05" // Index = 147, FModules = 1
+    {
+        0x211E
+        FM	0x206B	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_06" // Index = 148, FModules = 10
+    {
+        0x206C
+        FM	0x1002	63	-82	+FLIP_X
+        FM	0x1003	68	-86	+FLIP_X
+        FM	0x1004	75	-79	+FLIP_X
+        FM	0x1005	84	-72	+FLIP_X
+        FM	0x1006	87	-66	+FLIP_X
+        FM	0x1007	83	-59	+FLIP_X
+        FM	0x1020	91	-25	+FLIP_Y	+ROT_90
+        FM	0x1020	112	-25	+ROT_90
+        FM	0x206F	113	67	+FLIP_X	+HYPER_FM
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_07" // Index = 149, FModules = 1
+    {
+        0x211F
+        FM	0x206C	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_08" // Index = 150, FModules = 10
+    {
+        0x206D
+        FM	0x1002	63	-82	+FLIP_X
+        FM	0x1003	68	-86	+FLIP_X
+        FM	0x1004	75	-79	+FLIP_X
+        FM	0x1005	84	-72	+FLIP_X
+        FM	0x1006	87	-66	+FLIP_X
+        FM	0x1007	83	-59	+FLIP_X
+        FM	0x1021	89	-25	+FLIP_Y	+ROT_90
+        FM	0x1021	112	-25	+ROT_90
+        FM	0x2070	113	67	+FLIP_X	+HYPER_FM
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_09" // Index = 151, FModules = 1
+    {
+        0x2120
+        FM	0x206D	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_10" // Index = 152, FModules = 7
+    {
+        0x2072
+        FM	0x1002	63	-82	+FLIP_X
+        FM	0x1003	68	-86	+FLIP_X
+        FM	0x1004	75	-79	+FLIP_X
+        FM	0x1005	84	-72	+FLIP_X
+        FM	0x1006	87	-66	+FLIP_X
+        FM	0x1007	83	-59	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_11" // Index = 153, FModules = 1
+    {
+        0x2121
+        FM	0x2072	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_12" // Index = 154, FModules = 7
+    {
+        0x211B
+        FM	0x1002	63	-82	+FLIP_X
+        FM	0x1003	68	-85	+FLIP_X
+        FM	0x1004	75	-78	+FLIP_X
+        FM	0x1005	84	-70	+FLIP_X
+        FM	0x1006	87	-64	+FLIP_X
+        FM	0x1007	83	-56	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_13" // Index = 155, FModules = 1
+    {
+        0x2122
+        FM	0x211B	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_14" // Index = 156, FModules = 7
+    {
+        0x2016
+        FM	0x1002	63	-82	+FLIP_X
+        FM	0x1003	68	-85	+FLIP_X
+        FM	0x1004	75	-78	+FLIP_X
+        FM	0x1005	84	-71	+FLIP_X
+        FM	0x1006	87	-65	+FLIP_X
+        FM	0x1007	83	-58	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_15" // Index = 157, FModules = 10
+    {
+        0x201C
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-54	+FLIP_X
+        FM	0x1006	87	-47	+FLIP_X
+        FM	0x1006	87	-40	+FLIP_X
+        FM	0x1007	83	-31	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_16" // Index = 158, FModules = 10
+    {
+        0x201D
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-39	+FLIP_X
+        FM	0x1006	87	-17	+FLIP_X
+        FM	0x1006	87	5	+FLIP_X
+        FM	0x1007	83	29	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_17" // Index = 159, FModules = 10
+    {
+        0x201E
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-27	+FLIP_X
+        FM	0x1006	87	7	+FLIP_X
+        FM	0x1006	87	41	+FLIP_X
+        FM	0x1007	83	76	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_18" // Index = 160, FModules = 10
+    {
+        0x201F
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_19" // Index = 161, FModules = 14
+    {
+        0x2024
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1022	78	37	+FLIP_X
+        FM	0x1022	126	37	+FLIP_X
+        FM	0x1022	78	72	+FLIP_X
+        FM	0x1022	126	72	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_20" // Index = 162, FModules = 14
+    {
+        0x2025
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1022	78	37	+FLIP_X
+        FM	0x1022	126	37	+FLIP_X
+        FM	0x1022	78	72	+FLIP_X
+        FM	0x1022	126	72	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_21" // Index = 163, FModules = 20
+    {
+        0x2028
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x101F	80	35	+FLIP_X
+        FM	0x101F	80	46	+FLIP_X	+FLIP_Y
+        FM	0x2027	80	32	+FLIP_X	+HYPER_FM
+        FM	0x101F	80	70	+FLIP_X
+        FM	0x101F	80	81	+FLIP_X	+FLIP_Y
+        FM	0x2027	80	67	+FLIP_X	+HYPER_FM
+        FM	0x101F	132	35
+        FM	0x101F	132	46	+FLIP_Y
+        FM	0x101F	132	70
+        FM	0x101F	132	81	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_22" // Index = 164, FModules = 20
+    {
+        0x202D
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x2029	80	32	+FLIP_X	+HYPER_FM
+        FM	0x2029	80	67	+FLIP_X	+HYPER_FM
+        FM	0x1020	80	25	+FLIP_X
+        FM	0x1020	80	46	+FLIP_X	+FLIP_Y
+        FM	0x1020	80	60	+FLIP_X
+        FM	0x1020	80	81	+FLIP_X	+FLIP_Y
+        FM	0x1020	131	25
+        FM	0x1020	131	46	+FLIP_Y
+        FM	0x1020	131	60
+        FM	0x1020	131	81	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_23" // Index = 165, FModules = 20
+    {
+        0x202E
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x202A	80	32	+FLIP_X	+HYPER_FM
+        FM	0x202A	80	67	+FLIP_X	+HYPER_FM
+        FM	0x1021	80	23	+FLIP_X
+        FM	0x1021	80	46	+FLIP_X	+FLIP_Y
+        FM	0x1021	80	58	+FLIP_X
+        FM	0x1021	80	81	+FLIP_X	+FLIP_Y
+        FM	0x1021	131	23
+        FM	0x1021	131	46	+FLIP_Y
+        FM	0x1021	131	58
+        FM	0x1021	131	81	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_24" // Index = 166, FModules = 14
+    {
+        0x2037
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1022	78	2	+FLIP_X
+        FM	0x1022	126	2	+FLIP_X
+        FM	0x1022	78	37	+FLIP_X
+        FM	0x1022	126	37	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_25" // Index = 167, FModules = 14
+    {
+        0x2038
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1022	78	2	+FLIP_X
+        FM	0x1022	126	2	+FLIP_X
+        FM	0x1022	78	37	+FLIP_X
+        FM	0x1022	126	37	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_26" // Index = 168, FModules = 20
+    {
+        0x2039
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x101F	80	0	+FLIP_X
+        FM	0x101F	80	11	+FLIP_X	+FLIP_Y
+        FM	0x2027	80	-3	+FLIP_X	+HYPER_FM
+        FM	0x101F	80	35	+FLIP_X
+        FM	0x101F	80	46	+FLIP_X	+FLIP_Y
+        FM	0x101F	132	0
+        FM	0x101F	132	11	+FLIP_Y
+        FM	0x101F	132	35
+        FM	0x101F	132	46	+FLIP_Y
+        FM	0x2027	80	32	+FLIP_X	+HYPER_FM
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_27" // Index = 169, FModules = 20
+    {
+        0x203A
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x2029	80	-3	+FLIP_X	+HYPER_FM
+        FM	0x2029	80	32	+FLIP_X	+HYPER_FM
+        FM	0x1020	80	-10	+FLIP_X
+        FM	0x1020	80	11	+FLIP_X	+FLIP_Y
+        FM	0x1020	80	25	+FLIP_X
+        FM	0x1020	80	46	+FLIP_X	+FLIP_Y
+        FM	0x1020	131	-10
+        FM	0x1020	131	11	+FLIP_Y
+        FM	0x1020	131	25
+        FM	0x1020	131	46	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_28" // Index = 170, FModules = 20
+    {
+        0x203B
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x202A	80	-3	+FLIP_X	+HYPER_FM
+        FM	0x202A	80	32	+FLIP_X	+HYPER_FM
+        FM	0x1021	80	-12	+FLIP_X
+        FM	0x1021	80	11	+FLIP_X	+FLIP_Y
+        FM	0x1021	80	23	+FLIP_X
+        FM	0x1021	80	46	+FLIP_X	+FLIP_Y
+        FM	0x1021	131	-12
+        FM	0x1021	131	11	+FLIP_Y
+        FM	0x1021	131	23
+        FM	0x1021	131	46	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_29" // Index = 171, FModules = 14
+    {
+        0x203C
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1022	78	2	+FLIP_X
+        FM	0x1022	126	2	+FLIP_X
+        FM	0x1022	78	72	+FLIP_X
+        FM	0x1022	126	72	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_30" // Index = 172, FModules = 14
+    {
+        0x203D
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x1022	78	2	+FLIP_X
+        FM	0x1022	126	2	+FLIP_X
+        FM	0x1022	78	72	+FLIP_X
+        FM	0x1022	126	72	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_31" // Index = 173, FModules = 20
+    {
+        0x203E
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x101F	80	0	+FLIP_X
+        FM	0x101F	80	11	+FLIP_X	+FLIP_Y
+        FM	0x2027	80	-3	+FLIP_X	+HYPER_FM
+        FM	0x101F	80	70	+FLIP_X
+        FM	0x101F	80	81	+FLIP_X	+FLIP_Y
+        FM	0x101F	132	0
+        FM	0x101F	132	11	+FLIP_Y
+        FM	0x101F	132	70
+        FM	0x101F	132	81	+FLIP_Y
+        FM	0x2027	80	67	+FLIP_X	+HYPER_FM
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_32" // Index = 174, FModules = 20
+    {
+        0x203F
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x2029	80	-3	+FLIP_X	+HYPER_FM
+        FM	0x2029	80	67	+FLIP_X	+HYPER_FM
+        FM	0x1020	80	-10	+FLIP_X
+        FM	0x1020	80	11	+FLIP_X	+FLIP_Y
+        FM	0x1020	80	60	+FLIP_X
+        FM	0x1020	80	81	+FLIP_X	+FLIP_Y
+        FM	0x1020	131	-10
+        FM	0x1020	131	11	+FLIP_Y
+        FM	0x1020	131	60
+        FM	0x1020	131	81	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_33" // Index = 175, FModules = 20
+    {
+        0x2040
+        FM	0x1002	63	-81	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1006	87	-26	+FLIP_X
+        FM	0x1006	87	9	+FLIP_X
+        FM	0x1006	87	44	+FLIP_X
+        FM	0x1007	83	80	+FLIP_X
+        FM	0x202A	80	-3	+FLIP_X	+HYPER_FM
+        FM	0x202A	80	67	+FLIP_X	+HYPER_FM
+        FM	0x1021	80	-12	+FLIP_X
+        FM	0x1021	80	11	+FLIP_X	+FLIP_Y
+        FM	0x1021	80	58	+FLIP_X
+        FM	0x1021	80	81	+FLIP_X	+FLIP_Y
+        FM	0x1021	131	-12
+        FM	0x1021	131	11	+FLIP_Y
+        FM	0x1021	131	58
+        FM	0x1021	131	81	+FLIP_Y
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_34" // Index = 176, FModules = 11
+    {
+        0x2048
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-60	-107
+        FM	0x101B	-73	-119
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	39	-107	+FLIP_X
+        FM	0x101B	43	-119	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "ff_35" // Index = 177, FModules = 12
+    {
+        0x2049
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-60	-107
+        FM	0x101A	-75	-139
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x1001	50	-162	+FLIP_X
+        FM	0x100A	39	-107	+FLIP_X
+        FM	0x101A	49	-139	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "ff_36" // Index = 178, FModules = 11
+    {
+        0x204A
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-61	-109
+        FM	0x101A	-75	-139
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	40	-109	+FLIP_X
+        FM	0x101A	49	-139	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "ff_37" // Index = 179, FModules = 11
+    {
+        0x204B
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-51	-110
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x101B	-62	-121
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	31	-110	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x101B	32	-121	+FLIP_X
+    }
+
+    FRAME "ff_38" // Index = 180, FModules = 11
+    {
+        0x204C
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-51	-110
+        FM	0x101A	-63	-140
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	31	-110	+FLIP_X
+        FM	0x101A	37	-140	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "ff_39" // Index = 181, FModules = 11
+    {
+        0x204D
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-51	-110
+        FM	0x101A	-63	-140
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	31	-110	+FLIP_X
+        FM	0x101A	37	-140	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "ff_40" // Index = 182, FModules = 9
+    {
+        0x204E
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-112
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-112	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+    }
+
+    FRAME "ff_41" // Index = 183, FModules = 9
+    {
+        0x2055
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-49
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-49	+FLIP_X
+    }
+
+    FRAME "ff_42" // Index = 184, FModules = 2
+    {
+        0x2078
+        FM	0x2055	0	0	+HYPER_FM
+        FM	0x2075	1	67	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_43" // Index = 185, FModules = 2
+    {
+        0x2079
+        FM	0x2055	0	0	+HYPER_FM
+        FM	0x2076	1	67	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_44" // Index = 186, FModules = 2
+    {
+        0x207A
+        FM	0x2055	0	0	+HYPER_FM
+        FM	0x2077	11	67	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_45" // Index = 187, FModules = 2
+    {
+        0x2056
+        FM	0x2050	-60	-45	+HYPER_FM
+        FM	0x2050	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_46" // Index = 188, FModules = 2
+    {
+        0x210B
+        FM	0x210A	-60	-45	+HYPER_FM
+        FM	0x210A	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_47" // Index = 189, FModules = 5
+    {
+        0x20FA
+        FM	0x2012	0	0	+HYPER_FM
+        FM	0x102C	-24	-25
+        FM	0x102C	0	-25	+FLIP_X
+        FM	0x102C	-24	-1	+FLIP_Y
+        FM	0x102C	0	-1	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_48" // Index = 190, FModules = 5
+    {
+        0x20FB
+        FM	0x2012	0	0	+HYPER_FM
+        FM	0x102C	-24	-25        	FLAGS 0x00000020
+        FM	0x102C	0	-25        	FLAGS 0x00000020	+FLIP_X
+        FM	0x102C	-24	-1        	FLAGS 0x00000020	+FLIP_Y
+        FM	0x102C	0	-1        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_49" // Index = 191, FModules = 2
+    {
+        0x20FC
+        FM	0x2012	0	0	+HYPER_FM
+        FM	0x1022	-10	-15
+    }
+
+    FRAME "ff_50" // Index = 192, FModules = 2
+    {
+        0x2073
+        FM	0x204F	-60	-45	+HYPER_FM
+        FM	0x204F	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_51" // Index = 193, FModules = 2
+    {
+        0x2074
+        FM	0x2050	-60	-45	+HYPER_FM
+        FM	0x2050	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_52" // Index = 194, FModules = 2
+    {
+        0x2057
+        FM	0x2051	-60	-45	+HYPER_FM
+        FM	0x2051	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_53" // Index = 195, FModules = 2
+    {
+        0x2058
+        FM	0x2052	-60	-45	+HYPER_FM
+        FM	0x2052	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_54" // Index = 196, FModules = 2
+    {
+        0x2059
+        FM	0x2053	-60	-45	+HYPER_FM
+        FM	0x2053	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_55" // Index = 197, FModules = 2
+    {
+        0x205A
+        FM	0x2054	-60	-45	+HYPER_FM
+        FM	0x2054	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_56" // Index = 198, FModules = 10
+    {
+        0x20EB
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_57" // Index = 199, FModules = 5
+    {
+        0x212F
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "ff_58" // Index = 200, FModules = 1
+    {
+        0x2142
+        FM	0x212F	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_59" // Index = 201, FModules = 11
+    {
+        0x20EC
+        FM	0x2147	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "ff_60" // Index = 202, FModules = 4
+    {
+        0x213E
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "ff_61" // Index = 203, FModules = 1
+    {
+        0x2143
+        FM	0x213E	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_62" // Index = 204, FModules = 11
+    {
+        0x20ED
+        FM	0x213D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-46
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-46	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "ff_63" // Index = 205, FModules = 3
+    {
+        0x213F
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "ff_64" // Index = 206, FModules = 1
+    {
+        0x2144
+        FM	0x213F	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_65" // Index = 207, FModules = 11
+    {
+        0x20EE
+        FM	0x213D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1037	-32	-40
+        FM	0x1037	0	-40	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "ff_66" // Index = 208, FModules = 2
+    {
+        0x2140
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "ff_67" // Index = 209, FModules = 1
+    {
+        0x2145
+        FM	0x2140	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_68" // Index = 210, FModules = 11
+    {
+        0x20EF
+        FM	0x213D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1037	-32	-40
+        FM	0x1037	0	-40	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+        FM	0x1036	-72	-62
+    }
+
+    FRAME "ff_69" // Index = 211, FModules = 1
+    {
+        0x2141
+        FM	0x1007	83	-53	+FLIP_X
+    }
+
+    FRAME "ff_70" // Index = 212, FModules = 1
+    {
+        0x2146
+        FM	0x2141	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_71" // Index = 213, FModules = 2
+    {
+        0x20F0
+        FM	0x20E8	-60	-45	+HYPER_FM
+        FM	0x20E7	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_72" // Index = 214, FModules = 2
+    {
+        0x20F1
+        FM	0x20E9	-60	-45	+HYPER_FM
+        FM	0x20E8	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_73" // Index = 215, FModules = 2
+    {
+        0x20F2
+        FM	0x20E2	-60	-45	+HYPER_FM
+        FM	0x20E9	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_74" // Index = 216, FModules = 13
+    {
+        0x20EA
+        FM	0x213D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1009	-29	-108
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1009	0	-108	+FLIP_X
+        FM	0x1037	-32	-40
+        FM	0x1037	0	-40	+FLIP_X
+        FM	0x1036	-72	-62
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_75" // Index = 217, FModules = 9
+    {
+        0x2010
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-47
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-47	+FLIP_X
+    }
+
+    FRAME "ff_76" // Index = 218, FModules = 14
+    {
+        0x210F
+        FM	0x1002	-89	-80
+        FM	0x1003	-103	-84
+        FM	0x1004	-114	-76
+        FM	0x1005	-132	-68
+        FM	0x1006	-136	-61
+        FM	0x1007	-140	-53
+        FM	0x1002	63	-80	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	-72	-62
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_77" // Index = 219, FModules = 7
+    {
+        0x2110
+        FM	0x1002	63	-80	+FLIP_X
+        FM	0x1003	68	-84	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_78" // Index = 220, FModules = 1
+    {
+        0x211A
+        FM	0x2110	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_79" // Index = 221, FModules = 2
+    {
+        0x2011
+        FM	0x200C	-60	-45	+HYPER_FM
+        FM	0x200C	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_80" // Index = 222, FModules = 7
+    {
+        0x2111
+        FM	0x1002	63	-80	+FLIP_X
+        FM	0x1003	68	-83	+FLIP_X
+        FM	0x1004	75	-76	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_81" // Index = 223, FModules = 1
+    {
+        0x2118
+        FM	0x2111	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_82" // Index = 224, FModules = 9
+    {
+        0x2012
+        RC	-29	-34	29	6
+        FM	0x210D	0	-100	+HYPER_FM
+        FM	0x100A	-62	-111
+        FM	0x100B	-52	-114
+        FM	0x1000	-77	-87
+        FM	0x1008	-32	-48
+        FM	0x100A	41	-111	+FLIP_X
+        FM	0x100B	32	-114	+FLIP_X
+        FM	0x1000	0	-87	+FLIP_X
+        FM	0x1008	0	-48	+FLIP_X
+    }
+
+    FRAME "ff_83" // Index = 225, FModules = 7
+    {
+        0x2112
+        FM	0x1002	63	-80	+FLIP_X
+        FM	0x1003	68	-83	+FLIP_X
+        FM	0x1004	75	-75	+FLIP_X
+        FM	0x1005	84	-68	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_84" // Index = 226, FModules = 1
+    {
+        0x2117
+        FM	0x2112	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_85" // Index = 227, FModules = 2
+    {
+        0x2013
+        FM	0x200E	-60	-45	+HYPER_FM
+        FM	0x200E	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_86" // Index = 228, FModules = 7
+    {
+        0x2113
+        FM	0x1002	63	-80	+FLIP_X
+        FM	0x1003	68	-83	+FLIP_X
+        FM	0x1004	75	-75	+FLIP_X
+        FM	0x1005	84	-67	+FLIP_X
+        FM	0x1006	87	-61	+FLIP_X
+        FM	0x1007	83	-53	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_87" // Index = 229, FModules = 1
+    {
+        0x2116
+        FM	0x2113	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_88" // Index = 230, FModules = 2
+    {
+        0x2014
+        FM	0x200F	-60	-45	+HYPER_FM
+        FM	0x200F	60	-45	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_89" // Index = 231, FModules = 7
+    {
+        0x2114
+        FM	0x1002	63	-80	+FLIP_X
+        FM	0x1003	68	-83	+FLIP_X
+        FM	0x1004	75	-75	+FLIP_X
+        FM	0x1005	84	-67	+FLIP_X
+        FM	0x1006	87	-60	+FLIP_X
+        FM	0x1007	83	-52	+FLIP_X
+        FM	0x1036	62	-62	+FLIP_X
+    }
+
+    FRAME "ff_90" // Index = 232, FModules = 1
+    {
+        0x2115
+        FM	0x2114	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "ff_91" // Index = 233, FModules = 6
+    {
+        0x2006
+        FM	0x1012	-23	-71
+        FM	0x1014	-27	-53
+        FM	0x1011	-29	-66
+        FM	0x1010	-18	-79
+        FM	0x1013	-26	-61
+        FM	0x1015	-29	-47
+    }
+
+    FRAME "ff_92" // Index = 234, FModules = 11
+    {
+        0x2007
+        FM	0x1012	-23	-116
+        FM	0x1012	4	-116	+FLIP_X
+        FM	0x1014	-27	-98
+        FM	0x1014	3	-98	+FLIP_X
+        FM	0x1017	-25	-97
+        FM	0x1017	0	-97	+FLIP_X
+        FM	0x1010	-18	-124
+        FM	0x1013	-26	-106
+        FM	0x1013	1	-106	+FLIP_X
+        FM	0x1015	-29	-92
+        FM	0x1015	0	-92	+FLIP_X
+    }
+
+    FRAME "ff_93" // Index = 235, FModules = 11
+    {
+        0x2008
+        FM	0x1012	-23	-116
+        FM	0x1012	4	-116	+FLIP_X
+        FM	0x1014	-27	-98
+        FM	0x1014	3	-98	+FLIP_X
+        FM	0x1017	-25	-97
+        FM	0x1017	0	-97	+FLIP_X
+        FM	0x1010	-18	-123
+        FM	0x1013	-26	-106
+        FM	0x1013	1	-106	+FLIP_X
+        FM	0x1015	-29	-92
+        FM	0x1015	0	-92	+FLIP_X
+    }
+
+    FRAME "ff_94" // Index = 236, FModules = 11
+    {
+        0x2009
+        FM	0x1012	-23	-115
+        FM	0x1012	4	-115	+FLIP_X
+        FM	0x1014	-27	-98
+        FM	0x1014	3	-98	+FLIP_X
+        FM	0x1017	-25	-97
+        FM	0x1017	0	-97	+FLIP_X
+        FM	0x1010	-18	-122
+        FM	0x1013	-26	-105
+        FM	0x1013	1	-105	+FLIP_X
+        FM	0x1015	-29	-92
+        FM	0x1015	0	-92	+FLIP_X
+    }
+
+    FRAME "ff_95" // Index = 237, FModules = 11
+    {
+        0x200A
+        FM	0x1012	-23	-70
+        FM	0x1012	4	-70	+FLIP_X
+        FM	0x1014	-27	-53
+        FM	0x1014	3	-53	+FLIP_X
+        FM	0x1017	-25	-52
+        FM	0x1017	0	-52	+FLIP_X
+        FM	0x1010	-18	-78
+        FM	0x1013	-26	-60
+        FM	0x1013	1	-60	+FLIP_X
+        FM	0x1015	-29	-47
+        FM	0x1015	0	-47	+FLIP_X
+    }
+
+    FRAME "ff_96" // Index = 238, FModules = 11
+    {
+        0x205D
+        FM	0x1012	-23	-86
+        FM	0x1012	4	-86	+FLIP_X
+        FM	0x1014	-27	-68
+        FM	0x1014	3	-68	+FLIP_X
+        FM	0x1017	-25	-67
+        FM	0x1017	0	-67	+FLIP_X
+        FM	0x1010	-18	-94
+        FM	0x1013	-26	-76
+        FM	0x1013	1	-76	+FLIP_X
+        FM	0x1015	-29	-62
+        FM	0x1015	0	-62	+FLIP_X
+    }
+
+    FRAME "ff_97" // Index = 239, FModules = 12
+    {
+        0x205E
+        FM	0x1012	-26	-86
+        FM	0x1012	7	-86	+FLIP_X
+        FM	0x1014	-27	-56
+        FM	0x1014	3	-56	+FLIP_X
+        FM	0x1016	-27	-52
+        FM	0x1016	-5	-52	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-29	-76
+        FM	0x1013	4	-76	+FLIP_X
+        FM	0x1015	-29	-50
+        FM	0x1015	0	-50	+FLIP_X
+    }
+
+    FRAME "ff_98" // Index = 240, FModules = 12
+    {
+        0x205F
+        FM	0x1012	-33	-86
+        FM	0x1012	14	-86	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-27	-40
+        FM	0x1016	-5	-40	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-36	-76
+        FM	0x1013	11	-76	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+    }
+
+    FRAME "ff_99" // Index = 241, FModules = 14
+    {
+        0x2093
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-27	-41
+        FM	0x1016	-5	-41	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x102D	-41	-70
+        FM	0x102D	10	-70	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+    }
+
+    FRAME "ff_100" // Index = 242, FModules = 16
+    {
+        0x2092
+        RC	-31	-80	31	-7
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x102D	-49	-54
+        FM	0x102D	18	-54	+FLIP_X
+    }
+
+    FRAME "ff_101" // Index = 243, FModules = 16
+    {
+        0x209A
+        RC	-31	-80	31	-12
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-33	-46
+        FM	0x1016	1	-46	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-71	+FLIP_Y
+        FM	0x1019	23	-71	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_102" // Index = 244, FModules = 16
+    {
+        0x209B
+        RC	-31	-80	31	-10
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-33	-45
+        FM	0x1016	1	-45	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_103" // Index = 245, FModules = 16
+    {
+        0x209C
+        RC	-31	-80	31	-10
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-39	-45
+        FM	0x1016	7	-45	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_104" // Index = 246, FModules = 16
+    {
+        0x209D
+        RC	-31	-80	31	-9
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-38	-45
+        FM	0x1016	6	-45	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_105" // Index = 247, FModules = 16
+    {
+        0x20A2
+        RC	-31	-80	31	-11
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-59
+        FM	0x1014	3	-59	+FLIP_X
+        FM	0x1016	-38	-47
+        FM	0x1016	6	-47	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-53
+        FM	0x1015	0	-53	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_106" // Index = 248, FModules = 18
+    {
+        0x209E
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-56
+        FM	0x1014	3	-56	+FLIP_X
+        FM	0x1016	-38	-44
+        FM	0x1016	6	-44	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-50
+        FM	0x1015	0	-50	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+        FM	0x1023	1	-26	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1023	-14	-26	+FLIP_X	+ROT_90
+    }
+
+    FRAME "ff_107" // Index = 249, FModules = 18
+    {
+        0x209F
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-38	-45
+        FM	0x1016	6	-45	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+        FM	0x1024	3	-20	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1024	-15	-20	+FLIP_X	+ROT_90
+    }
+
+    FRAME "ff_108" // Index = 250, FModules = 18
+    {
+        0x20A0
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-38	-45
+        FM	0x1016	6	-45	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+        FM	0x1025	-25	-14	+FLIP_X	+ROT_90
+        FM	0x1025	5	-14	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_109" // Index = 251, FModules = 18
+    {
+        0x20A1
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-38	-45
+        FM	0x1016	6	-45	+FLIP_X
+        FM	0x1018	-30	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	19	-64	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-70	+FLIP_Y
+        FM	0x1019	23	-70	+FLIP_X	+FLIP_Y
+        FM	0x1026	-35	-7	+FLIP_X	+ROT_90
+        FM	0x1026	7	-7	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_110" // Index = 252, FModules = 16
+    {
+        0x2095
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1016	-34	-41
+        FM	0x1016	2	-41	+FLIP_X
+        FM	0x1018	-31	-62	+FLIP_Y	+ROT_90
+        FM	0x1018	20	-62	+ROT_90
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x102D	-50	-52
+        FM	0x102D	19	-52	+FLIP_X
+    }
+
+    FRAME "ff_111" // Index = 253, FModules = 16
+    {
+        0x2094
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-36	-64	+FLIP_Y	+ROT_90
+        FM	0x1018	25	-64	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x102D	-55	-55
+        FM	0x102D	24	-55	+FLIP_X
+    }
+
+    FRAME "ff_112" // Index = 254, FModules = 16
+    {
+        0x2015
+        RC	-31	-80	31	-7
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	25	-64	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x1019	31	-63	+FLIP_X
+    }
+
+    FRAME "ff_113" // Index = 255, FModules = 14
+    {
+        0x20C8
+        RC	-31	-73	31	-5
+        FM	0x1012	-32	-78
+        FM	0x1012	13	-78	+FLIP_X
+        FM	0x1014	-27	-56
+        FM	0x1014	3	-56	+FLIP_X
+        FM	0x1011	-29	-74
+        FM	0x1010	-18	-87
+        FM	0x1016	-33	-40
+        FM	0x1016	1	-40	+FLIP_X
+        FM	0x1015	-29	-50
+        FM	0x1015	0	-50	+FLIP_X
+        FM	0x1019	-50	-56
+        FM	0x1019	23	-56	+FLIP_X
+        FM	0x1013	-35	-68
+        FM	0x1013	10	-68	+FLIP_X
+    }
+
+    FRAME "ff_114" // Index = 256, FModules = 14
+    {
+        0x20C6
+        RC	-31	-65	31	-5
+        FM	0x1012	-32	-70
+        FM	0x1012	13	-70	+FLIP_X
+        FM	0x1014	-27	-52
+        FM	0x1014	3	-52	+FLIP_X
+        FM	0x1011	-29	-68
+        FM	0x1010	-18	-81
+        FM	0x1016	-33	-38
+        FM	0x1016	1	-38	+FLIP_X
+        FM	0x1015	-29	-46
+        FM	0x1015	0	-46	+FLIP_X
+        FM	0x1019	-50	-48
+        FM	0x1019	23	-48	+FLIP_X
+        FM	0x1013	-35	-60
+        FM	0x1013	10	-60	+FLIP_X
+    }
+
+    FRAME "ff_115" // Index = 257, FModules = 14
+    {
+        0x20C3
+        RC	-31	-53	31	3
+        FM	0x1012	-32	-58
+        FM	0x1012	13	-58	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-58
+        FM	0x1010	-18	-71
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1019	-50	-36
+        FM	0x1019	23	-36	+FLIP_X
+        FM	0x1013	-35	-48
+        FM	0x1013	10	-48	+FLIP_X
+    }
+
+    FRAME "ff_116" // Index = 258, FModules = 14
+    {
+        0x20C4
+        RC	-31	-53	31	3
+        FM	0x1012	-31	-58
+        FM	0x1012	12	-58	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-58
+        FM	0x1010	-18	-71
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1019	-50	-36
+        FM	0x1019	23	-36	+FLIP_X
+        FM	0x1013	-34	-48
+        FM	0x1013	9	-48	+FLIP_X
+    }
+
+    FRAME "ff_117" // Index = 259, FModules = 22
+    {
+        0x20C5
+        RC	-31	-53	31	3
+        FM	0x1022	16	-61        	FLAGS 0x00000020
+        FM	0x1022	24	-57        	FLAGS 0x00000020
+        FM	0x1022	-35	-61        	FLAGS 0x00000020
+        FM	0x1022	-43	-57        	FLAGS 0x00000020
+        FM	0x1012	-33	-58
+        FM	0x1012	14	-58	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-58
+        FM	0x1010	-18	-71
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1019	-50	-36
+        FM	0x1019	23	-36	+FLIP_X
+        FM	0x1013	-36	-48
+        FM	0x1013	11	-48	+FLIP_X
+        FM	0x1022	-43	-47        	FLAGS 0x00000020
+        FM	0x1022	-35	-43        	FLAGS 0x00000020
+        FM	0x1022	24	-47        	FLAGS 0x00000020
+        FM	0x1022	16	-43        	FLAGS 0x00000020
+    }
+
+    FRAME "ff_118" // Index = 260, FModules = 14
+    {
+        0x20C9
+        FM	0x1012	-33	-58
+        FM	0x1012	14	-58	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-58
+        FM	0x1010	-18	-71
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1019	-50	-36
+        FM	0x1019	23	-36	+FLIP_X
+        FM	0x1013	-36	-48
+        FM	0x1013	11	-48	+FLIP_X
+    }
+
+    FRAME "ff_119" // Index = 261, FModules = 8
+    {
+        0x20CB
+        FM	0x102E	-32	-66
+        FM	0x102E	-53	-54
+        FM	0x102E	-53	-40
+        FM	0x102E	-32	-28
+        FM	0x102E	23	-66
+        FM	0x102E	44	-54
+        FM	0x102E	44	-40
+        FM	0x102E	23	-28
+    }
+
+    FRAME "ff_120" // Index = 262, FModules = 8
+    {
+        0x20CC
+        FM	0x102E	26	-72	+FLIP_X
+        FM	0x102E	54	-56	+FLIP_X
+        FM	0x102E	54	-38	+FLIP_X
+        FM	0x102E	26	-22	+FLIP_X
+        FM	0x102E	-35	-72	+FLIP_X
+        FM	0x102E	-63	-56	+FLIP_X
+        FM	0x102E	-63	-38	+FLIP_X
+        FM	0x102E	-35	-22	+FLIP_X
+    }
+
+    FRAME "ff_121" // Index = 263, FModules = 8
+    {
+        0x20CD
+        FM	0x102E	-38	-78
+        FM	0x102E	-73	-58
+        FM	0x102E	-73	-36
+        FM	0x102E	-38	-16
+        FM	0x102E	29	-78
+        FM	0x102E	64	-58
+        FM	0x102E	64	-36
+        FM	0x102E	29	-16
+    }
+
+    FRAME "ff_122" // Index = 264, FModules = 8
+    {
+        0x20CE
+        FM	0x102E	32	-84	+FLIP_X
+        FM	0x102E	74	-60	+FLIP_X
+        FM	0x102E	74	-34	+FLIP_X
+        FM	0x102E	32	-10	+FLIP_X
+        FM	0x102E	-41	-84	+FLIP_X
+        FM	0x102E	-83	-60	+FLIP_X
+        FM	0x102E	-83	-34	+FLIP_X
+        FM	0x102E	-41	-10	+FLIP_X
+    }
+
+    FRAME "ff_123" // Index = 265, FModules = 1
+    {
+        0x20CF
+        RC	0	0	0	0
+        RC	5	0	5	0
+        RC	-4	-40	5	-31
+        FM	0x102E	-4	-40
+    }
+
+    FRAME "ff_124" // Index = 266, FModules = 1
+    {
+        0x20D0
+        RC	0	0	0	0
+        RC	5	0	5	0
+        RC	-4	-40	5	-31
+        FM	0x102E	-4	-40	+FLIP_X
+    }
+
+    FRAME "ff_125" // Index = 267, FModules = 18
+    {
+        0x20CA
+        FM	0x1012	-33	-58
+        FM	0x1012	14	-58	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-58
+        FM	0x1010	-18	-71
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1019	-50	-36
+        FM	0x1019	23	-36	+FLIP_X
+        FM	0x1013	-36	-48
+        FM	0x1013	11	-48	+FLIP_X
+        FM	0x102E	-38	-78
+        FM	0x102E	-73	-58
+        FM	0x102E	-73	-36
+        FM	0x102E	-38	-16
+    }
+
+    FRAME "ff_126" // Index = 268, FModules = 14
+    {
+        0x20C7
+        RC	-31	-53	31	3
+        FM	0x1012	-33	-58
+        FM	0x1012	14	-58	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-58
+        FM	0x1010	-18	-71
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1019	-50	-36
+        FM	0x1019	23	-36	+FLIP_X
+        FM	0x1013	-36	-48
+        FM	0x1013	11	-48	+FLIP_X
+    }
+
+    FRAME "ff_127" // Index = 269, FModules = 16
+    {
+        0x20BC
+        FM	0x1012	-32	-87
+        FM	0x1012	13	-87	+FLIP_X
+        FM	0x1014	-27	-58
+        FM	0x1014	3	-58	+FLIP_X
+        FM	0x1011	-29	-83
+        FM	0x1010	-18	-96
+        FM	0x1018	-39	-65
+        FM	0x1018	25	-65	+FLIP_X
+        FM	0x1013	-35	-77
+        FM	0x1013	10	-77	+FLIP_X
+        FM	0x1016	-33	-42
+        FM	0x1016	1	-42	+FLIP_X
+        FM	0x1015	-29	-52
+        FM	0x1015	0	-52	+FLIP_X
+        FM	0x1019	-58	-75	+FLIP_Y
+        FM	0x1019	31	-75	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_128" // Index = 270, FModules = 16
+    {
+        0x20BD
+        FM	0x1012	-32	-81
+        FM	0x1012	13	-81	+FLIP_X
+        FM	0x1014	-27	-55
+        FM	0x1014	3	-55	+FLIP_X
+        FM	0x1011	-29	-78
+        FM	0x1010	-18	-91
+        FM	0x1018	-39	-60
+        FM	0x1018	25	-60	+FLIP_X
+        FM	0x1013	-35	-71
+        FM	0x1013	10	-71	+FLIP_X
+        FM	0x1016	-33	-40
+        FM	0x1016	1	-40	+FLIP_X
+        FM	0x1015	-29	-49
+        FM	0x1015	0	-49	+FLIP_X
+        FM	0x1019	-58	-69	+FLIP_Y
+        FM	0x1019	31	-69	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_129" // Index = 271, FModules = 16
+    {
+        0x20BE
+        FM	0x1012	-32	-65
+        FM	0x1012	13	-65	+FLIP_X
+        FM	0x1014	-27	-45
+        FM	0x1014	3	-45	+FLIP_X
+        FM	0x1011	-29	-62
+        FM	0x1010	-18	-75
+        FM	0x1018	-39	-44
+        FM	0x1018	25	-44	+FLIP_X
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-39
+        FM	0x1015	0	-39	+FLIP_X
+        FM	0x1013	-35	-55
+        FM	0x1013	10	-55	+FLIP_X
+        FM	0x1019	-58	-54	+FLIP_Y
+        FM	0x1019	31	-54	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_130" // Index = 272, FModules = 16
+    {
+        0x20BF
+        FM	0x1012	-32	-66
+        FM	0x1012	13	-66	+FLIP_X
+        FM	0x1014	-27	-45
+        FM	0x1014	3	-45	+FLIP_X
+        FM	0x1011	-29	-62
+        FM	0x1010	-18	-75
+        FM	0x1018	-39	-45
+        FM	0x1018	25	-45	+FLIP_X
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-39
+        FM	0x1015	0	-39	+FLIP_X
+        FM	0x1013	-35	-56
+        FM	0x1013	10	-56	+FLIP_X
+        FM	0x1019	-58	-56	+FLIP_Y
+        FM	0x1019	31	-56	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_131" // Index = 273, FModules = 16
+    {
+        0x20C0
+        FM	0x1012	-32	-63
+        FM	0x1012	13	-63	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-60
+        FM	0x1010	-18	-73
+        FM	0x1018	-39	-40
+        FM	0x1018	25	-40	+FLIP_X
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1013	-35	-53
+        FM	0x1013	10	-53	+FLIP_X
+        FM	0x1019	-58	-40
+        FM	0x1019	31	-40	+FLIP_X
+    }
+
+    FRAME "ff_132" // Index = 274, FModules = 16
+    {
+        0x20C1
+        FM	0x1012	-32	-61
+        FM	0x1012	13	-61	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-59
+        FM	0x1010	-18	-72
+        FM	0x1018	-36	-38	+FLIP_Y	+ROT_90
+        FM	0x1018	25	-38	+ROT_90
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1013	-35	-51
+        FM	0x1013	10	-51	+FLIP_X
+        FM	0x102D	-55	-28
+        FM	0x102D	24	-28	+FLIP_X
+    }
+
+    FRAME "ff_133" // Index = 275, FModules = 16
+    {
+        0x20C2
+        FM	0x1012	-32	-61
+        FM	0x1012	13	-61	+FLIP_X
+        FM	0x1014	-27	-44
+        FM	0x1014	3	-44	+FLIP_X
+        FM	0x1011	-29	-59
+        FM	0x1010	-18	-72
+        FM	0x1018	-36	-39	+FLIP_Y	+ROT_90
+        FM	0x1018	25	-39	+ROT_90
+        FM	0x1016	-33	-32
+        FM	0x1016	1	-32	+FLIP_X
+        FM	0x1015	-29	-38
+        FM	0x1015	0	-38	+FLIP_X
+        FM	0x1013	-35	-51
+        FM	0x1013	10	-51	+FLIP_X
+        FM	0x102D	-55	-29
+        FM	0x102D	24	-29	+FLIP_X
+    }
+
+    FRAME "ff_134" // Index = 276, FModules = 15
+    {
+        0x20B8
+        RC	-31	-80	31	-8
+        FM	0x1012	-28	-83
+        FM	0x1012	9	-83	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-26	-64	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1013	-31	-73
+        FM	0x1013	6	-73	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	2	-56
+        FM	0x1019	-29	-56	+FLIP_X
+    }
+
+    FRAME "ff_135" // Index = 277, FModules = 15
+    {
+        0x20B9
+        RC	-31	-80	31	-8
+        FM	0x1012	-27	-82
+        FM	0x1012	8	-82	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-26	-64	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1013	-30	-72
+        FM	0x1013	5	-72	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	1	-55
+        FM	0x1019	-28	-55	+FLIP_X
+    }
+
+    FRAME "ff_136" // Index = 278, FModules = 15
+    {
+        0x20BA
+        RC	-31	-80	31	-8
+        FM	0x1012	-33	-86
+        FM	0x1012	14	-86	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-26	-64	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1013	-36	-76
+        FM	0x1013	11	-76	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x102D	-56	-91	+FLIP_Y
+        FM	0x102D	25	-91	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_137" // Index = 279, FModules = 15
+    {
+        0x20BB
+        RC	-31	-80	31	-8
+        FM	0x1012	-33	-86
+        FM	0x1012	14	-86	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-26	-64	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x1013	-36	-76
+        FM	0x1013	11	-76	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x102D	-57	-92	+FLIP_Y
+        FM	0x102D	26	-92	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_138" // Index = 280, FModules = 14
+    {
+        0x20A9
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-52	-66
+        FM	0x1019	25	-66	+FLIP_X
+    }
+
+    FRAME "ff_139" // Index = 281, FModules = 14
+    {
+        0x20AA
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-54	-65
+        FM	0x1019	27	-65	+FLIP_X
+    }
+
+    FRAME "ff_140" // Index = 282, FModules = 14
+    {
+        0x20AB
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-89
+        FM	0x1012	13	-89	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-35	-79
+        FM	0x1013	10	-79	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-54	-69
+        FM	0x1019	27	-69	+FLIP_X
+    }
+
+    FRAME "ff_141" // Index = 283, FModules = 14
+    {
+        0x20AC
+        RC	-31	-80	31	-8
+        FM	0x1012	-28	-89
+        FM	0x1012	9	-89	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-31	-79
+        FM	0x1013	6	-79	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-50	-69
+        FM	0x1019	23	-69	+FLIP_X
+    }
+
+    FRAME "ff_142" // Index = 284, FModules = 14
+    {
+        0x20AD
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-89
+        FM	0x1012	10	-89	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1013	-32	-79
+        FM	0x1013	7	-79	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-51	-69
+        FM	0x1019	24	-69	+FLIP_X
+    }
+
+    FRAME "ff_143" // Index = 285, FModules = 14
+    {
+        0x20B3
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-84
+        FM	0x1012	10	-84	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-76
+        FM	0x1010	-18	-89
+        FM	0x1013	-32	-74
+        FM	0x1013	7	-74	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-51	-64
+        FM	0x1019	24	-64	+FLIP_X
+    }
+
+    FRAME "ff_144" // Index = 286, FModules = 14
+    {
+        0x20B4
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-85
+        FM	0x1012	10	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-77
+        FM	0x1010	-18	-90
+        FM	0x1013	-32	-75
+        FM	0x1013	7	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-51	-65
+        FM	0x1019	24	-65	+FLIP_X
+    }
+
+    FRAME "ff_145" // Index = 287, FModules = 15
+    {
+        0x20AE
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-85
+        FM	0x1012	10	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-77
+        FM	0x1010	-18	-90
+        FM	0x1013	-32	-75
+        FM	0x1013	7	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-51	-65
+        FM	0x1019	24	-65	+FLIP_X
+        FM	0x1022	-10	-60
+    }
+
+    FRAME "ff_146" // Index = 288, FModules = 15
+    {
+        0x20B2
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-85
+        FM	0x1012	10	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-77
+        FM	0x1010	-18	-90
+        FM	0x1013	-32	-75
+        FM	0x1013	7	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-51	-65
+        FM	0x1019	24	-65	+FLIP_X
+        FM	0x1022	-10	-60        	FLAGS 0x00000020
+    }
+
+    FRAME "ff_147" // Index = 289, FModules = 16
+    {
+        0x20B0
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-87
+        FM	0x1012	10	-87	+FLIP_X
+        FM	0x1014	-27	-59
+        FM	0x1014	3	-59	+FLIP_X
+        FM	0x1011	-29	-79
+        FM	0x1010	-18	-92
+        FM	0x1013	-32	-77
+        FM	0x1013	7	-77	+FLIP_X
+        FM	0x1016	-33	-43
+        FM	0x1016	1	-43	+FLIP_X
+        FM	0x1015	-29	-53
+        FM	0x1015	0	-53	+FLIP_X
+        FM	0x1019	-51	-67
+        FM	0x1019	24	-67	+FLIP_X
+        FM	0x101F	0	-60	+ROT_90
+        FM	0x101F	-11	-60	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_148" // Index = 290, FModules = 10
+    {
+        0x20B5
+        FM	0x101C	0	-49	+ROT_90
+        FM	0x101C	0	-29	+ROT_90
+        FM	0x101C	0	-9	+ROT_90
+        FM	0x101C	0	11	+ROT_90
+        FM	0x101C	-11	-49	+FLIP_Y	+ROT_90
+        FM	0x101C	-11	-29	+FLIP_Y	+ROT_90
+        FM	0x101C	-11	-9	+FLIP_Y	+ROT_90
+        FM	0x101C	-11	11	+FLIP_Y	+ROT_90
+        FM	0x101C	0	31	+ROT_90
+        FM	0x101C	-11	31	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_149" // Index = 291, FModules = 10
+    {
+        0x20B6
+        FM	0x101D	0	-49	+ROT_90
+        FM	0x101D	0	-29	+ROT_90
+        FM	0x101D	0	-9	+ROT_90
+        FM	0x101D	0	11	+ROT_90
+        FM	0x101D	-21	-49	+FLIP_Y	+ROT_90
+        FM	0x101D	-21	-29	+FLIP_Y	+ROT_90
+        FM	0x101D	-21	-9	+FLIP_Y	+ROT_90
+        FM	0x101D	-21	11	+FLIP_Y	+ROT_90
+        FM	0x101D	0	31	+ROT_90
+        FM	0x101D	-21	31	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_150" // Index = 292, FModules = 10
+    {
+        0x20B7
+        FM	0x101E	0	-49	+ROT_90
+        FM	0x101E	0	-29	+ROT_90
+        FM	0x101E	0	-9	+ROT_90
+        FM	0x101E	0	11	+ROT_90
+        FM	0x101E	-23	-49	+FLIP_Y	+ROT_90
+        FM	0x101E	-23	-29	+FLIP_Y	+ROT_90
+        FM	0x101E	-23	-9	+FLIP_Y	+ROT_90
+        FM	0x101E	-23	11	+FLIP_Y	+ROT_90
+        FM	0x101E	0	31	+ROT_90
+        FM	0x101E	-23	31	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_151" // Index = 293, FModules = 16
+    {
+        0x20B1
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-87
+        FM	0x1012	10	-87	+FLIP_X
+        FM	0x1014	-27	-59
+        FM	0x1014	3	-59	+FLIP_X
+        FM	0x1011	-29	-79
+        FM	0x1010	-18	-92
+        FM	0x1013	-32	-77
+        FM	0x1013	7	-77	+FLIP_X
+        FM	0x1016	-33	-43
+        FM	0x1016	1	-43	+FLIP_X
+        FM	0x1015	-29	-53
+        FM	0x1015	0	-53	+FLIP_X
+        FM	0x1019	-51	-67
+        FM	0x1019	24	-67	+FLIP_X
+        FM	0x1020	0	-61	+ROT_90
+        FM	0x1020	-21	-61	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_152" // Index = 294, FModules = 16
+    {
+        0x20AF
+        RC	-31	-80	31	-8
+        FM	0x1012	-29	-87
+        FM	0x1012	10	-87	+FLIP_X
+        FM	0x1014	-27	-59
+        FM	0x1014	3	-59	+FLIP_X
+        FM	0x1011	-29	-79
+        FM	0x1010	-18	-92
+        FM	0x1013	-32	-77
+        FM	0x1013	7	-77	+FLIP_X
+        FM	0x1016	-33	-43
+        FM	0x1016	1	-43	+FLIP_X
+        FM	0x1015	-29	-53
+        FM	0x1015	0	-53	+FLIP_X
+        FM	0x1019	-51	-67
+        FM	0x1019	24	-67	+FLIP_X
+        FM	0x1021	0	-61	+ROT_90
+        FM	0x1021	-23	-61	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_153" // Index = 295, FModules = 16
+    {
+        0x2096
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	11	-86	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-38	-64
+        FM	0x1018	21	-66	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	8	-76	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-56	-63
+        FM	0x1019	20	-65
+    }
+
+    FRAME "ff_154" // Index = 296, FModules = 16
+    {
+        0x20A3
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	11	-86	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-38	-64
+        FM	0x1018	21	-66	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	8	-76	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-55	-63
+        FM	0x1019	18	-66
+    }
+
+    FRAME "ff_155" // Index = 297, FModules = 16
+    {
+        0x20A4
+        RC	-31	-80	31	-8
+        RC	10	0	10	0
+        RC	26	-62	67	-38
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	23	-65	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x102D	34	-65	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_156" // Index = 298, FModules = 16
+    {
+        0x20A5
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	22	-65	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x102D	33	-65	+FLIP_X	+FLIP_Y	+ROT_90
+    }
+
+    FRAME "ff_157" // Index = 299, FModules = 17
+    {
+        0x20DB
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	22	-65	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x102D	33	-65	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x20D7	124	0	+HYPER_FM
+    }
+
+    FRAME "ff_158" // Index = 300, FModules = 19
+    {
+        0x20A6
+        RC	-31	-80	31	-8
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	22	-65	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x102D	29	-67	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x101B	59	-57	+FLIP_X	+ROT_90
+        FM	0x101B	55	-51	+FLIP_X	+ROT_90
+        FM	0x101B	55	-60	+FLIP_X	+ROT_90
+    }
+
+    FRAME "ff_159" // Index = 301, FModules = 20
+    {
+        0x20A7
+        RC	-31	-80	31	-8
+        RC	30	-40	30	-40
+        RC	55	-49	121	-21
+        RC	85	-39	151	-11
+        RC	115	-29	181	-1
+        RC	127	-22	214	6
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	22	-65	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x102D	31	-66	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x101A	61	-50	+FLIP_X	+ROT_90
+        FM	0x101A	57	-44	+FLIP_X	+ROT_90
+        FM	0x101A	57	-53	+FLIP_X	+ROT_90
+        FM	0x20D5	124	0	+HYPER_FM
+    }
+
+    FRAME "ff_160" // Index = 302, FModules = 20
+    {
+        0x20A8
+        RC	-31	-80	31	-8
+        RC	30	-40	30	-40
+        RC	166	-19	221	9
+        FM	0x1012	-32	-85
+        FM	0x1012	13	-85	+FLIP_X
+        FM	0x1014	-27	-57
+        FM	0x1014	3	-57	+FLIP_X
+        FM	0x1011	-29	-81
+        FM	0x1010	-18	-94
+        FM	0x1018	-39	-64
+        FM	0x1018	22	-65	+FLIP_X
+        FM	0x1013	-35	-75
+        FM	0x1013	10	-75	+FLIP_X
+        FM	0x1016	-33	-41
+        FM	0x1016	1	-41	+FLIP_X
+        FM	0x1015	-29	-51
+        FM	0x1015	0	-51	+FLIP_X
+        FM	0x1019	-58	-63
+        FM	0x102D	33	-65	+FLIP_X	+FLIP_Y	+ROT_90
+        FM	0x101A	63	-49        	FLAGS 0x00000020	+FLIP_X	+ROT_90
+        FM	0x101A	59	-43        	FLAGS 0x00000020	+FLIP_X	+ROT_90
+        FM	0x101A	59	-52        	FLAGS 0x00000020	+FLIP_X	+ROT_90
+        FM	0x20D6	124	0	+HYPER_FM
+    }
+
+    FRAME "ff_161" // Index = 303, FModules = 16
+    {
+        0x205B
+        RC	-31	-80	31	-7
+        FM	0x1012	-32	-86
+        FM	0x1012	13	-86	+FLIP_X
+        FM	0x1014	-27	-58
+        FM	0x1014	3	-58	+FLIP_X
+        FM	0x1011	-29	-82
+        FM	0x1010	-18	-95
+        FM	0x1018	-39	-66
+        FM	0x1018	25	-66	+FLIP_X
+        FM	0x1013	-35	-76
+        FM	0x1013	10	-76	+FLIP_X
+        FM	0x1016	-33	-42
+        FM	0x1016	1	-42	+FLIP_X
+        FM	0x1015	-29	-52
+        FM	0x1015	0	-52	+FLIP_X
+        FM	0x1019	-58	-65
+        FM	0x1019	31	-65	+FLIP_X
+    }
+
+    FRAME "ff_162" // Index = 304, FModules = 16
+    {
+        0x205C
+        RC	-31	-80	31	-7
+        FM	0x1012	-32	-88
+        FM	0x1012	13	-88	+FLIP_X
+        FM	0x1014	-27	-59
+        FM	0x1014	3	-59	+FLIP_X
+        FM	0x1011	-29	-83
+        FM	0x1010	-18	-96
+        FM	0x1018	-39	-68
+        FM	0x1018	25	-68	+FLIP_X
+        FM	0x1013	-35	-78
+        FM	0x1013	10	-78	+FLIP_X
+        FM	0x1016	-33	-43
+        FM	0x1016	1	-43	+FLIP_X
+        FM	0x1015	-29	-53
+        FM	0x1015	0	-53	+FLIP_X
+        FM	0x1019	-58	-67
+        FM	0x1019	31	-67	+FLIP_X
+    }
+
+    FRAME "ff_163" // Index = 305, FModules = 4
+    {
+        0x2097
+        RC	0	0	0	0
+        RC	5	0	5	0
+        RC	-21	-41	21	1
+        FM	0x102C	-24	-44
+        FM	0x102C	0	-44	+FLIP_X
+        FM	0x102C	-24	-20	+FLIP_Y
+        FM	0x102C	0	-20	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_164" // Index = 306, FModules = 4
+    {
+        0x2098
+        RC	0	0	0	0
+        RC	5	0	5	0
+        RC	-21	-41	21	1
+        FM	0x102C	-24	-44        	FLAGS 0x00000020
+        FM	0x102C	0	-44        	FLAGS 0x00000020	+FLIP_X
+        FM	0x102C	-24	-20        	FLAGS 0x00000020	+FLIP_Y
+        FM	0x102C	0	-20        	FLAGS 0x00000020	+FLIP_X	+FLIP_Y
+    }
+
+    FRAME "ff_165" // Index = 307, FModules = 1
+    {
+        0x2099
+        RC	0	0	0	0
+        RC	5	0	5	0
+        RC	-9	-29	10	-10
+        FM	0x1022	-9	-29
+    }
+
+    FRAME "ff_166" // Index = 308, FModules = 2
+    {
+        0x20D5
+        FM	0x1031	70	-18
+        FM	0x1031	49	-18	+FLIP_X
+    }
+
+    FRAME "ff_167" // Index = 309, FModules = 2
+    {
+        0x20D6
+        FM	0x1032	70	-21
+        FM	0x1032	43	-21	+FLIP_X
+    }
+
+    FRAME "ff_168" // Index = 310, FModules = 2
+    {
+        0x20D7
+        FM	0x1033	70	-15
+        FM	0x1033	43	-15	+FLIP_X
+    }
+
+    FRAME "ff_169" // Index = 311, FModules = 2
+    {
+        0x20DC
+        FM	0x1034	0	-16
+        FM	0x1034	-26	-16	+FLIP_X
+    }
+
+    FRAME "ff_170" // Index = 312, FModules = 2
+    {
+        0x20DD
+        FM	0x1034	0	-16        	FLAGS 0x00000020
+        FM	0x1034	-26	-16        	FLAGS 0x00000020	+FLIP_X
+    }
+
+    FRAME "ff_171" // Index = 313, FModules = 3
+    {
+        0x20E0
+        FM	0x1034	0	-16
+        FM	0x1034	-26	-16	+FLIP_X
+        FM	0x1035	-5	-125
+    }
+
+    FRAME "ff_172" // Index = 314, FModules = 3
+    {
+        0x20E1
+        FM	0x1034	0	-16        	FLAGS 0x00000020
+        FM	0x1034	-26	-16        	FLAGS 0x00000020	+FLIP_X
+        FM	0x1035	-5	-50
+    }
+
+    FRAME "ff_173" // Index = 315, FModules = 2
+    {
+        0x20D8
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-19	-14	18	7
+        FM	0x1031	0	-18
+        FM	0x1031	-21	-18	+FLIP_X
+    }
+
+    FRAME "ff_174" // Index = 316, FModules = 2
+    {
+        0x20D9
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-25	-18	25	9
+        FM	0x1032	0	-21
+        FM	0x1032	-27	-21	+FLIP_X
+    }
+
+    FRAME "ff_175" // Index = 317, FModules = 3
+    {
+        0x20DA
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-26	-12	25	7
+        FM	0x1030	-28	-16	+FLIP_X
+        FM	0x1033	0	-15
+        FM	0x1033	-27	-15	+FLIP_X
+    }
+
+    FRAME "ff_176" // Index = 318, FModules = 2
+    {
+        0x20DE
+        FM	0x1033	0	-15
+        FM	0x1033	-27	-15	+FLIP_X
+    }
+
+    FRAME "ff_177" // Index = 319, FModules = 1
+    {
+        0x20D1
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-26	-12	25	7
+        FM	0x102F	-29	-17
+    }
+
+    FRAME "ff_178" // Index = 320, FModules = 1
+    {
+        0x20D2
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-26	-12	25	7
+        FM	0x1030	-27	-16
+    }
+
+    FRAME "ff_179" // Index = 321, FModules = 1
+    {
+        0x20D3
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-26	-12	25	7
+        FM	0x102F	-30	-17	+FLIP_X
+    }
+
+    FRAME "ff_180" // Index = 322, FModules = 1
+    {
+        0x20D4
+        RC	0	0	0	0
+        RC	0	0	1	0
+        RC	-26	-12	25	7
+        FM	0x1030	-28	-16	+FLIP_X
+    }
+
+    FRAME "ff_181" // Index = 323, FModules = 1
+    {
+        0x20DF
+        FM	0x1035	-5	-37
+    }
+
+    FRAME "empty" // Index = 324, FModules = 1
+    {
+        0x207B
+        FM	0x102B	0	0
+    }
+
+    FRAME "BLEND" // Index = 325, FModules = 21
+    {
+        0x20F3
+        FM	0x101A	3	0
+        FM	0x101B	3	0
+        FM	0x1022	3	0
+        FM	0x101C	3	0
+        FM	0x1027	3	0
+        FM	0x1029	3	0
+        FM	0x101F	3	0
+        FM	0x101D	3	0
+        FM	0x1028	3	0
+        FM	0x102A	3	0
+        FM	0x1020	3	0
+        FM	0x101E	3	0
+        FM	0x1021	3	0
+        FM	0x102C	3	0
+        FM	0x102F	3	0
+        FM	0x1030	3	0
+        FM	0x1031	3	0
+        FM	0x1032	3	0
+        FM	0x1033	3	0
+        FM	0x1034	3	0
+        FM	0x1035	3	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "bottom_stand" // Index = 0, AFrames = 10
+    {
+        0x3004
+        AF	0x2002	3	0	0
+        AF	0x2010	1	0	0
+        AF	0x2010	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2012	3	0	0
+        AF	0x2012	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2010	1	0	0
+        AF	0x2010	1	0	0
+    }
+
+    ANIM "bottom_stand_hand" // Index = 1, AFrames = 10
+    {
+        0x3027
+        AF	0x210E	3	0	0
+        AF	0x2110	1	0	0
+        AF	0x2111	1	0	0
+        AF	0x2112	1	0	0
+        AF	0x2113	1	0	0
+        AF	0x2114	3	0	0
+        AF	0x2113	1	0	0
+        AF	0x2112	1	0	0
+        AF	0x2111	1	0	0
+        AF	0x2110	1	0	0
+    }
+
+    ANIM "bottom_stand_hand2" // Index = 2, AFrames = 10
+    {
+        0x3028
+        AF	0x2119	3	0	0
+        AF	0x211A	1	0	0
+        AF	0x2118	1	0	0
+        AF	0x2117	1	0	0
+        AF	0x2116	1	0	0
+        AF	0x2115	3	0	0
+        AF	0x2116	1	0	0
+        AF	0x2117	1	0	0
+        AF	0x2118	1	0	0
+        AF	0x211A	1	0	0
+    }
+
+    ANIM "top_stand" // Index = 3, AFrames = 6
+    {
+        0x3001
+        AF	0x2008	1	0	0
+        AF	0x2009	1	0	0
+        AF	0x2009	5	0	1
+        AF	0x2009	1	0	1
+        AF	0x2008	1	0	1
+        AF	0x2007	5	0	0
+    }
+
+    ANIM "range_1" // Index = 4, AFrames = 1
+    {
+        0x3005
+        AF	0x2002	38	0	0
+    }
+
+    ANIM "range_1_hand" // Index = 5, AFrames = 33
+    {
+        0x3038
+        AF	0x2016	2	0	0
+        AF	0x201C	1	0	0
+        AF	0x201D	1	0	0
+        AF	0x201E	1	0	0
+        AF	0x201F	2	0	0
+        AF	0x2024	1	0	0
+        AF	0x2025	1	0	0
+        AF	0x2028	1	0	0
+        AF	0x202D	1	0	0
+        AF	0x202E	1	0	0
+        AF	0x202D	1	0	0
+        AF	0x2028	1	0	0
+        AF	0x201F	2	0	0
+        AF	0x203C	1	0	0
+        AF	0x203D	1	0	0
+        AF	0x203E	1	0	0
+        AF	0x203F	1	0	0
+        AF	0x2040	1	0	0
+        AF	0x203F	1	0	0
+        AF	0x203E	1	0	0
+        AF	0x201F	2	0	0
+        AF	0x2037	1	0	0
+        AF	0x2038	1	0	0
+        AF	0x2039	1	0	0
+        AF	0x203A	1	0	0
+        AF	0x203B	1	0	0
+        AF	0x203A	1	0	0
+        AF	0x2039	1	0	0
+        AF	0x201F	2	0	0
+        AF	0x201E	1	0	0
+        AF	0x201D	1	0	0
+        AF	0x201C	1	0	0
+        AF	0x2016	1	0	0
+    }
+
+    ANIM "beam_1" // Index = 6, AFrames = 19
+    {
+        0x3021
+        AF	0x207B	9	0	0
+        AF	0x20F4	1	20	0
+        AF	0x20F5	1	20	0
+        AF	0x20F6	1	20	0
+        AF	0x20F5	1	20	0
+        AF	0x20F4	1	20	0
+        AF	0x207B	4	0	0
+        AF	0x20F7	1	20	0
+        AF	0x20F8	1	20	0
+        AF	0x20F9	1	20	0
+        AF	0x20F8	1	20	0
+        AF	0x20F7	1	20	0
+        AF	0x207B	4	0	0
+        AF	0x20F4	1	20	-35
+        AF	0x20F5	1	20	-35
+        AF	0x20F6	1	20	-35
+        AF	0x20F5	1	20	-35
+        AF	0x20F4	1	20	-35
+        AF	0x207B	6	0	0
+    }
+
+    ANIM "range_2" // Index = 7, AFrames = 8
+    {
+        0x3007
+        AF	0x2002	1	0	0
+        AF	0x2048	1	0	0
+        AF	0x2049	1	0	0
+        AF	0x204A	1	0	0
+        AF	0x204B	1	0	0
+        AF	0x204C	1	0	0
+        AF	0x204D	1	0	0
+        AF	0x204E	1	0	0
+    }
+
+    ANIM "range_2_hand" // Index = 8, AFrames = 1
+    {
+        0x3029
+        AF	0x210E	8	0	0
+    }
+
+    ANIM "range_2_hand2" // Index = 9, AFrames = 1
+    {
+        0x302A
+        AF	0x2119	8	0	0
+    }
+
+    ANIM "bullet_2" // Index = 10, AFrames = 31
+    {
+        0x301C
+        AF	0x20DC	1	0	0
+        AF	0x20DD	1	0	0
+        AF	0x20E0	1	0	0
+        AF	0x20E1	1	0	0
+        AF	0x20D8	1	0	0
+        AF	0x20D9	1	0	0
+        AF	0x20DA	1	0	0
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+    }
+
+    ANIM "frame" // Index = 11, AFrames = 4
+    {
+        0x301B
+        AF	0x20D1	1	0	0
+        AF	0x20D2	1	0	0
+        AF	0x20D3	1	0	0
+        AF	0x20D4	1	0	0
+    }
+
+    ANIM "range_3del" // Index = 12, AFrames = 22
+    {
+        0x300D
+        AF	0x2002	3	0	0
+        AF	0x2069	1	0	0
+        AF	0x206A	1	0	0
+        AF	0x2069	1	0	0
+        AF	0x206A	1	0	0
+        AF	0x206B	1	0	0
+        AF	0x206C	1	0	0
+        AF	0x206D	1	0	0
+        AF	0x206C	1	0	0
+        AF	0x206B	1	0	0
+        AF	0x2072	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2056	1	0	0
+        AF	0x2078	1	0	0
+        AF	0x2079	1	0	0
+        AF	0x207A	1	0	0
+        AF	0x2079	1	0	0
+        AF	0x207A	1	0	0
+        AF	0x2079	1	0	0
+        AF	0x207A	1	0	0
+        AF	0x2078	1	0	0
+        AF	0x2055	1	0	0
+    }
+
+    ANIM "range_3" // Index = 13, AFrames = 17
+    {
+        0x3024
+        AF	0x2055	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x20FC	1	0	0
+        AF	0x20FA	1	0	0
+        AF	0x20FB	1	0	0
+        AF	0x20FC	1	0	0
+        AF	0x20FA	1	0	0
+        AF	0x20FB	1	0	0
+        AF	0x2078	1	0	0
+        AF	0x2079	1	0	0
+        AF	0x207A	1	0	0
+        AF	0x2079	1	0	0
+        AF	0x207A	1	0	0
+        AF	0x2079	1	0	0
+        AF	0x207A	1	0	0
+        AF	0x2078	1	0	0
+        AF	0x2055	1	0	0
+    }
+
+    ANIM "range_3_hand" // Index = 14, AFrames = 1
+    {
+        0x302B
+        AF	0x210E	17	0	0
+    }
+
+    ANIM "range_3_hand2" // Index = 15, AFrames = 1
+    {
+        0x302C
+        AF	0x2119	17	0	0
+    }
+
+    ANIM "suction" // Index = 16, AFrames = 8
+    {
+        0x3026
+        AF	0x2002	1	0	0
+        AF	0x2010	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2002	1	0	0
+        AF	0x2010	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+    }
+
+    ANIM "suction_hand" // Index = 17, AFrames = 1
+    {
+        0x302F
+        AF	0x210E	8	0	0
+    }
+
+    ANIM "suction_hand2" // Index = 18, AFrames = 1
+    {
+        0x3030
+        AF	0x2119	8	0	0
+    }
+
+    ANIM "range_4" // Index = 19, AFrames = 12
+    {
+        0x3023
+        AF	0x2002	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2012	1	0	0
+        AF	0x2055	1	0	0
+    }
+
+    ANIM "range_4_hand" // Index = 20, AFrames = 12
+    {
+        0x302D
+        AF	0x210E	1	0	0
+        AF	0x2069	1	0	0
+        AF	0x206A	1	0	0
+        AF	0x2069	1	0	0
+        AF	0x206A	1	0	0
+        AF	0x206B	1	0	0
+        AF	0x206C	1	0	0
+        AF	0x206D	1	0	0
+        AF	0x206C	1	0	0
+        AF	0x206B	1	0	0
+        AF	0x2072	1	0	0
+        AF	0x211B	1	0	0
+    }
+
+    ANIM "range_4_hand2" // Index = 21, AFrames = 12
+    {
+        0x302E
+        AF	0x2119	1	0	0
+        AF	0x211C	1	0	0
+        AF	0x211D	1	0	0
+        AF	0x211C	1	0	0
+        AF	0x211D	1	0	0
+        AF	0x211E	1	0	0
+        AF	0x211F	1	0	0
+        AF	0x2120	1	0	0
+        AF	0x211F	1	0	0
+        AF	0x211E	1	0	0
+        AF	0x2121	1	0	0
+        AF	0x2122	1	0	0
+    }
+
+    ANIM "range_5" // Index = 22, AFrames = 4
+    {
+        0x3025
+        AF	0x2002	5	0	0
+        AF	0x212C	1	0	0
+        AF	0x212D	5	0	0
+        AF	0x212E	5	0	0
+    }
+
+    ANIM "range_5_hand" // Index = 23, AFrames = 15
+    {
+        0x3031
+        AF	0x210E	1	0	0
+        AF	0x2102	1	0	0
+        AF	0x2103	2	0	0
+        AF	0x2102	1	0	0
+        AF	0x2105	1	0	0
+        AF	0x20FE	1	0	0
+        AF	0x2100	1	0	0
+        AF	0x2101	1	0	0
+        AF	0x2100	1	0	0
+        AF	0x2101	1	0	0
+        AF	0x2106	1	0	0
+        AF	0x2108	1	0	0
+        AF	0x2109	1	0	0
+        AF	0x2108	1	0	0
+        AF	0x2106	1	0	0
+    }
+
+    ANIM "range_5_hand2" // Index = 24, AFrames = 15
+    {
+        0x3032
+        AF	0x2119	1	0	0
+        AF	0x2123	1	0	0
+        AF	0x2124	2	0	0
+        AF	0x2123	1	0	0
+        AF	0x2125	1	0	0
+        AF	0x2126	1	0	0
+        AF	0x212A	1	0	0
+        AF	0x212B	1	0	0
+        AF	0x212A	1	0	0
+        AF	0x212B	1	0	0
+        AF	0x2127	1	0	0
+        AF	0x2128	1	0	0
+        AF	0x2129	1	0	0
+        AF	0x2128	1	0	0
+        AF	0x2127	1	0	0
+    }
+
+    ANIM "range_3edel" // Index = 25, AFrames = 14
+    {
+        0x300E
+        AF	0x207B	3	0	0
+        AF	0x2060	1	0	0
+        AF	0x2061	1	0	0
+        AF	0x2062	1	0	0
+        AF	0x2063	1	0	0
+        AF	0x2060	1	0	0
+        AF	0x2061	1	0	0
+        AF	0x2062	1	0	0
+        AF	0x2063	1	0	0
+        AF	0x207E	1	0	0
+        AF	0x207F	1	0	0
+        AF	0x207C	1	0	0
+        AF	0x207D	1	0	0
+        AF	0x207B	8	0	0
+    }
+
+    ANIM "melee_1" // Index = 26, AFrames = 7
+    {
+        0x3010
+        AF	0x2002	5	0	0
+        AF	0x2088	1	0	0
+        AF	0x208B	2	0	0
+        AF	0x2088	1	0	0
+        AF	0x2089	1	0	0
+        AF	0x208A	1	0	0
+        AF	0x2002	1	0	0
+    }
+
+    ANIM "melee_1_hand" // Index = 27, AFrames = 10
+    {
+        0x3033
+        AF	0x210E	1	0	0
+        AF	0x210E	1	0	0
+        AF	0x210E	2	0	0
+        AF	0x210E	1	0	0
+        AF	0x210E	1	0	0
+        AF	0x210E	2	0	0
+        AF	0x210E	1	0	0
+        AF	0x210E	1	0	0
+        AF	0x210E	1	0	0
+        AF	0x210E	1	0	0
+    }
+
+    ANIM "melee_1_hand2" // Index = 28, AFrames = 10
+    {
+        0x3034
+        AF	0x2119	1	0	0
+        AF	0x2123	1	0	0
+        AF	0x2130	2	0	0
+        AF	0x2123	1	0	0
+        AF	0x2132	1	0	0
+        AF	0x2134	2	0	0
+        AF	0x2132	1	0	0
+        AF	0x2136	1	0	0
+        AF	0x2138	1	0	0
+        AF	0x2119	1	0	0
+    }
+
+    ANIM "melee_2" // Index = 29, AFrames = 7
+    {
+        0x3035
+        AF	0x2002	5	0	0
+        AF	0x2139	1	0	0
+        AF	0x213A	2	0	0
+        AF	0x2139	1	0	0
+        AF	0x213B	1	0	0
+        AF	0x213C	1	0	0
+        AF	0x2002	1	0	0
+    }
+
+    ANIM "melee_2_hand" // Index = 30, AFrames = 10
+    {
+        0x3036
+        AF	0x210E	1	0	0
+        AF	0x2102	1	0	0
+        AF	0x208D	2	0	0
+        AF	0x2102	1	0	0
+        AF	0x2091	1	0	0
+        AF	0x208E	2	0	0
+        AF	0x2091	1	0	0
+        AF	0x208F	1	0	0
+        AF	0x2090	1	0	0
+        AF	0x210E	1	0	0
+    }
+
+    ANIM "melee_2_hand2" // Index = 31, AFrames = 10
+    {
+        0x3037
+        AF	0x2119	1	0	0
+        AF	0x2119	1	0	0
+        AF	0x2119	2	0	0
+        AF	0x2119	1	0	0
+        AF	0x2119	1	0	0
+        AF	0x2119	2	0	0
+        AF	0x2119	1	0	0
+        AF	0x2119	1	0	0
+        AF	0x2119	1	0	0
+        AF	0x2119	1	0	0
+    }
+
+    ANIM "down" // Index = 32, AFrames = 5
+    {
+        0x301E
+        AF	0x20EB	1	0	0
+        AF	0x20EC	1	0	0
+        AF	0x20ED	1	0	0
+        AF	0x20EE	3	0	0
+        AF	0x20EA	3	0	0
+    }
+
+    ANIM "down_hand" // Index = 33, AFrames = 9
+    {
+        0x303A
+        AF	0x212F	1	0	0
+        AF	0x213E	1	0	0
+        AF	0x213F	1	0	0
+        AF	0x2140	1	0	0
+        AF	0x2141	1	0	0
+        AF	0x207B	1	0	0
+        AF	0x207B	1	0	0
+        AF	0x207B	1	0	0
+        AF	0x207B	1	0	0
+    }
+
+    ANIM "down_hand2" // Index = 34, AFrames = 9
+    {
+        0x3039
+        AF	0x2119	1	0	0
+        AF	0x2142	1	0	0
+        AF	0x2143	1	0	0
+        AF	0x2144	1	0	0
+        AF	0x2145	1	0	0
+        AF	0x2146	1	0	0
+        AF	0x207B	1	0	0
+        AF	0x207B	1	0	0
+        AF	0x207B	1	0	0
+    }
+
+    ANIM "downed" // Index = 35, AFrames = 1
+    {
+        0x301D
+        AF	0x20EA	1	0	0
+    }
+
+    ANIM "t_transform" // Index = 36, AFrames = 16
+    {
+        0x301F
+        AF	0x2007	5	0	0
+        AF	0x2009	1	0	0
+        AF	0x2008	1	0	-27
+        AF	0x2008	1	0	-29
+        AF	0x2009	1	0	-30
+        AF	0x205E	1	0	-60
+        AF	0x205F	1	0	-60
+        AF	0x2093	1	0	-60
+        AF	0x2095	1	0	-60
+        AF	0x2092	2	0	-60
+        AF	0x2094	1	0	-60
+        AF	0x205B	1	0	-59
+        AF	0x2015	1	0	-50
+        AF	0x2015	1	0	-35
+        AF	0x2015	1	0	-15
+        AF	0x2015	1	0	0
+    }
+
+    ANIM "t_robot_stand" // Index = 37, AFrames = 4
+    {
+        0x300A
+        AF	0x2015	2	0	0
+        AF	0x205B	2	0	0
+        AF	0x205C	2	0	0
+        AF	0x205B	2	0	0
+    }
+
+    ANIM "t_robot_walk" // Index = 38, AFrames = 8
+    {
+        0x3020
+        AF	0x2015	1	6	6
+        AF	0x2015	1	12	6
+        AF	0x205B	1	18	6
+        AF	0x205B	1	24	6
+        AF	0x205C	1	30	6
+        AF	0x205C	1	36	6
+        AF	0x205B	1	42	6
+        AF	0x205B	1	48	6
+    }
+
+    ANIM "t_robot_walk_vertical" // Index = 39, AFrames = 8
+    {
+        0x3022
+        AF	0x2015	1	0	0
+        AF	0x2015	1	0	0
+        AF	0x205B	1	0	0
+        AF	0x205B	1	0	0
+        AF	0x205C	1	0	0
+        AF	0x205C	1	0	0
+        AF	0x205B	1	0	0
+        AF	0x205B	1	0	0
+    }
+
+    ANIM "t_robot_summon" // Index = 40, AFrames = 32
+    {
+        0x3012
+        AF	0x2015	1	0	0
+        AF	0x2092	1	0	-20
+        AF	0x2092	1	0	-40
+        AF	0x2092	1	0	-60
+        AF	0x2092	1	0	-61
+        AF	0x2092	1	0	-60
+        AF	0x209A	1	0	-60
+        AF	0x209B	1	0	-60
+        AF	0x209C	1	0	-60
+        AF	0x209D	1	0	-60
+        AF	0x20A2	1	0	-60
+        AF	0x209E	1	0	-60
+        AF	0x209F	1	0	-60
+        AF	0x20A0	1	0	-60
+        AF	0x20A1	1	0	-60
+        AF	0x209D	1	0	-60
+        AF	0x20A2	1	0	-60
+        AF	0x209E	1	0	-60
+        AF	0x209F	1	0	-60
+        AF	0x20A0	1	0	-60
+        AF	0x20A1	1	0	-60
+        AF	0x209D	1	0	-60
+        AF	0x20A2	1	0	-60
+        AF	0x209E	1	0	-60
+        AF	0x209F	1	0	-60
+        AF	0x20A0	1	0	-60
+        AF	0x20A1	1	0	-60
+        AF	0x209D	1	0	-60
+        AF	0x209B	1	0	-60
+        AF	0x2092	1	0	-40
+        AF	0x2092	1	0	-20
+        AF	0x2015	1	0	0
+    }
+
+    ANIM "t_melee_1" // Index = 41, AFrames = 9
+    {
+        0x3014
+        AF	0x2015	1	0	0
+        AF	0x2096	1	-1	0
+        AF	0x20A3	1	-1	0
+        AF	0x20A4	1	0	0
+        AF	0x20A5	2	0	0
+        AF	0x20A6	1	0	0
+        AF	0x20A7	1	0	0
+        AF	0x20A8	1	0	0
+        AF	0x20DB	1	0	0
+    }
+
+    ANIM "t_range_1" // Index = 42, AFrames = 16
+    {
+        0x3015
+        AF	0x20A9	1	0	0
+        AF	0x20AA	1	0	0
+        AF	0x20AB	1	0	0
+        AF	0x20AC	1	0	0
+        AF	0x20AD	1	0	0
+        AF	0x20B3	1	0	0
+        AF	0x20B4	3	0	0
+        AF	0x20AE	1	0	0
+        AF	0x20B2	1	0	0
+        AF	0x20B0	1	0	0
+        AF	0x20B1	1	0	0
+        AF	0x20AF	1	0	0
+        AF	0x20B1	1	0	0
+        AF	0x20B0	1	0	0
+        AF	0x20B4	2	0	-2
+        AF	0x2015	1	0	0
+    }
+
+    ANIM "t_beam_1" // Index = 43, AFrames = 5
+    {
+        0x3013
+        AF	0x20B5	1	0	0
+        AF	0x20B6	1	0	0
+        AF	0x20B7	1	0	0
+        AF	0x20B6	1	0	0
+        AF	0x20B5	1	0	0
+    }
+
+    ANIM "t_homing" // Index = 44, AFrames = 5
+    {
+        0x3016
+        AF	0x20B8	1	0	0
+        AF	0x20B9	1	0	0
+        AF	0x20BA	1	0	0
+        AF	0x20BB	2	0	0
+        AF	0x20BA	1	0	0
+    }
+
+    ANIM "t_bullet_1" // Index = 45, AFrames = 3
+    {
+        0x3011
+        AF	0x2099	1	0	0
+        AF	0x2097	1	0	0
+        AF	0x2098	1	0	0
+    }
+
+    ANIM "t_down" // Index = 46, AFrames = 9
+    {
+        0x3017
+        AF	0x2015	1	0	0
+        AF	0x20BC	1	0	0
+        AF	0x20BD	1	0	0
+        AF	0x20BE	1	0	0
+        AF	0x20BF	1	0	0
+        AF	0x20C0	1	0	0
+        AF	0x20C1	1	0	0
+        AF	0x20C2	1	0	0
+        AF	0x20C1	3	0	0
+    }
+
+    ANIM "t_range_2" // Index = 47, AFrames = 9
+    {
+        0x3018
+        AF	0x2015	1	0	0
+        AF	0x20C6	1	0	0
+        AF	0x20C3	1	0	0
+        AF	0x20C4	1	0	0
+        AF	0x20C5	1	0	0
+        AF	0x20C7	3	0	0
+        AF	0x20C3	1	0	0
+        AF	0x20C6	1	0	0
+        AF	0x20C8	1	0	0
+    }
+
+    ANIM "t_range_2e" // Index = 48, AFrames = 6
+    {
+        0x301A
+        AF	0x207B	5	0	0
+        AF	0x20CB	1	0	0
+        AF	0x20CC	1	0	0
+        AF	0x20CD	1	0	0
+        AF	0x20CE	1	0	0
+        AF	0x207B	2	0	0
+    }
+
+    ANIM "t_bullet_2" // Index = 49, AFrames = 2
+    {
+        0x3019
+        AF	0x20CF	1	0	0
+        AF	0x20D0	1	0	0
+    }
+
+    ANIM "" // Index = 50, AFrames = 6
+    {
+        0x3008
+        AF	0x204F	1	0	0
+        AF	0x2050	1	0	0
+        AF	0x2051	1	0	0
+        AF	0x2052	1	0	0
+        AF	0x2053	1	0	0
+        AF	0x2054	1	0	0
+    }
+
+    ANIM "" // Index = 51, AFrames = 6
+    {
+        0x3009
+        AF	0x2055	1	0	0
+        AF	0x2056	1	0	0
+        AF	0x2057	1	0	0
+        AF	0x2058	1	0	0
+        AF	0x2059	1	0	0
+        AF	0x205A	1	0	0
+    }
+
+    ANIM "" // Index = 52, AFrames = 6
+    {
+        0x300C
+        AF	0x2055	1	0	0
+        AF	0x2056	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2056	1	0	0
+        AF	0x2055	1	0	0
+        AF	0x2056	1	0	0
+    }
+
+    ANIM "" // Index = 53, AFrames = 10
+    {
+        0x300F
+        AF	0x2003	1	0	0
+        AF	0x2080	1	0	0
+        AF	0x2081	3	0	0
+        AF	0x2080	1	0	0
+        AF	0x2082	1	0	0
+        AF	0x2083	3	0	0
+        AF	0x2082	1	0	0
+        AF	0x2084	1	0	0
+        AF	0x2085	1	0	0
+        AF	0x2003	1	0	0
+    }
+
+    ANIM "t_transform_del" // Index = 54, AFrames = 11
+    {
+        0x300B
+        AF	0x2007	5	0	0
+        AF	0x2008	1	0	0
+        AF	0x2009	1	0	0
+        AF	0x205E	1	0	0
+        AF	0x205F	1	0	0
+        AF	0x2093	1	0	0
+        AF	0x2095	1	0	0
+        AF	0x2092	2	0	0
+        AF	0x2094	1	0	0
+        AF	0x205B	1	0	0
+        AF	0x2015	2	0	0
+    }
+
+    ANIM "" // Index = 55, AFrames = 1
+    {
+        0x3002
+        AF	0x2002	1	0	0
+    }
+
+    ANIM "" // Index = 56, AFrames = 10
+    {
+        0x3003
+        AF	0x2003	3	0	0
+        AF	0x200B	1	0	0
+        AF	0x200C	1	0	0
+        AF	0x200D	1	0	0
+        AF	0x200E	1	0	0
+        AF	0x200F	3	0	0
+        AF	0x200E	1	0	0
+        AF	0x200D	1	0	0
+        AF	0x200C	1	0	0
+        AF	0x200B	1	0	0
+    }
+
+    ANIM "" // Index = 57, AFrames = 8
+    {
+        0x3006
+        AF	0x2003	1	0	0
+        AF	0x2041	1	0	0
+        AF	0x2042	1	0	0
+        AF	0x2043	1	0	0
+        AF	0x2044	1	0	0
+        AF	0x2045	1	0	0
+        AF	0x2046	1	0	0
+        AF	0x2047	1	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

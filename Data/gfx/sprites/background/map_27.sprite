@@ -1,0 +1,99 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 11
+    // Frames:  6
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_27.png" TRANSP 0x00FF00FF // 0  size: 199 x 327  palettes: 2
+    PALETTE 1 "map_27_color_blue.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	0	96	80
+        MD	0x1001	MD_IMAGE	0	0	80	96	86
+        MD	0x1002	MD_IMAGE	0	96	0	59	48
+        MD	0x1003	MD_IMAGE	0	98	49	57	44
+        MD	0x1004	MD_IMAGE	0	97	94	68	50
+        MD	0x1005	MD_IMAGE	0	0	167	54	34
+        MD	0x1006	MD_IMAGE	0	54	167	36	55
+        MD	0x1007	MD_IMAGE	0	56	222	23	105
+        MD	0x1008	MD_IMAGE	0	135	216	26	78
+        MD	0x1009	MD_IMAGE	0	95	168	104	30
+        MD	0x100A	MD_IMAGE	0	132	198	37	18
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "forest_vilup" // Index = 0, FModules = 4
+    {
+        0x2000
+        FM	0x1000	-95	-80
+        FM	0x1001	-95	0
+        FM	0x1000	1	-80	+FLIP_X
+        FM	0x1001	1	0	+FLIP_X
+    }
+
+    FRAME "forest_viltree1" // Index = 1, FModules = 3
+    {
+        0x2001
+        FM	0x1007	-8	-72
+        FM	0x1006	-9	-127
+        FM	0x1005	-63	-127
+    }
+
+    FRAME "forest_viltree2" // Index = 2, FModules = 3
+    {
+        0x2002
+        FM	0x1008	-8	-75
+        FM	0x1009	-48	-123
+        FM	0x100A	-11	-93
+    }
+
+    FRAME "forest_viltree3" // Index = 3, FModules = 1
+    {
+        0x2003
+        FM	0x1004	0	0
+    }
+
+    FRAME "forest_viltree4" // Index = 4, FModules = 1
+    {
+        0x2004
+        FM	0x1003	0	0
+    }
+
+    FRAME "forest_viltree5" // Index = 5, FModules = 1
+    {
+        0x2005
+        FM	0x1002	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

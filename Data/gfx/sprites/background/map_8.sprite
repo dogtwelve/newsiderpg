@@ -1,0 +1,129 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 13
+    // Frames:  9
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_8.png" TRANSP 0x00FF00FF // 0  size: 345 x 310  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	5	164	123	41
+        MD	0x1003	MD_IMAGE	0	6	206	82	69
+        MD	0x1004	MD_IMAGE	0	88	238	46	66
+        MD	0x1001	MD_IMAGE	0	47	0	81	100
+        MD	0x1005	MD_IMAGE	0	128	0	125	100
+        MD	0x1008	MD_IMAGE	0	253	0	92	100
+        MD	0x1009	MD_IMAGE	0	253	100	92	100
+        MD	0x100A	MD_IMAGE	0	253	200	92	87
+        MD	0x1006	MD_IMAGE	0	128	100	125	111
+        MD	0x1007	MD_IMAGE	0	134	274	42	35
+        MD	0x1002	MD_IMAGE	0	47	100	81	64
+        MD	0x100B	MD_IMAGE	0	94	209	46	13
+        MD	0x100C	MD_IMAGE	0	141	214	32	8
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "flyboat1" // Index = 0, FModules = 5
+    {
+        0x2000
+        FM	0x1005	0	-120
+        FM	0x1006	0	-20
+        FM	0x1001	-81	-120
+        FM	0x1002	-81	-20
+        FM	0x1000	-123	44
+    }
+
+    FRAME "flyboat2" // Index = 1, FModules = 3
+    {
+        0x2001
+        FM	0x1008	0	-120
+        FM	0x1009	0	-20
+        FM	0x100A	0	80
+    }
+
+    FRAME "flyboat3" // Index = 2, FModules = 1
+    {
+        0x2002
+        FM	0x2000	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "flyboat4" // Index = 3, FModules = 1
+    {
+        0x2003
+        FM	0x2001	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "shadow1_l" // Index = 4, FModules = 7
+    {
+        0x2004
+        FM	0x100B	-127	-4
+        FM	0x100C	-81	1
+        FM	0x100C	-49	1
+        FM	0x100C	-17	1
+        FM	0x100C	15	1
+        FM	0x100C	47	1
+        FM	0x100C	79	1
+    }
+
+    FRAME "shadow1_r" // Index = 5, FModules = 1
+    {
+        0x2005
+        FM	0x2004	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "shadow2_l" // Index = 6, FModules = 3
+    {
+        0x2006
+        FM	0x1007	47	38
+        FM	0x1003	-81	-30
+        FM	0x1004	1	2
+    }
+
+    FRAME "shadow2_r" // Index = 7, FModules = 1
+    {
+        0x2007
+        FM	0x2006	0	0	+FLIP_X	+HYPER_FM
+    }
+
+    FRAME "blend" // Index = 8, FModules = 5
+    {
+        0x2008
+        FM	0x1003	6	0
+        FM	0x1004	6	0
+        FM	0x1007	6	0
+        FM	0x100B	6	0
+        FM	0x100C	6	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,19 @@
+Load("map.game")
+
+EXPORTGAME
+{
+	DESC		"SideScrollMap export_dong"
+	PATH		""
+	LOG_FILE	"SideScrollMap.log"
+	MAPS
+	{
+		
+	}
+	
+	OBJ_LAYERS
+	{
+	//	OPTIONS ...		
+	}
+}
+
+

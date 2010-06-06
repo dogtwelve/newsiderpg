@@ -1,0 +1,94 @@
+// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 9
+    // Frames:  5
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [TRANSP transp_color]
+
+    IMAGE 0x0000 "map_1.png" TRANSP 0x00FF00FF // 0  size: 117 x 152  palettes: 4
+    PALETTE 1 ".\map_1_color_green.act"
+    PALETTE 2 ".\map_1_color_purple.act"
+    PALETTE 3 ".\map_1_color_red.act"
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height
+//              if (Type == MD_FILL_ARC)  -> color width height
+//              if (Type == MD_MARKER)    -> color width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	36	40	42
+        MD	0x1001	MD_IMAGE	0	0	78	40	44
+        MD	0x1002	MD_IMAGE	0	45	54	19	17
+        MD	0x1003	MD_IMAGE	0	46	71	11	24
+        MD	0x1004	MD_IMAGE	0	41	95	36	57
+        MD	0x1005	MD_IMAGE	0	77	97	40	55
+        MD	0x1006	MD_IMAGE	0	67	45	46	47
+        MD	0x1007	MD_IMAGE	0	67	1	41	42
+        MD	0x1008	MD_IMAGE	0	2	2	40	34
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90
+
+    FRAME "back" // Index = 0, FModules = 2
+    {
+        0x2000
+        FM	0x1000	-18	-46
+        FM	0x1001	-18	-4
+    }
+
+    FRAME "backtree" // Index = 1, FModules = 2
+    {
+        0x2001
+        FM	0x1002	-9	-21
+        FM	0x1003	-8	-4
+    }
+
+    FRAME "backfront_l" // Index = 2, FModules = 4
+    {
+        0x2002
+        FM	0x1004	-72	-37
+        FM	0x1005	-36	-35
+        FM	0x1006	4	-27
+        FM	0x1007	50	-22
+    }
+
+    FRAME "backfront_r" // Index = 3, FModules = 4
+    {
+        0x2003
+        FM	0x1004	36	-37	+FLIP_X
+        FM	0x1005	-4	-35	+FLIP_X
+        FM	0x1006	-50	-27	+FLIP_X
+        FM	0x1007	-91	-22	+FLIP_X
+    }
+
+    FRAME "badak" // Index = 4, FModules = 1
+    {
+        0x2004
+        FM	0x1008	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
