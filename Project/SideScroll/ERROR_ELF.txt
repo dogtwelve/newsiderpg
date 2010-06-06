@@ -1,0 +1,3 @@
+=============================================================================
+"... obj/Device.o"
+tcpp -c -I. -I"Y:/WIPI SDK/Lib" -I"Y:/WIPI SDK/Include" -I"Y:/WIPI SDK/Include/API" -I"Y:/WIPI SDK/Include/API/WFC" -I"Y:/WIPI SDK/Include/HAL" -I../../src/Brew -I../../src/Common -I../../src/Common/Graphics -I../../src/Config -I../../src/Game -I../../src/Game/header -I../../src/IGP_WIPI -I../../src/Spec -I../../src/Wipi -I../../.version/V745_EN/data/2-dataSrc -I../  -apcs /noswst/interwork -littleend -zc -Ec -D_TG_PHONE_  -fa  -Ospace -O2 -DWIPI  -DHAVE_IGP -w -o obj/Device.o ../../src/Brew/Device.cpp
