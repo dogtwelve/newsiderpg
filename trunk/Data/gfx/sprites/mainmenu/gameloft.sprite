@@ -1,4 +1,4 @@
-// saved by AuroraGT v0.7.6 (SpriteEditor v0.8.7)
+// saved by AuroraGT v0.7.2 (SpriteEditor v0.8.3)
 ////////////////////////////////////////////////////////////////////////////////
 /*SPRITE*/ {
 
@@ -25,7 +25,6 @@
 //              if (Type == MD_FILL_RECT) -> color width height
 //              if (Type == MD_ARC)       -> color width height
 //              if (Type == MD_FILL_ARC)  -> color width height
-//              if (Type == MD_MARKER)    -> color width height
 
     MODULES
     {
@@ -39,7 +38,7 @@
         MD	0x1007	MD_IMAGE	0	112	40	34	35
         MD	0x1008	MD_IMAGE	0	47	102	60	26
         MD	0x1009	MD_IMAGE	0	114	79	32	20
-        MD	0x100A	MD_IMAGE	0	0	128	127	35
+        MD	0x100A	MD_IMAGE	0	0	119	149	44
     }
 
 ////////////////////////////////////////////////////////////////////////////////

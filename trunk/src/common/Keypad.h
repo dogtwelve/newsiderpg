@@ -1,4 +1,4 @@
-// Copyright (C) 2005 Gameloft. All rights reserved.
+// Copyright (C) 2005 GameWG. All rights reserved.
 // GAMELOFT PROPRIETARY/CONFIDENTIAL.
 //
 // \author  Qiu Guan Chen

@@ -1,4 +1,4 @@
-// Copyright (C) 2007 Gameloft. All rights reserved.
+// Copyright (C) 2007 GameWG. All rights reserved.
 // GAMELOFT PROPRIETARY/CONFIDENTIAL.
 //
 // Author: Lu Yan

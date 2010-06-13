@@ -327,7 +327,7 @@ public:
 
 
 
-	void process_UI_Gameloft( int message );
+	void process_UI_GameWG( int message );
 		
 	void process_UI_SelectSound( int message );
 	 	

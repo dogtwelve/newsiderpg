@@ -669,7 +669,7 @@
 #define OPENING_00_TEXT_2 			 2			/*00+000+00+0000*/
 #define OPENING_00_TEXT_3 			 3			/*CENTER|용기를 내어 내 딪었을때 나의 인생은 바뀌기 시작했다.*/
 #define OPENING_00_TEXT_4 			 4			/*00+END+00+0000*/
-#define OPENING_00_TEXT_5 			 5			/*CENTER|- GAMELOFT present -*/
+#define OPENING_00_TEXT_5 			 5			/*CENTER|- WG present -*/
 #define OPENING_00_TEXT_6 			 6			/*00+END+00+0000*/
 #define OPENING_00_TEXT_7 			 7			/*CENTER|- 2달후 -*/
 #define OPENING_00_TEXT_8 			 8			/*00+000+00+0000*/

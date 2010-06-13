@@ -2,3 +2,14 @@
 
 명령 - C:\dev\SDK\WIPI SDK\Bin\WIPIEmulator.ex
 명령인수 - /PATH=$(TargetDir)$(TargetName)/TYPE=smf /INSTALL
+
+auto.bat 을 시작 폴더에 등록 시켜 개발 환경을 통일시켜준다
+>모든 작업은 X드라이브에서 하고, 필요한프로그램은 Y드라이브에깐다
+
+Y드라이브는 
+
+j2sdk1.4.2
+Python25
+WIPI SDK
+
+3개의 경로에 각각의 프로그램을깔면, 별다른 설정을 할게 없을것이다
