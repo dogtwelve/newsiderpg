@@ -2,7 +2,7 @@
 #include "ASpriteInstance.h"
 #include "Position3D.h"
 #include "Physics.h"
-//#include "UI_Gameloft.h"
+//#include "UI_GameWG.h"
 
 //int Character::x;
 //int Character::y;

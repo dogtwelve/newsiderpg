@@ -920,7 +920,7 @@ void cGame::sendMessage( int message )
 		case STATE_MAIN_MENU:
 			//s_cUI->process_Main_Test(message);
 			break;
-		case STATE_GAMELOFT :					//s_cUI->process_UI_Gameloft(message);/*DBGPRINTF("STATE_GAMELOFT");*/	
+		case STATE_GAMELOFT :					//s_cUI->process_UI_GameWG(message);/*DBGPRINTF("STATE_GAMELOFT");*/	
 			//s_cUI->process_UI_Test(message);/*DBGPRINTF("STATE_GAMELOFT");*/	
 			break;//게임 테스트 구현	
 
@@ -6250,7 +6250,7 @@ void cGame::Free_GameRes( )
 //*************************************************************************
 //** Module_Mascot.hpp
 //**
-//** Copyright @ Gameloft 2007
+//** Copyright @ GameWG 2007
 //** All rights reserved
 //**
 //** Please refer to ReadMe.rtf for a complete description of the project

@@ -12,7 +12,7 @@
 #include "Command_Def.h"
 #include "USER_Map.h"
 #include "Module_Move.h"
-#include "UI_Gameloft.h"
+#include "UI_GameLoft.h"
 #include "UI_Splash.h"
 #include "UI_Menu.h"
 #include "cEntity.h"
@@ -2255,11 +2255,11 @@ void cUI::process_UI_Test(int message)
 //***************************************************************************
 //** STATE_GAMELOFT (Implementation)
 //**
-//** Any variable declaration should go into UI_Gameloft.h
+//** Any variable declaration should go into UI_GameWG.h
 //***************************************************************************
 
 
-void cUI::process_UI_Gameloft( int message )
+void cUI::process_UI_GameWG( int message )
 
 {
 //	if( message == MESSAGE_INIT)
@@ -2381,7 +2381,7 @@ void cUI::process_UI_Gameloft( int message )
 //** STATE_SELECTSOUND (Implementation)
 //**
 //** Any variable declaration should go into UI_SelectLSound.h
-//** Gameloft, NYC.  November 13, 2007
+//** GameWG, NYC.  November 13, 2007
 //***************************************************************************
 
 void cUI::process_UI_SelectSound( int message )

@@ -8,7 +8,7 @@
 *     Update screen buffer to LCD screen (in place of system interface IDisplay_UpdateEx).
 *    Note that it ONLY supports device LG6000!
 *  Version  :
-*  Copyright: Gameloft S.A.
+*  Copyright: GameWG S.A.
 * ============================================================================
 */
 

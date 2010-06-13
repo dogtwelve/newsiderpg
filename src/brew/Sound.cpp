@@ -5,7 +5,7 @@
 *  Created  : 2006-04-26 by Zhong Yan
 *  Implementation notes:
 *  Version  :
-*  Copyright: Gameloft S.A.
+*  Copyright: GameWG S.A.
 *
 * ============================================================================
 */
