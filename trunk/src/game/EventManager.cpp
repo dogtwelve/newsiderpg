@@ -98,6 +98,8 @@ int EventManager::UpdateEvtParser()
 		case 'C':	//	cinema(???) 씨네마를 실행시킨다.
 		//-----------------------------------------------------------
 		{
+//			return UpdateEvtParser();
+
 			idx1 = 	(pEvtText->nText[m_nParserIndex][7]-'0')*100 +
 					(pEvtText->nText[m_nParserIndex][8]-'0')*10 +
 					(pEvtText->nText[m_nParserIndex][9]-'0')*1  ;
@@ -106,9 +108,13 @@ int EventManager::UpdateEvtParser()
 					(pEvtText->nText[m_nParserIndex][12]-'0')*10 +
 					(pEvtText->nText[m_nParserIndex][13]-'0')*1  ;
 
+			//	 nams test
+			idx1 = 0;
+
 			ADD_EVENT_MSG(EVT_SCREEN_FADE_OUT, 0, 10);
 			ADD_EVENT_MSG(EVT_START_CINEMA, 10, idx1, idx2);
 			return EVT_START_CINEMA;
+
 		}
 		case 'T':	//	talk(???) 대사를 실행한다.
 		//-----------------------------------------------------------
